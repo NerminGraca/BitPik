@@ -1,0 +1,15 @@
+@import helper._
+
+@main("Registration") {
+	
+	<h1>REGISTRATION</h1>
+	
+	@helper.form(routes.Application.addUser()) {
+		<h5>Username:</h5>
+		<input type="text" value="" id="username" name="username" />
+		<h5>Password:</h5>
+		<input type="password" value="" id="password" name="password" />
+		<br><br>
+		<input type="submit" value="Register" />
+	}
+}
