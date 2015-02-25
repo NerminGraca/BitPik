@@ -18,7 +18,6 @@ public class User extends Model {
 	public int id;
 	
 	@Required
-	@Unique
 	public String username;
 	
 	@Required
