@@ -1,9 +1,13 @@
-@(message: String)(usernameSes: String)
+@(userForm: Form[User])
+@import helper._
 
-@main("BitPik") {
-    <h1> Welcome <br> 
-    Username : @usernameSes</h1>
-    <a href="/registration">Registration</a>
-    <a href="/login">Login</a>
-
+@main("Registration") {
+	
+	<h1>Registration</h1>
+	
+	@helper.form(routes.Application.addUser(), 'id -> "userForm") {
+		@helper.inputText(userForm("username"))
+		@helper.inputText(userForm("password"))
+		<input type="submit" value="Register" />
+	}
 }
