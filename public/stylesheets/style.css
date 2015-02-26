@@ -1268,7 +1268,7 @@ box-sizing: border-box;
 }
 .col {
 	display: block;
-	float: left;
+	float: right;
 	margin: 0% 0 1% 1.6%;
 }
 .col:first-child {
@@ -1305,10 +1305,11 @@ box-sizing: border-box;
 }
 .contact-form input[type="text"], .contact-form textarea {
 	padding: 8px;
+	margin: 5px;
 	display: block;
 	width:50%;
 	background:none;
-	border:1px solid #CACACA;
+	border:2px solid #CACACA;
 	outline: none;
 	color: #464646;
 	font-size:1em;
@@ -1319,10 +1320,11 @@ box-sizing: border-box;
 
 .contact-form input[type="password"], .contact-form textarea {
 	padding: 8px;
+	margin: 5px;
 	display: block;
 	width:50%;
 	background:none;
-	border:1px solid #CACACA;
+	border:2px solid #CACACA;
 	outline: none;
 	color: #464646;
 	font-size:1em;
@@ -1337,7 +1339,7 @@ box-sizing: border-box;
 }
 .contact-form input[type="submit"] {
 	font-size:1em;
-	padding:10px 15px;
+	padding:10px 15px; 
 	font-family: 'ambleregular';
 	background:#CD1F25;
 	color: #FFF;
@@ -1349,7 +1351,7 @@ box-sizing: border-box;
 	-moz-transition: all 0.5s ease-in-out;
 	-o-transition: all 0.5s ease-in-out;
 	transition: all 0.5s ease-in-out;
-	position: absolute;
+	position: center;
 	right: 0;
 }
 .contact-form input[type="submit"]:hover {
