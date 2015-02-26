@@ -23,11 +23,7 @@ public class Application extends Controller {
     public static Result index() {
     	String usernameSes = session("username");
     	if (usernameSes == null) {
-<<<<<<< HEAD
     		usernameSes = "";
-=======
-    		usernameSes = "Unknown";
->>>>>>> 3b16bf940fa887744e66dd5623bd46a96d889e21
     		return ok(index.render( "Your new application is ready.", usernameSes));
     	} else {
     		return ok(index.render( "Your new application is ready.", usernameSes));
