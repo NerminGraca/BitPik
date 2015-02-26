@@ -60,13 +60,17 @@ public class Application extends Controller {
     
     /**
      * 1. Gets the username and password from the form from the Registration.html page;
-     * 2. Creates the User using the User.create() method;
-     * 3. And redirects to the index.html page;
+     * 2. If the username is already in our database, we redirect to the "/registration.html"
+     * 3. Creates the User using the User.create() method;
+     * 4. And redirects to the index.html page;
      * @return
      */
     public static Result addUser() {
     	String username = newUser.bindFromRequest().get().username;
     	String password = newUser.bindFromRequest().get().password;
+    	if (User.finder(username) != null) {
+    		return redirect("/registration");
+       	}
     	User.create(username, password);
     	return redirect("/success");
     	
