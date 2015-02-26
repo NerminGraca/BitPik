@@ -28,37 +28,6 @@
 			  	   	
 			  </div>
 			  <script type="text/javascript">
-			function DropDown(el) {
-				this.dd = el;
-				this.initEvents();
-			}
-			DropDown.prototype = {
-				initEvents : function() {
-					var obj = this;
-=======
-    <h1> Welcome <br> 
-    Username : @usernameSes</h1>
-    <a href="/registration">Registration</a>
-    <a href="/login">Login</a>
->>>>>>> 3b16bf940fa887744e66dd5623bd46a96d889e21
-
-					obj.dd.on('click', function(event){
-						$(this).toggleClass('active');
-						event.stopPropagation();
-					});	
-				}
-			}
-
-			$(function() {
-
-				var dd = new DropDown( $('#dd') );
-
-				$(document).click(function() {
-					// all dropdowns
-					$('.wrapper-dropdown-2').removeClass('active');
-				});
-
-			});
 
 		</script>
 	 <div class="clear"></div>

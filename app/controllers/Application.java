@@ -68,7 +68,7 @@ public class Application extends Controller {
     	String username = newUser.bindFromRequest().get().username;
     	String password = newUser.bindFromRequest().get().password;
     	User.create(username, password);
-    	return redirect("/");
+    	return redirect("/success");
     	
     }
     
