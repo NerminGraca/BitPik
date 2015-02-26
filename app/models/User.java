@@ -6,11 +6,7 @@ import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
-/**
- * 
- * @author Nermin Graca & Nedzad Hamzic & Neldin Dzekovic
- *
- */
+
 @Entity
 public class User extends Model {
 	
