@@ -82,13 +82,15 @@
 				  <div class="contact-form">
 				  	<h1>REGISTRATION</h1><br>
 	<!--
-		NAŠ HELPER
+		NAŠ HELPER 
+		
+		MINIMUM of three characters is here!! 
 		-->
 		@helper.form(routes.Application.addUser(),'id->"nameForm") {
 			<h5>Username:</h5>
-			<input type="text" value="" id="username" name="username" required/>
+			<input pattern=".{3,}" required title="3 characters minimum" type="text" value="" id="username" name="username" required/>
 			<h5>Password:</h5>
-			<input type="password" value="" id="password" name="password" required/>
+			<input pattern=".{3,}" required title="3 characters minimum" type="password" value="" id="password" name="password" required/>
 			<br><br>
 			<input type="submit" value="Register" />
 				  </div>
