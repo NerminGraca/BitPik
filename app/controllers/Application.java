@@ -24,9 +24,9 @@ public class Application extends Controller {
     	String usernameSes = session("username");
     	if (usernameSes == null) {
     		usernameSes = "";
-    		return ok(index.render( "Your new application is ready.", usernameSes));
+    		return ok(index.render( "Welcome to BitPik", usernameSes));
     	} else {
-    		return ok(index.render( "Your new application is ready.", usernameSes));
+    		return ok(index.render( "Welcome to BitPik", usernameSes));
     	}
     }
     
@@ -72,6 +72,8 @@ public class Application extends Controller {
     		return redirect("/registration");
        	}
     	User.create(username, password);
+    	//automatically puts the username created into the session variable;
+    	session("username", username);
     	return redirect("/success");
     	
     }
