@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 
+import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -19,15 +20,20 @@ public class User extends Model {
 	@Required
 	public String password;
 	
+	@Email
+	public String email;
+	
+	
 	/**
 	 * Constructor
 	 * Creates a new User
 	 * @param username
 	 * @param password
 	 */
-	public User(String username, String password) {
+	public User(String username, String password, String email) {
 		this.username = username;
 		this.password = password;
+		this.email = email;
 	}
 	
 	/**
@@ -35,8 +41,8 @@ public class User extends Model {
 	 * @param username
 	 * @param password
 	 */
-	public static void create(String username, String password) {
-		new User(username, password).save();
+	public static void create(String username, String password, String email) {
+		new User(username, password, email).save();
 	}
 
 	// Finder

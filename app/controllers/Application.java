@@ -68,10 +68,11 @@ public class Application extends Controller {
     public static Result addUser() {
     	String username = newUser.bindFromRequest().get().username;
     	String password = newUser.bindFromRequest().get().password;
+    	String email = newUser.bindFromRequest().get().email;
     	if (User.finder(username) != null) {
     		return redirect("/registration");
        	}
-    	User.create(username, password);
+    	User.create(username, password, email);
     	//automatically puts the username created into the session variable;
     	session("username", username);
     	return redirect("/success");
