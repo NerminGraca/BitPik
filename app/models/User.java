@@ -41,7 +41,7 @@ public class User extends Model {
 
 	// Finder
 	static Finder<String, User> find = new Finder<String, User>(String.class, User.class);
-	
+	static Finder<Integer, User> findInt = new Finder<Integer, User>(Integer.class, User.class);
 	/**
 	 * Finds the User under the username(parameter) in the database;
 	 * @param username
@@ -49,5 +49,13 @@ public class User extends Model {
 	 */
 	public static User finder(String username) {
 		return find.where().eq("username", username).findUnique();
+	}
+	
+	public static User find(int id) {
+		return findInt.byId(id);
+	}
+	
+	public static void delete(int id) {
+		findInt.byId(id).delete();
 	}
 }
