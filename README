@@ -1,4 +1,14 @@
-This is your new Play application
+BitCamp Project "BitPik"
 =================================
 
-This file will be packaged with your application, when using `activator dist`.
+This project is done by students of BitCamp first generation, and it's
+goal is to replicate famous bosnian ecommerce web site www.pik.ba.
+Thus we have named it BitPik.
+
+Contributors to this project are:
+	* Graca Nermin
+	* Grcic Sanela
+	* Hamzic Nedzad
+	* Sajevic Gordan
+	* Spahic Adnan
+	* Vucinic Nermin
