@@ -59,8 +59,8 @@ public class Application extends Controller {
     }
     
     /**
-     * 1. Gets the username and password from the form from the Registration.html page;
-     * 2. If the username is already in our database, we redirect to the "/registration.html"
+     * 1. Gets the username, password and email from the form from the Registration.html page;
+     * 2. If the username or email is already in our database, we redirect to the "/registration.html"
      * 3. Creates the User using the User.create() method;
      * 4. And redirects to the index.html page;
      * @return
@@ -69,11 +69,16 @@ public class Application extends Controller {
     	String username = newUser.bindFromRequest().get().username;
     	String password = newUser.bindFromRequest().get().password;
     	String email = newUser.bindFromRequest().get().email;
+    	// Unique 'username' verification
     	if (User.finder(username) != null) {
     		return redirect("/registration");
        	}
+    	// Unique 'email' verification
+    	if (User.emailFinder(email)) {
+    		return redirect("/registration");
+       	}
     	User.create(username, password, email);
-    	//automatically puts the username created into the session variable;
+    	//automatically puts the 'username' created into the session variable;
     	session("username", username);
     	return redirect("/success");
     	
@@ -86,7 +91,7 @@ public class Application extends Controller {
      * 4. If the User has been found - Checks whether the password is correct;
      * 5. If the password is wrong - redirecting to Failed.html page;
      * 6. If the password is correct - redirecting to Success.html page;
-     * Note* Store the username in sesssion varibale if the Login is successfull;
+     * Note* Store the username in session variable if the Login is successful;
      * @return
      */
     public static Result findUser() {
@@ -97,7 +102,7 @@ public class Application extends Controller {
     		return redirect("/failed");
     	} else {
     		if (u.password.equals(password)) {
-    			// the username put in the session variable unders the key "username";
+    			// the username put in the session variable under the key "username";
     			session("username", username);
     			return redirect("/success");
     		} else {
