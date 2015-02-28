@@ -8,6 +8,8 @@ create table user (
   username                  varchar(255),
   password                  varchar(255),
   email                     varchar(255),
+  is_admin                  boolean,
+  created_date              varchar(255),
   constraint pk_user primary key (id))
 ;
 
