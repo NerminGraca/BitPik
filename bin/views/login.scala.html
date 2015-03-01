@@ -1,4 +1,4 @@
-@(usernameSes: String)
+@(usernameSes: String)(usernameMessage: String)(passwordMessage: String)
 @import helper._
 
 @main("Login") {
@@ -90,8 +90,13 @@
 			@helper.form(routes.Application.findUser()) {
 				<h5>Username:</h5>
 					<input type="text" value="" id="username" name="username" required/>
+					<h6>@usernameMessage</h6>
+					@if(!usernameMessage.equals("")) {
+						<br>
+					}
 					<h5>Password:</h5>
 					<input type="password" value="" id="password" name="password" required/>
+					<h6>@passwordMessage</h6>
 					<br><br>
 					<input type="submit" value="Login" />
 					

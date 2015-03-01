@@ -38,9 +38,9 @@ public class Application extends Controller {
     	String usernameSes = session("username");
     	if (usernameSes == null) {
     		usernameSes = "";
-    		return ok(registration.render(usernameSes));
+    		return ok(registration.render(usernameSes, "", ""));
     	} else {
-    		return ok(registration.render(usernameSes));
+    		return ok(registration.render(usernameSes, "", ""));
     	}
     }
     
@@ -52,9 +52,9 @@ public class Application extends Controller {
     	String usernameSes = session("username");
     	if (usernameSes == null) {
     		usernameSes = "";
-    		return ok(login.render(usernameSes));
+    		return ok(login.render(usernameSes, "", ""));
     	} else {
-    		return ok(login.render(usernameSes));
+    		return ok(login.render(usernameSes, "", ""));
     	}
     }
     
@@ -71,11 +71,11 @@ public class Application extends Controller {
     	String email = newUser.bindFromRequest().get().email;
     	// Unique 'username' verification
     	if (User.finder(username) != null) {
-    		return redirect("/registration");
+    		return ok(registration.render("", "Username already taken, please choose another one", ""));
        	}
     	// Unique 'email' verification
     	if (User.emailFinder(email)) {
-    		return redirect("/registration");
+    		return ok(registration.render("", "", "Email already in use, please choose another one"));
        	}
     	User.create(username, password, email);
     	//automatically puts the 'username' created into the session variable;
@@ -99,14 +99,14 @@ public class Application extends Controller {
     	String password = newUser.bindFromRequest().get().password;
     	User u = User.finder(username);
     	if (u == null) {
-    		return redirect("/failed");
+    		return ok(login.render("", "Username nonexisting", ""));
     	} else {
     		if (u.password.equals(password)) {
     			// the username put in the session variable under the key "username";
     			session("username", username);
     			return redirect("/success");
     		} else {
-    			return redirect("/failed");
+    			return ok(login.render("", "", "Password is wrong"));
     		}
     		
     	}
@@ -133,8 +133,9 @@ public class Application extends Controller {
     public static Result failed() {
     	return ok(failed.render());
     }
+    
     /**
-     * @author Sanela Grcic i Nermin Graca
+     * @author Sanela Grcic & Nermin Graca
      * Method Logout - clears current session and redirects to index.html
      * @return redirect to index.html
      */
