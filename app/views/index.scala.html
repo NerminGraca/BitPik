@@ -11,11 +11,14 @@
 			</div>
 			<div class="account_desc">
 				<ul>
+					@if(usernameSes.equals("")) {
 					<li><a href="/registration">Registracija</a></li>
 					<li><a href="/login">Login</a></li>
+					}
 					@if(!usernameSes.isEmpty){
 						<li><a href="/addProduct">Objavite oglas</a></li>
 						<li><a href="/profile">Korisnik @usernameSes</a></li>
+						<li><a href="/logout">Logout</a></li>
 					}
 				</ul>
 			</div>
