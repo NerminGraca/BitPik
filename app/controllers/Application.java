@@ -133,4 +133,13 @@ public class Application extends Controller {
     public static Result failed() {
     	return ok(failed.render());
     }
+    /**
+     * @author Sanela Grcic i Nermin Graca
+     * Method Logout - clears current session and redirects to index.html
+     * @return redirect to index.html
+     */
+    public static Result logout() {
+    	  session().clear();
+    	  return redirect(routes.Application.index());
+    	}
 }
