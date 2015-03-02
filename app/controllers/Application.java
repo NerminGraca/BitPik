@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Product;
 import models.User;
 import play.*;
 import play.data.Form;
@@ -14,6 +15,7 @@ import views.html.*;
 public class Application extends Controller {
 	
 	static Form<User> newUser = new Form<User>(User.class);
+	static Form<Product> newProduct = new Form<Product>(Product.class);
 	
 	/**
 	 * Either directs to the index.html with the session name already logged in
@@ -127,14 +129,6 @@ public class Application extends Controller {
     }
     
     /**
-     * Redirects to the Failed.html page;
-     * @return
-     */
-    public static Result failed() {
-    	return ok(failed.render());
-    }
-    
-    /**
      * @author Sanela Grcic & Nermin Graca
      * Method Logout - clears current session and redirects to index.html
      * @return redirect to index.html
@@ -142,5 +136,22 @@ public class Application extends Controller {
     public static Result logout() {
     	  session().clear();
     	  return redirect(routes.Application.index());
-    	}
+    }
+    
+    public static Result addProduct() {
+    	String usernameSes = session("username");
+    	return ok(addProduct.render(usernameSes));
+    	
+    }
+    
+    public static Result createProduct() {
+    	String usernameSes = session("username");
+    	String name = newProduct.bindFromRequest().get().name;
+    	String desc = newProduct.bindFromRequest().get().desc;
+    	Double price = newProduct.bindFromRequest().get().price;
+    	
+    	Product.create(name, desc, price);
+    	
+    	return ok(addProduct.render(usernameSes));
+    }
 }
