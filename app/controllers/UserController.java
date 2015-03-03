@@ -1,17 +1,21 @@
 package controllers;
 
 import helpers.HashHelper;
-import models.Product;
-import models.User;
+import models.*;
 import play.*;
 import play.data.Form;
 import play.mvc.*;
 import views.html.*;
 
-public class Application extends Controller {
+/**
+ * 
+ * @author Nermin Graca & Nedzad Hamzic & Neldin Dzekovic
+ *
+ */
+public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
-	static Form<Product> newProduct = new Form<Product>(Product.class);
+	
 
 	/**
 	 * Either directs to the index.html with the session name already logged in
@@ -141,34 +145,6 @@ public class Application extends Controller {
 	 */
 	public static Result logout() {
 		session().clear();
-		return redirect(routes.Application.index());
-	}
-
-	/**
-	 * Method takes the usernameSes from the session variable and sends it to
-	 * the addProduct.html page;
-	 */
-	public static Result addProduct() {
-		String usernameSes = session("username");
-		return ok(addProduct.render(usernameSes));
-
-	}
-
-	/**
-	 * From the filled form takes the neccesary values; And creates the object
-	 * Product using the constructor; Sends the information about the product
-	 * created to the showProduct.html page; Method creates a product using the
-	 * 
-	 * @return showProducts.html with the neccesary variables;
-	 */
-	public static Result createProduct() {
-		String usernameSes = session("username");
-		String name = newProduct.bindFromRequest().get().name;
-		String desc = newProduct.bindFromRequest().get().desc;
-		Double price = newProduct.bindFromRequest().get().price;
-		String category = newProduct.bindFromRequest().get().category;
-		Product.create(name, desc, price, category);
-
-		return ok(showProduct.render(usernameSes, name, desc, price, category));
+		return redirect(routes.UserController.index());
 	}
 }
