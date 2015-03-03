@@ -34,6 +34,9 @@ public class User extends Model {
 
 	public String createdDate;
 	
+	@OneToMany(mappedBy="owner")
+	public List<Product> products;
+	
 	
 	/**
 	 * Constructor of object User with three parameters. On default sets isAdmin to false and

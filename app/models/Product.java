@@ -29,17 +29,21 @@ public class Product extends Model {
 	
 	public String publishedDate;
 	
+	@ManyToOne
+	public User owner;
+	
 	/**
 	 * Constructor of object Product with 2 parameters.
 	 * *(without description);
 	 * @param name
 	 * @param price
 	 */
-	public Product(String name, double price, String category) {
+	public Product(String name, double price, String category, User owner) {
 		//TODO dodati kategoriju i dostuonost
 		this.name = name;
 		this.desc = "";
 		this.price = price;
+		this.owner = owner;
 		if(checkCategory(category)==false)
 		{
 			throw new IllegalArgumentException();
@@ -57,10 +61,11 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, double price, String category) {
+	public Product(String name, String desc, double price, String category, User owner) {
 		this.name = name;
 		this.desc = desc;
 		this.price = price;
+		this.owner = owner;
 		if(checkCategory(category)==false)
 		{
 			throw new IllegalArgumentException();
@@ -89,8 +94,8 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static void create(String name, String desc, double price, String category) {
-		new Product(name, desc, price, category).save();
+	public static void create(String name, String desc, double price, String category, User owner) {
+		new Product(name, desc, price, category, owner).save();
 	}
 	
 	private boolean checkCategory(String category)

@@ -37,6 +37,7 @@ public class ProductController extends Controller {
 		String desc = newProduct.bindFromRequest().get().desc;
 		Double price = newProduct.bindFromRequest().get().price;
 		String category = newProduct.bindFromRequest().get().category;
+		
 		/**
 		 * Ovdje treba izvuci varijablu tipa String iz 
 		 * 	<script>
@@ -52,7 +53,7 @@ public class ProductController extends Controller {
 		 * 	return ok(showProduct.render(usernameSes, name, desc, price));
 		 */
 		
-		Product.create(name, desc, price, category);
+		Product.create(name, desc, price, category, Session.getCurrentUser(ctx()));
 		return ok(showProduct.render(usernameSes, name, desc, price, category));
 		
 		/**

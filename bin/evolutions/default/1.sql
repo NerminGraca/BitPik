@@ -10,6 +10,7 @@ create table product (
   category                  varchar(255),
   price                     double,
   published_date            varchar(255),
+  owner_id                  integer,
   constraint pk_product primary key (id))
 ;
 
@@ -27,6 +28,8 @@ create sequence product_seq;
 
 create sequence user_seq;
 
+alter table product add constraint fk_product_owner_1 foreign key (owner_id) references user (id) on delete restrict on update restrict;
+create index ix_product_owner_1 on product (owner_id);
 
 
 
