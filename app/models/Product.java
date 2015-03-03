@@ -22,6 +22,9 @@ public class Product extends Model {
 	public String desc;
 	
 	@Required
+	public String category;
+	
+	@Required
 	public double price;
 	
 	public String publishedDate;
@@ -32,11 +35,19 @@ public class Product extends Model {
 	 * @param name
 	 * @param price
 	 */
-	public Product(String name, double price) {
+	public Product(String name, double price, String category) {
 		//TODO dodati kategoriju i dostuonost
 		this.name = name;
 		this.desc = "";
 		this.price = price;
+		if(checkCategory(category)==false)
+		{
+			throw new IllegalArgumentException();
+		}
+		else
+		{
+			this.category = category;
+		}
 		publishedDate = getDate();
 	}
 	
@@ -46,10 +57,18 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, double price) {
+	public Product(String name, String desc, double price, String category) {
 		this.name = name;
 		this.desc = desc;
 		this.price = price;
+		if(checkCategory(category)==false)
+		{
+			throw new IllegalArgumentException();
+		}
+		else
+		{
+			this.category = category;
+		}
 		publishedDate = getDate();
 	}
 	
@@ -70,7 +89,22 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static void create(String name, String desc, double price) {
-		new Product(name, desc, price).save();
+	public static void create(String name, String desc, double price, String category) {
+		new Product(name, desc, price, category).save();
+	}
+	
+	private boolean checkCategory(String category)
+	{
+		String categoryArray[] = {"Vozila", "Nekretnine", "Mobilni uređaji", 
+				"Kompjuteri", "Tehnika", "Nakit i satovi", "Moj dom", "Biznis i industrija",
+				"Životinje", "Odjeća i obuća", "Ostale kategorije"};
+		for (int i=0; i<categoryArray.length; i++)
+		{
+			if (category.equalsIgnoreCase(categoryArray[i]))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

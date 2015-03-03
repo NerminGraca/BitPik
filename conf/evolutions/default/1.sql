@@ -7,6 +7,7 @@ create table product (
   id                        integer not null,
   name                      varchar(255),
   desc                      varchar(255),
+  category                  varchar(255),
   price                     double,
   published_date            varchar(255),
   constraint pk_product primary key (id))

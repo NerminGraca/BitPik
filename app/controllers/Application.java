@@ -8,11 +8,6 @@ import play.data.Form;
 import play.mvc.*;
 import views.html.*;
 
-/**
- * 
- * @author Nermin Graca & Nedzad Hamzic & Neldin Dzekovic
- *
- */
 public class Application extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
@@ -171,9 +166,9 @@ public class Application extends Controller {
 		String name = newProduct.bindFromRequest().get().name;
 		String desc = newProduct.bindFromRequest().get().desc;
 		Double price = newProduct.bindFromRequest().get().price;
+		String category = newProduct.bindFromRequest().get().category;
+		Product.create(name, desc, price, category);
 
-		Product.create(name, desc, price);
-
-		return ok(showProduct.render(usernameSes, name, desc, price));
+		return ok(showProduct.render(usernameSes, name, desc, price, category));
 	}
 }

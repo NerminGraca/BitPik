@@ -120,4 +120,5 @@ public class User extends Model {
 	public static void delete(int id) {
 		findInt.byId(id).delete();
 	}
+	
 }
