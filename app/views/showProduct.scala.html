@@ -1,15 +1,10 @@
-@(usernameSes: String)
-@import helper._
-
+@(usernameSes: String)(name: String)(desc: String)(price: Double)
 
 @main("Registration") {
 		
 		<div class="wrap">
 	<div class="header">
 		<div class="headertop_desc">
-			<div class="logo">
-				<a href="index.html"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="75" heigth="75" alt=""></a>
-			</div>
 			<div class="account_desc">
 				<ul>
 					@if(usernameSes.equals("")) {
@@ -25,7 +20,9 @@
 			<div class="clear"></div>
 		</div>
 		<div class="header_top">
-			
+			<div class="logo">
+				<a href="index.html"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="100" heigth="100" alt=""></a>
+			</div>
 			  <div class="cart">
 			  </div>
 			  <script type="text/javascript">
@@ -81,32 +78,34 @@
     	<div class="section group">
 				<div class="col span_2_of_3">
 				  <div class="contact-form">
-				  	<h1>ADDING A PRODUCT</h1><br>
+				  	<h1>PUBLISHED PRODUCT;</h1><br>
 	<!--
-		NAŠ HELPER 
 		
-		MINIMUM of three characters is here!! 
+		NAŠ OBJAVLJENI PROIZVOD
+		TJ. NJEGOVI PODACI IZ BAZE;
+		saljemo na ovu stranicu;
+		- TODO - Prosiriti kasnije podatke o Productu; (Product class;)
+		- TOOO - Kasnije ubaciti <div> - img src, desc small, desc big, kategorije, etc... 
+		- TODO - Kasnije dodati, i na pocetak stranice, sve dodatne varijable koje primamo;
+		
 		-->
-		@helper.form(routes.Application.createProduct(),'id->"productForm") {
-			<h5>Name:</h5>
-			<input pattern=".{3,}" required title="3 characters minimum" type="text" value="" id="name" name="name" required/>
-			<h5>Description:</h5>
-			<input pattern=".{3,}" required title="3 characters minimum" type="text" value="" id="desc" name="desc" required/>
-			<h5>Price</h5>			
-			<input type="number" step="any" value="" id="price" name="price" required/>
-			<br><br>
-			<input type="submit" value="Publish Product" />
-				  </div>
-  				</div>
-
-				<div class="col span_1_of_3">
-					<div class="contact_info">
-						
-				 </div>
-			  </div>		
-         </div> 
-    </div>
- </div>
+		
+		<h2><em>Name </em></h2><br>
+		
+			<p>@name</p><br>
+			
+		<h2><em>Decsription </em></h2><br>
+		
+			<p>@desc</p><br>
+			
+		<h2><em>Price </em></h2><br>
+		
+			<p>@price</p><br>
+		
+		<h2><em>Published by User </em></h2><br>
+		
+			<p>@usernameSes</p><br>	
+			
    
 <!-- FOOTER -->
 
@@ -160,6 +159,7 @@
 		});
 	</script>
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
-	}
+	
 }
+
 

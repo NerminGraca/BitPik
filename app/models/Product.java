@@ -64,6 +64,12 @@ public class Product extends Model {
 		return formatter.format(date);
 	}
 	
+	/**
+	 * Method creates a new product, by calling the constructor;
+	 * @param name
+	 * @param desc
+	 * @param price
+	 */
 	public static void create(String name, String desc, double price) {
 		new Product(name, desc, price).save();
 	}
