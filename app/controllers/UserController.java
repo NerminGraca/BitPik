@@ -147,4 +147,14 @@ public class UserController extends Controller {
 		session().clear();
 		return redirect(routes.UserController.index());
 	}
+
+	
+	public static Result profile(){
+		String usernameSes = session("username");
+		return ok(profile.render(usernameSes));
+
+
+		
+	}
+	
 }

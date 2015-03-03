@@ -1,11 +1,15 @@
-@* profile Template File *@
-@(usernameSes: String)
+@(usernameSes: String)(usernameMessage: String)(emailMessage: String)
+@import helper._
 
-@main("Registration") {
+
+@main("Profile") {
 		
 		<div class="wrap">
 	<div class="header">
 		<div class="headertop_desc">
+			<div class="logo">
+				<a href="index.html"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="75" heigth="75" alt=""></a>
+			</div>
 			<div class="account_desc">
 				<ul>
 					@if(usernameSes.equals("")) {
@@ -21,9 +25,7 @@
 			<div class="clear"></div>
 		</div>
 		<div class="header_top">
-			<div class="logo">
-				<a href="index.html"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="100" heigth="100" alt=""></a>
-			</div>
+			
 			  <div class="cart">
 			  </div>
 			  <script type="text/javascript">
@@ -59,37 +61,62 @@
 	<div class="header_bottom">
 	     	<div class="menu">
 	     		<ul>
-			    	<li class="active"><a href="/">Početna</a></li>
-			    	<li><a href="#">Radnje</a></li>
-			    	<li><a href="#">Nekretnine</a></li>
-			    	<li><a href="#">Hitno</a></li>
-			    	<li><a href="#">Servisi i usluge</a></li>
+			    	<li class="active"><a href="/">Moja prodaja</a></li>
+			    	<li><a href="#">Kupljeni proizvidi</a></li>
+			    	<li><a href="#">Poruke</a></li>
+			    	<li><a href="#">Moj profil @usernameSes</a></li>
 			    	<div class="clear"></div>
      			</ul>
 	     	</div>
-	     	<div class="search_box">
-	     		<form>
-	     			<input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
-	     		</form>
-	     	</div>
+	     	
 	     	<div class="clear"></div>
 	     </div>	
  <div class="main">
     <div class="content">
     	<div class="section group">
-				<div class="col span_2_of_3">
-				  <div class="contact-form">
-				  	<h1>THE USER PROFILE PAGE //TODO html better;</h1><br>
-	<!--
-		
-		NAŠ USER PROFILE STRANICA
-		- urediti je kasnije;
-		-->
-		
-		<h2><em>User </em></h2><br>
-		
-			<p>@usernameSes</p><br>	
+				
+				  	
+	
 			
+					<div class="leftBox">
+						<div><a class="profilePicutre" href="preview.html"><img src="@routes.Assets.at("images/profileimg.png")" alt="" /></a></div>
+										
+				<div class="categories">
+				  <ul>
+				      <li><a href="#">Moj pik</a></li>
+				      <li><a href="#">Poruke</a></li>
+				      <li><a href="#">Blokirani korisnici</a></li>
+				      <li><a href="#">Javna pitanja</a></li>
+				      <li><a href="#">Spaseni proizvodi</a></li>
+				
+				  </ul>
+				</div>					
+	  	    
+					</div>
+					
+					<div class="rightBox">
+						<div class="grid_1_of_4 images_1_of_4">
+							 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
+					 		 <h2>Proizvod 1 </h2>
+							<div class="price-details">
+				       			<div class="price-number">
+							<p><span class="rupees">0.00 KM</span></p>
+					    	</div>
+					       		<div class="add-cart">								
+									<h4><a href="preview.html">Kupi</a></h4>
+							    </div>
+							 <div class="clear"></div>
+						</div>
+					
+					</div>
+			
+			
+			
+
+						
+         </div> 
+    </div>
+ </div>
    
 <!-- FOOTER -->
 
