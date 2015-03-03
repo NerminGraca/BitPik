@@ -65,6 +65,6 @@ public class Product extends Model {
 	}
 	
 	public static void create(String name, String desc, double price) {
-		new Product(name, desc, price).save();;
+		new Product(name, desc, price).save();
 	}
 }

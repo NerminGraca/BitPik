@@ -86,6 +86,8 @@ public class Application extends Controller {
     	
     }
     
+    
+    
     /**
      * 1. Gets the username and password from the form from the Login.html page;
      * 2. The finder() method finds the User with the entered username; assigns to the User u;
