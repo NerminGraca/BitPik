@@ -2,7 +2,7 @@
 @import helper._
 
 
-@main("Registration") {
+@main("addProduct") {
 		
 		<div class="wrap">
 	<div class="header">
@@ -88,11 +88,11 @@
 		MINIMUM of three characters is here!! 
 		-->
 		@helper.form(routes.ProductController.createProduct(),'id->"productForm") {
-			<h5>Name:</h5>
+			<h5>Naziv:</h5>
 			<input pattern=".{3,}" required title="3 characters minimum" type="text" value="" id="name" name="name" required/>
-			<h5>Description:</h5>
+			<h5>Opis:</h5>
 			<input pattern=".{3,}" required title="3 characters minimum" type="text" value="" id="desc" name="desc" required/>
-			<h5>Price</h5>			
+			<h5>Cijena:</h5>			
 			<input type="number" step="any" value="" id="price" name="price" required/>
 			<br><br>
 			
