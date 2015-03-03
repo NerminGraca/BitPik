@@ -36,6 +36,7 @@ public class ProductController extends Controller {
 		String name = newProduct.bindFromRequest().get().name;
 		String desc = newProduct.bindFromRequest().get().desc;
 		Double price = newProduct.bindFromRequest().get().price;
+		String category = newProduct.bindFromRequest().get().category;
 		/**
 		 * Ovdje treba izvuci varijablu tipa String iz 
 		 * 	<script>
@@ -51,8 +52,8 @@ public class ProductController extends Controller {
 		 * 	return ok(showProduct.render(usernameSes, name, desc, price));
 		 */
 		
-		Product.create(name, desc, price);
-		return ok(showProduct.render(usernameSes, name, desc, price));
+		Product.create(name, desc, price, category);
+		return ok(showProduct.render(usernameSes, name, desc, price, category));
 		
 		/**
 		 * I onda unutar showProduct.html primiti i varijablu (category: String)
