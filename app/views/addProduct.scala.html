@@ -87,7 +87,7 @@
 		
 		MINIMUM of three characters is here!! 
 		-->
-		@helper.form(routes.Application.createProduct(),'id->"productForm") {
+		@helper.form(routes.ProductController.createProduct(),'id->"productForm") {
 			<h5>Name:</h5>
 			<input pattern=".{3,}" required title="3 characters minimum" type="text" value="" id="name" name="name" required/>
 			<h5>Description:</h5>
