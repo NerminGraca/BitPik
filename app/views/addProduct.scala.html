@@ -96,57 +96,65 @@
 			<input type="number" step="any" value="" id="price" name="price" required/>
 			<br><br>
 			
+			
 			<script>
-  $(function() {
-    $( "#cathegory" ).selectmenu();
+  				$(function() {
+    			$( "#category" ).selectmenu(); 
+				});
+ 			 </script>
+  			<style>
+    			fieldset {
+      			border: 0;
+    			}
+    		label {
+      			display: block;
+      			margin: 30px 0 0 0;
+    		}
+    		select {
+  		    	width: 200px;
+   			}
+    		.overflow {
+      			height: 200px;
+    		}
+ 			 </style>
+			
+			<body>
  
-  });
-  </script>
-  <style>
-    fieldset {
-      border: 0;
-    }
-    label {
-      display: block;
-      margin: 30px 0 0 0;
-    }
-    select {
-      width: 200px;
-    }
-    .overflow {
-      height: 200px;
-    }
-  </style>
-</head>
-<body>
+			<div class="demo">
  
-<div class="demo">
+			<form action="#">
  
-<form action="#">
- 
-  <fieldset>
-    <label for="cathegory">Kategorija</label>
-    <select name="cathegory" id="cathegory">
-      <option selected="selected">Vozila</option>
-      <option>Nekretnine</option>
-      <option>Mobilni uređaji</option>
-      <option>Kompjuteri</option>
-      <option>Tehnika</option>
-      <option>Nakit i satovi</option>
-      <option>Moj dom</option>
-      <option>Biznis i industrija</option>
-      <option>Životinje</option>
-      <option>Odjeća i obuća</option>
-      <option>Ostale kategorije</option>
-    </select>
+  			<fieldset>
+    		<label for="category">Kategorija</label>
+    		<select name="category" id="cathegory">
+      			<option selected="selected">Vozila</option>
+      			<option>Nekretnine</option>
+      			<option>Mobilni uređaji</option>
+      			<option>Kompjuteri</option>
+      			<option>Tehnika</option>
+      			<option>Nakit i satovi</option>
+      			<option>Moj dom</option>
+      			<option>Biznis i industrija</option>
+      			<option>Životinje</option>
+      			<option>Odjeća i obuća</option>
+      			<option>Ostale kategorije</option>
+    		</select>
  
     
-  </fieldset>
+			</fieldset>
  
-</form>
+			</form>
  
-</div>
-<br></br>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			<input type="submit" value="Publish Product" />
 				  </div>
