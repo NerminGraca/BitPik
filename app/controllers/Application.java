@@ -1,5 +1,6 @@
 package controllers;
 
+import helpers.HashHelper;
 import models.Product;
 import models.User;
 import play.*;
@@ -79,7 +80,7 @@ public class Application extends Controller {
     	if (User.emailFinder(email)) {
     		return ok(registration.render("", "", "Email already in use, please choose another one"));
        	}
-    	User.create(username, password, email);
+    	User.createSaveUser(username, password, email);
     	//automatically puts the 'username' created into the session variable;
     	session("username", username);
     	return redirect("/success");
@@ -99,22 +100,25 @@ public class Application extends Controller {
      * @return
      */
     public static Result findUser() {
+    	String hashPass;
     	String username = newUser.bindFromRequest().get().username;
     	String password = newUser.bindFromRequest().get().password;
     	User u = User.finder(username);
     	if (u == null) {
     		return ok(login.render("", "Username nonexisting", ""));
     	} else {
-    		if (u.password.equals(password)) {
-    			// the username put in the session variable under the key "username";
-    			session("username", username);
-    			return redirect("/success");
-    		} else {
-    			return ok(login.render("", "", "Password is wrong"));
-    		}
-    		
-    	}
-    }
+			hashPass=u.password;
+			}
+		boolean userExists = HashHelper.checkPassword(password, hashPass);
+			if (userExists==true) {
+				// the username put in the session variable under the key
+				// "username";
+				session("username", username);
+				return redirect("/success");
+			} else {
+				return ok(login.render("", "", "Password is wrong"));
+			}
+		}
     
     /**
      * Redirects to the Success.html page 

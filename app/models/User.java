@@ -1,5 +1,7 @@
 package models;
 
+import helpers.HashHelper;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,7 +44,7 @@ public class User extends Model {
 	 */
 	public User(String username, String password, String email) {
 		this.username = username;
-		this.password = password;
+		this.password = HashHelper.createPassword(password);
 		this.email = email;
 		isAdmin = false;		
 		createdDate = getDate();
@@ -69,6 +71,19 @@ public class User extends Model {
 		new User(username, password, email).save();
 	}
 
+	/**
+	 * Creates a new User object and saves it into database, and returns value of it's ID variable
+	 * 
+	 * @param username
+	 * @param password
+	 * @param email
+	 */
+	public static int createSaveUser(String username, String password,String email) {
+		User newUser = new User(username, password,email);
+		newUser.save();
+		return newUser.id;
+	}
+	
 	// Finders
 	static Finder<String, User> find = new Finder<String, User>(String.class, User.class);
 	static Finder<Integer, User> findInt = new Finder<Integer, User>(Integer.class, User.class);
