@@ -151,10 +151,7 @@ public class UserController extends Controller {
 	
 	public static Result profile(){
 		String usernameSes = session("username");
-		return ok(profile.render(usernameSes));
-
-
-		
+		return ok(profile.render(usernameSes));		
 	}
 	
 }
