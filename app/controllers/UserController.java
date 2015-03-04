@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import helpers.HashHelper;
 import models.*;
 import play.*;
@@ -15,8 +17,6 @@ import views.html.*;
 public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
-	static String usernameSes = session("username");
-
 	/**
 	 * Either directs to the index.html with the session name already logged in
 	 * or directs to the index.html page with "Unknown" as username;
@@ -24,11 +24,13 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		
+		List<Product> l = ProductController.findProduct.all();
+
+		String usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		} 
-		return ok(index.render("Welcome to BitPik", usernameSes));
+		return ok(index.render( usernameSes, l));
 		
 	}
 
@@ -38,7 +40,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result registration() {
-		
+		String usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		} 
@@ -51,7 +53,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result login() {
-		
+		String usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -84,7 +86,7 @@ public class UserController extends Controller {
 		User.createSaveUser(username, password, email);
 		// automatically puts the 'username' created into the session variable;
 		session("username", username);
-		return redirect("/success");
+		return redirect("/");
 
 	}
 
@@ -94,7 +96,7 @@ public class UserController extends Controller {
 	 * to the User u; 3. If no User has been found, - redirecting to Failed.html
 	 * page; 4. If the User has been found - Checks whether the password is
 	 * correct; 5. If the password is wrong - redirecting to Failed.html page;
-	 * 6. If the password is correct - redirecting to Success.html page; Note*
+	 * 6. If the password is correct - redirecting to Index.html page; Note*
 	 * Store the username in session variable if the Login is successful;
 	 * 
 	 * @return
@@ -114,26 +116,26 @@ public class UserController extends Controller {
 			// the username put in the session variable under the key
 			// "username";
 			session("username", username);
-			return redirect("/success");
+			return redirect("/");
 		} else {
 			return ok(login.render("", "", "Password is wrong"));
 		}
 	}
-
+/*
 	/**
 	 * Redirects to the Success.html page with the session variables sent as
 	 * parameters;
 	 * 
 	 * @return
-	 */
+	 
 	public static Result success() {
 		String usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
-		return ok(success.render(usernameSes));
+		return ok(success.render(usernameSes, l));
 	}
-
+*/
 	/**
 	 * @author Sanela Grcic & Nermin Graca Method Logout - clears current
 	 *         session and redirects to index.html
@@ -141,11 +143,13 @@ public class UserController extends Controller {
 	 */
 	public static Result logout() {
 		session().clear();
+		
 		return redirect(routes.UserController.index());
 	}
 
 	
 	public static Result profile(){
+		String usernameSes = session("username");
 		return ok(profile.render(usernameSes));		
 	}
 	

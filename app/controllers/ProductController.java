@@ -1,9 +1,12 @@
 package controllers;
 
+import java.util.List;
+
 import models.Product;
 import models.User;
 import views.html.*;
 import play.data.Form;
+import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -11,6 +14,9 @@ public class ProductController extends Controller {
 
 	static Form<Product> newProduct = new Form<Product>(Product.class);
 
+	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
+
+	
 	/**
 	 * Method takes the usernameSes from the session variable and sends it to
 	 * the addProduct.html page; Where the Form for publishing the product
@@ -40,29 +46,14 @@ public class ProductController extends Controller {
 		String category = newProduct.bindFromRequest().get().category;
 		String availability = newProduct.bindFromRequest().get().availability;
 		
-		/**
-		 * Ovdje treba izvuci varijablu tipa String iz 
-		 * 	<script>
-  		 *			$(function() {
-    	 *			$( "#cathegory" ).selectmenu();
-   		 *			});
-  		 *	</script>
-  		 *
-  		 * String category = Kako primiti varijablu iz Jquery/javascript?
-  		 * 
-  		 * 	Slijedece dole dvije linije zamijeniti sa ovim iz komentara;
-		 *	Product.create(name, desc, price, category);
-		 * 	return ok(showProduct.render(usernameSes, name, desc, price));
-		 */
+	
 		User u = User.finder(usernameSes);
 		Product.create(name, desc, price, category, availability, u);
 		return ok(showProduct.render(usernameSes, name, desc, price, category, availability));
 		
-		/**
-		 * I onda unutar showProduct.html primiti i varijablu (category: String)
-		 * i da je iskoristimo unutar body-a showProduct.html 
-		 * 	<h2><em>Category </em></h2><br>
-				<p>@category</p><br>	
-		 */
+	
 	}
+
+	
+	
 }

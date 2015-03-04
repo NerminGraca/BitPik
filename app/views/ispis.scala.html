@@ -1,0 +1,9 @@
+@(products: List[Product])
+
+
+		@if(products.size() > 0 ) {
+			@for(product <- products) {
+				<li> @product.name </li>
+			}
+		}
+		

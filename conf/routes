@@ -6,13 +6,14 @@
 GET     /                           	controllers.UserController.index()
 GET		/registration 					controllers.UserController.registration()
 GET		/login							controllers.UserController.login()
-GET		/success						controllers.UserController.success()
 POST	/adduser						controllers.UserController.addUser()
 POST	/finduser						controllers.UserController.findUser()
 GET     /logout							controllers.UserController.logout()
 GET		/addProduct						controllers.ProductController.addProduct()
 POST	/createProduct					controllers.ProductController.createProduct()
 GET		/profile						controllers.UserController.profile()
+
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
