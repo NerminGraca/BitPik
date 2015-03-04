@@ -25,7 +25,14 @@ public class UserController extends Controller {
 	 */
 	public static Result index() {
 		List<Product> l = ProductController.findProduct.all();
-
+		
+		
+/*
+		if(receivedVariable.equals("Vozilo")) {
+		l = Productcontroller.findProduct.where().eq(category, vozilo).finList()
+		}
+		
+	*/		
 		String usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
@@ -151,6 +158,12 @@ public class UserController extends Controller {
 	public static Result profile(){
 		String usernameSes = session("username");
 		return ok(profile.render(usernameSes));		
+	}
+	
+	public static Result findCars(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Vozila").findList();
+		return ok(vozila.render(usernameSes, l));
 	}
 	
 }

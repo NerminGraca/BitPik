@@ -12,6 +12,7 @@ GET     /logout							controllers.UserController.logout()
 GET		/addProduct						controllers.ProductController.addProduct()
 POST	/createProduct					controllers.ProductController.createProduct()
 GET		/profile						controllers.UserController.profile()
+GET		/vozila						controllers.UserController.findCars()
 
 
 
