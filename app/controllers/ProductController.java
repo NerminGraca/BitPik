@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Product;
+import models.User;
 import views.html.*;
 import play.data.Form;
 import play.mvc.Controller;
@@ -52,8 +53,8 @@ public class ProductController extends Controller {
 		 *	Product.create(name, desc, price, category);
 		 * 	return ok(showProduct.render(usernameSes, name, desc, price));
 		 */
-		
-		Product.create(name, desc, price, category, Session.getCurrentUser(ctx()));
+		User u = User.finder(usernameSes);
+		Product.create(name, desc, price, category, u);
 		return ok(showProduct.render(usernameSes, name, desc, price, category));
 		
 		/**
