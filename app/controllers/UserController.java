@@ -27,10 +27,9 @@ public class UserController extends Controller {
 		
 		if (usernameSes == null) {
 			usernameSes = "";
-			return ok(index.render("Welcome to BitPik", usernameSes));
-		} else {
-			return ok(index.render("Welcome to BitPik", usernameSes));
-		}
+		} 
+		return ok(index.render("Welcome to BitPik", usernameSes));
+		
 	}
 
 	/**
@@ -42,10 +41,8 @@ public class UserController extends Controller {
 		
 		if (usernameSes == null) {
 			usernameSes = "";
-			return ok(registration.render(usernameSes, "", ""));
-		} else {
-			return ok(registration.render(usernameSes, "", ""));
-		}
+		} 
+		return ok(registration.render(usernameSes, "", ""));
 	}
 
 	/**
@@ -57,10 +54,9 @@ public class UserController extends Controller {
 		
 		if (usernameSes == null) {
 			usernameSes = "";
-			return ok(login.render(usernameSes, "", ""));
-		} else {
-			return ok(login.render(usernameSes, "", ""));
 		}
+		return ok(login.render(usernameSes, "", ""));
+		
 	}
 
 	/**
