@@ -1,4 +1,4 @@
-@(usernameSes: String)(name: String)(desc: String)(price: Double)(category: String)
+@(usernameSes: String)(name: String)(desc: String)(price: Double)(category: String)(availability: String)
 
 @main("showProduct") {
 		
@@ -105,6 +105,10 @@
 		<h2><em>Kategorija </em></h2><br>
 		
 			<p>@category</p><br>
+		
+		<h2><em>Dostupnost </em></h2><br>
+		
+			<p>@availability</p><br>	
 		
 		<h2><em>Objavio korisnik </em></h2><br>
 		

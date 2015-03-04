@@ -66,6 +66,19 @@ public class User extends Model {
 	}
 	
 	/**
+	 * @author Gordan Sajevic
+	 * Constructor with default values
+	 */
+	public User() {
+		this.username = "JohnDoe";
+		this.password = "johndoe";
+		this.password = HashHelper.createPassword(password);
+		this.email = "johndoe@example.com";
+		isAdmin = false;		
+		createdDate = getDate();
+	}
+	
+	/**
 	 * Creates a new user and saves the User into database;
 	 * @param username
 	 * @param password

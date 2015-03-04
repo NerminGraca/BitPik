@@ -11,6 +11,7 @@ create table product (
   price                     double,
   published_date            varchar(255),
   owner_id                  integer,
+  availability              varchar(255),
   constraint pk_product primary key (id))
 ;
 

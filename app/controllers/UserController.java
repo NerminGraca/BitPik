@@ -15,7 +15,7 @@ import views.html.*;
 public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
-	
+	static String usernameSes = session("username");
 
 	/**
 	 * Either directs to the index.html with the session name already logged in
@@ -24,7 +24,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		String usernameSes = session("username");
+		
 		if (usernameSes == null) {
 			usernameSes = "";
 			return ok(index.render("Welcome to BitPik", usernameSes));
@@ -39,7 +39,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result registration() {
-		String usernameSes = session("username");
+		
 		if (usernameSes == null) {
 			usernameSes = "";
 			return ok(registration.render(usernameSes, "", ""));
@@ -54,7 +54,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result login() {
-		String usernameSes = session("username");
+		
 		if (usernameSes == null) {
 			usernameSes = "";
 			return ok(login.render(usernameSes, "", ""));
@@ -150,7 +150,6 @@ public class UserController extends Controller {
 
 	
 	public static Result profile(){
-		String usernameSes = session("username");
 		return ok(profile.render(usernameSes));		
 	}
 	

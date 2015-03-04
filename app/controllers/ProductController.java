@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Product;
+import models.User;
 import views.html.*;
 import play.data.Form;
 import play.mvc.Controller;
@@ -37,6 +38,7 @@ public class ProductController extends Controller {
 		String desc = newProduct.bindFromRequest().get().desc;
 		Double price = newProduct.bindFromRequest().get().price;
 		String category = newProduct.bindFromRequest().get().category;
+		String availability = newProduct.bindFromRequest().get().availability;
 		
 		/**
 		 * Ovdje treba izvuci varijablu tipa String iz 
@@ -52,9 +54,9 @@ public class ProductController extends Controller {
 		 *	Product.create(name, desc, price, category);
 		 * 	return ok(showProduct.render(usernameSes, name, desc, price));
 		 */
-		
-		Product.create(name, desc, price, category, Session.getCurrentUser(ctx()));
-		return ok(showProduct.render(usernameSes, name, desc, price, category));
+		User u = User.finder(usernameSes);
+		Product.create(name, desc, price, category, availability, u);
+		return ok(showProduct.render(usernameSes, name, desc, price, category, availability));
 		
 		/**
 		 * I onda unutar showProduct.html primiti i varijablu (category: String)

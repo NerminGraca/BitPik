@@ -32,13 +32,16 @@ public class Product extends Model {
 	@ManyToOne
 	public User owner;
 	
+	@Required
+	public String availability;
+	
 	/**
 	 * Constructor of object Product with 2 parameters.
 	 * *(without description);
 	 * @param name
 	 * @param price
 	 */
-	public Product(String name, double price, String category, User owner) {
+	public Product(String name, double price, String category, String availability, User owner) {
 		//TODO dodati kategoriju i dostuonost
 		this.name = name;
 		this.desc = "";
@@ -52,6 +55,7 @@ public class Product extends Model {
 		{
 			this.category = category;
 		}
+		this.availability = availability;
 		publishedDate = getDate();
 	}
 	
@@ -61,7 +65,7 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, double price, String category, User owner) {
+	public Product(String name, String desc, double price, String category, String availability, User owner) {
 		this.name = name;
 		this.desc = desc;
 		this.price = price;
@@ -74,8 +78,25 @@ public class Product extends Model {
 		{
 			this.category = category;
 		}
+		
+		this.availability = availability;
 		publishedDate = getDate();
 	}
+	
+		/**
+		 * Constructor with default values
+		 */
+	
+		public Product() {
+			//TODO dodati kategoriju i dostuonost
+			this.name = "proizvod";
+			this.desc = "opis";
+			this.price = -1;
+			this.owner = new User();
+			this.category = "Ostale kategorije";
+			this.availability = "Nedođija";
+			publishedDate = getDate();
+		}
 	
 	/**
 	 * When the constructor is called. Meaning, when the item/product is published this date will be
@@ -94,8 +115,8 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static void create(String name, String desc, double price, String category, User owner) {
-		new Product(name, desc, price, category, owner).save();
+	public static void create(String name, String desc, double price, String category, String availability, User owner) {
+		new Product(name, desc, price, category, availability, owner).save();
 	}
 	
 	private boolean checkCategory(String category)
