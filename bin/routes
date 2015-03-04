@@ -12,8 +12,17 @@ GET     /logout							controllers.UserController.logout()
 GET		/addProduct						controllers.ProductController.addProduct()
 POST	/createProduct					controllers.ProductController.createProduct()
 GET		/profile						controllers.UserController.profile()
-GET		/vozila						controllers.UserController.findCars()
-
+GET		/vozila							controllers.UserController.findCars()
+GET		/nekretnine						controllers.UserController.findRealEstates()
+GET		/mobilni						controllers.UserController.findMobiles()
+GET		/kompjuteri						controllers.UserController.findComputers()
+GET		/tehnika						controllers.UserController.findTechnics()
+GET		/nakit  						controllers.UserController.findJewellery()
+GET		/mojdom  						controllers.UserController.findMyHomes()
+GET		/biznis  						controllers.UserController.findBusinesses()
+GET		/zivotinje 						controllers.UserController.findAnimals()
+GET		/odjecaobuca  					controllers.UserController.findClothesShoes()
+GET		/ostalo  						controllers.UserController.findOthers()
 
 
 # Map static resources from the /public folder to the /assets URL path

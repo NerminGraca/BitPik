@@ -166,4 +166,74 @@ public class UserController extends Controller {
 		return ok(vozila.render(usernameSes, l));
 	}
 	
+	public static Result findRealEstates(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Nekretnine").findList();
+		return ok(nekretnine.render(usernameSes, l));
+	}
+
+	public static Result findMobiles(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Mobilni uređaji").findList();
+		return ok(mobilni.render(usernameSes, l));
+	}
+	
+	public static Result findComputers(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Kompjuteri").findList();
+		return ok(kompjuteri.render(usernameSes, l));
+	}
+	
+	public static Result findTechnics(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Tehnika").findList();
+		return ok(tehnika.render(usernameSes, l));
+	}
+
+	public static Result findJewellery(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Nakit i satovi").findList();
+		return ok(nakit.render(usernameSes, l));
+	}
+
+	public static Result findMyHomes(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Moj dom").findList();
+		return ok(mojdom.render(usernameSes, l));
+	}
+
+	
+	
+	
+	
+	
+	
+
+	public static Result findBusinesses(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Biznis i industrija").findList();
+		return ok(biznis.render(usernameSes, l));
+	}
+	
+
+	public static Result findAnimals(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Životinje").findList();
+		return ok(zivotinje.render(usernameSes, l));
+	}
+	
+
+	public static Result findClothesShoes(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Odjeća i obuća").findList();
+		return ok(odjecaobuca.render(usernameSes, l));
+	}
+	
+
+	public static Result findOthers(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("category", "Ostale kategorije").findList();
+		return ok(ostalo.render(usernameSes, l));
+	}
+
 }
