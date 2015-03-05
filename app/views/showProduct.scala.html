@@ -1,15 +1,10 @@
-@(usernameSes: String)
-@import helper._
+@(usernameSes: String)(name: String)(desc: String)(price: Double)(category: String)(availability: String)
 
-
-@main("addProduct") {
+@main("showProduct") {
 		
 		<div class="wrap">
 	<div class="header">
 		<div class="headertop_desc">
-			<div class="logo">
-				<a href="/"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="75" heigth="75" alt=""></a>
-			</div>
 			<div class="account_desc">
 				<ul>
 					@if(usernameSes.equals("")) {
@@ -25,7 +20,9 @@
 			<div class="clear"></div>
 		</div>
 		<div class="header_top">
-			
+			<div class="logo">
+				<a href="index.html"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="100" heigth="100" alt=""></a>
+			</div>
 			  <div class="cart">
 			  </div>
 			  <script type="text/javascript">
@@ -81,133 +78,44 @@
     	<div class="section group">
 				<div class="col span_2_of_3">
 				  <div class="contact-form">
-				  	<h1>DODAVANJE ARTIKLA</h1><br>
+				  	<h1>OGLAS</h1><br>
 	<!--
-		NAŠ HELPER 
 		
-		MINIMUM of three characters is here!! 
+		NAŠ OBJAVLJENI PROIZVOD
+		TJ. NJEGOVI PODACI IZ BAZE;
+		saljemo na ovu stranicu;
+		- TODO - Prosiriti kasnije podatke o Productu; (Product class;)
+		- TOOO - Kasnije ubaciti <div> - img src, desc small, desc big, kategorije, etc... 
+		- TODO - Kasnije dodati, i na pocetak stranice, sve dodatne varijable koje primamo;
+		
 		-->
-		@helper.form(routes.ProductController.createProduct(),'id->"productForm") {
-			<h5>Naziv:</h5>
-			<input pattern=".{3,}" required title="3 characters minimum" type="text" value="" id="name" name="name" required/>
-			<h5>Opis:</h5>
-			<input pattern=".{3,}" required title="3 characters minimum" type="text" value="" id="desc" name="desc" required/>
-			<h5>Cijena:</h5>			
-			<input type="number" step="any" value="" id="price" name="price" required/>
-			<br><br>
+		
+		<h2><em>Naziv </em></h2><br>
+		
+			<p>@name</p><br>
+			
+		<h2><em>Opis </em></h2><br>
+		
+			<p>@desc</p><br>
+			
+		<h2><em>Cijena </em></h2><br>
+		
+			<p>@price</p><br>
+		
+		<h2><em>Kategorija </em></h2><br>
+		
+			<p>@category</p><br>
+		
+		<h2><em>Dostupnost </em></h2><br>
+		
+			<p>@availability</p><br>	
+		
+		<h2><em>Objavio korisnik </em></h2><br>
+		
+			<p>@usernameSes</p><br>	
 			
 			
-			<script>
-  				
- 			 </script>
-  			<style>
-    			fieldset {
-      			border: 0;
-    			}
-    		label {
-      			display: block;
-      			margin: 0 0 0 0;
-    		}
-    		select {
-  		    	width: 50%;
-  		    	
-   			}
-    		.overflow {
-      			height: 200px;
-    		}
- 			 </style>
 			
-			<body>
- 
-			<div class="demo">
- 
-			<form action="#">
- 
-  			<fieldset>
-    		<label for="category">Kategorija</label>
-    		<select name="category" id="category">
-      			<option selected="selected">Vozila</option>
-      			<option>Nekretnine</option>
-      			<option>Mobilni uređaji</option>
-      			<option>Kompjuteri</option>
-      			<option>Tehnika</option>
-      			<option>Nakit i satovi</option>
-      			<option>Moj dom</option>
-      			<option>Biznis i industrija</option>
-      			<option>Životinje</option>
-      			<option>Odjeća i obuća</option>
-      			<option>Ostale kategorije</option>
-    		</select>
- 
-    
-			</fieldset>
- 
-			
-
- 
-
-  			<fieldset>
-
-   			<label for="availability">Dostupnost</label>
-
-    		<select name="availability" id="availability">
-
-     			<option selected="selected">Svugdje</option>
-
-     			<option>Unutar BiH</option>
-
-      			<option>Sarajevo</option>
-
-    			<option>Unsko sanski</option>
-
-    			<option>Posavski</option>
-
-     			<option>Tuzlanski</option>
-
-     			<option>Zenicko-dobojski</option>
-			
-		    	<option>Bosansko-Podrinjski</option>
-
-   				<option>Srednjo-bosanski</option>
-
-    			<option>Zapadno-hercegovacki</option>
-	
-    			<option>Livanjski</option>
-
-     			<option>Hercegovacko-neretvanski</option>
-
-   		   		<option>Distrikt Brcko</option>
-
-  		    	<option>Banjalucka</option>
-
-  		    	<option>Dobojsko-bijeljinska</option>
-
-   		   		<option>Sarajevsko-zvornicka</option>
-
-   		 		<option>Focansko-trebinjska</option>
-
-       
-   			 </select>
-
-
-			</fieldset> 
-
-			</form>
-
-
-			
-			<input type="submit" value="Objavi" />
-				  </div>
-  				</div>
-
-				<div class="col span_1_of_3">
-					<div class="contact_info">
-						
-				 </div>
-			  </div>		
-         </div> 
-    </div>
- </div>
    
 <!-- FOOTER -->
 
@@ -250,7 +158,9 @@
 				</div>
 			</div>			
         </div>
-        
+        <div class="copy_right">
+				<p>Company Name © All rights Reseverd | Design by  <a href="http://w3layouts.com">W3Layouts</a> </p>
+		   </div>
     </div>
     <script type="text/javascript">
 		$(document).ready(function() {			
@@ -259,6 +169,7 @@
 		});
 	</script>
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
-	}
+	
 }
+
 

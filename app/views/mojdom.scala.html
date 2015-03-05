@@ -1,4 +1,4 @@
-@(usernameSes: String)(products: List[Product])
+@(usernameSes: String)(myHomes: List[Product])
 
 @main("BitPik") {
 
@@ -58,7 +58,7 @@
 				<div class="categories">
 				  <ul>
 				  	<h3>Kategorije</h3>
-				     
+				      <li><a href="/">Početna</a></li>
 				      <li><a href="/vozila">Vozila</a></li>
 				      <li><a href="/nekretnine">Nekretnine</a></li>
 				      <li><a href="/mobilni">Mobilni uređaji</a></li>
@@ -73,58 +73,7 @@
 				  </ul>
 				</div>					
 	  	     </div>
-					 <div class="header_bottom_right">					 
-					 	 <div class="slider">					     
-							 <div id="slider">
-			                    <div id="mover" style="width: 2829px; left: 0px;">
-			                    	<div id="slide-1" class="slide">			                    
-									 <div class="slider-img">
-									     <a href="preview.html"><img src="@routes.Assets.at("images/noimage.gif") alt="learn more" style="top: -28.8872743678438px;"></a>									    
-									  </div>
-						             	<div class="slider-text">
-		                                 <h1>Text1<br><span>Text1</span></h1>
-		                                 <h2>Text1</h2>
-									   <div class="features_list">
-									   	<h4>Text1</h4>							               
-							            </div>
-							             <a href="preview.html" class="button">Kupi</a>
-					                   </div>			               
-									  <div class="clear"></div>				
-				                  </div>	
-						             	<div class="slide">
-						             		<div class="slider-text">
-		                                 <h1>Text druga slika<br><span>text2</span></h1>
-		                                 <h2>text2</h2>
-									   <div class="features_list">
-									   	<h4>Text2</h4>							               
-							            </div>
-							             <a href="preview.html" class="button">Kupi</a>
-					                   </div>		
-						             	 <div class="slider-img">
-									     <a href="preview.html"><img src="@routes.Assets.at("images/noimage.gif")" alt="learn more" style="top: -28.8872743678438px;"></a>
-									  </div>						             					                 
-									  <div class="clear"></div>				
-				                  </div>
-				                  <div class="slide">						             	
-					                  <div class="slider-img">
-									     <a href="preview.html"><img src="@routes.Assets.at("images/noimage.gif")" alt="learn more" style="top: -28.8872743678438px;"></a>
-									  </div>
-									  <div class="slider-text">
-		                                 <h1>Text reca slika<br><span>Text3</span></h1>
-		                                 <h2>Text3</h2>
-									   <div class="features_list">
-									   	<h4>Text3</h4>							               
-							            </div>
-							             <a href="preview.html" class="button">Kupi</a>
-					                   </div>	
-									  <div class="clear"></div>				
-				                  </div>												
-			                 </div>		
-		                </div>
-		   <div class="clear"></div>
-		</div>
-   </div>
-
+					
 
 
 <!-- Pocetak sanelinog dijela-->
@@ -147,17 +96,15 @@
 	      <div class="section group">
 	      
 	      
-	      
-		@if(products.size() > 0 ) {
-			@for(product <- products) {
-				
+	  @if(myHomes != null){
+		@for(myHome <- myHomes){
 			
 				<div class="grid_1_of_4 images_1_of_4">
 					 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>@product.name </h2>
+					 <h2>@myHome.name </h2>
 					<div class="price-details">
 				       <div class="price-number">
-							<p><span class="rupees">@product.price KM</span></p>
+							<p><span class="rupees">@myHome.price KM</span></p>
 					    </div>
 					       		<div class="add-cart">								
 									<h4><a href="preview.html">Kupi</a></h4>
@@ -225,7 +172,9 @@
 				</div>
 			</div>			
         </div>
-        
+        <div class="copy_right">
+				<p>Company Name © All rights Reseverd | Design by  <a href="http://w3layouts.com">W3Layouts</a> </p>
+		   </div>
     </div>
     <script type="text/javascript">
 		$(document).ready(function() {			

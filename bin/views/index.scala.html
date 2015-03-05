@@ -1,4 +1,4 @@
-@(message: String)(usernameSes: String)
+@(usernameSes: String)(products: List[Product])
 
 @main("BitPik") {
 
@@ -6,25 +6,26 @@
     <div class="wrap">
 	<div class="header">
 		<div class="headertop_desc">
-			<div class="call">
-				 <p><span>Imate problem?</span> Ako imate problema, javite se ovom liku: <span class="number"><a href="https://www.facebook.com/b.ttalic?fref=ts"><img src="@routes.Assets.at("images/benjo.jpg")" width="55" height="50" /></a></span></p>
+			<div class="logo">
+				<a href="/"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="75" heigth="75" alt=""></a>
 			</div>
 			<div class="account_desc">
 				<ul>
+					@if(usernameSes.equals("")) {
 					<li><a href="/registration">Registracija</a></li>
 					<li><a href="/login">Login</a></li>
+					}
 					@if(!usernameSes.isEmpty){
 						<li><a href="/addProduct">Objavite oglas</a></li>
 						<li><a href="/profile">Korisnik @usernameSes</a></li>
+						<li><a href="/logout">Logout</a></li>
 					}
 				</ul>
 			</div>
 			<div class="clear"></div>
 		</div>
 		<div class="header_top">
-			<div class="logo">
-				<a href="/index"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="100" heigth="100" alt=""></a>
-			</div>
+			
 			<div class="cart">
 					
 			  	   	
@@ -57,18 +58,18 @@
 				<div class="categories">
 				  <ul>
 				  	<h3>Kategorije</h3>
-				      <li><a href="#">Početna</a></li>
-				      <li><a href="#">Vozila</a></li>
-				      <li><a href="#">Nekretnine</a></li>
-				      <li><a href="#">Mobilni uređaji</a></li>
-				      <li><a href="#">Kompjuteri</a></li>
-				       <li><a href="#">Tehnika</a></li>
-				       <li><a href="#">Nakit i satovi</a></li>
-				       <li><a href="#">Moj dom</a></li>
-				       <li><a href="#">Biznis i industrija</a></li>
-				       <li><a href="#">Životinje</a></li>
-				       <li><a href="#">Odjeća i obuća</a></li>
-				       <li><a href="#">Ostale kategorije</a></li>
+				     
+				      <li><a href="/vozila">Vozila</a></li>
+				      <li><a href="/nekretnine">Nekretnine</a></li>
+				      <li><a href="/mobilni">Mobilni uređaji</a></li>
+				      <li><a href="/kompjuteri">Kompjuteri</a></li>
+				      <li><a href="/tehnika">Tehnika</a></li>
+				      <li><a href="/nakit">Nakit i satovi</a></li>
+				      <li><a href="/mojdom">Moj dom</a></li>
+				      <li><a href="/biznis">Biznis i industrija</a></li>
+				      <li><a href="/zivotinje">Životinje</a></li>
+				      <li><a href="/odjecaobuca">Odjeća i obuća</a></li>
+				      <li><a href="/ostalo">Ostale kategorije</a></li>
 				  </ul>
 				</div>					
 	  	     </div>
@@ -134,24 +135,29 @@
     <div class="content">
     	
 
-    		<div class="row">
-        		<div class="col-md-4">Izdvojeni artikli</div>
-        		<div class="col-md-4">Artikli iz pik radnji</div>
-        		<div class="col-md-4">Akacije</div>
-        		
-      		</div>
 		    		
     		<div class="clear"></div>
     	
 
+
+
+
+
     	<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
 	      <div class="section group">
+	      
+	      
+	      
+		@if(products.size() > 0 ) {
+			@for(product <- products) {
+				
+			
 				<div class="grid_1_of_4 images_1_of_4">
 					 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 1 </h2>
+					 <h2>@product.name </h2>
 					<div class="price-details">
 				       <div class="price-number">
-							<p><span class="rupees">0.00 KM</span></p>
+							<p><span class="rupees">@product.price KM</span></p>
 					    </div>
 					       		<div class="add-cart">								
 									<h4><a href="preview.html">Kupi</a></h4>
@@ -160,167 +166,19 @@
 					</div>
 					 
 				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 2 </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00 KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-				    
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 3 </h2>
-					 <div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00 KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 4 </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>				     
-				</div>
+				
+				}
+		}
+				
+				
 
 			</div>
 
-			<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
+		<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
 
-			<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak-->
+		
 
-			<div class="section group">
-				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 5 </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00 KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-					 
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 6 </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00 KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-				    
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 7 </h2>
-					 <div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00 KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 8 </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>				     
-				</div>
-
-			</div>
-			<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
-
-			<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
-			<div class="section group">
-				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>					
-					 <h2>Proizvod 9 </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00 KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 10 </h2>
-					 <div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-					<a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 11 </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-				</div>
-				<div class="grid_1_of_4 images_1_of_4">
-				 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>Proizvod 12 </h2>					 
-					 <div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">0.00KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="preview.html">Kupi</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-				</div>
-			</div>
+			
     </div>
  </div>
 </div>
@@ -367,9 +225,7 @@
 				</div>
 			</div>			
         </div>
-        <div class="copy_right">
-				<p>Company Name © All rights Reseverd | Design by  <a href="http://w3layouts.com">W3Layouts</a> </p>
-		   </div>
+        
     </div>
     <script type="text/javascript">
 		$(document).ready(function() {			

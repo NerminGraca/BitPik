@@ -3,13 +3,27 @@
 # ~~~~
 
 # Home page
-GET     /                           	controllers.Application.index()
-GET		/registration 					controllers.Application.registration()
-GET		/login							controllers.Application.login()
-GET		/success						controllers.Application.success()
-GET		/failed							controllers.Application.failed()
-POST	/adduser						controllers.Application.addUser()
-POST	/finduser						controllers.Application.findUser()
+GET     /                           	controllers.UserController.index()
+GET		/registration 					controllers.UserController.registration()
+GET		/login							controllers.UserController.login()
+POST	/adduser						controllers.UserController.addUser()
+POST	/finduser						controllers.UserController.findUser()
+GET     /logout							controllers.UserController.logout()
+GET		/addProduct						controllers.ProductController.addProduct()
+POST	/createProduct					controllers.ProductController.createProduct()
+POST    /products/:id/delete       		controllers.ProductController.deleteProduct(id: Integer)
+GET		/profile						controllers.UserController.findProfileProducts()
+GET		/vozila							controllers.UserController.findCars()
+GET		/nekretnine						controllers.UserController.findRealEstates()
+GET		/mobilni						controllers.UserController.findMobiles()
+GET		/kompjuteri						controllers.UserController.findComputers()
+GET		/tehnika						controllers.UserController.findTechnics()
+GET		/nakit  						controllers.UserController.findJewellery()
+GET		/mojdom  						controllers.UserController.findMyHomes()
+GET		/biznis  						controllers.UserController.findBusinesses()
+GET		/zivotinje 						controllers.UserController.findAnimals()
+GET		/odjecaobuca  					controllers.UserController.findClothesShoes()
+GET		/ostalo  						controllers.UserController.findOthers()
 
 
 # Map static resources from the /public folder to the /assets URL path
