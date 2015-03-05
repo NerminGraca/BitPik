@@ -129,6 +129,13 @@ public class UserController extends Controller {
 		}
 	}
 
+	public static Result showProduct(int id)
+	{
+		String usernameSes = session("username");
+		Product p = ProductController.findProduct.byId(id);
+		return ok(showProduct.render(usernameSes, p));
+	}
+	
 	/**
 	 * @author Sanela Grcic & Nermin Graca Method Logout - clears current
 	 *         session and redirects to index.html

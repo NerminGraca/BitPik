@@ -115,8 +115,10 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static void create(String name, String desc, double price, String category, String availability, User owner) {
-		new Product(name, desc, price, category, availability, owner).save();
+	public static int create(String name, String desc, double price, String category, String availability, User owner) {
+		Product newProduct = new Product(name, desc, price, category, availability, owner);
+		newProduct.save();
+		return newProduct.id;
 	}
 	
 	private boolean checkCategory(String category)

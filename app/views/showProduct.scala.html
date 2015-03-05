@@ -1,4 +1,4 @@
-@(usernameSes: String)(name: String)(desc: String)(price: Double)(category: String)(availability: String)
+@(usernameSes: String)(p: Product)
 
 @main("showProduct") {
 		
@@ -92,27 +92,29 @@
 		
 		<h2><em>Naziv </em></h2><br>
 		
-			<p>@name</p><br>
+			<p>@p.name</p><br>
 			
 		<h2><em>Opis </em></h2><br>
 		
-			<p>@desc</p><br>
+			<p>@p.desc</p><br>
 			
 		<h2><em>Cijena </em></h2><br>
 		
-			<p>@price</p><br>
+			<p>@p.price</p><br>
 		
 		<h2><em>Kategorija </em></h2><br>
 		
-			<p>@category</p><br>
+			<p>@p.category</p><br>
 		
 		<h2><em>Dostupnost </em></h2><br>
 		
-			<p>@availability</p><br>	
+			<p>@p.availability</p><br>	
 		
 		<h2><em>Objavio korisnik </em></h2><br>
 		
 			<p>@usernameSes</p><br>	
+			
+			<h6>ID: @p.id</h6>
 			
 			
 			

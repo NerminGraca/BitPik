@@ -48,9 +48,8 @@ public class ProductController extends Controller {
 		
 	
 		User u = User.finder(usernameSes);
-		Product.create(name, desc, price, category, availability, u);
-		return ok(showProduct.render(usernameSes, name, desc, price, category, availability));
-		
+		int id = Product.create(name, desc, price, category, availability, u);
+		return redirect("/showProduct/" + id);	
 	
 	}
 	
