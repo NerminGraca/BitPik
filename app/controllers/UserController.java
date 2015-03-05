@@ -388,6 +388,7 @@ public class UserController extends Controller {
 		}
 		User u = findUser.byId(id);
 		u.setAdmin();
+		insertAdmin(u.username);
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
 		return ok(korisnik.render(usernameSes, u, l));
 	}
