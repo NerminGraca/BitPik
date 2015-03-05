@@ -357,4 +357,9 @@ public class UserController extends Controller {
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
 		return ok(korisnik.render(usernameSes, u, l));
 	}
+	
+	public static Result deleteUser(int id) {
+		  User.delete(id);
+		  return redirect(routes.UserController.allUsers());
+	}
 }
