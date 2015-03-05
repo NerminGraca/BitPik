@@ -53,6 +53,14 @@ public class User extends Model {
 		createdDate = getDate();
 	}
 	
+	public User(String username, String password, String email, boolean isAdmin) {
+		this.username = username;
+		this.password = HashHelper.createPassword(password);
+		this.email = email;
+		this.isAdmin = isAdmin;		
+		createdDate = getDate();
+	}
+	
 	/**
 	 * @author Graca Nermin
 	 * Method creates simple date as string which will be represented on users profile
@@ -94,10 +102,22 @@ public class User extends Model {
 	 * @param password
 	 * @param email
 	 */
-	public static int createSaveUser(String username, String password,String email) {
+	public static int createSaveUser(String username, String password, String email) {
 		User newUser = new User(username, password,email);
 		newUser.save();
 		return newUser.id;
+	}
+	
+	/**
+	 * Creates a new Admin object and saves it into database, and returns value of it's ID variable
+	 * 
+	 * @param username
+	 * @param password
+	 * @param email
+	 */
+	public static void createAdmin(String username, String password, String email, boolean isAdmin) {
+		User admin = new User(username, password, email, isAdmin);
+		admin.save();
 	}
 	
 	// Finders
