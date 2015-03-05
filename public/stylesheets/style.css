@@ -55,7 +55,13 @@ body {
 	width: 25%;
 }
 
-
+.listOfUsers{
+	display: inline-block;
+	float: left;
+	padding: 5px 5px;
+	background: #FCFCFC;
+	width: 70%;
+}
 
 .rightBox{
 	display: inline-block;

@@ -25,6 +25,7 @@ GET		/biznis  						controllers.UserController.findBusinesses()
 GET		/zivotinje 						controllers.UserController.findAnimals()
 GET		/odjecaobuca  					controllers.UserController.findClothesShoes()
 GET		/ostalo  						controllers.UserController.findOthers()
+GET		/korisnici						controllers.UserController.allUsers()
 
 
 # Map static resources from the /public folder to the /assets URL path

@@ -6,6 +6,7 @@ import helpers.HashHelper;
 import models.*;
 import play.*;
 import play.data.Form;
+import play.db.ebean.Model.Finder;
 import play.mvc.*;
 import views.html.*;
 
@@ -155,6 +156,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findCars(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Vozila").findList();
 		return ok(vozila.render(usernameSes, l));
 	}
@@ -167,6 +171,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findRealEstates(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Nekretnine").findList();
 		return ok(nekretnine.render(usernameSes, l));
 	}
@@ -179,6 +186,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findMobiles(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Mobilni uređaji").findList();
 		return ok(mobilni.render(usernameSes, l));
 	}
@@ -191,6 +201,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findComputers(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Kompjuteri").findList();
 		return ok(kompjuteri.render(usernameSes, l));
 	}
@@ -203,6 +216,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findTechnics(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Tehnika").findList();
 		return ok(tehnika.render(usernameSes, l));
 	}
@@ -215,6 +231,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findJewellery(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Nakit i satovi").findList();
 		return ok(nakit.render(usernameSes, l));
 	}
@@ -227,6 +246,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findMyHomes(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Moj dom").findList();
 		return ok(mojdom.render(usernameSes, l));
 	}
@@ -239,6 +261,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findBusinesses(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Biznis i industrija").findList();
 		return ok(biznis.render(usernameSes, l));
 	}
@@ -251,6 +276,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findAnimals(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Životinje").findList();
 		return ok(zivotinje.render(usernameSes, l));
 	}
@@ -263,6 +291,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findClothesShoes(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Odjeća i obuća").findList();
 		return ok(odjecaobuca.render(usernameSes, l));
 	}
@@ -275,6 +306,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findOthers(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("category", "Ostale kategorije").findList();
 		return ok(ostalo.render(usernameSes, l));
 	}
@@ -287,7 +321,25 @@ public class UserController extends Controller {
 	 */
 	public static Result findProfileProducts(){
 		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
 		return ok(profile.render(usernameSes, l));
+	}
+	
+	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
+	
+	/**
+	 * Method list all users registered in database
+	 * @return
+	 */
+	public static Result allUsers() {
+		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
+		List<User> userList = findUser.all();
+		return ok(korisnici.render(usernameSes, userList));
 	}
 }
