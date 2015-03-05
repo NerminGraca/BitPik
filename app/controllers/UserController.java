@@ -141,15 +141,6 @@ public class UserController extends Controller {
 	}
 
 	/**
-	 * Method called when the /profile page is called;
-	 * @return
-	 */
-	public static Result profile(){
-		String usernameSes = session("username");
-		return ok(profile.render(usernameSes));		
-	}
-	
-	/**
 	 * For the category "Vozila" - Cars;
 	 * The query search for all the products that have the category "Vozila"
 	 * And renders the vozila.html page;
@@ -281,4 +272,15 @@ public class UserController extends Controller {
 		return ok(ostalo.render(usernameSes, l));
 	}
 
+	/**
+	 * For the profiles products - that the current logged in user that has published;
+	 * The query search for all the products are published by the user logged in;
+	 * And renders the profile.html page;
+	 * @return renders the profile.html page with the list of products mentioned;
+	 */
+	public static Result findProfileProducts(){
+		String usernameSes = session("username");
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
+		return ok(profile.render(usernameSes, l));
+	}
 }
