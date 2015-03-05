@@ -379,4 +379,16 @@ public class UserController extends Controller {
 		  User.delete(id);
 		  return redirect(routes.UserController.allUsers());
 	}
+	
+	public static Result changeAdmin(int id)
+	{
+		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
+		User u = findUser.byId(id);
+		u.setAdmin();
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
+		return ok(korisnik.render(usernameSes, u, l));
+	}
 }

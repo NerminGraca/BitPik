@@ -167,4 +167,9 @@ public class User extends Model {
 		findInt.ref(id).delete();
 	}
 	
+	public void setAdmin()
+	{
+		this.isAdmin = !isAdmin;
+	}
+	
 }
