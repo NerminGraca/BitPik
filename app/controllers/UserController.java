@@ -342,4 +342,19 @@ public class UserController extends Controller {
 		List<User> userList = findUser.all();
 		return ok(korisnici.render(usernameSes, userList));
 	}
+	
+	/**
+	 * Method shows profile view of single user
+	 * @param id
+	 * @return
+	 */
+	public static Result singleUser(int id) {
+		String usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
+		User u = findUser.byId(id);
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
+		return ok(korisnik.render(usernameSes, u, l));
+	}
 }

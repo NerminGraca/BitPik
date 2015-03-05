@@ -1,4 +1,4 @@
-@(usernameSes: String)(userList: List[User])
+@(usernameSes: String)(user: User)(products: List[Product])
 @import helper._
 
 
@@ -11,6 +11,7 @@
 				<a href="/"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="75" heigth="75" alt=""></a>
 			</div>
 			<div class="account_desc">
+				<ul>
 					@if(usernameSes.equals("")) {
 					<li><a href="/registration">Registracija</a></li>
 					<li><a href="/login">Login</a></li>
@@ -20,7 +21,7 @@
 						<li><a href="/profile">Korisnik @usernameSes</a></li>
 						<li><a href="/logout">Logout</a></li>
 					}
-			</div>
+				</div>
 			<div class="clear"></div>
 		</div>
 		<div class="header_top">
@@ -35,19 +36,25 @@
 			DropDown.prototype = {
 				initEvents : function() {
 					var obj = this;
+
 					obj.dd.on('click', function(event){
 						$(this).toggleClass('active');
 						event.stopPropagation();
 					});	
 				}
 			}
+
 			$(function() {
+
 				var dd = new DropDown( $('#dd') );
+
 				$(document).click(function() {
 					// all dropdowns
 					$('.wrapper-dropdown-2').removeClass('active');
 				});
+
 			});
+
 		</script>
 	 <div class="clear"></div>
   </div>
@@ -70,26 +77,53 @@
     	<div class="section group">
 				
 				  	
-	<!-- za helper -->
 	
-	
-			<div class="listOfUsers">										
+			
+					<div class="leftBox">
+						<div><a class="profilePicture" ><img src="@routes.Assets.at("images/profileimg.png")" alt="" /></a></div>
+										
 				<div class="categories">
 				  <ul>
-				  @if(userList.size() > 0 ) {
-						@for(user <- userList) {
-				      <li><a href="/korisnik/@user.id">@user.username</a></li>			     
-						}
-		
-					}
+				      <li><a href="#">Moj pik</a></li>
+				      <li><a href="#">Poruke</a></li>
+				      <li><a href="#">Blokirani korisnici</a></li>
+				      <li><a href="#">Javna pitanja</a></li>
+				      <li><a href="#">Spaseni proizvodi</a></li>
+				
 				  </ul>
-				</div>						  	    
-			</div>
+				</div>					
+	  	    
+					</div>
+					
+					<div class="rightBox">
+					
+					
+			@if(!products.isEmpty) {
+				@for(product <- products) {
+									
+					
+						<div class="grid_1_of_4 images_1_of_4">
+							 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
+					 		 <h2>@product.name </h2>
+					 		 @form(routes.ProductController.deleteProduct(product.id)) {
+                    <input type="submit" value="Delete">
+                }
+							<div class="price-details">
+				       			<div class="price-number">
+							<p><span class="rupees">@product.price KM</span></p>
+					    	</div>
+					       		<div class="add-cart">								
+									<h4><a href="/showProduct/@product.id">View</a></h4>
+							    </div>
+							 <div class="clear"></div>
+						</div>
+					
+					</div>
+				}
+			}
 
-			
-					
-					
-			 
+						
+         </div> 
     </div>
  </div>
    
@@ -147,4 +181,3 @@
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
 	
 }
-
