@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import helpers.HashHelper;
@@ -18,6 +19,15 @@ import views.html.*;
 public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
+	static ArrayList<String> adminList = new ArrayList<String>();
+		
+		public static void insertAdmin(String username)
+		{
+			if(!adminList.contains(username))
+			{
+				adminList.add(username);
+			}
+		}
 	/**
 	 * Either directs to the index.html with the session name already logged in
 	 * or directs to the index.html page with "Unknown" as username;
@@ -38,7 +48,7 @@ public class UserController extends Controller {
 		if (usernameSes == null) {
 			usernameSes = "";
 		} 
-		return ok(index.render( usernameSes, l));
+		return ok(index.render( usernameSes, l, adminList));
 		
 	}
 
@@ -340,6 +350,13 @@ public class UserController extends Controller {
 			usernameSes = "";
 		}
 		List<User> userList = findUser.all();
+		for (User user: userList)
+					{
+						if(user.isAdmin)
+						{
+							insertAdmin(user.username);
+						}
+					}
 		return ok(korisnici.render(usernameSes, userList));
 	}
 	

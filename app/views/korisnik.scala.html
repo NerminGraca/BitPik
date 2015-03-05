@@ -127,7 +127,9 @@
 <!-- delete user profile -->
 
 			@form(routes.UserController.deleteUser(user.id)) {
+				@if(!usernameSes.equals(user.username)){
                     <input type="submit" value="Izbrisi korisnika">
+                    }
                 }
 						
          </div> 

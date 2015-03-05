@@ -1,4 +1,4 @@
-@(usernameSes: String)(products: List[Product])
+@(usernameSes: String)(products: List[Product])(adminList: List[String])
 
 @main("BitPik") {
 
@@ -43,7 +43,9 @@
 			    	<li><a href="#">Nekretnine</a></li>
 			    	<li><a href="#">Hitno</a></li>
 			    	<li><a href="#">Servisi i usluge</a></li>
-			    	<li><a href="/korisnici">Korisnici</a></li>
+			    	@if(adminList.contains(usernameSes)){
+			    		<li><a href="/korisnici">Korisnici</a></li>
+			    		}
 			    	<div class="clear"></div>
      			</ul>
 	     	</div>
