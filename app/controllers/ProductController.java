@@ -53,6 +53,11 @@ public class ProductController extends Controller {
 		
 	
 	}
+	
+	public static Result deleteProduct(int id) {
+		  Product.delete(id);
+		  return redirect(routes.UserController.findProfileProducts());
+		}
 
 	
 	

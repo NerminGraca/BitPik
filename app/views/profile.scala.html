@@ -105,6 +105,9 @@
 						<div class="grid_1_of_4 images_1_of_4">
 							 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
 					 		 <h2>@product.name </h2>
+					 		 @form(routes.ProductController.deleteProduct(product.id)) {
+                    <input type="submit" value="Delete">
+                }
 							<div class="price-details">
 				       			<div class="price-number">
 							<p><span class="rupees">@product.price KM</span></p>

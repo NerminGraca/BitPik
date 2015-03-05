@@ -133,4 +133,9 @@ public class Product extends Model {
 		}
 		return false;
 	}
+	
+	static Finder<Integer, Product> find = new Finder<Integer, Product>(Integer.class, Product.class);
+	public static void delete(int id) {
+		  find.ref(id).delete();
+		}
 }
