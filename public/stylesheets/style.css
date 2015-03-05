@@ -45,6 +45,43 @@ body {
 	font-family: 'Sintony', sans-serif;
         font-size: 15px;
 }
+
+
+.leftBox{
+	display: inline-block;
+	float: left;
+	padding: 5px 5px;
+	background: #FCFCFC;
+	width: 25%;
+}
+
+
+
+.rightBox{
+	display: inline-block;
+	float: right;
+	width: 70%;
+	padding: 5px 10px;
+	margin-left:10px; 
+}
+
+
+.profilePicture{
+	border: 1px solid grren;
+	position: relative;
+	display: block;
+	text-align: center;
+ 	
+}
+
+.profilePicture img {
+ 	
+ }
+
+
+
+
+
 .wrap {
 	width:80%;
 	margin: 0 auto;
@@ -386,7 +423,7 @@ box-sizing: border-box;
 .grid_1_of_4 {
 	display: block;
 	float: left;
-	margin: 1% 0 1% 1.6%;
+	margin: 1% 0 1% 0;
 	box-shadow: 0px 0px 3px rgb(150, 150, 150);
 	-webkit-box-shadow: 0px 0px 3px rgb(150, 150, 150);
 	-moz-box-shadow: 0px 0px 3px rgb(150, 150, 150);
@@ -396,7 +433,7 @@ box-sizing: border-box;
 	margin-left: 0;
 }
 .images_1_of_4 {
-	width: 20.8%;
+	width: 22%;
 	padding: 1.5%;
 	text-align: center;
 	position: relative;
