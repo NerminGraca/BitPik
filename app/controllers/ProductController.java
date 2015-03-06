@@ -52,6 +52,47 @@ public class ProductController extends Controller {
 	}
 	
 	/**
+	 * Finds the product under the id number;
+	 * And sends that product to the editProduct.html page on redering;
+	 * Where we will have a new form that we will edit;
+	 * @param id
+	 * @return
+	 */
+	public static Result editProduct(int id) {
+		usernameSes = session("username");
+		Product p = findProduct.byId(id);
+		return ok(editProduct.render(usernameSes, p));
+	}
+	/**
+	 * Saves the new values of the attributes that are entered 
+	 * and overwrites over the ones that were entered before;
+	 * @param id
+	 * @return redirect("/showProduct/" + id);
+	 */
+	public static Result saveEditedProduct(int id) {
+		//takes the new attributes that are entered in the form;
+		usernameSes = session("username");
+		String name = newProduct.bindFromRequest().get().name;
+		String desc = newProduct.bindFromRequest().get().desc;
+		Double price = newProduct.bindFromRequest().get().price;
+		String category = newProduct.bindFromRequest().get().category;
+		String availability = newProduct.bindFromRequest().get().availability;
+		
+		// sets all the new entered attributes as the original ones from the product;
+		// and saves();
+		Product p = findProduct.byId(id);
+		p.setName(name);
+		p.setDesc(desc);
+		p.setPrice(price);
+		p.setCategory(category);
+		p.setAvailability(availability);
+		p.save();
+		
+		return redirect("/showProduct/" + id);	
+		
+	}
+	
+	/**
 	 * Deletes the products found under the given id;
 	 * @param id
 	 * @return
