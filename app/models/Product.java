@@ -36,6 +36,21 @@ public class Product extends Model {
 	public String availability;
 	
 	/**
+	 * Constructor with default values
+	 */
+
+	public Product() {
+		//TODO dodati kategoriju i dostuonost
+		this.name = "proizvod";
+		this.desc = "opis";
+		this.price = -1;
+		this.owner = new User();
+		this.category = "Ostale kategorije";
+		this.availability = "Nedođija";
+		publishedDate = getDate();
+	}
+	
+	/**
 	 * Constructor of object Product with 2 parameters.
 	 * *(without description);
 	 * @param name
@@ -83,20 +98,7 @@ public class Product extends Model {
 		publishedDate = getDate();
 	}
 	
-		/**
-		 * Constructor with default values
-		 */
 	
-		public Product() {
-			//TODO dodati kategoriju i dostuonost
-			this.name = "proizvod";
-			this.desc = "opis";
-			this.price = -1;
-			this.owner = new User();
-			this.category = "Ostale kategorije";
-			this.availability = "Nedođija";
-			publishedDate = getDate();
-		}
 	
 	/**
 	 * When the constructor is called. Meaning, when the item/product is published this date will be

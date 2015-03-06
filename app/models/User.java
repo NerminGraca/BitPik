@@ -39,6 +39,20 @@ public class User extends Model {
 	
 	
 	/**
+	 * @author Gordan Sajevic
+	 * Constructor with default values
+	 */
+	public User() {
+		this.username = "JohnDoe";
+		this.password = "johndoe";
+		this.password = HashHelper.createPassword(password);
+		this.email = "johndoe@example.com";
+		isAdmin = false;		
+		createdDate = getDate();
+	}
+	
+		
+	/**
 	 * Constructor of object User with three parameters. On default sets isAdmin to false and
 	 * creates String representation of date when was it created 
 	 * @param username
@@ -79,20 +93,7 @@ public class User extends Model {
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		return formatter.format(date);
 	}
-	
-	/**
-	 * @author Gordan Sajevic
-	 * Constructor with default values
-	 */
-	public User() {
-		this.username = "JohnDoe";
-		this.password = "johndoe";
-		this.password = HashHelper.createPassword(password);
-		this.email = "johndoe@example.com";
-		isAdmin = false;		
-		createdDate = getDate();
-	}
-	
+
 	
 	
 	/**
