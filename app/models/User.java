@@ -159,17 +159,31 @@ public class User extends Model {
 		}
 	}
 	
+	/**
+	 * Finds the User under the id;
+	 * @param id
+	 * @return
+	 */
 	public static User find(int id) {
 		return findInt.byId(id);
 	}
 	
+	/**
+	 * Deletes the User under the id;
+	 * @param id
+	 */
 	public static void delete(int id) {
 		findInt.ref(id).delete();
 	}
 	
+	/**
+	 * Setter for the isAdmin;
+	 */
 	public void setAdmin()
 	{
 		this.isAdmin = !isAdmin;
+		save();
+			
 	}
 	
 }
