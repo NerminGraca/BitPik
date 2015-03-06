@@ -34,7 +34,7 @@ public class User extends Model {
 
 	public String createdDate;
 	
-	@OneToMany(mappedBy="owner")
+	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL)
 	public List<Product> products;
 	
 	

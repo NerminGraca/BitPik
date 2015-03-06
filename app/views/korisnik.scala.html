@@ -127,11 +127,13 @@
 <!-- delete user profile -->
 		@if(!usernameSes.equals(user.username)){
 				@if(!user.isAdmin){
-						
+					<h6>Korisnik</h6>	
 			@form(routes.UserController.deleteUser(user.id)) {
 			          <input type="submit" value="Izbrisi korisnika">
                     
                     }
+                  } else {
+                 	 <h6>Administrator</h6>	
                   }
                     @form(routes.UserController.changeAdmin(user.id)) {
                			 <input type="submit" value="Izmijeni administratora">

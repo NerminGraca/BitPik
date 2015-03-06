@@ -20,6 +20,7 @@ public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
 	static ArrayList<String> adminList = new ArrayList<String>();
+	static String usernameSes;
 		
 		public static void insertAdmin(String username)
 		{
@@ -36,15 +37,7 @@ public class UserController extends Controller {
 	 */
 	public static Result index() {
 		List<Product> l = ProductController.findProduct.all();
-		
-		
-/*
-		if(receivedVariable.equals("Vozilo")) {
-		l = Productcontroller.findProduct.where().eq(category, vozilo).finList()
-		}
-		
-	*/		
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		} 
@@ -58,7 +51,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result registration() {
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		} 
@@ -71,7 +64,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result login() {
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -142,7 +135,7 @@ public class UserController extends Controller {
 
 	public static Result showProduct(int id)
 	{
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		Product p = ProductController.findProduct.byId(id);
 		return ok(showProduct.render(usernameSes, p));
 	}
@@ -154,7 +147,6 @@ public class UserController extends Controller {
 	 */
 	public static Result logout() {
 		session().clear();
-		
 		return redirect(routes.UserController.index());
 	}
 
@@ -165,7 +157,7 @@ public class UserController extends Controller {
 	 * @return redners the vozila.html page with the list of cars;
 	 */
 	public static Result findCars(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -180,7 +172,7 @@ public class UserController extends Controller {
 	 * @return renders the nekretnine.html page with the list of realestate;
 	 */
 	public static Result findRealEstates(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -195,7 +187,7 @@ public class UserController extends Controller {
 	 * @return renders the mobilni.html page with the list of mobile devices;
 	 */
 	public static Result findMobiles(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -210,7 +202,7 @@ public class UserController extends Controller {
 	 * @return renders the kompjuteri.html page with the list of computers;
 	 */
 	public static Result findComputers(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -225,7 +217,7 @@ public class UserController extends Controller {
 	 * @return renders the tehnika.html page with the list of technics;
 	 */
 	public static Result findTechnics(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -240,7 +232,7 @@ public class UserController extends Controller {
 	 * @return renders the nakit.html page with the list of Jewellery;
 	 */
 	public static Result findJewellery(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -255,7 +247,7 @@ public class UserController extends Controller {
 	 * @return renders the mojdom.html page with the list of homes;
 	 */
 	public static Result findMyHomes(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -270,7 +262,7 @@ public class UserController extends Controller {
 	 * @return renders the biznis.html page with the list of businesses;
 	 */
 	public static Result findBusinesses(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -285,7 +277,7 @@ public class UserController extends Controller {
 	 * @return renders the zivotinje.html page with the list of animals;
 	 */
 	public static Result findAnimals(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -300,7 +292,7 @@ public class UserController extends Controller {
 	 * @return renders the odjecaobuca.html page with the list of clothes and shoes;
 	 */
 	public static Result findClothesShoes(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -315,7 +307,7 @@ public class UserController extends Controller {
 	 * @return renders the ostalo.html page with the list of others;
 	 */
 	public static Result findOthers(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -330,7 +322,7 @@ public class UserController extends Controller {
 	 * @return renders the profile.html page with the list of products mentioned;
 	 */
 	public static Result findProfileProducts(){
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -345,7 +337,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result allUsers() {
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -366,7 +358,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result singleUser(int id) {
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
@@ -392,7 +384,7 @@ public class UserController extends Controller {
 	 */
 	public static Result changeAdmin(int id)
 	{
-		String usernameSes = session("username");
+		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		}
