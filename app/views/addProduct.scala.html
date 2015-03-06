@@ -1,4 +1,4 @@
-@(usernameSes: String)
+@(usernameSes: String)(mainCategoryList: List[MainCategory])
 @import helper._
 
 
@@ -126,17 +126,13 @@
   			<fieldset>
     		<label for="category">Kategorija</label>
     		<select name="category" id="category">
-      			<option selected="selected">Vozila</option>
-      			<option>Nekretnine</option>
-      			<option>Mobilni uređaji</option>
-      			<option>Kompjuteri</option>
-      			<option>Tehnika</option>
-      			<option>Nakit i satovi</option>
-      			<option>Moj dom</option>
-      			<option>Biznis i industrija</option>
-      			<option>Životinje</option>
-      			<option>Odjeća i obuća</option>
-      			<option>Ostale kategorije</option>
+    			
+    			@if(mainCategoryList.size() > 0 ) {
+				  	@for(mainCategory <- mainCategoryList) {
+				  		<option>@mainCategory.name</option>
+				  	}
+				}
+    			
     		</select>
  
     

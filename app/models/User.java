@@ -92,9 +92,7 @@ public class User extends Model {
 		Date date = Calendar.getInstance().getTime();
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		return formatter.format(date);
-	}
-
-	
+	}	
 	
 	/**
 	 * Creates a new user and saves the User into database;

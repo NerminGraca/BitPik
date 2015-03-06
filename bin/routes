@@ -16,21 +16,11 @@ POST	/editProduct/:id/change			controllers.ProductController.saveEditedProduct(i
 POST	/createProduct					controllers.ProductController.createProduct()
 POST    /products/:id/delete       		controllers.ProductController.deleteProduct(id: Integer)
 GET		/profile						controllers.UserController.findProfileProducts()
-GET		/vozila							controllers.UserController.findCars()
-GET		/nekretnine						controllers.UserController.findRealEstates()
-GET		/mobilni						controllers.UserController.findMobiles()
-GET		/kompjuteri						controllers.UserController.findComputers()
-GET		/tehnika						controllers.UserController.findTechnics()
-GET		/nakit  						controllers.UserController.findJewellery()
-GET		/mojdom  						controllers.UserController.findMyHomes()
-GET		/biznis  						controllers.UserController.findBusinesses()
-GET		/zivotinje 						controllers.UserController.findAnimals()
-GET		/odjecaobuca  					controllers.UserController.findClothesShoes()
-GET		/ostalo  						controllers.UserController.findOthers()
 GET		/korisnici						controllers.UserController.allUsers()
 GET		/korisnik/:id					controllers.UserController.singleUser(id: Integer)
 POST    /korisnik/:id/delete       		controllers.UserController.deleteUser(id: Integer)
 POST	/korisnik/:id/change			controllers.UserController.changeAdmin(id: Integer)
+GET		/kategorija/:id					controllers.UserController.categories(id: Integer)
 
 
 # Map static resources from the /public folder to the /assets URL path

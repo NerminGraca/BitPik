@@ -22,13 +22,12 @@ public class UserController extends Controller {
 	static ArrayList<String> adminList = new ArrayList<String>();
 	static String usernameSes;
 		
-		public static void insertAdmin(String username)
-		{
-			if(!adminList.contains(username))
-			{
+	public static void insertAdmin(String username)	{
+		if(!adminList.contains(username)) {
 				adminList.add(username);
 			}
-		}
+	}
+				
 	/**
 	 * Either directs to the index.html with the session name already logged in
 	 * or directs to the index.html page with "Unknown" as username;
@@ -36,12 +35,13 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		List<Product> l = ProductController.findProduct.all();
+		List<Product> productList = ProductController.findProduct.all();
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
 		} 
-		return ok(index.render( usernameSes, l, adminList));
+		return ok(index.render( usernameSes, productList, adminList, mainCategoryList));
 		
 	}
 
@@ -151,171 +151,6 @@ public class UserController extends Controller {
 	}
 
 	/**
-	 * For the category "Vozila" - Cars;
-	 * The query search for all the products that have the category "Vozila"
-	 * And renders the vozila.html page;
-	 * @return redners the vozila.html page with the list of cars;
-	 */
-	public static Result findCars(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Vozila").findList();
-		return ok(vozila.render(usernameSes, l));
-	}
-	
-	/**
-	 * For the category "Nekretnine" - Real Estate;
-	 * The query search for all the products that have the category "Nekretnine"
-	 * And renders the nekretnine.html page;
-	 * @return renders the nekretnine.html page with the list of realestate;
-	 */
-	public static Result findRealEstates(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Nekretnine").findList();
-		return ok(nekretnine.render(usernameSes, l));
-	}
-
-	/**
-	 * For the category "Mobilni" - Mobiles;
-	 * The query search for all the products that have the category "Mobilni"
-	 * And renders the mobilni.html page;
-	 * @return renders the mobilni.html page with the list of mobile devices;
-	 */
-	public static Result findMobiles(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Mobilni uređaji").findList();
-		return ok(mobilni.render(usernameSes, l));
-	}
-	
-	/**
-	 * For the category "Kompjuteri" - Computers;
-	 * The query search for all the products that have the category "Kompjuteri"
-	 * And renders the kompjuteri.html page;
-	 * @return renders the kompjuteri.html page with the list of computers;
-	 */
-	public static Result findComputers(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Kompjuteri").findList();
-		return ok(kompjuteri.render(usernameSes, l));
-	}
-	
-	/**
-	 * For the category "Tehnika" - Technics;
-	 * The query search for all the products that have the category "Tehnika"
-	 * And renders the tehnika.html page;
-	 * @return renders the tehnika.html page with the list of technics;
-	 */
-	public static Result findTechnics(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Tehnika").findList();
-		return ok(tehnika.render(usernameSes, l));
-	}
-
-	/**
-	 * For the category "Nakit i Satovi" - Jewellery;
-	 * The query search for all the products that have the category "Nakit i Satovi"
-	 * And renders the nakit.html page;
-	 * @return renders the nakit.html page with the list of Jewellery;
-	 */
-	public static Result findJewellery(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Nakit i satovi").findList();
-		return ok(nakit.render(usernameSes, l));
-	}
-
-	/**
-	 * For the category "Moj dom" - Homes;
-	 * The query search for all the products that have the category "Moj dom"
-	 * And renders the mojdom.html page;
-	 * @return renders the mojdom.html page with the list of homes;
-	 */
-	public static Result findMyHomes(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Moj dom").findList();
-		return ok(mojdom.render(usernameSes, l));
-	}
-
-	/**
-	 * For the category "Biznis i industrija" - Businesses;
-	 * The query search for all the products that have the category "Biznis i industrija"
-	 * And renders the biznis.html page;
-	 * @return renders the biznis.html page with the list of businesses;
-	 */
-	public static Result findBusinesses(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Biznis i industrija").findList();
-		return ok(biznis.render(usernameSes, l));
-	}
-	
-	/**
-	 * For the category "Zivotinje" - Animals;
-	 * The query search for all the products that have the category "Zivotinje"
-	 * And renders the zivotinje.html page;
-	 * @return renders the zivotinje.html page with the list of animals;
-	 */
-	public static Result findAnimals(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Životinje").findList();
-		return ok(zivotinje.render(usernameSes, l));
-	}
-	
-	/**
-	 * For the category "Odjeća i obuća" - ClothesShoes;
-	 * The query search for all the products that have the category "Odjeća i obuća"
-	 * And renders the odjecaobuca.html page;
-	 * @return renders the odjecaobuca.html page with the list of clothes and shoes;
-	 */
-	public static Result findClothesShoes(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Odjeća i obuća").findList();
-		return ok(odjecaobuca.render(usernameSes, l));
-	}
-	
-	/**
-	 * For the category "Ostale kategorije" - Others;
-	 * The query search for all the products that have the category "Ostale kategorije"
-	 * And renders the ostalo.html page;
-	 * @return renders the ostalo.html page with the list of others;
-	 */
-	public static Result findOthers(){
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List <Product> l = ProductController.findProduct.where().eq("category", "Ostale kategorije").findList();
-		return ok(ostalo.render(usernameSes, l));
-	}
-
-	/**
 	 * For the profiles products - that the current logged in user that has published;
 	 * The query search for all the products are published by the user logged in;
 	 * And renders the profile.html page;
@@ -401,5 +236,16 @@ public class UserController extends Controller {
 		//
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
 		return ok(korisnik.render(usernameSes, u, l));
+	}
+	
+	public static Result categories(int id) {
+		usernameSes = session("username");
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
+		MainCategory mc = MainCategory.findMainCategory(id);
+		List<Product> productList = ProductController.findProduct.where().eq("category", mc.name).findList();
+		return ok(kategorija.render("", productList, mainCategoryList));
 	}
 }

@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.MainCategory;
 import models.Product;
 import models.User;
 import views.html.*;
@@ -23,7 +24,8 @@ public class ProductController extends Controller {
 	 */
 	public static Result addProduct() {
 		usernameSes = session("username");
-		return ok(addProduct.render(usernameSes));
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
+		return ok(addProduct.render(usernameSes, mainCategoryList));
 
 	}
 
@@ -61,8 +63,10 @@ public class ProductController extends Controller {
 	public static Result editProduct(int id) {
 		usernameSes = session("username");
 		Product p = findProduct.byId(id);
-		return ok(editProduct.render(usernameSes, p));
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
+		return ok(editProduct.render(usernameSes, p, mainCategoryList));
 	}
+	
 	/**
 	 * Saves the new values of the attributes that are entered 
 	 * and overwrites over the ones that were entered before;
@@ -100,8 +104,6 @@ public class ProductController extends Controller {
 	public static Result deleteProduct(int id) {
 		  Product.delete(id);
 		  return redirect(routes.UserController.findProfileProducts());
-	}
-
-	
+	}	
 	
 }

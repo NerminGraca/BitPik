@@ -1,4 +1,4 @@
-@(usernameSes: String)(computers: List[Product])
+@(usernameSes: String)(productList: List[Product])(mainCategoryList: List[MainCategory])
 
 @main("BitPik") {
 
@@ -58,18 +58,13 @@
 				<div class="categories">
 				  <ul>
 				  	<h3>Kategorije</h3>
-				      <li><a href="/">Početna</a></li>
-				      <li><a href="/vozila">Vozila</a></li>
-				      <li><a href="/nekretnine">Nekretnine</a></li>
-				      <li><a href="/mobilni">Mobilni uređaji</a></li>
-				      <li><a href="/kompjuteri">Kompjuteri</a></li>
-				      <li><a href="/tehnika">Tehnika</a></li>
-				      <li><a href="/nakit">Nakit i satovi</a></li>
-				      <li><a href="/mojdom">Moj dom</a></li>
-				      <li><a href="/biznis">Biznis i industrija</a></li>
-				      <li><a href="/zivotinje">Životinje</a></li>
-				      <li><a href="/odjecaobuca">Odjeća i obuća</a></li>
-				      <li><a href="/ostalo">Ostale kategorije</a></li>
+				  	
+				  		@if(mainCategoryList.size() > 0 ) {
+				  			@for(mainCategory <- mainCategoryList) {
+				  				<li><a href="@mainCategory.id">@mainCategory.name</a></li>
+				  			}
+				  		}
+				  		
 				  </ul>
 				</div>					
 	  	     </div>
@@ -96,18 +91,18 @@
 	      <div class="section group">
 	      
 	      
-	  @if(computers != null){
-		@for(computer <- computers){
+	  @if(productList.size() > 0){
+		@for(product <- productList){
 			
 				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>@computer.name </h2>
+					 <a href="/showProduct/@product.id"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
+					 <h2>@product.name </h2>
 					<div class="price-details">
 				       <div class="price-number">
-							<p><span class="rupees">@computer.price KM</span></p>
+							<p><span class="rupees">@product.price KM</span></p>
 					    </div>
 					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@computer.id">Pogledaj</a></h4>
+									<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
 							     </div>
 							 <div class="clear"></div>
 					</div>
@@ -185,3 +180,4 @@
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
    
 }
+

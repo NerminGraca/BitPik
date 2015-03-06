@@ -38,7 +38,6 @@ public class Product extends Model {
 	/**
 	 * Constructor with default values
 	 */
-
 	public Product() {
 		//TODO dodati kategoriju i dostuonost
 		this.name = "proizvod";
@@ -143,6 +142,7 @@ public class Product extends Model {
 	
 	
 	/**
+	 * @author Graca Nermin
 	 * When the constructor is called. Meaning, when the item/product is published this date will be
 	 * created as the publishedDate;
 	 * @return publishedDate;
