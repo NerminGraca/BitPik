@@ -18,6 +18,17 @@ public class ProductController extends Controller {
 	static String usernameSes;
 	
 	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Result showProduct(int id) {
+		usernameSes = session("username");
+		Product p = ProductController.findProduct.byId(id);
+		return ok(showProduct.render(usernameSes, p));
+	}
+	
+	/**
 	 * Method takes the usernameSes from the session variable and sends it to
 	 * the addProduct.html page; Where the Form for publishing the product
 	 * needs to be filled in order to add the Product;

@@ -4,12 +4,12 @@
 
 # Home page
 GET     /                           	controllers.UserController.index()
-GET		/registration 					controllers.UserController.registration()
-GET		/login							controllers.UserController.login()
+GET		/registration 					controllers.Application.registration()
+GET		/login							controllers.Application.login()
 POST	/adduser						controllers.UserController.addUser()
 POST	/finduser						controllers.UserController.findUser()
-GET     /logout							controllers.UserController.logout()
-GET		/showProduct/:id				controllers.UserController.showProduct(id: Integer)
+GET     /logout							controllers.Application.logout()
+GET		/showProduct/:id				controllers.ProductController.showProduct(id: Integer)
 GET		/addProduct						controllers.ProductController.addProduct()
 GET		/editProduct/:id				controllers.ProductController.editProduct(id: Integer)
 POST	/editProduct/:id/change			controllers.ProductController.saveEditedProduct(id: Integer)
@@ -20,7 +20,7 @@ GET		/korisnici						controllers.UserController.allUsers()
 GET		/korisnik/:id					controllers.UserController.singleUser(id: Integer)
 POST    /korisnik/:id/delete       		controllers.UserController.deleteUser(id: Integer)
 POST	/korisnik/:id/change			controllers.UserController.changeAdmin(id: Integer)
-GET		/kategorija/:id					controllers.UserController.categories(id: Integer)
+GET		/kategorija/:id					controllers.CategoryController.categories(id: Integer)
 
 
 # Map static resources from the /public folder to the /assets URL path

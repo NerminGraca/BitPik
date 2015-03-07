@@ -11,23 +11,12 @@ import play.db.ebean.Model.Finder;
 import play.mvc.*;
 import views.html.*;
 
-/**
- * 
- * @author Nermin Graca & Nedzad Hamzic & Neldin Dzekovic
- *
- */
 public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
 	static ArrayList<String> adminList = new ArrayList<String>();
-	static String usernameSes;
-		
-	public static void insertAdmin(String username)	{
-		if(!adminList.contains(username)) {
-				adminList.add(username);
-			}
-	}
-				
+	static String usernameSes;	
+	
 	/**
 	 * Either directs to the index.html with the session name already logged in
 	 * or directs to the index.html page with "Unknown" as username;
@@ -42,33 +31,6 @@ public class UserController extends Controller {
 			usernameSes = "";
 		} 
 		return ok(index.render( usernameSes, productList, adminList, mainCategoryList));
-		
-	}
-
-	/**
-	 * Renders the registration.html page;
-	 * 
-	 * @return
-	 */
-	public static Result registration() {
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		} 
-		return ok(registration.render(usernameSes, "", ""));
-	}
-
-	/**
-	 * Renders the login.html page;
-	 * 
-	 * @return
-	 */
-	public static Result login() {
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		return ok(login.render(usernameSes, "", ""));
 		
 	}
 
@@ -133,23 +95,6 @@ public class UserController extends Controller {
 		}
 	}
 
-	public static Result showProduct(int id)
-	{
-		usernameSes = session("username");
-		Product p = ProductController.findProduct.byId(id);
-		return ok(showProduct.render(usernameSes, p));
-	}
-	
-	/**
-	 * @author Sanela Grcic & Nermin Graca Method Logout - clears current
-	 *         session and redirects to index.html
-	 * @return redirect to index.html
-	 */
-	public static Result logout() {
-		session().clear();
-		return redirect(routes.UserController.index());
-	}
-
 	/**
 	 * For the profiles products - that the current logged in user that has published;
 	 * The query search for all the products are published by the user logged in;
@@ -166,6 +111,16 @@ public class UserController extends Controller {
 	}
 	
 	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
+	
+	/**
+	 * 
+	 * @param username
+	 */
+	public static void insertAdmin(String username)	{
+		if(!adminList.contains(username)) {
+				adminList.add(username);
+		}
+	}
 	
 	/**
 	 * Method list all users registered in database
@@ -238,14 +193,4 @@ public class UserController extends Controller {
 		return ok(korisnik.render(usernameSes, u, l));
 	}
 	
-	public static Result categories(int id) {
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		MainCategory mc = MainCategory.findMainCategory(id);
-		List<Product> productList = ProductController.findProduct.where().eq("category", mc.name).findList();
-		return ok(kategorija.render("", productList, mainCategoryList));
-	}
 }
