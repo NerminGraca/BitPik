@@ -1,4 +1,5 @@
 import org.junit.*;
+
 import play.mvc.*;
 import play.test.*;
 import play.libs.F.*;
@@ -11,20 +12,21 @@ public class IntegrationTest {
 	 * add your integration test here in this example we just check if the
 	 * welcome page is being shown
 	 */
-	/*@Test
+	
+	@Test
 	public void test() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
 						browser.goTo("http://localhost:3333");
 						assertThat(browser.pageSource()).contains("BitPik");
-						assertThat(browser.pageSource()).contains("Login");
-						assertThat(browser.pageSource()).contains("Registration");
+//						assertThat(browser.pageSource()).contains("Login");
+//						assertThat(browser.pageSource()).contains("Registration");
 
 					}
 				});
 	}
-
+	/*
 	@Test
 	public void testUsername() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -40,4 +42,17 @@ public class IntegrationTest {
 				});
 	}
 */
+	
+	/*
+	@Test
+	public void testMainCategories() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						browser.goTo("http://localhost:3333");
+						assertThat(browser.pageSource()).contains("Vozila");
+					}
+				});
+	}
+	*/
 }
