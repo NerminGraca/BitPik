@@ -25,17 +25,9 @@
 			<div class="clear"></div>
 		</div>
 		<div class="header_top">
-			
-			<div class="cart">
-					
-			  	   	
-			  </div>
-			  <script type="text/javascript">
-
-		</script>
-	 <div class="clear"></div>
-  </div>
-	<div class="header_bottom">
+	 		<div class="clear"></div>
+		</div>
+		<div class="header_bottom">
 	     	<div class="menu">
 	     		<ul>
 			    	<li class="active"><a href="/">Početna</a></li>
@@ -55,12 +47,12 @@
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>
-	     </div>	     
+		</div>	     
 	<div class="header_slide">
-			<div class="header_bottom_left">				
-				<div class="categories">
-				  <ul>
-				  	<h3>Kategorije</h3>
+		<div class="header_bottom_left">				
+			<div class="categories">
+				<ul>
+					<h3>Kategorije</h3>
 				  		
 				  		@if(mainCategoryList.size() > 0 ) {
 				  			@for(mainCategory <- mainCategoryList) {
@@ -68,13 +60,13 @@
 				  			}
 				  		}
 				  		
-				  </ul>
-				</div>					
-	  	     </div>
-					 <div class="header_bottom_right">					 
-					 	 <div class="slider">					     
-							 <div id="slider">
-			                    <div id="mover" style="width: 2829px; left: 0px;">
+				</ul>
+			</div>					
+		</div>
+		<div class="header_bottom_right">					 
+			<div class="slider">					     
+				<div id="slider">
+					<div id="mover" style="width: 2829px; left: 0px;">
 			                    	<div id="slide-1" class="slide">			                    
 									 <div class="slider-img">
 									     <a href="preview.html"><img src="@routes.Assets.at("images/gk.jpg")" alt="learn more" style="top: -28.8872743678438px;"></a>									    
@@ -117,68 +109,48 @@
 					                   </div>	
 									  <div class="clear"></div>				
 				                  </div>												
-			                 </div>		
-		                </div>
-		   <div class="clear"></div>
+					</div>		
+				</div>
+					<div class="clear"></div>
+			</div>
 		</div>
-   </div>
 
 
 
 <!-- Pocetak sanelinog dijela-->
 
 
- <div class="main">
-
-    <div class="content">
-    	
-
-		    		
+	<div class="main">
+		<div class="content">
     		<div class="clear"></div>
-    	
-
-
-
-
-
-    	<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
-	      <div class="section group">
-	      
-	      
-	      
-		@if(products.size() > 0 ) {
-			@for(product <- products) {
 				
-			
-				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="/showProduct/@product.id"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>@product.name </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">@product.price KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-					 
+			<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
+				
+				<div class="section group">	      	      
+	      
+					@if(products.size() > 0 ) {
+						@for(product <- products) {						
+							<div class="grid_1_of_4 images_1_of_4">
+					 			<a href="/showProduct/@product.id"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
+					 			<h2>@product.name </h2>
+									<div class="price-details">
+				       					<div class="price-number">
+											<p><span class="rupees">@product.price KM</span></p>
+					   					 </div>
+					       					<div class="add-cart">								
+												<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+							    			 </div>
+											 <div class="clear"></div>
+									</div>				 
+							</div>				
+						}
+					}
 				</div>
-				
-				}
-		}
-				
-				
-
-			</div>
 
 		<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
-
-		
-
 			
-    </div>
- </div>
+    	</div>
+	</div>
 </div>
 
 
