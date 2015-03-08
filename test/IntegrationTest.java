@@ -49,10 +49,25 @@ public class IntegrationTest {
 	}
 	
 	@Test
+	public void testLogout() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						browser.goTo("http://localhost:3333/logout");
+						assertThat(browser.pageSource()).contains("BitPik");
+						assertThat(browser.pageSource()).contains("Login");
+						assertThat(browser.pageSource()).contains("Registracija");
+						
+					}
+				});
+	}
+	
+	@Test
 	public void testLogin() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
+						browser.goTo("http://localhost:3333/logout");
 						browser.goTo("http://localhost:3333/login");
 						browser.fill("#username").with("test");
 						browser.fill("#password").with("testPass");
