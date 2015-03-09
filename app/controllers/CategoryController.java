@@ -39,7 +39,7 @@ public class CategoryController extends Controller {
 
 	static Finder<Integer, MainCategory> findMainCategory = new Finder<Integer, MainCategory>(Integer.class, MainCategory.class);
 
-	/*
+	
 	public static Result editMainCategory(int id) {
 		usernameSes = session("username");
 		MainCategory mc = findMainCategory.byId(id);
@@ -47,7 +47,7 @@ public class CategoryController extends Controller {
 		return ok(editMainCategory.render(usernameSes, mc, mainCategoryList));
 	}
 	
-	public static Result saveEditedMainCategory(int id) {
+	public static Result saveEditMainCategory(int id) {
 		//takes the new attributes that are entered in the form;
 		usernameSes = session("username");
 		String name = newMainCategory.bindFromRequest().get().name;
@@ -59,11 +59,11 @@ public class CategoryController extends Controller {
 		mc.setName(name);
 		mc.save();
 		
-		return redirect("/editCategory/" + id);	
+		return redirect("/listaKategorija");	
 		
 	}
 	
-	*/
+	
 	
 	
 	public static Result deleteMainCategory(int id) {
@@ -78,7 +78,7 @@ public class CategoryController extends Controller {
 		} 
 		ArrayList<String> adminList = new ArrayList<String>();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		return ok(editMainCategory.render(usernameSes, adminList, mainCategoryList));
+		return ok(listaKategorija.render(usernameSes, adminList, mainCategoryList));
 	}
 	
 	

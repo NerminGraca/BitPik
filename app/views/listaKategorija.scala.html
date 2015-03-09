@@ -1,10 +1,11 @@
-@(usernameSes: String)(mc : MainCategory)(mainCategoryList: List[MainCategory])
+@(usernameSes: String)(adminList: List[String])(mainCategoryList: List[MainCategory])
+
 @import helper._
 
+@main("editMainCategory") {
 
-@main("editCategory") {
-		
-		<div class="wrap">
+    
+    <div class="wrap">
 	<div class="header">
 		<div class="headertop_desc">
 			<div class="logo">
@@ -21,40 +22,17 @@
 						<li><a href="/profile">Korisnik @usernameSes</a></li>
 						<li><a href="/logout">Logout</a></li>
 					}
-				</div>
+				</ul>
+			</div>
 			<div class="clear"></div>
 		</div>
 		<div class="header_top">
 			
-			  <div class="cart">
+			<div class="cart">
+					
+			  	   	
 			  </div>
 			  <script type="text/javascript">
-			function DropDown(el) {
-				this.dd = el;
-				this.initEvents();
-			}
-			DropDown.prototype = {
-				initEvents : function() {
-					var obj = this;
-
-					obj.dd.on('click', function(event){
-						$(this).toggleClass('active');
-						event.stopPropagation();
-					});	
-				}
-			}
-
-			$(function() {
-
-				var dd = new DropDown( $('#dd') );
-
-				$(document).click(function() {
-					// all dropdowns
-					$('.wrapper-dropdown-2').removeClass('active');
-				});
-
-			});
-
 		</script>
 	 <div class="clear"></div>
   </div>
@@ -66,6 +44,10 @@
 			    	<li><a href="#">Nekretnine</a></li>
 			    	<li><a href="#">Hitno</a></li>
 			    	<li><a href="#">Servisi i usluge</a></li>
+			    	@if(adminList.contains(usernameSes)){
+			    		<li><a href="/korisnici">Korisnici</a></li>
+			    		<li><a href="/editMainCategory">Kategorije</a></li>
+			    		}
 			    	<div class="clear"></div>
      			</ul>
 	     	</div>
@@ -75,35 +57,49 @@
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>
-	     </div>	
- <div class="main">
-    <div class="content">
-    	<div class="section group">
-				<div class="col span_2_of_3">
-				  <div class="contact-form">
-				  	<h1>EDITOVANJE kategorija</h1><br>
-	<!--
-		NAŠ HELPER 
-		
-		MINIMUM of three characters is here!! 
-		-->
-		@helper.form(routes.CategoryController.saveEditMainCategory(mc.id),'id->"productForm") {
-			<h5>Naziv:</h5>
-			<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="@mc.name" id="name" name="name" required/>
-				
-			<input type="submit" value="Spasi" />
-				  </div>
-  				</div>
+	     </div>	     
+	<div class="header_slide">
+			<div class="header_bottom_left">				
+								
+	  	     </div>
+	
+	
+	<!-- SANELA KATEGORIJA -->				 
+<div class="leftBoxCategory">
+<div class="categories">
+				  <ul>
+				  	<h3>Kategorije</h3>
+				  		
+				  		@if(mainCategoryList.size() > 0 ) {
+				  			@for(mainCategory <- mainCategoryList) {
+				  				<li><a href="kategorija/@mainCategory.id">@mainCategory.name  
+				  				
+				  				 @form(routes.CategoryController.deleteMainCategory(mainCategory.id)) {
+                    <input type="submit" value="Delete">
+                }
+				  				
+				  				 @form(routes.CategoryController.editMainCategory(mainCategory.id)) {
+                    <input type="submit" value="Edit">
+                }
+				  				</a></li>
+				  			}
+				  		}
+				  		
+				  </ul>
+				</div>	
 
-				<div class="col span_1_of_3">
-					<div class="contact_info">
-						
-				 </div>
-			  </div>		
-         </div> 
+</div>
+
+<!-- Pocetak sanelinog dijela-->
+
+
+ 
+			
     </div>
  </div>
-   
+</div>
+
+
 <!-- FOOTER -->
 
    <div class="footer">
@@ -134,11 +130,11 @@
 						<div class="social-icons">
 							<h4>Pratite nas</h4>
 					   		  <ul>
-		   <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
+							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
 							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/twitter.png")" alt="" /></a></li>
 							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/skype.png")" alt="" /> </a></li>
-							      <li><a href="#" target="_blank"> <img src="@routes.Assets.at("images/dribbble.png")" alt="" /></a></li>
-							      <li><a href="#" target="_blank"> <img src="@routes.Assets.at("images/linkedin.png")" alt="" /></a></li>
+							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/dribbble.png")" alt="" /></a></li>
+							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/linkedin.png")" alt="" /></a></li>
 							      <div class="clear"></div>
 						     </ul>
    	 					</div>
@@ -154,6 +150,5 @@
 		});
 	</script>
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
-	}
+   
 }
-
