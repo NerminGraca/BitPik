@@ -127,10 +127,20 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result allUsers() {
+		List<Product> productList = ProductController.findProduct.all();
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		usernameSes = session("username");
+		//1. Ne logovan korisnik; - vraca ga na pocetnu stranicu;
 		if (usernameSes == null) {
 			usernameSes = "";
+			return ok(index.render(usernameSes, productList, adminList, mainCategoryList));
 		}
+		// 2. Ako je obicni korisnik tj. ako nije admin; - vraca ga na pocetnu stranicu;
+		User u = findUser.where().eq("username", usernameSes).findUnique();
+		if (u.isAdmin == false) {
+			return ok(index.render(usernameSes, productList, adminList, mainCategoryList));
+		}
+		// 3. Ako je prosao prethodne if-ove; Slucaj ako je stvarno admin, prikazuju se svi korisnici;
 		List<User> userList = findUser.all();
 		for (User user: userList)
 					{

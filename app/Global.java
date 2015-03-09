@@ -8,7 +8,6 @@ public class Global extends GlobalSettings {
 	
 	@Override
 	public void onStart(Application app) {
-
 		//Administrator entry
 		User ad = User.createAdmin("admin", "admin", "admin@admin.ba", true);	
 		UserController.insertAdmin(ad.username);
@@ -21,5 +20,6 @@ public class Global extends GlobalSettings {
 		for (int i = 0; i < categoryArray.length; i++) {
 			MainCategory.createMainCategory(categoryArray[i]);
 		}
+		
 	}
 }

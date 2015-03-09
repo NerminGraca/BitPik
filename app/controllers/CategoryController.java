@@ -18,6 +18,7 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result categories(int id) {
+		
 		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
@@ -25,7 +26,7 @@ public class CategoryController extends Controller {
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		MainCategory mc = MainCategory.findMainCategory(id);
 		List<Product> productList = ProductController.findProduct.where().eq("category", mc.name).findList();
-		return ok(kategorija.render("", productList, mainCategoryList));
+		return ok(kategorija.render(usernameSes, productList, mainCategoryList));
 	}
 
 }
