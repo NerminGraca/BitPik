@@ -1,6 +1,8 @@
-@(usernameSes: String)(clothes: List[Product])
+@(usernameSes: String)(adminList: List[String])(mainCategoryList: List[MainCategory])
 
-@main("BitPik") {
+@import helper._
+
+@main("editMainCategory") {
 
     
     <div class="wrap">
@@ -31,7 +33,6 @@
 			  	   	
 			  </div>
 			  <script type="text/javascript">
-
 		</script>
 	 <div class="clear"></div>
   </div>
@@ -43,6 +44,10 @@
 			    	<li><a href="#">Nekretnine</a></li>
 			    	<li><a href="#">Hitno</a></li>
 			    	<li><a href="#">Servisi i usluge</a></li>
+			    	@if(adminList.contains(usernameSes)){
+			    		<li><a href="/korisnici">Korisnici</a></li>
+			    		<li><a href="/editMainCategory">Kategorije</a></li>
+			    		}
 			    	<div class="clear"></div>
      			</ul>
 	     	</div>
@@ -55,76 +60,40 @@
 	     </div>	     
 	<div class="header_slide">
 			<div class="header_bottom_left">				
-				<div class="categories">
+								
+	  	     </div>
+	
+	
+	<!-- SANELA KATEGORIJA -->				 
+<div class="leftBoxCategory">
+<div class="categories">
 				  <ul>
 				  	<h3>Kategorije</h3>
-				      <li><a href="/">Početna</a></li>
-				      <li><a href="/vozila">Vozila</a></li>
-				      <li><a href="/nekretnine">Nekretnine</a></li>
-				      <li><a href="/mobilni">Mobilni uređaji</a></li>
-				      <li><a href="/kompjuteri">Kompjuteri</a></li>
-				      <li><a href="/tehnika">Tehnika</a></li>
-				      <li><a href="/nakit">Nakit i satovi</a></li>
-				      <li><a href="/mojdom">Moj dom</a></li>
-				      <li><a href="/biznis">Biznis i industrija</a></li>
-				      <li><a href="/zivotinje">Životinje</a></li>
-				      <li><a href="/odjecaobuca">Odjeća i obuća</a></li>
-				      <li><a href="/ostalo">Ostale kategorije</a></li>
+				  		
+				  		@if(mainCategoryList.size() > 0 ) {
+				  			@for(mainCategory <- mainCategoryList) {
+				  				<li><a href="kategorija/@mainCategory.id">@mainCategory.name  
+				  				
+				  				 @form(routes.CategoryController.deleteMainCategory(mainCategory.id)) {
+                    <input type="submit" value="Delete">
+                }
+				  				
+				  				 @form(routes.CategoryController.editMainCategory(mainCategory.id)) {
+                    <input type="submit" value="Edit">
+                }
+				  				</a></li>
+				  			}
+				  		}
+				  		
 				  </ul>
-				</div>					
-	  	     </div>
-					
+				</div>	
 
+</div>
 
 <!-- Pocetak sanelinog dijela-->
 
 
- <div class="main">
-
-    <div class="content">
-    	
-
-		    		
-    		<div class="clear"></div>
-    	
-
-
-
-
-
-    	<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
-	      <div class="section group">
-	      
-	      
-	  @if(clothes != null){
-		@for(clothe <- clothes){
-			
-				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>@clothe.name </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">@clothe.price KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@clothe.id">Pogledaj</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-					 
-				</div>
-				
-				}
-		}
-				
-				
-
-			</div>
-
-		<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
-
-		
-
+ 
 			
     </div>
  </div>
@@ -164,17 +133,15 @@
 							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
 							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/twitter.png")" alt="" /></a></li>
 							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/skype.png")" alt="" /> </a></li>
-							      <li><a href="#" target="_blank"> <img src="@routes.Assets.at("images/dribbble.png")" alt="" /></a></li>
-							      <li><a href="#" target="_blank"> <img src="@routes.Assets.at("images/linkedin.png")" alt="" /></a></li>
+							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/dribbble.png")" alt="" /></a></li>
+							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/linkedin.png")" alt="" /></a></li>
 							      <div class="clear"></div>
 						     </ul>
    	 					</div>
 				</div>
 			</div>			
         </div>
-        <div class="copy_right">
-				<p>Company Name © All rights Reseverd | Design by  <a href="http://w3layouts.com">W3Layouts</a> </p>
-		   </div>
+        
     </div>
     <script type="text/javascript">
 		$(document).ready(function() {			

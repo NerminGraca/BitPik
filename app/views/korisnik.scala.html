@@ -1,4 +1,4 @@
-@(usernameSes: String)(user: User)(products: List[Product])
+@(usernameSes: String)(user: User)(products: List[Product])(adminList: List[String])
 @import helper._
 
 
@@ -36,25 +36,19 @@
 			DropDown.prototype = {
 				initEvents : function() {
 					var obj = this;
-
 					obj.dd.on('click', function(event){
 						$(this).toggleClass('active');
 						event.stopPropagation();
 					});	
 				}
 			}
-
 			$(function() {
-
 				var dd = new DropDown( $('#dd') );
-
 				$(document).click(function() {
 					// all dropdowns
 					$('.wrapper-dropdown-2').removeClass('active');
 				});
-
 			});
-
 		</script>
 	 <div class="clear"></div>
   </div>
@@ -76,8 +70,30 @@
     <div class="content">
     	<div class="section group">
 				
-				  	
+				  	<h2><em>Username </em></h2><br>
+		
+			<p>@user.username</p><br>
+			
+		<h2><em>Email: </em></h2><br>
+		
+			<p>@user.email</p><br>
+			
+		<h2><em>Password </em></h2><br>
+		
+			<p>@user.password</p><br>
+		
+		<h2><em>Admin </em></h2><br>
+		
+			@if(user.isAdmin.equals("true")){
+				<p>Da</p><br>
+			}else{
+				<p>Ne</p><br>				
+			}
+		<h2><em>Datum registracije </em></h2><br>
+		
+			<p>@user.createdDate</p><br>	
 	
+	<a href="/editUser/@user.id">Edituj</a>
 			
 					<div class="leftBox">
 						<div><a class="profilePicture" ><img src="@routes.Assets.at("images/profileimg.png")" alt="" /></a></div>
@@ -126,18 +142,14 @@
    
 <!-- delete user profile -->
 		@if(!usernameSes.equals(user.username)){
-				@if(!user.isAdmin){
-					<h6>Korisnik</h6>	
-			@form(routes.UserController.deleteUser(user.id)) {
-			          <input type="submit" value="Izbrisi korisnika">
-                    
+				@if(adminList.contains(usernameSes)){
+					@form(routes.UserController.deleteUser(user.id)) {
+			        	  <input type="submit" value="Izbrisi korisnika">
                     }
-                  } else {
-                 	 <h6>Administrator</h6>	
-                  }
                     @form(routes.UserController.changeAdmin(user.id)) {
                			 <input type="submit" value="Izmijeni administratora">
             		}
+                  } 
 			   }
 <!-- promijeni admin-a -->
             		

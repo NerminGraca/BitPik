@@ -1,4 +1,4 @@
-@(usernameSes: String)(products: List[Product])(adminList: List[String])
+@(usernameSes: String)(products: List[Product])(adminList: List[String])(mainCategoryList: List[MainCategory])
 
 @main("BitPik") {
 
@@ -25,17 +25,9 @@
 			<div class="clear"></div>
 		</div>
 		<div class="header_top">
-			
-			<div class="cart">
-					
-			  	   	
-			  </div>
-			  <script type="text/javascript">
-
-		</script>
-	 <div class="clear"></div>
-  </div>
-	<div class="header_bottom">
+	 		<div class="clear"></div>
+		</div>
+		<div class="header_bottom">
 	     	<div class="menu">
 	     		<ul>
 			    	<li class="active"><a href="/">Početna</a></li>
@@ -45,7 +37,10 @@
 			    	<li><a href="#">Servisi i usluge</a></li>
 			    	@if(adminList.contains(usernameSes)){
 			    		<li><a href="/korisnici">Korisnici</a></li>
+			    		<li><a href="/listaKategorija">Kategorije</a></li>
 			    		}
+			    	
+			    	
 			    	<div class="clear"></div>
      			</ul>
 	     	</div>
@@ -55,31 +50,26 @@
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>
-	     </div>	     
+		</div>	     
 	<div class="header_slide">
-			<div class="header_bottom_left">				
-				<div class="categories">
-				  <ul>
-				  	<h3>Kategorije</h3>
-				     
-				      <li><a href="/vozila">Vozila</a></li>
-				      <li><a href="/nekretnine">Nekretnine</a></li>
-				      <li><a href="/mobilni">Mobilni uređaji</a></li>
-				      <li><a href="/kompjuteri">Kompjuteri</a></li>
-				      <li><a href="/tehnika">Tehnika</a></li>
-				      <li><a href="/nakit">Nakit i satovi</a></li>
-				      <li><a href="/mojdom">Moj dom</a></li>
-				      <li><a href="/biznis">Biznis i industrija</a></li>
-				      <li><a href="/zivotinje">Životinje</a></li>
-				      <li><a href="/odjecaobuca">Odjeća i obuća</a></li>
-				      <li><a href="/ostalo">Ostale kategorije</a></li>
-				  </ul>
-				</div>					
-	  	     </div>
-					 <div class="header_bottom_right">					 
-					 	 <div class="slider">					     
-							 <div id="slider">
-			                    <div id="mover" style="width: 2829px; left: 0px;">
+		<div class="header_bottom_left">				
+			<div class="categories">
+				<ul>
+					<h3>Kategorije</h3>
+				  		
+				  		@if(mainCategoryList.size() > 0 ) {
+				  			@for(mainCategory <- mainCategoryList) {
+				  				<li><a href="kategorija/@mainCategory.id">@mainCategory.name</a></li>
+				  			}
+				  		}
+				  		
+				</ul>
+			</div>					
+		</div>
+		<div class="header_bottom_right">					 
+			<div class="slider">					     
+				<div id="slider">
+					<div id="mover" style="width: 2829px; left: 0px;">
 			                    	<div id="slide-1" class="slide">			                    
 									 <div class="slider-img">
 									     <a href="preview.html"><img src="@routes.Assets.at("images/gk.jpg")" alt="learn more" style="top: -28.8872743678438px;"></a>									    
@@ -122,68 +112,48 @@
 					                   </div>	
 									  <div class="clear"></div>				
 				                  </div>												
-			                 </div>		
-		                </div>
-		   <div class="clear"></div>
+					</div>		
+				</div>
+					<div class="clear"></div>
+			</div>
 		</div>
-   </div>
 
 
 
 <!-- Pocetak sanelinog dijela-->
 
 
- <div class="main">
-
-    <div class="content">
-    	
-
-		    		
+	<div class="main">
+		<div class="content">
     		<div class="clear"></div>
-    	
-
-
-
-
-
-    	<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
-	      <div class="section group">
-	      
-	      
-	      
-		@if(products.size() > 0 ) {
-			@for(product <- products) {
 				
-			
-				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>@product.name </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">@product.price KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-					 
+			<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
+				
+				<div class="section group">	      	      
+	      
+					@if(products.size() > 0 ) {
+						@for(product <- products) {						
+							<div class="grid_1_of_4 images_1_of_4">
+					 			<a href="/showProduct/@product.id"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
+					 			<h2>@product.name </h2>
+									<div class="price-details">
+				       					<div class="price-number">
+											<p><span class="rupees">@product.price KM</span></p>
+					   					 </div>
+					       					<div class="add-cart">								
+												<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+							    			 </div>
+											 <div class="clear"></div>
+									</div>				 
+							</div>				
+						}
+					}
 				</div>
-				
-				}
-		}
-				
-				
-
-			</div>
 
 		<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
-
-		
-
 			
-    </div>
- </div>
+    	</div>
+	</div>
 </div>
 
 
@@ -220,8 +190,8 @@
 							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
 							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/twitter.png")" alt="" /></a></li>
 							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/skype.png")" alt="" /> </a></li>
-							      <li><a href="#" target="_blank"> <img src="@routes.Assets.at("images/dribbble.png")" alt="" /></a></li>
-							      <li><a href="#" target="_blank"> <img src="@routes.Assets.at("images/linkedin.png")" alt="" /></a></li>
+							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/dribbble.png")" alt="" /></a></li>
+							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/linkedin.png")" alt="" /></a></li>
 							      <div class="clear"></div>
 						     </ul>
    	 					</div>

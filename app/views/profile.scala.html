@@ -1,4 +1,4 @@
-@(usernameSes: String)(products: List[Product])
+@(usernameSes: String)(products: List[Product])(u: User)
 @import helper._
 
 
@@ -36,25 +36,19 @@
 			DropDown.prototype = {
 				initEvents : function() {
 					var obj = this;
-
 					obj.dd.on('click', function(event){
 						$(this).toggleClass('active');
 						event.stopPropagation();
 					});	
 				}
 			}
-
 			$(function() {
-
 				var dd = new DropDown( $('#dd') );
-
 				$(document).click(function() {
 					// all dropdowns
 					$('.wrapper-dropdown-2').removeClass('active');
 				});
-
 			});
-
 		</script>
 	 <div class="clear"></div>
   </div>
@@ -76,7 +70,29 @@
     <div class="content">
     	<div class="section group">
 				
-				  	
+				
+		<h2><em>Username </em></h2><br>
+		
+			<p>@u.username</p><br>
+			
+		<h2><em>Email: </em></h2><br>
+		
+			<p>@u.email</p><br>
+			
+		<h2><em>Password </em></h2><br>
+		
+			<p>@u.password</p><br>
+		
+		<h2><em>Admin </em></h2><br>
+		
+			@if(u.isAdmin.equals("true")){
+				<p>Da</p><br>
+			}else{
+				<p>Ne</p><br>				
+			}
+		<h2><em>Datum registracije </em></h2><br>
+		
+			<p>@u.createdDate</p><br>	
 	
 			
 					<div class="leftBox">
@@ -103,7 +119,7 @@
 									
 					
 						<div class="grid_1_of_4 images_1_of_4">
-							 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
+							 <a href="/showProduct/@product.id"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
 					 		 <h2>@product.name </h2>
 					 		 @form(routes.ProductController.deleteProduct(product.id)) {
                     <input type="submit" value="Delete">
@@ -113,7 +129,7 @@
 							<p><span class="rupees">@product.price KM</span></p>
 					    	</div>
 					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@product.id">View</a></h4>
+									<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
 							    </div>
 							 <div class="clear"></div>
 						</div>
@@ -121,8 +137,8 @@
 					</div>
 				}
 			}
-
-						
+			
+				<a href="/editUser/@u.id">Edituj</a>
          </div> 
     </div>
  </div>

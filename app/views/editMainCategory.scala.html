@@ -1,9 +1,10 @@
-@(usernameSes: String)(jewellery: List[Product])
+@(usernameSes: String)(mc : MainCategory)(mainCategoryList: List[MainCategory])
+@import helper._
 
-@main("BitPik") {
 
-    
-    <div class="wrap">
+@main("editCategory") {
+		
+		<div class="wrap">
 	<div class="header">
 		<div class="headertop_desc">
 			<div class="logo">
@@ -20,17 +21,39 @@
 						<li><a href="/profile">Korisnik @usernameSes</a></li>
 						<li><a href="/logout">Logout</a></li>
 					}
-				</ul>
-			</div>
+				</div>
 			<div class="clear"></div>
 		</div>
 		<div class="header_top">
 			
-			<div class="cart">
-					
-			  	   	
+			  <div class="cart">
 			  </div>
 			  <script type="text/javascript">
+			function DropDown(el) {
+				this.dd = el;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+
+					obj.dd.on('click', function(event){
+						$(this).toggleClass('active');
+						event.stopPropagation();
+					});	
+				}
+			}
+
+			$(function() {
+
+				var dd = new DropDown( $('#dd') );
+
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown-2').removeClass('active');
+				});
+
+			});
 
 		</script>
 	 <div class="clear"></div>
@@ -52,85 +75,35 @@
 	     		</form>
 	     	</div>
 	     	<div class="clear"></div>
-	     </div>	     
-	<div class="header_slide">
-			<div class="header_bottom_left">				
-				<div class="categories">
-				  <ul>
-				  	<h3>Kategorije</h3>
-				      <li><a href="/">Početna</a></li>
-				      <li><a href="/vozila">Vozila</a></li>
-				      <li><a href="/nekretnine">Nekretnine</a></li>
-				      <li><a href="/mobilni">Mobilni uređaji</a></li>
-				      <li><a href="/kompjuteri">Kompjuteri</a></li>
-				      <li><a href="/tehnika">Tehnika</a></li>
-				      <li><a href="/nakit">Nakit i satovi</a></li>
-				      <li><a href="/mojdom">Moj dom</a></li>
-				      <li><a href="/biznis">Biznis i industrija</a></li>
-				      <li><a href="/zivotinje">Životinje</a></li>
-				      <li><a href="/odjecaobuca">Odjeća i obuća</a></li>
-				      <li><a href="/ostalo">Ostale kategorije</a></li>
-				  </ul>
-				</div>					
-	  	     </div>
-					
-
-
-<!-- Pocetak sanelinog dijela-->
-
-
+	     </div>	
  <div class="main">
-
     <div class="content">
-    	
-
-		    		
-    		<div class="clear"></div>
-    	
-
-
-
-
-
-    	<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
-	      <div class="section group">
-	      
-	      
-	  @if(jewellery != null){
-		@for(jewell <- jewellery){
-			
-				<div class="grid_1_of_4 images_1_of_4">
-					 <a href="preview.html"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-					 <h2>@jewell.name </h2>
-					<div class="price-details">
-				       <div class="price-number">
-							<p><span class="rupees">@jewell.price KM</span></p>
-					    </div>
-					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@jewell.id">Pogledaj</a></h4>
-							     </div>
-							 <div class="clear"></div>
-					</div>
-					 
-				</div>
-				
-				}
-		}
-				
-				
-
-			</div>
-
-		<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
-
+    	<div class="section group">
+				<div class="col span_2_of_3">
+				  <div class="contact-form">
+				  	<h1>EDITOVANJE kategorija</h1><br>
+	<!--
+		NAŠ HELPER 
 		
+		MINIMUM of three characters is here!! 
+		-->
+		@helper.form(routes.CategoryController.saveEditMainCategory(mc.id),'id->"productForm") {
+			<h5>Naziv:</h5>
+			<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="@mc.name" id="name" name="name" required/>
+				
+			<input type="submit" value="Spasi" />
+				  </div>
+  				</div>
 
-			
+				<div class="col span_1_of_3">
+					<div class="contact_info">
+						
+				 </div>
+			  </div>		
+         </div> 
     </div>
  </div>
-</div>
-
-
+   
 <!-- FOOTER -->
 
    <div class="footer">
@@ -161,7 +134,7 @@
 						<div class="social-icons">
 							<h4>Pratite nas</h4>
 					   		  <ul>
-							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
+		   <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
 							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/twitter.png")" alt="" /></a></li>
 							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/skype.png")" alt="" /> </a></li>
 							      <li><a href="#" target="_blank"> <img src="@routes.Assets.at("images/dribbble.png")" alt="" /></a></li>
@@ -172,9 +145,7 @@
 				</div>
 			</div>			
         </div>
-        <div class="copy_right">
-				<p>Company Name © All rights Reseverd | Design by  <a href="http://w3layouts.com">W3Layouts</a> </p>
-		   </div>
+        
     </div>
     <script type="text/javascript">
 		$(document).ready(function() {			
@@ -183,5 +154,6 @@
 		});
 	</script>
     <a href="#" id="toTop"><span id="toTopHover"> </span></a>
-   
+	}
 }
+

@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.MainCategory;
 import models.Product;
 import models.User;
 import views.html.*;
@@ -17,13 +18,33 @@ public class ProductController extends Controller {
 	static String usernameSes;
 	
 	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Result showProduct(int id) {
+		usernameSes = session("username");
+		// 1. Ako nije registrovan da omogucimo prikaz proizvoda;
+		if (usernameSes == null) {
+			usernameSes = "";
+		}
+		Product p = ProductController.findProduct.byId(id);
+		return ok(showProduct.render(usernameSes, p));
+	}
+	
+	/**
 	 * Method takes the usernameSes from the session variable and sends it to
 	 * the addProduct.html page; Where the Form for publishing the product
 	 * needs to be filled in order to add the Product;
 	 */
 	public static Result addProduct() {
 		usernameSes = session("username");
-		return ok(addProduct.render(usernameSes));
+		// 1. Ako nije registrovan da mu oneomogucimo prikaz addProduct.html;
+		if (usernameSes == null) {
+			return redirect("/");
+		}
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
+		return ok(addProduct.render(usernameSes, mainCategoryList));
 
 	}
 
@@ -52,6 +73,58 @@ public class ProductController extends Controller {
 	}
 	
 	/**
+	 * Finds the product under the id number;
+	 * And sends that product to the editProduct.html page on redering;
+	 * Where we will have a new form that we will edit;
+	 * @param id
+	 * @return
+	 */
+	public static Result editProduct(int id) {
+		usernameSes = session("username");
+		// 1. Ako nije registrovan da mu oneomogucimo prikaz editProduct.html;
+				if (usernameSes == null) {
+					return redirect("/");
+				}
+		// 2. Ako je admin ulogovan, onemogucujemo mu da edituje proizvod;
+				if (UserController.adminList.contains(usernameSes)) {
+					return redirect("/");
+				}
+		// 3. Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog proizvoda> da ga edituje;	
+		Product p = findProduct.byId(id);
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
+		return ok(editProduct.render(usernameSes, p, mainCategoryList));
+	}
+	
+	/**
+	 * Saves the new values of the attributes that are entered 
+	 * and overwrites over the ones that were entered before;
+	 * @param id
+	 * @return redirect("/showProduct/" + id);
+	 */
+	public static Result saveEditedProduct(int id) {
+		//takes the new attributes that are entered in the form;
+		usernameSes = session("username");
+		String name = newProduct.bindFromRequest().get().name;
+		String desc = newProduct.bindFromRequest().get().desc;
+		Double price = newProduct.bindFromRequest().get().price;
+		String category = newProduct.bindFromRequest().get().category;
+		String availability = newProduct.bindFromRequest().get().availability;
+		
+		// sets all the new entered attributes as the original ones from the product;
+		// and saves();
+		Product p = findProduct.byId(id);
+		p.setName(name);
+		p.setDesc(desc);
+		p.setPrice(price);
+		p.setCategory(category);
+		p.setAvailability(availability);
+		p.save();
+		
+		return redirect("/showProduct/" + id);	
+		
+	}
+	
+	/**
 	 * Deletes the products found under the given id;
 	 * @param id
 	 * @return
@@ -59,8 +132,6 @@ public class ProductController extends Controller {
 	public static Result deleteProduct(int id) {
 		  Product.delete(id);
 		  return redirect(routes.UserController.findProfileProducts());
-	}
-
-	
+	}	
 	
 }

@@ -38,7 +38,6 @@ public class Product extends Model {
 	/**
 	 * Constructor with default values
 	 */
-
 	public Product() {
 		//TODO dodati kategoriju i dostuonost
 		this.name = "proizvod";
@@ -49,6 +48,7 @@ public class Product extends Model {
 		this.availability = "Nedođija";
 		publishedDate = getDate();
 	}
+
 	
 	/**
 	 * Constructor of object Product with 2 parameters.
@@ -98,9 +98,51 @@ public class Product extends Model {
 		publishedDate = getDate();
 	}
 	
+	// Setters for all the attributes that can be changed
+		// in the editProduct.html page;
+		/**
+		 * Sets the name of the product;
+		 * @param name
+		 */
+		public void setName(String name) {
+			this.name = name;
+		}
+		/**
+		 * Sets the description of the product;
+		 * @param desc
+		 */
+		public void setDesc(String desc) {
+			this.desc = desc;
+		}
+
+		/**
+		 * Sets the category of the product;
+		 * @param category
+		 */
+		public void setCategory(String category) {
+			this.category = category;
+		}
+
+		/**
+		 * Sets the price of the product;
+		 * @param price
+		 */
+		public void setPrice(double price) {
+			this.price = price;
+		}
+
+		/**
+		 * Sets the availability of the product;
+		 * @param availability
+		 */
+		public void setAvailability(String availability) {
+			this.availability = availability;
+		}
+
 	
 	
 	/**
+	 * @author Graca Nermin
 	 * When the constructor is called. Meaning, when the item/product is published this date will be
 	 * created as the publishedDate;
 	 * @return publishedDate;

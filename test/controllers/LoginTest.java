@@ -12,7 +12,7 @@ public class LoginTest extends WithApplication {
 	@Before
 	public void setup() {
 		fakeApplication(inMemoryDatabase(), fakeGlobal());
-		User.createAdmin("admin", "admin", "admin@admin.ba", true);
+//		User.createAdmin("admin", "admin", "admin@admin.ba", true);
 	}
 /*
 	@Test

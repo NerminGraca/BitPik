@@ -100,7 +100,7 @@
 			
 		<h2><em>Cijena </em></h2><br>
 		
-			<p>@p.price</p><br>
+			<p>@p.price KM</p><br>
 		
 		<h2><em>Kategorija </em></h2><br>
 		
@@ -112,9 +112,14 @@
 		
 		<h2><em>Objavio korisnik </em></h2><br>
 		
-			<p>@usernameSes</p><br>	
+			<p>@p.owner.username</p><br>	
 			
 			<h6>ID: @p.id</h6>
+			
+			<!--  Vidljivost "EDIT "samo za vlasnika proizvoda -->
+			@if(usernameSes.equals(p.owner.username)) {
+			<a href="/editProduct/@p.id">Edituj</a>
+			}
 			
 			
 			

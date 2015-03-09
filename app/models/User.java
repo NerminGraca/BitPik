@@ -92,9 +92,7 @@ public class User extends Model {
 		Date date = Calendar.getInstance().getTime();
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		return formatter.format(date);
-	}
-
-	
+	}	
 	
 	/**
 	 * Creates a new user and saves the User into database;
@@ -185,6 +183,48 @@ public class User extends Model {
 		this.isAdmin = !isAdmin;
 		save();
 			
+	}
+	
+	/**
+	 * Setter for username
+	 * @param username
+	 */
+	
+	public void setUsername(String username)
+	{
+		if(username.length()<1)
+		{
+			throw new IllegalArgumentException("Username cannot be empty field!");
+		}
+		this.username = username;
+	}
+	
+	/**
+	 * Setter for email
+	 * @param username
+	 */
+	
+	public void setEmail(String email)
+	{
+		if(!email.contains("@") || !email.contains("."))
+		{
+			throw new IllegalArgumentException("Email not valid!");
+		}
+		this.email = email;
+	}
+	
+	/**
+	 * Setter for password
+	 * @param username
+	 */
+	
+	public void setPassword(String password)
+	{
+		if(password.length() < 4)
+		{
+			throw new IllegalArgumentException("Password too short!");
+		}
+		this.password = password;
 	}
 	
 }

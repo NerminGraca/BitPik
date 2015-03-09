@@ -1,8 +1,8 @@
-@(usernameSes: String)(mainCategoryList: List[MainCategory])
+@(usernameSes: String)(p : Product)(mainCategoryList: List[MainCategory])
 @import helper._
 
 
-@main("addProduct") {
+@main("editProduct") {
 		
 		<div class="wrap">
 	<div class="header">
@@ -81,22 +81,20 @@
     	<div class="section group">
 				<div class="col span_2_of_3">
 				  <div class="contact-form">
-				  	<h1>DODAVANJE ARTIKLA</h1><br>
+				  	<h1>EDITOVANJE ARTIKLA</h1><br>
 	<!--
 		NAŠ HELPER 
 		
 		MINIMUM of three characters is here!! 
 		-->
-		@helper.form(routes.ProductController.createProduct(),'id->"productForm") {
+		@helper.form(routes.ProductController.saveEditedProduct(p.id),'id->"productForm") {
 			<h5>Naziv:</h5>
-			<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="" id="name" name="name" required/>
+			<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="@p.name" id="name" name="name" required/>
 			<h5>Opis:</h5>
-			<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="desc" name="desc" required/>
+			<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="@p.desc" id="desc" name="desc" required/>
 			<h5>Cijena:</h5>			
-			<input type="number" min="1" max="999999999" step="any" value="" id="price" name="price" required/>
+			<input type="number" min="1" max="999999999" step="any" value="@p.price" id="price" name="price" required/>
 			<br><br>
-			
-			
 			<script>
   				
  			 </script>
@@ -126,23 +124,18 @@
   			<fieldset>
     		<label for="category">Kategorija</label>
     		<select name="category" id="category">
-    			
-    			@if(mainCategoryList.size() > 0 ) {
+    		
+      			@if(mainCategoryList.size() > 0 ) {
 				  	@for(mainCategory <- mainCategoryList) {
 				  		<option>@mainCategory.name</option>
 				  	}
 				}
-    			
+				
     		</select>
  
     
 			</fieldset>
- 
-			
-
- 
-
-  			<fieldset>
+ 			<fieldset>
 
    			<label for="availability">Dostupnost</label>
 
@@ -192,7 +185,7 @@
 
 
 			
-			<input type="submit" value="Objavi" />
+			<input type="submit" value="Spasi" />
 				  </div>
   				</div>
 
@@ -254,7 +247,7 @@
 			
 		});
 	</script>
-    <a href="#" id="toTop"><span id="toTopHover"> To Top </span></a>
+    <a href="#" id="toTop"><span id="toTopHover"> </span></a>
 	}
 }
 
