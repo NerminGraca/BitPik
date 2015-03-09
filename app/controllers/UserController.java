@@ -108,7 +108,7 @@ public class UserController extends Controller {
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
 		User u = User.finder(usernameSes);
-		return ok(profile.render(usernameSes, l, u));
+		return ok(profile.render(usernameSes, l, u, adminList));
 	}
 	
 	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
@@ -150,7 +150,7 @@ public class UserController extends Controller {
 							insertAdmin(user.username);
 						}
 					}
-		return ok(korisnici.render(usernameSes, userList));
+		return ok(korisnici.render(usernameSes, userList, adminList));
 	}
 	
 	/**
@@ -207,7 +207,7 @@ public class UserController extends Controller {
 	public static Result editUser(int id) {
 		usernameSes = session("username");
 		User u = findUser.byId(id);
-		return ok(editUser.render(usernameSes, u));
+		return ok(editUser.render(usernameSes, u, adminList));
 	}
 	
 	/**
