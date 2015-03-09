@@ -22,6 +22,9 @@ POST    /korisnik/:id/delete       		controllers.UserController.deleteUser(id: I
 POST	/korisnik/:id/change			controllers.UserController.changeAdmin(id: Integer)
 GET		/kategorija/:id					controllers.CategoryController.categories(id: Integer)
 
+GET		/editMainCategory 					controllers.CategoryController.allCategory()
+POST    /editMainCategory/:id/delete       	controllers.CategoryController.deleteMainCategory(id: Integer)
+ 
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               	controllers.Assets.at(path="/public", file)

@@ -40,5 +40,14 @@ public class MainCategory extends Model {
 	public static MainCategory findMainCategory(int id) {
 		return find.byId(id);
 	}
+	
 
+	public static void delete(int id) {
+		  find.ref(id).delete();
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 }
