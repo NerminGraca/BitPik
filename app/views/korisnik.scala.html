@@ -60,6 +60,10 @@
 			    	<li><a href="#">Kupljeni proizvidi</a></li>
 			    	<li><a href="#">Poruke</a></li>
 			    	<li><a href="/profile">Moj profil: @usernameSes</a></li>
+			    	@if(adminList.contains(usernameSes)){
+			    		<li><a href="/korisnici">Korisnici</a></li>
+			    		<li><a href="/listaKategorija">Kategorije</a></li>
+			    		}
 			    	<div class="clear"></div>
      			</ul>
 	     	</div>

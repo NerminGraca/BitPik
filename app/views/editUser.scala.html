@@ -1,4 +1,4 @@
-@(usernameSes: String)(u: User)
+@(usernameSes: String)(u: User)(adminList: List[String])
 @import helper._
 
 
@@ -21,6 +21,7 @@
 						<li><a href="/profile">Korisnik @usernameSes</a></li>
 						<li><a href="/logout">Logout</a></li>
 					}
+					
 				</div>
 			<div class="clear"></div>
 		</div>
@@ -60,6 +61,10 @@
 			    	<li><a href="#">Nekretnine</a></li>
 			    	<li><a href="#">Hitno</a></li>
 			    	<li><a href="#">Servisi i usluge</a></li>
+			    	@if(adminList.contains(usernameSes)){
+			    		<li><a href="/korisnici">Korisnici</a></li>
+			    		<li><a href="/listaKategorija">Kategorije</a></li>
+			    		}
 			    	<div class="clear"></div>
      			</ul>
 	     	</div>
