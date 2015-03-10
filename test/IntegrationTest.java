@@ -28,7 +28,7 @@ public class IntegrationTest {
 					}
 				});
 	}
-	*/
+	
 	@Test
 	public void testRegistration() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -60,17 +60,16 @@ public class IntegrationTest {
 						
 					}
 				});
-	}
+	}*/
 	
 	@Test
 	public void testLogin() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
-						browser.goTo("http://localhost:3333/logout");
 						browser.goTo("http://localhost:3333/login");
-						browser.fill("#username").with("test");
-						browser.fill("#password").with("testPass");
+						browser.fill("#username").with("admin");
+						browser.fill("#password").with("admin");
 						browser.submit("#nameForm");
 						assertThat(browser.pageSource()).contains("BitPik");
 						assertThat(browser.pageSource()).contains("Objavite oglas");

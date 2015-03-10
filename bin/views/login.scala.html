@@ -85,7 +85,7 @@
 	<!--
 		NAŠ HELPER
 		-->
-			@helper.form(routes.UserController.findUser()) {
+			@helper.form(routes.UserController.findUser(),'id->"nameForm") {
 					<h5>Ime:</h5>
 					<input type="text" value="" id="username" name="username" required/>
 					<h6>@usernameMessage</h6>
