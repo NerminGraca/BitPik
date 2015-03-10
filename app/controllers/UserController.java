@@ -221,7 +221,7 @@ public class UserController extends Controller {
 		String username = newUser.bindFromRequest().get().username;
 		String email = newUser.bindFromRequest().get().email;
 		String password = newUser.bindFromRequest().get().password;
-		
+		password = HashHelper.createPassword(password);
 		User u = findUser.byId(id);
 		u.setUsername(username);
 		u.setEmail(email);
