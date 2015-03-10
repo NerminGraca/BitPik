@@ -48,31 +48,6 @@ public class Product extends Model {
 		this.availability = "Nedođija";
 		publishedDate = getDate();
 	}
-
-	
-	/**
-	 * Constructor of object Product with 2 parameters.
-	 * *(without description);
-	 * @param name
-	 * @param price
-	 */
-	public Product(String name, double price, String category, String availability, User owner) {
-		//TODO dodati kategoriju i dostuonost
-		this.name = name;
-		this.desc = "";
-		this.price = price;
-		this.owner = owner;
-		if(checkCategory(category)==false)
-		{
-			throw new IllegalArgumentException();
-		}
-		else
-		{
-			this.category = category;
-		}
-		this.availability = availability;
-		publishedDate = getDate();
-	}
 	
 	/**
 	 * Constructor of object Product with all 3 parameters.  
@@ -85,15 +60,7 @@ public class Product extends Model {
 		this.desc = desc;
 		this.price = price;
 		this.owner = owner;
-		if(checkCategory(category)==false)
-		{
-			throw new IllegalArgumentException();
-		}
-		else
-		{
-			this.category = category;
-		}
-		
+		this.category = category;		
 		this.availability = availability;
 		publishedDate = getDate();
 	}
@@ -163,21 +130,6 @@ public class Product extends Model {
 		Product newProduct = new Product(name, desc, price, category, availability, owner);
 		newProduct.save();
 		return newProduct.id;
-	}
-	
-	private boolean checkCategory(String category)
-	{
-		String categoryArray[] = {"Vozila", "Nekretnine", "Mobilni uređaji", 
-				"Kompjuteri", "Tehnika", "Nakit i satovi", "Moj dom", "Biznis i industrija",
-				"Životinje", "Odjeća i obuća", "Ostale kategorije"};
-		for (int i=0; i<categoryArray.length; i++)
-		{
-			if (category.equalsIgnoreCase(categoryArray[i]))
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	static Finder<Integer, Product> find = new Finder<Integer, Product>(Integer.class, Product.class);
