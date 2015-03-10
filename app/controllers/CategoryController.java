@@ -44,7 +44,9 @@ public class CategoryController extends Controller {
 		usernameSes = session("username");
 		MainCategory mc = findMainCategory.byId(id);
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		return ok(editMainCategory.render(usernameSes, mc, mainCategoryList));
+		ArrayList<String> adminList = new ArrayList<String>();
+
+		return ok(editMainCategory.render(usernameSes, mc, mainCategoryList, adminList ));
 	}
 	
 	public static Result saveEditMainCategory(int id) {

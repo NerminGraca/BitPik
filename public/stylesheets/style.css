@@ -287,8 +287,14 @@ body {
 	width: 20px;
 	height: 25px;
 }
+
+.buttonPosition{
+	float: right;
+	margin-left:10px; 
+}
+
 .header_slide{
-	margin-top:10px;
+	margin-top:15px;
 }
 .header_bottom_left{
 	float:left;
@@ -327,8 +333,30 @@ body {
 	width:74%;
 	padding-left:1%;
 }
+#BigTextCatgory{
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif, bold;
+	font-size: 20px;
+	color: #B81D22;
+}
 
+#buttonPossition{
+	margin: 10px;
+}
 
+#boxForEditingProduct{
+	border: #CECECE 2px solid;
+	padding: 40px;
+	margin-bottom: 10px;
+	
+}
+
+.contact-form-oglas{
+	
+	position: left;
+	padding-bottom: 30px;
+	padding-left: 50px; 
+}
+	
 
 
 .row{

@@ -1,4 +1,4 @@
-@(usernameSes: String)(mc : MainCategory)(mainCategoryList: List[MainCategory])
+@(usernameSes: String)(mc : MainCategory)(mainCategoryList: List[MainCategory])(adminList: List[String])
 @import helper._
 
 
@@ -67,6 +67,10 @@
 			    	<li><a href="#">Nekretnine</a></li>
 			    	<li><a href="#">Hitno</a></li>
 			    	<li><a href="#">Servisi i usluge</a></li>
+			    	@if(adminList.contains(usernameSes)){
+			    		<li><a href="/korisnici">Korisnici</a></li>
+			    		<li><a href="/editMainCategory">Kategorije</a></li>
+			    		}
 			    	<div class="clear"></div>
      			</ul>
 	     	</div>
@@ -82,17 +86,18 @@
     	<div class="section group">
 				<div class="col span_2_of_3">
 				  <div class="contact-form">
-				  	<h1>EDITOVANJE kategorija</h1><br>
+				  	<h1 id="BigTextCatgory">Izmijeni ime kategorije:</h1><br>
 	<!--
 		NAŠ HELPER 
 		
 		MINIMUM of three characters is here!! 
 		-->
 		@helper.form(routes.CategoryController.saveEditMainCategory(mc.id),'id->"productForm") {
-			<h5>Naziv:</h5>
+		
 			<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="@mc.name" id="name" name="name" required/>
-				
-			<input type="submit" value="Spasi" />
+					<div id="buttonPossition">
+						<input type="submit" value="Spasi" />
+					</div>
 				  </div>
   				</div>
 
