@@ -75,7 +75,7 @@
 				  				<li><a href="kategorija/@mainCategory.id">@mainCategory.name  
 				  				
 				  				 @form(routes.CategoryController.deleteMainCategory(mainCategory.id)) {
-                    <input type="submit" value="Delete">
+                    <input type="submit" value="Delete"  onclick="return confirm('Are you sure you want to delete this category?');">
                 }
 				  				
 				  				 @form(routes.CategoryController.editMainCategory(mainCategory.id)) {
