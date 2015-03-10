@@ -4,45 +4,7 @@
 @main("Registration") {
 		
 	<div class="wrap">
-	<div class="headertop_desc">
-		<div class="logo">
-			<a href="/"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="75" heigth="75" alt=""></a>
-		</div>
-			<div class="account_desc">
-				
-				@if(usernameSes.equals("")) {
-					<li><a href="/registration">Registracija</a></li>
-					<li><a href="/login">Login</a></li>
-				}
-				@if(!usernameSes.isEmpty){
-					<li><a href="/addProduct">Objavite oglas</a></li>
-					<li><a href="/profile">Korisnik @usernameSes</a></li>
-					<li><a href="/logout">Logout</a></li>
-				}
-			</div>
-				<div class="clear"></div>
-	</div>
-	<div class="header_top">
-		<div class="clear"></div>
-	</div>
-	<div class="header_bottom">
-		<div class="menu">
-			<ul>
-				<li class="active"><a href="/">Početna</a></li>
-				<li><a href="#">Radnje</a></li>
-				<li><a href="#">Nekretnine</a></li>
-				<li><a href="#">Hitno</a></li>
-				<li><a href="#">Servisi i usluge</a></li>
-			    	<div class="clear"></div>
-			</ul>
-		</div>
-		<div class="search_box">
-			<form>
-				<input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
-			</form>
-		</div>
-	     	<div class="clear"></div>
-	</div>	
+		
  <div class="main">
     <div class="content">
     	<div class="section group">
@@ -70,6 +32,6 @@
          </div> 
     </div>
  </div>
-
+</div>
 	}
 }

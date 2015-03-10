@@ -1,0 +1,52 @@
+@(implicit user: User = SessionHelper.currentUser(ctx()) )
+<div class="wrap">
+	<div class="header">
+		<div class="headertop_desc">
+			<div class="logo">
+				<a href="/"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="75" heigth="75" alt=""></a>
+			</div>
+			<div class="account_desc">
+				<ul>
+					@if(user == null) {
+					<li><a href="/registration">Registracija</a></li>
+					<li><a href="/login">Login</a></li>
+					}
+					@if(user != null){
+						<li><a href="/addProduct">Objavite oglas</a></li>
+						<li><a href="/profile">Korisnik @user.username</a></li>
+						<li><a href="/logout">Logout</a></li>
+					}
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="header_top">
+	 		<div class="clear"></div>
+		</div>
+		<div class="header_bottom">
+	     	<div class="menu">
+	     		<ul>
+			    	<li class="active"><a href="/">Početna</a></li>
+			    	<li><a href="#">Radnje</a></li>
+			    	<li><a href="#">Nekretnine</a></li>
+			    	<li><a href="#">Hitno</a></li>
+			    	<li><a href="#">Servisi i usluge</a></li>
+			    	@if(user != null) {
+			    		@if(user.isAdmin == true){
+			    		<li><a href="/korisnici">Korisnici</a></li>
+			    		<li><a href="/listaKategorija">Kategorije</a></li>
+			    		}
+			    	}
+			    			    	
+			    	<div class="clear"></div>
+     			</ul>
+	     	</div>
+	     	<div class="search_box">
+	     		<form>
+	     			<input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
+	     		</form>
+	     	</div>
+	     	<div class="clear"></div>
+		</div>
+	</div>
+</div>	
