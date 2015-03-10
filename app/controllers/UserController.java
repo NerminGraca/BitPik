@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import helpers.HashHelper;
+import helpers.MailHelper;
 import models.*;
 import play.*;
 import play.data.Form;
@@ -58,6 +59,8 @@ public class UserController extends Controller {
 		}
 		User.createSaveUser(username, password, email);
 		// automatically puts the 'username' created into the session variable;
+
+		
 		session("username", username);
 		return redirect("/");
 
@@ -230,6 +233,19 @@ public class UserController extends Controller {
 		
 		return redirect("/korisnik/" + id);	
 		
+	}
+	
+	public static Result confirmEmail(String r)
+	{
+		User u = UserController.findUser.where().eq("confirmation", r).findUnique();
+		if(r == null || u == null)
+		{
+			return redirect("/");
+		}
+		u.confirmation = null;
+		u.verified = true;
+		u.save();
+		return redirect("/login");
 	}
 	
 }

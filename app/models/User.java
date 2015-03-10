@@ -1,12 +1,14 @@
 package models;
 
 import helpers.HashHelper;
+import helpers.MailHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.*;
 
@@ -37,6 +39,9 @@ public class User extends Model {
 	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL)
 	public List<Product> products;
 	
+	public boolean verified;
+	
+	public String confirmation;
 	
 	/**
 	 * @author Gordan Sajevic
@@ -49,6 +54,7 @@ public class User extends Model {
 		this.email = "johndoe@example.com";
 		isAdmin = false;		
 		createdDate = getDate();
+		
 	}
 	
 		
@@ -65,6 +71,8 @@ public class User extends Model {
 		this.email = email;
 		isAdmin = false;		
 		createdDate = getDate();
+		this.verified = false;
+		this.confirmation = UUID.randomUUID().toString();
 	}
 	
 	/**
@@ -80,6 +88,8 @@ public class User extends Model {
 		this.email = email;
 		this.isAdmin = isAdmin;		
 		createdDate = getDate();
+		this.verified = false;
+		this.confirmation = UUID.randomUUID().toString();
 	}
 	
 	/**
@@ -113,6 +123,8 @@ public class User extends Model {
 	public static int createSaveUser(String username, String password,String email) {
 		User newUser = new User(username, password,email);
 		newUser.save();
+		
+		MailHelper.send(email,"localhost:9000/confirm/" + newUser.confirmation);
 		return newUser.id;
 	}
 	
@@ -132,7 +144,6 @@ public class User extends Model {
 	// Finders
 	static Finder<String, User> find = new Finder<String, User>(String.class, User.class);
 	static Finder<Integer, User> findInt = new Finder<Integer, User>(Integer.class, User.class);
-	
 	/**
 	 * Finds the User under the username(parameter) in the database;
 	 * @param username
