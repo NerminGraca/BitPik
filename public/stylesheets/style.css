@@ -71,7 +71,11 @@ body {
 	margin-left:10px; 
 }
 
-
+#redText{
+	color: #B81D22;
+	font-size: 20px;
+	font-style: bold;
+}
 .profilePicture{
 	border: 1px solid grren;
 	position: relative;

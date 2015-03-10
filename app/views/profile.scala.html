@@ -8,32 +8,32 @@
  <div class="main">
     <div class="content">
     	<div class="section group">
+			<div class="rightBox">
 				
-				
-		<h2><em>Username </em></h2><br>
+		<h2 id="redText"><em>Username </em></h2><br>
 		
 			<p>@u.username</p><br>
 			
-		<h2><em>Email: </em></h2><br>
+		<h2 id="redText"><em>Email: </em></h2><br>
 		
 			<p>@u.email</p><br>
 			
-		<h2><em>Password </em></h2><br>
+		<h2 id="redText"><em>Password </em></h2><br>
 		
 			<p>@u.password</p><br>
 		
-		<h2><em>Admin </em></h2><br>
+		<h2 id="redText"><em>Admin </em></h2><br>
 		
 			@if(u.isAdmin.equals("true")){
 				<p>Da</p><br>
 			}else{
 				<p>Ne</p><br>				
 			}
-		<h2><em>Datum registracije </em></h2><br>
+		<h2 id="redText"><em>Datum registracije </em></h2><br>
 		
 			<p>@u.createdDate</p><br>	
 	
-			
+			</div>
 					<div class="leftBox">
 						<div><a class="profilePicture" ><img src="@routes.Assets.at("images/profileimg.png")" alt="" /></a></div>
 										
