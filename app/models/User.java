@@ -125,7 +125,7 @@ public class User extends Model {
 		User newUser = new User(username, password,email);
 		newUser.save();
 		
-		MailHelper.send(email,"localhost:9000/confirm/" + newUser.confirmation);
+		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
 		return newUser.id;
 	}
 	
