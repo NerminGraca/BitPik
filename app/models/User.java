@@ -58,7 +58,9 @@ public class User extends Model {
 		
 	}
 	
-		
+		public String getUsername(){
+			return this.username;
+		}
 	/**
 	 * Constructor of object User with three parameters. On default sets isAdmin to false and
 	 * creates String representation of date when was it created 

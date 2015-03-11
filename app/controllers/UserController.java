@@ -105,9 +105,11 @@ public class UserController extends Controller {
 	 * @return renders the profile.html page with the list of products mentioned;
 	 */
 	public static Result findProfileProducts(){
+		User currentUser=SessionHelper.getCurrentUser(ctx());
 		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
+			return redirect("/");
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
 		User u = User.finder(usernameSes);
@@ -163,11 +165,18 @@ public class UserController extends Controller {
 	 */
 	public static Result singleUser(int id) {
 		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
 		User u = findUser.byId(id);
+		String username=u.username;
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
+		if ((usernameSes == null)) {
+			
+			return redirect("/");
+		}
+		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
+		if (userbyName.isAdmin == false) {
+			return redirect("/");
+			}
+		
 		return ok(korisnik.render(usernameSes, u, l, adminList));
 	}
 	
@@ -209,8 +218,26 @@ public class UserController extends Controller {
 	
 	public static Result editUser(int id) {
 		usernameSes = session("username");
-		User u = findUser.byId(id);
-		return ok(editUser.render(usernameSes, u, adminList));
+		if ((usernameSes == null)) {
+			usernameSes = "";
+			return redirect("/");
+		}
+		User userById = findUser.byId(id);
+		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
+		if(userbyName==null)
+			return redirect("/");
+		if(userById==null)
+			return redirect("/");
+		
+		
+		else 
+			if ((userbyName.getUsername()!=userById.getUsername())) {
+				return redirect("/");
+				}
+		
+		
+		
+		return ok(editUser.render(usernameSes, userById, adminList));
 	}
 	
 	/**

@@ -2,7 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import controllers.UserController;
 import models.*;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
@@ -42,6 +42,12 @@ public class CategoryController extends Controller {
 	
 	public static Result editMainCategory(int id) {
 		usernameSes = session("username");
+		User userbyName = UserController.findUser.where().eq("username", usernameSes).findUnique();
+		if (usernameSes == null) {
+			return redirect("/");
+		}
+		if(userbyName.isAdmin==false)
+			return redirect("/");
 		MainCategory mc = findMainCategory.byId(id);
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		ArrayList<String> adminList = new ArrayList<String>();
@@ -74,10 +80,16 @@ public class CategoryController extends Controller {
 	}	
 	
 	public static Result allCategory() {
+		User currentUser=SessionHelper.getCurrentUser(ctx());
 		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
+			return redirect("/");
 		} 
+		
+		if(currentUser.isAdmin==false){
+			return redirect("/");
+		}
 		ArrayList<String> adminList = new ArrayList<String>();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		return ok(listaKategorija.render(usernameSes, adminList, mainCategoryList));
