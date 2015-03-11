@@ -1,6 +1,6 @@
 @(usernameSes: String)(p: Product)
 
-@main("showProduct") {
+@main("showProduct", "") {
 		
 <div class="wrap">	
  <div class="main">
@@ -21,6 +21,10 @@
 		- TODO - Kasnije dodati, i na pocetak stranice, sve dodatne varijable koje primamo;
 		
 		-->
+		
+		<h6>@usernameSes</h6>
+		
+		<h6>ID: @p.id</h6>
 		
 		<h2><em>Naziv </em></h2><br>
 		
@@ -45,8 +49,6 @@
 		<h2><em>Objavio korisnik </em></h2><br>
 		
 			<p>@p.owner.username</p><br>	
-			
-			<h6>ID: @p.id</h6>
 			
 			<!--  Vidljivost "EDIT "samo za vlasnika proizvoda -->
 			@if(usernameSes.equals(p.owner.username)) {

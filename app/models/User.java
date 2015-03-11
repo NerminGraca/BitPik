@@ -54,13 +54,9 @@ public class User extends Model {
 		this.password = HashHelper.createPassword(password);
 		this.email = "johndoe@example.com";
 		isAdmin = false;		
-		createdDate = getDate();
-		
+		createdDate = getDate();		
 	}
-	
-		public String getUsername(){
-			return this.username;
-		}
+
 	/**
 	 * Constructor of object User with three parameters. On default sets isAdmin to false and
 	 * creates String representation of date when was it created 
@@ -187,6 +183,10 @@ public class User extends Model {
 	 */
 	public static void delete(int id) {
 		findInt.ref(id).delete();
+	}
+	
+	public String getUsername(){
+		return this.username;
 	}
 	
 	/**

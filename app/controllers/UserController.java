@@ -82,7 +82,7 @@ public class UserController extends Controller {
 		User u = User.finder(username);
 		//if not found or not verified email, after login;
 		if (u == null || u.verified==false) {
-			return ok(login.render("", "Ne postoji korisnik ili email nije verificiran", ""));
+			return ok(login.render("Ne postoji korisnik ili email nije verificiran", ""));
 		} else {
 			hashPass = u.password;
 		}
@@ -94,7 +94,7 @@ public class UserController extends Controller {
 		session("username", username);
 			return redirect("/");
 		} else {
-			return ok(login.render("", "", "Password je netacan"));
+			return ok(login.render("", "Password je netacan"));
 		}
 	}
 

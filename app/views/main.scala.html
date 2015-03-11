@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, position: String)(content: Html)
 
 <!DOCTYPE html>
 
@@ -20,7 +20,7 @@
 		
     </head>
     <body>
-    	@_header()
+    	@_header(position)
         @content
         @_footer()
     </body>
