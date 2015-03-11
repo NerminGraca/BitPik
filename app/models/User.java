@@ -192,9 +192,9 @@ public class User extends Model {
 	/**
 	 * Setter for the isAdmin;
 	 */
-	public void setAdmin()
+	public void setAdmin(boolean isAdmin)
 	{
-		this.isAdmin = !isAdmin;
+		this.isAdmin = isAdmin;
 		save();
 			
 	}

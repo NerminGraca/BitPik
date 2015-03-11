@@ -19,7 +19,7 @@ GET		/profile						controllers.UserController.findProfileProducts()
 GET		/korisnici						controllers.UserController.allUsers()
 GET		/korisnik/:id					controllers.UserController.singleUser(id: Integer)
 POST    /korisnik/:id/delete       		controllers.UserController.deleteUser(id: Integer)
-POST	/korisnik/:id/change			controllers.UserController.changeAdmin(id: Integer)
+
 GET		/kategorija/:id					controllers.CategoryController.categories(id: Integer)
 GET		/confirm/:r						controllers.UserController.confirmEmail(r: String)
 GET		/listaKategorija 				controllers.CategoryController.allCategory()

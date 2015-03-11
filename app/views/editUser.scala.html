@@ -1,4 +1,4 @@
-@(usernameSes: String)(u: User)(adminList: List[String])
+@(usernameSes: String)(u: User)(adminList: List[String])(isAdmin: Boolean)
 @import helper._
 
 
@@ -25,6 +25,16 @@
 			<h5>Email:</h5>			
 			<input type="email" value="@u.email" id="email" name="email" required/>
 			<br><br>
+				@if(isAdmin){
+					<fieldset>
+	   				<label for="isAdmin">Dostupnost</label>
+	    			<select name="isAdmin" id="isAdmin">
+	     				<option selected="selected">false</option>
+	     				<option>true</option> 				
+     				</select>
+     				</fieldset>
+			}
+			
 			<input type="submit" value="Edituj" />
 				  </div>
   				</div>
