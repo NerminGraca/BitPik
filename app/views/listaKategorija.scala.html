@@ -4,51 +4,34 @@
 
 @main("editMainCategory", "kategorije") {
 
-    
-    <div class="wrap">
-		     
-	<div class="header_slide">
-			<div class="header_bottom_left">				
-								
-	  	     </div>
-	
-	
-	<!-- SANELA KATEGORIJA -->				 
-<div class="leftBoxCategory">
-<div class="categories">
-				  <ul>
+	<div class="wrap">		     
+		<div class="header_slide">			 
+			<div class="leftBoxCategory">
+				<div class="categories">
+					<ul>
 				  	<h3>Kategorije</h3>
 				  		
 				  		@if(mainCategoryList.size() > 0 ) {
 				  			@for(mainCategory <- mainCategoryList) {
-				  				<li><a href="kategorija/@mainCategory.id">@mainCategory.name  
-				  				
-				  				
-				  			<div class="buttonPosition">	
+				  				<li><a href="kategorija/@mainCategory.id">@mainCategory.name  				  							  				
+								<div class="buttonPosition">	
 				  				 @form(routes.CategoryController.deleteMainCategory(mainCategory.id)) {
                    					 <input type="submit" value="Delete"  onclick="return confirm('Da li si siguran-na da zelis izbrisati ovu kategoriju?');">
                 				}
-                			</div>
-                			
-                			<div class="buttonPosition">  				
-				  				 @form(routes.CategoryController.editMainCategory(mainCategory.id)) {
-                   					 <input type="submit" value="Edit">
-                				}
-                			</div>
-                
+                				</div>               			
+                				<div class="buttonPosition">  				
+				  					 @form(routes.CategoryController.editMainCategory(mainCategory.id)) {
+                   					 	<input type="submit" value="Edit">
+                					}
+                				</div>               
 				  				</a></li>
 				  			}
 				  		}
 				  		
-				  </ul>
+					</ul>
 				</div>	
-
-</div>
-
-
- 
-			
-    </div>
- </div>
+			</div>			
+    	</div>
+	</div>
    
 }
