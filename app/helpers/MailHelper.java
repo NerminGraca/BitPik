@@ -13,7 +13,7 @@ public class MailHelper {
 		mail.addTo("bitpikgroup@gmail.com");
 		mail.addTo(email);		
 		mail.setBodyText(message);
-		mail.setBodyHtml("Kopirajte ovaj link u vas URL da biste verifikovali vas email :\n"+message);
+		mail.setBodyHtml("Kliknite na slijedeci link kako biste verifikovali vas email :\n"+message);
 
 		MailerPlugin.send(mail);
 		

@@ -12,6 +12,8 @@ public class Global extends GlobalSettings {
 		if (User.finder("admin") == null) {
 			//Administrator entry
 			User ad = User.createAdmin("admin", "admin", "admin@admin.ba", true);	
+			ad.verified = true;
+			ad.save();
 			UserController.insertAdmin(ad.username);
 		}
 		
