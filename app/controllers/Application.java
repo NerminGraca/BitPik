@@ -25,11 +25,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result registration() {
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		} 
-		return ok(registration.render(usernameSes, "", ""));
+		return ok(registration.render( "", ""));
 	}
 
 	/**

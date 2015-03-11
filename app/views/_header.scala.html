@@ -7,11 +7,11 @@
 			</div>
 			<div class="account_desc">
 				<ul>
-					@if(user == null) {
+					@if(user == null || user.verified == false) {
 					<li><a href="/registration">Registracija</a></li>
 					<li><a href="/login">Login</a></li>
 					}
-					@if(user != null){
+					@if(user != null && user.verified == true){
 						<li><a href="/addProduct">Objavite oglas</a></li>
 						<li><a href="/profile">Korisnik @user.username</a></li>
 						<li><a href="/logout">Logout</a></li>

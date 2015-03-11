@@ -49,12 +49,12 @@ public class UserController extends Controller {
 		String email = newUser.bindFromRequest().get().email;
 		// Unique 'username' verification
 		if (User.finder(username) != null) {
-			return ok(registration.render("",
+			return ok(registration.render(
 					"Username already taken, please choose another one", ""));
 		}
 		// Unique 'email' verification
 		if (User.emailFinder(email)) {
-			return ok(registration.render("", "",
+			return ok(registration.render("",
 					"Email already in use, please choose another one"));
 		}
 		User.createSaveUser(username, password, email);
