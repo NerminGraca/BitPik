@@ -60,8 +60,6 @@ public class UserController extends Controller {
 		User.createSaveUser(username, password, email);
 		// automatically puts the 'username' created into the session variable;
 
-		
-		session("username", username);
 		return redirect("/");
 
 	}
@@ -82,19 +80,21 @@ public class UserController extends Controller {
 		String username = newUser.bindFromRequest().get().username;
 		String password = newUser.bindFromRequest().get().password;
 		User u = User.finder(username);
-		if (u == null) {
-			return ok(login.render("", "Username nonexisting", ""));
+		//if not found or not verified email, after login;
+		if (u == null || u.verified==false) {
+			return ok(login.render("", "Ne postoji korisnik ili email nije verificiran", ""));
 		} else {
 			hashPass = u.password;
 		}
 		boolean userExists = HashHelper.checkPassword(password, hashPass);
-		if (userExists == true) {
+		// if verified and matching passwords;
+		if (userExists == true && u.verified==true) {
 			// the username put in the session variable under the key
 			// "username";
-			session("username", username);
+		session("username", username);
 			return redirect("/");
 		} else {
-			return ok(login.render("", "", "Password is wrong"));
+			return ok(login.render("", "", "Password je netacan"));
 		}
 	}
 
@@ -235,6 +235,13 @@ public class UserController extends Controller {
 		
 	}
 	
+	/**
+	 * After the click on the - link has been send to registered user;
+	 * We change the verified boolean to true;
+	 * We null the confirmation String;
+	 * @param r
+	 * @return return redirect("/");
+	 */
 	public static Result confirmEmail(String r)
 	{
 		User u = UserController.findUser.where().eq("confirmation", r).findUnique();
@@ -245,7 +252,9 @@ public class UserController extends Controller {
 		u.confirmation = null;
 		u.verified = true;
 		u.save();
-		return redirect("/login");
+
+		session("username", u.username);
+		return redirect("/");
 	}
 	
 }

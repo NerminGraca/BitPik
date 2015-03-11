@@ -3,6 +3,7 @@ package models;
 import helpers.HashHelper;
 import helpers.MailHelper;
 
+import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

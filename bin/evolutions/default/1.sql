@@ -28,6 +28,8 @@ create table user (
   email                     varchar(255),
   is_admin                  boolean,
   created_date              varchar(255),
+  verified                  boolean,
+  confirmation              varchar(255),
   constraint pk_user primary key (id))
 ;
 
