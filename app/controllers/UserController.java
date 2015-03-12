@@ -9,6 +9,7 @@ import models.*;
 import play.*;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
+import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
 
@@ -57,6 +58,7 @@ public class UserController extends Controller {
 			return ok(registration.render("",
 					"Email already in use, please choose another one"));
 		}
+		flash("validate", Messages.get("Primili ste email validaciju."));
 		User.createSaveUser(username, password, email);
 		// automatically puts the 'username' created into the session variable;
 
