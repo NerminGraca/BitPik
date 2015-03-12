@@ -61,7 +61,7 @@ public class IntegrationTest {
 					}
 				});
 	}*/
-	
+	/*
 	@Test
 	public void testLogin() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -78,7 +78,7 @@ public class IntegrationTest {
 						
 					}
 				});
-	}
+	}*/
 	
 	/*
 	@Test

@@ -92,7 +92,7 @@ public class ModelsTest extends WithApplication {
 //
 //	}
 //	*/
-	
+	/*
 	@Test
 	public void testIsAdmin() {
 		User.createSaveUser("neko", "12345","neko@gmail.com");
@@ -107,8 +107,8 @@ public class ModelsTest extends WithApplication {
 		u.setAdmin(true);
 		assertEquals(u.isAdmin, true);
 	//	assertEquals(u.email, "neko@gmail.com");
-
-	}
+*/
+	
 	/*
 	@Test
 	public void testCreateMainCategory() {
