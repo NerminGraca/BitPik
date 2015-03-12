@@ -1,7 +1,6 @@
 @(usernameSes: String)(mainCategoryList: List[MainCategory])
 @import helper._
 
-
 @main("addProduct", "") {
 		
 <div class="wrap">
@@ -11,9 +10,11 @@
 				<div class="col span_2_of_3">
 					<div class="contact-form">
 				  		<h1 class="redHeader">Dodaj proizvod:</h1><br>
+							
 							<!--	NAŠ HELPER 
-							MINIMUM of three characters is here!! 
+									MINIMUM of three characters is here!! 
 							-->
+							
 								@helper.form(routes.ProductController.createProduct(),'id->"productForm") {
 									
 									<h5 id="editProfileText">Naziv proizvoda:</h5>
@@ -24,21 +25,19 @@
 									
 									<h5 id="editProfileText">Cijena:</h5>			
 									<input type="number" min="1" max="999999999" step="any" value="" id="price" name="price" required/>
-								
-									
-							  			<!-- This is css for Kategorija and availability dropdown meni -->
+															
+						  			<!-- This is css for Kategorija and availability dropdown meni -->
+					
 						  			<style>
 						    			fieldset {
-						      			border: 0;
-						      			font-style: bold;
-						      			
-						    			}
+							    			border: 0;
+						    	  			font-style: bold;
+						    	  			}
 						    			
 							    		label {
 							      			display: block;
 							      			margin: 0 0 0 0;
-							      			
-							    		}
+							      			}
 							    		
 							    		select {
 							  		    	width: 53%;
@@ -49,53 +48,49 @@
 											font-family: Arial, Helvetica, sans-serif;
 											padding: 8px;
 											margin: 5px;
-							  		    		
-							   			}
+											}
 							   			
 							    		.overflow {
 							      			height: 400px;
-							    		}
+							      			}
 						 			</style>
 			
-									
- 
 									<div class="demo">
-									<form action="#">
-  									<fieldset>
-    								<label id="editProfileText" for="category">Kategorija</label>
-    								<select name="category" id="category">
-    			
-    									@if(mainCategoryList.size() > 0 ) {
-				  							@for(mainCategory <- mainCategoryList) {
-				  						<option>@mainCategory.name</option>
-				  							}
-										}
-    								</select>
- 									</fieldset>
-									
-									<fieldset>
-   									<label id="editProfileText" for="availability">Dostupnost:</label>
-    								<select name="availability" id="availability">
-     									<option selected="selected">Svugdje</option>
-						     			<option>Unutar BiH</option>
-						      			<option>Sarajevo</option>
-						    			<option>Unsko sanski</option>
-						    			<option>Posavski</option>
-						     			<option>Tuzlanski</option>
-						     			<option>Zenicko-dobojski</option>
-								    	<option>Bosansko-Podrinjski</option>
-						   				<option>Srednjo-bosanski</option>
-						    			<option>Zapadno-hercegovacki</option>
-						    			<option>Livanjski</option>
-						     			<option>Hercegovacko-neretvanski</option>
-						   		   		<option>Distrikt Brcko</option>
-						  		    	<option>Banjalucka</option>
-						  		    	<option>Dobojsko-bijeljinska</option>
-						   		   		<option>Sarajevsko-zvornicka</option>
-						   		 		<option>Focansko-trebinjska</option>
-						   		 	</select>
-						   		 	</fieldset> 
-									</form>
+										<form action="#">
+  											<fieldset>
+	    										<label id="editProfileText" for="category">Kategorija</label>
+	    										<select name="category" id="category">
+		    										@if(mainCategoryList.size() > 0 ) {
+						  								@for(mainCategory <- mainCategoryList) {
+						  									<option>@mainCategory.name</option>
+						  								}		
+						  							}
+						  						</select>
+ 											</fieldset>
+	
+											<fieldset>
+			   									<label id="editProfileText" for="availability">Dostupnost:</label>
+			    								<select name="availability" id="availability">
+			     									<option selected="selected">Svugdje</option>
+									     			<option>Unutar BiH</option>
+									      			<option>Sarajevo</option>
+									    			<option>Unsko sanski</option>
+									    			<option>Posavski</option>
+									     			<option>Tuzlanski</option>
+									     			<option>Zenicko-dobojski</option>
+											    	<option>Bosansko-Podrinjski</option>
+									   				<option>Srednjo-bosanski</option>
+									    			<option>Zapadno-hercegovacki</option>
+									    			<option>Livanjski</option>
+									     			<option>Hercegovacko-neretvanski</option>
+									   		   		<option>Distrikt Brcko</option>
+									  		    	<option>Banjalucka</option>
+									  		    	<option>Dobojsko-bijeljinska</option>
+									   		   		<option>Sarajevsko-zvornicka</option>
+									   		 		<option>Focansko-trebinjska</option>
+									   		 	</select>
+									   		 </fieldset> 
+										</form>
 									<input class="buttonRed" type="submit" value="Objavi" />
 						</div>
 					</div>
