@@ -1,68 +1,75 @@
 @(usernameSes: String)(p: Product)
 
 @main("showProduct", "") {
-		
+	
 <div class="wrap">	
- <div class="main">
-    <div class="content">
-    	<div class="section group">
-				
+	<div class="main">
+    	<div class="content">
+    		<div class="section group">
 				  <div class="contact-form-oglas">
-				  	<h1 id="BigTextCatgory">OGLAS</h1><br>
-				  	
-				  	<div id=boxForEditingProduct>
-	<!--
+				  	<h1 class="redHeader">Oglas</h1>
+				  	<div id="boxForEditingProduct">
+					<!--
+						NAŠ OBJAVLJENI PROIZVOD
+						TJ. NJEGOVI PODACI IZ BAZE;
+						saljemo na ovu stranicu;
+						- TODO - Prosiriti kasnije podatke o Productu; (Product class;)
+						- TOOO - Kasnije ubaciti <div> - img src, desc small, desc big, kategorije, etc... 
+						- TODO - Kasnije dodati, i na pocetak stranice, sve dodatne varijable koje primamo;
+						-->
+						<div class="bottomLine">
+						<h2 id="redText"><p>Korisnicko ime:</p></h2>
+						<h6 class="blueText">@usernameSes</h6>
+						</div>
+						
+						<div class="bottomLine">
+						<h2 id="redText"><p>ID korisnika:</p></h2>
+						<h6 class="blueText">@p.id</h6>
+						</div>
 		
-		NAŠ OBJAVLJENI PROIZVOD
-		TJ. NJEGOVI PODACI IZ BAZE;
-		saljemo na ovu stranicu;
-		- TODO - Prosiriti kasnije podatke o Productu; (Product class;)
-		- TOOO - Kasnije ubaciti <div> - img src, desc small, desc big, kategorije, etc... 
-		- TODO - Kasnije dodati, i na pocetak stranice, sve dodatne varijable koje primamo;
-		
-		-->
-		
-		<h6>@usernameSes</h6>
-		
-		<h6>ID: @p.id</h6>
-		
-		<h2><em>Naziv </em></h2><br>
-		
-			<p>@p.name</p><br>
+						<div class="bottomLine">	
+						<h2 id="redText">Naziv proizvoda:</h2>
+						<p class="blueText">@p.name</p>
+						</div>	
 			
-		<h2><em>Opis </em></h2><br>
+						<div class="bottomLine">
+						<h2 id="redText">Opis:</h2>
+						<p class="blueText">@p.desc</p>
+						</div>
+				
+						<div class="bottomLine">
+						<h2 id="redText">Cijena:</h2>
+						<p class="blueText">@p.price KM</p>
+						</div>
 		
-			<p>@p.desc</p><br>
-			
-		<h2><em>Cijena </em></h2><br>
+						<div class="bottomLine">		
+						<h2  id="redText">Kategorija:</h2>
+						<p class="blueText">@p.category</p>
+						</div>
 		
-			<p>@p.price KM</p><br>
 		
-		<h2><em>Kategorija </em></h2><br>
+						<div class="bottomLine">
+						<h2  id="redText">Dostupnost:</h2>
+						<p class="blueText">@p.availability</p>
+						</div>	
 		
-			<p>@p.category</p><br>
-		
-		<h2><em>Dostupnost </em></h2><br>
-		
-			<p>@p.availability</p><br>	
-		
-		<h2><em>Objavio korisnik </em></h2><br>
-		
-			<p>@p.owner.email</p><br>
-			<p>@p.owner.username</p><br>
-			
-			<!--  Vidljivost "EDIT "samo za vlasnika proizvoda -->
-			@if(usernameSes.equals(p.owner.username)) {
-			<a href="/editProduct/@p.id">Edituj</a>
-			}
+						<div class="bottomLine">
+						<h2 id="redText">Objavio korisnik:</h2>
+						<p class="blueText">@p.owner.email</p>
+						<p class="blueText"@p.owner.username</p>
+						</div>
+						
+						<!--  Vidljivost "EDIT "samo za vlasnika proizvoda -->
+						@if(usernameSes.equals(p.owner.username)) {
+						<button type="button" class="btn"><a href="/editProduct/@p.id">Izmijeni podatke o proizvodu</a></button><br><br>
+						}
 			
 					</div>
+				</div>
 			</div>
-			
-			</div>
-			</div>
-			</div>
-	
+		</div>
+	</div>
+</div>
 }
 
 

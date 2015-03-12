@@ -415,9 +415,14 @@ body {
 
 #boxForEditingProduct{
 	border: #CECECE 2px solid;
-	padding: 40px;
-	margin-bottom: 10px;
-	
+	padding: 20px;
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+
+.bottomLine{
+	border-bottom:#CECECE 2px solid;
+	margin-bottom: 5px;	
 }
 
 .contact-form-oglas{
