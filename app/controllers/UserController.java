@@ -173,9 +173,7 @@ public class UserController extends Controller {
 			return redirect("/");
 		}
 		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
-		if (userbyName.isAdmin == false) {
-			return redirect("/");
-			}
+		
 		
 		return ok(korisnik.render(usernameSes, u, l, adminList));
 	}

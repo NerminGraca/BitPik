@@ -104,7 +104,7 @@ public class ModelsTest extends WithApplication {
 		assertNotNull(p);
 	//	assertEquals(u.username, "neko");
 		assertEquals(u.isAdmin, false);
-		UserController.changeAdmin(2);
+		u.setAdmin(true);
 		assertEquals(u.isAdmin, true);
 	//	assertEquals(u.email, "neko@gmail.com");
 
