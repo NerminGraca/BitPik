@@ -65,17 +65,17 @@ public class ModelsTest extends WithApplication {
 		Product p = Product.find.byId(100);
 		assertNull(p);
 	}
-	*/
-//	@Test
-//	public void testDeleteProduct() {
-//		User.createSaveUser("neko", "12345","neko@gmail.com");
-//		User u = User.find(2);
-//		Product.create("product1", "product1 description", 100.00, "kompjuteri", "sarajevo", u);
-//		Product.delete(1);
-//		Product p=Product.find.byId(1);
-//		assertNull(p);
-//	}
-//	
+	
+	@Test
+	public void testDeleteProduct() {
+		User.createSaveUser("neko", "12345","neko@gmail.com");
+		User u = User.find(2);
+		Product.create("product1", "product1 description", 100.00, "kompjuteri", "sarajevo", u);
+		Product.delete(1);
+		Product p=Product.find.byId(1);
+		assertNull(p);
+	}
+	
 //	
 //	
 //	@Test
@@ -91,20 +91,24 @@ public class ModelsTest extends WithApplication {
 //	//	assertEquals(u.email, "neko@gmail.com");
 //
 //	}
-//	
-//	@Test
-//	public void testIsAdmin() {
-//		User.createSaveUser("neko", "12345","neko@gmail.com");
-//		User u = User.find(2);
-//		//String hashedPass=HashHelper.createPassword("12345");
-//		assertNotNull(u);
-//		//assertEquals(u.username, "neko");
-//		//assertEquals(u.isAdmin, false);
-//		UserController.changeAdmin(2);
-//		assertEquals(u.isAdmin, true);
-//	//	assertEquals(u.email, "neko@gmail.com");
-////
-//	}
+//	*/
+	
+	@Test
+	public void testIsAdmin() {
+		User.createSaveUser("neko", "12345","neko@gmail.com");
+		User u = User.find(2);
+		//String hashedPass=HashHelper.createPassword("12345");
+		assertNotNull(u);
+		Product.create("product1", "product1 description", 100.00, "kompjuteri", "sarajevo", u);
+		Product p=Product.find.byId(1);
+		assertNotNull(p);
+	//	assertEquals(u.username, "neko");
+		assertEquals(u.isAdmin, false);
+		UserController.changeAdmin(2);
+		assertEquals(u.isAdmin, true);
+	//	assertEquals(u.email, "neko@gmail.com");
+
+	}
 	/*
 	@Test
 	public void testCreateMainCategory() {

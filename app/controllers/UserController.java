@@ -172,40 +172,32 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * Deletes the User;
-	 * @param id
-	 * @return
-	 */
-	public static Result deleteUser(int id) {
-		  User.delete(id);
-		  return redirect(routes.UserController.allUsers());
-	}
-	
-	/**
 	 * Changes the isAdmin attribute of the user under the given id;
 	 * @param id
 	 * @return
 	 */
 	public static Result changeAdmin(int id)
 	{
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
+		
 		User u = findUser.byId(id);
 		//Sets the admin to !true/false;
 		u.setAdmin();
-		if(u.isAdmin) {
-			insertAdmin(u.username);
-		} else {
-			if (adminList.contains(u.username)) {
-				adminList.remove(u.username);
-			}
-		}
-		//
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
-		return ok(korisnik.render(usernameSes, u, l, adminList));
+		return ok(korisnik.render("", u, l, adminList));
 	}
+	
+	/**
+	 * Deletes the User;
+	 * @param id
+	 * @return
+	 */
+	public static Result deleteUser(int id) {
+		
+		  User.delete(id);
+		  return redirect(routes.UserController.allUsers());
+	}
+	
+	
 	
 	public static Result editUser(int id) {
 		usernameSes = session("username");
