@@ -29,7 +29,7 @@ public class CategoryController extends Controller {
 	public static Result categories(int id) {
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		MainCategory mc = MainCategory.findMainCategory(id);
-		List<Product> productList = ProductController.findProduct.where().eq("category", mc.name).findList();
+		List<Product> productList = ProductController.findProduct.where().eq("id", mc.id).findList();
 		return ok(kategorija.render(productList, mainCategoryList));
 	}
 	

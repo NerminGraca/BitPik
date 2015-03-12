@@ -21,7 +21,7 @@
 									<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="" id="name" name="name" required/>
 									
 									<h5 id="editProfileText">Opis:</h5>
-									<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="desc" name="desc" required/>
+									<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="description" name="description" required/>
 									
 									<h5 id="editProfileText">Cijena:</h5>			
 									<input type="number" min="1" max="999999999" step="any" value="" id="price" name="price" required/>
@@ -59,7 +59,7 @@
 										<form action="#">
   											<fieldset>
 	    										<label id="editProfileText" for="category">Kategorija</label>
-	    										<select name="category" id="category">
+	    										<select name="categoryString" id="categoryString">
 		    										@if(mainCategoryList.size() > 0 ) {
 						  								@for(mainCategory <- mainCategoryList) {
 						  									<option>@mainCategory.name</option>

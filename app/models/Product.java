@@ -19,10 +19,13 @@ public class Product extends Model {
 	@Required
 	public String name;
 	
-	public String desc;
+	public String description;
 	
 	@Required
-	public String category;
+	public String categoryString;
+	
+	@ManyToOne
+	public MainCategory category;
 	
 	@Required
 	public double price;
@@ -39,12 +42,13 @@ public class Product extends Model {
 	 * Constructor with default values
 	 */
 	public Product() {
-		this.name = "proizvod";
-		this.desc = "opis";
+		this.name = "Unknown";
+		this.description = "Unknown";
+		this.categoryString = "Unknown";
 		this.price = -1;
-		this.owner = new User();
-		this.category = "Ostale kategorije";
-		this.availability = "Nedođija";
+		this.owner = null;
+		this.category = null;
+		this.availability = "Unknown";
 		publishedDate = getDate();
 	}
 
@@ -54,9 +58,9 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, double price, String category, String availability, User owner) {
+	public Product(String name, String desc, double price, User owner, MainCategory category, String availability) {
 		this.name = name;
-		this.desc = desc;
+		this.description = desc;
 		this.price = price;
 		this.owner = owner;
 		this.category = category;		
@@ -64,49 +68,50 @@ public class Product extends Model {
 		publishedDate = getDate();
 	}
 	
+	//Finder
+	public static Finder<Integer, Product> find = new Finder<Integer, Product>(Integer.class, Product.class);
+	
 	// Setters for all the attributes that can be changed
 		// in the editProduct.html page;
-		/**
-		 * Sets the name of the product;
-		 * @param name
-		 */
-		public void setName(String name) {
-			this.name = name;
-		}
-		/**
-		 * Sets the description of the product;
-		 * @param desc
-		 */
-		public void setDesc(String desc) {
-			this.desc = desc;
-		}
+	/**
+	 * Sets the name of the product;
+	 * @param name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * Sets the description of the product;
+	 * @param desc
+	 */
+	public void setDesc(String desc) {
+		this.description = desc;
+	}
 
-		/**
-		 * Sets the category of the product;
-		 * @param category
-		 */
-		public void setCategory(String category) {
-			this.category = category;
-		}
+	/**
+	 * Sets the category of the product;
+	 * @param category
+	 */
+	public void setCategory(MainCategory category) {
+		this.category = category;
+	}
 
-		/**
-		 * Sets the price of the product;
-		 * @param price
-		 */
-		public void setPrice(double price) {
-			this.price = price;
-		}
+	/**
+	 * Sets the price of the product;
+	 * @param price
+	 */
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
-		/**
-		 * Sets the availability of the product;
-		 * @param availability
-		 */
-		public void setAvailability(String availability) {
-			this.availability = availability;
-		}
-
-	
-	
+	/**
+	 * Sets the availability of the product;
+	 * @param availability
+	 */
+	public void setAvailability(String availability) {
+		this.availability = availability;
+	}
+		
 	/**
 	 * @author Graca Nermin
 	 * When the constructor is called. Meaning, when the item/product is published this date will be
@@ -125,14 +130,16 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static Product create(String name, String desc, double price, String category, String availability, User owner) {
-		Product newProduct = new Product(name, desc, price, category, availability, owner);
+	public static Product create(String name, String desc, double price, User owner, MainCategory category, String availability) {
+		Product newProduct = new Product(name, desc, price, owner, category, availability);
 		newProduct.save();
 		return newProduct;
 	}
 	
-	public static Finder<Integer, Product> find = new Finder<Integer, Product>(Integer.class, Product.class);
-	
+	/**
+	 * Method deletes Product which has id given to the method
+	 * @param id = id of object Product which will be deleted from database
+	 */
 	public static void delete(int id) {
 		  find.ref(id).delete();
 	}
