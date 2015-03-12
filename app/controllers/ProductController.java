@@ -67,8 +67,8 @@ public class ProductController extends Controller {
 		String availability = newProduct.bindFromRequest().get().availability;
 		
 		User u = User.finder(usernameSes);
-		int id = Product.create(name, desc, price, category, availability, u);
-		return redirect("/showProduct/" + id);	
+		Product p = Product.create(name, desc, price, category, availability, u);
+		return redirect("/showProduct/" + p.id);	
 	
 	}
 	

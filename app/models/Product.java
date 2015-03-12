@@ -125,10 +125,10 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static int create(String name, String desc, double price, String category, String availability, User owner) {
+	public static Product create(String name, String desc, double price, String category, String availability, User owner) {
 		Product newProduct = new Product(name, desc, price, category, availability, owner);
 		newProduct.save();
-		return newProduct.id;
+		return newProduct;
 	}
 	
 	static Finder<Integer, Product> find = new Finder<Integer, Product>(Integer.class, Product.class);

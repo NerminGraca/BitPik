@@ -119,12 +119,12 @@ public class User extends Model {
 	 * @param password
 	 * @param email
 	 */
-	public static int createSaveUser(String username, String password,String email) {
+	public static User createSaveUser(String username, String password,String email) {
 		User newUser = new User(username, password,email);
 		newUser.save();
 		
 		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
-		return newUser.id;
+		return newUser;
 	}
 	
 	/**
