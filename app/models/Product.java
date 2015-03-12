@@ -39,7 +39,6 @@ public class Product extends Model {
 	 * Constructor with default values
 	 */
 	public Product() {
-		//TODO dodati kategoriju i dostuonost
 		this.name = "proizvod";
 		this.desc = "opis";
 		this.price = -1;
@@ -48,7 +47,7 @@ public class Product extends Model {
 		this.availability = "Nedođija";
 		publishedDate = getDate();
 	}
-	
+
 	/**
 	 * Constructor of object Product with all 3 parameters.  
 	 * @param name

@@ -1,4 +1,4 @@
-@(implicit user: User = SessionHelper.currentUser(ctx()) )
+@(location: String)(implicit user: User = SessionHelper.getCurrentUser(ctx()) )
 <div class="wrap">
 	<div class="header">
 		<div class="headertop_desc">
@@ -26,15 +26,15 @@
 		<div class="header_bottom">
 	     	<div class="menu">
 	     		<ul>
-			    	<li class="active"><a href="/">Početna</a></li>
+			    	<li class='@("active".when(location == null || location == "" || location == "index"))'><a href="/">Početna</a></li>
 			    	<li><a href="#">Radnje</a></li>
 			    	<li><a href="#">Nekretnine</a></li>
 			    	<li><a href="#">Hitno</a></li>
 			    	<li><a href="#">Servisi i usluge</a></li>
 			    	@if(user != null) {
 			    		@if(user.isAdmin == true){
-			    		<li><a href="/korisnici">Korisnici</a></li>
-			    		<li><a href="/listaKategorija">Kategorije</a></li>
+			    		<li class='@("active".when(location == "korisnici"))'><a href="/korisnici">Korisnici</a></li>
++			    		<li class='@("active".when(location == "kategorije"))'><a href="/listaKategorija">Kategorije</a></li>
 			    		}
 			    	}
 			    			    	

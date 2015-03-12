@@ -46,6 +46,16 @@ body {
         font-size: 15px;
 }
 
+#productsOnProfile{
+	display: inline-block;
+	width: 100%;	
+	
+}
+
+#listOfCategory{
+	list-style: none;
+  	padding-bottom: 10px;
+}
 
 .leftBox{
 	display: inline-block;
@@ -71,11 +81,55 @@ body {
 	margin-left:10px; 
 }
 
+/* this is fot editProfile red and blue text*/
+
 #redText{
 	color: #B81D22;
 	font-size: 20px;
 	font-style: bold;
 }
+
+.blueText{
+	color: #52478d;
+	font-size: 20px;
+	font-style: bold;
+	padding-bottom: 10px;
+	
+}
+
+/* this is button on profile.html for edditing profile*/
+.btn{
+	display: inline-block;
+	float: left;
+  	width: 27%;
+  	padding: 10px 16px;
+  	font-size: 18px;
+ 	line-height: 1.3333333;
+  	border-radius: 6px;
+  	background-color: #EEE;
+  	border-color: #B81D24;
+    font-weight: 400;
+    text-align: center;
+  	white-space: nowrap;
+  	vertical-align: middle;
+  	touch-action: manipulation;
+  	cursor: pointer;
+    border: 1px solid transparent;
+    -webkit-appearance: button;
+    overflow: visible;
+    color: #52478d;
+    margin-right: 10px;
+}
+
+/* button to delete product on profile page*/
+.btnDelete{
+	padding: 4px;
+	background-color: #CD1F25;
+	border-radius: 2px;
+	color: white;
+	border-color: #CD1F25;
+}
+
 .profilePicture{
 	border: 1px solid grren;
 	position: relative;
@@ -88,7 +142,11 @@ body {
  	
  }
 
-
+.redHeader{
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif, bold;
+	font-size: 20px;
+	color: #B81D22;
+}
 
 
 
@@ -297,6 +355,14 @@ body {
 	margin-left:10px; 
 }
 
+.buttonRed{	
+  margin: 10px;
+  }
+
+#editProfileText{
+	margin: 6px;
+}  
+  
 .header_slide{
 	margin-top:15px;
 }

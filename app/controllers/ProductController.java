@@ -80,13 +80,14 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result editProduct(int id) {
+		User currentUser=SessionHelper.getCurrentUser(ctx());
 		usernameSes = session("username");
 		// 1. Ako nije registrovan da mu oneomogucimo prikaz editProduct.html;
 				if (usernameSes == null) {
 					return redirect("/");
 				}
 		// 2. Ako je admin ulogovan, onemogucujemo mu da edituje proizvod;
-				if (UserController.adminList.contains(usernameSes)) {
+				if (currentUser.isAdmin==true) {
 					return redirect("/");
 				}
 		// 3. Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog proizvoda> da ga edituje;	

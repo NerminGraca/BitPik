@@ -16,9 +16,6 @@ import views.html.*;
 
 public class Application extends Controller {
 	
-	static ArrayList<String> adminList = new ArrayList<String>();
-	static String usernameSes;
-	
 	/**
 	 * Renders the registration.html page;
 	 * 
@@ -34,17 +31,13 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result login() {
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
-		return ok(login.render(usernameSes, "", ""));
+		return ok(login.render("", ""));
 		
 	}
 	
 	/**
-	 * @author Sanela Grcic & Nermin Graca Method Logout - clears current
-	 *         session and redirects to index.html
+	 * @author Sanela Grcic & Nermin Graca 
+	 * Method Logout - clears current session and redirects to index.html
 	 * @return redirect to index.html
 	 */
 	public static Result logout() {

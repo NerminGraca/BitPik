@@ -82,7 +82,7 @@ public class UserController extends Controller {
 		User u = User.finder(username);
 		//if not found or not verified email, after login;
 		if (u == null || u.verified==false) {
-			return ok(login.render("", "Ne postoji korisnik ili email nije verificiran", ""));
+			return ok(login.render("Ne postoji korisnik ili email nije verificiran", ""));
 		} else {
 			hashPass = u.password;
 		}
@@ -94,7 +94,7 @@ public class UserController extends Controller {
 		session("username", username);
 			return redirect("/");
 		} else {
-			return ok(login.render("", "", "Password je netacan"));
+			return ok(login.render("", "Password je netacan"));
 		}
 	}
 
@@ -105,9 +105,11 @@ public class UserController extends Controller {
 	 * @return renders the profile.html page with the list of products mentioned;
 	 */
 	public static Result findProfileProducts(){
+		User currentUser=SessionHelper.getCurrentUser(ctx());
 		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
+			return redirect("/");
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
 		User u = User.finder(usernameSes);
@@ -163,28 +165,22 @@ public class UserController extends Controller {
 	 */
 	public static Result singleUser(int id) {
 		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
 		User u = findUser.byId(id);
+		String username=u.username;
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
+		if ((usernameSes == null)) {
+			
+			return redirect("/");
+		}
+		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
+		if (userbyName.isAdmin == false) {
+			return redirect("/");
+			}
+		
 		return ok(korisnik.render(usernameSes, u, l, adminList));
 	}
 	
-	/**
-	 * Changes the isAdmin attribute of the user under the given id;
-	 * @param id
-	 * @return
-	 */
-	public static Result changeAdmin(int id)
-	{
-		
-		User u = findUser.byId(id);
-		//Sets the admin to !true/false;
-		u.setAdmin();
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
-		return ok(korisnik.render("", u, l, adminList));
-	}
+	
 	
 	/**
 	 * Deletes the User;
@@ -201,8 +197,24 @@ public class UserController extends Controller {
 	
 	public static Result editUser(int id) {
 		usernameSes = session("username");
-		User u = findUser.byId(id);
-		return ok(editUser.render(usernameSes, u, adminList));
+		if ((usernameSes == null)) {
+			usernameSes = "";
+			return redirect("/");
+		}
+		User userById = findUser.byId(id);
+		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
+		if(userbyName.isAdmin==true)
+			return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
+		
+		
+		else 
+			if ((userbyName.getUsername()!=userById.getUsername())) {
+				return redirect("/");
+				}
+		
+		
+		
+		return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
 	}
 	
 	/**
@@ -216,11 +228,13 @@ public class UserController extends Controller {
 		String username = newUser.bindFromRequest().get().username;
 		String email = newUser.bindFromRequest().get().email;
 		String password = newUser.bindFromRequest().get().password;
+		boolean isAdmin = newUser.bindFromRequest().get().isAdmin;
 		password = HashHelper.createPassword(password);
 		User u = findUser.byId(id);
 		u.setUsername(username);
 		u.setEmail(email);
 		u.setPassword(password);
+		u.setAdmin(isAdmin);
 		u.save();
 		
 		return redirect("/korisnik/" + id);	
