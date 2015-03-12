@@ -1,97 +1,87 @@
 @(usernameSes: String)(user: User)(products: List[Product])(adminList: List[String])
 @import helper._
 
-
 @main("Profile", "") {
 		
-<div class="wrap">
-	
- <div class="main">
-    <div class="content">
-    	<div class="section group">
+<div class="wrap">	
+	<div class="main">
+    	<div class="content">
+    		<div class="section group">
+				<div class="rightBox">
+					<h2 id="redText">Korisnicko ime:</h2>
+					<p class="blueText">@user.username</p>
 				
-				  	<h2><em>Username </em></h2><br>
-		
-			<p>@user.username</p><br>
+					<h2 id="redText">Email:</h2><br>
+					<p class="blueText">@user.email</p>
 			
-		<h2><em>Email: </em></h2><br>
+					<h2 id="redText">Admin</h2>
+						@if(user.isAdmin){
+							<p class="blueText">Da</p>
+						}else{
+							<p class="blueText">Ne</p>				
+						}
+					
+					<h2 id="redText">Datum registracije</h2>
+					<p class="blueText">@user.createdDate</p><br>	
 		
-			<p>@user.email</p><br>
-		
-		<h2><em>Admin </em></h2><br>
-		
-			@if(user.isAdmin){
-				<p>Da</p><br>
-			}else{
-				<p>Ne</p><br>				
-			}
-		<h2><em>Datum registracije </em></h2><br>
-		
-			<p>@user.createdDate</p><br>	
-	
-	<a href="/editUser/@user.id">Edituj</a>
+					<!-- delete user profile -->
+						@if(!usernameSes.equals(user.username)){
+							@if(adminList.contains(usernameSes)){
+								@form(routes.UserController.deleteUser(user.id)) {
+				        	  		<input class="btn" type="submit" value="Izbrisi korisnika"  onclick="return confirm('Da li ste sigurni da zelite izbrisati korisnika?');">
+	                    		}
+	                    		@form(routes.UserController.changeAdmin(user.id)) {
+	               			 		<input class="btn" type="submit" value="Postavi za admina">
+	            				}
+	                  		} 
+				   		}
+					<!-- promijeni admin-a -->
 			
-					<div class="leftBox">
-						<div><a class="profilePicture" ><img src="@routes.Assets.at("images/profileimg.png")" alt="" /></a></div>
+					<button type="button" class="btn"><a href="/editUser/@user.id">Izmijeni profilne podatke</a></button>
+		
+				</div>
+			
+				<div class="leftBox">
+					<div><a class="profilePicture" ><img src="@routes.Assets.at("images/profileimg.png")" alt="" /></a></div>
 										
-				<div class="categories">
-				  <ul>
-				      <li><a href="#">Moj pik</a></li>
-				      <li><a href="#">Poruke</a></li>
-				      <li><a href="#">Blokirani korisnici</a></li>
-				      <li><a href="#">Javna pitanja</a></li>
-				      <li><a href="#">Spaseni proizvodi</a></li>
-				
-				  </ul>
-				</div>					
-	  	    
-					</div>
+					<div class="categories">
+					  <ul>
+					      <li><a href="#">Moj pik</a></li>
+					      <li><a href="#">Poruke</a></li>
+					      <li><a href="#">Blokirani korisnici</a></li>
+					      <li><a href="#">Javna pitanja</a></li>
+					      <li><a href="#">Spaseni proizvodi</a></li>
+					  </ul>
+					</div>					
+	  	 
+				</div>
 					
-					<div class="rightBox">
-					
-					
-			@if(!products.isEmpty) {
-				@for(product <- products) {
+				<div id="productsOnProfile">
+							
+					@if(!products.isEmpty) {
+						@for(product <- products) {
 									
-					
 						<div class="grid_1_of_4 images_1_of_4">
 							 <a href="/showProduct/@product.id"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
 					 		 <h2>@product.name </h2>
 					 		 @form(routes.ProductController.deleteProduct(product.id)) {
-                    <input type="submit" value="Delete"  onclick="return confirm('Are you sure you want to delete this product?');">
-                }
+                   				 <input class="btnDelete" type="submit" value="Izbrisi proizvod"  onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                			}
 							<div class="price-details">
-				       			<div class="price-number">
-							<p><span class="rupees">@product.price KM</span></p>
-					    	</div>
-					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@product.id">View</a></h4>
-							    </div>
-							 <div class="clear"></div>
-						</div>
+				       		
+				       			<div class="price-number"><p><span class="rupees">@product.price KM</span></p></div>
+					       		<div class="add-cart"><h4><a href="/showProduct/@product.id">Pogledaj</a></h4></div>
+								<div class="clear"></div>
+							</div>
 					
-					</div>
-				}
-			}
-
+						</div>
+						}
+					}
+				</div>
 	
-   
-<!-- delete user profile -->
-		@if(!usernameSes.equals(user.username)){
-				@if(adminList.contains(usernameSes)){
-					@form(routes.UserController.deleteUser(user.id)) {
-			        	  <input type="submit" value="Izbrisi korisnika"  onclick="return confirm('Are you sure you want to delete this user?');">
-                    }
-                    @form(routes.UserController.changeAdmin(user.id)) {
-               			 <input type="submit" value="Izmijeni administratora">
-            		}
-                  } 
-			   }
-<!-- promijeni admin-a -->
-            		
-         </div> 
-    </div>
- </div>
+         	</div> 
+    	</div>
+ 	</div>
 </div>
 	
 }
