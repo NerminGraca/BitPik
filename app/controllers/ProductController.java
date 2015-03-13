@@ -61,13 +61,14 @@ public class ProductController extends Controller {
 	public static Result createProduct() {
 		usernameSes = session("username");
 		String name = newProduct.bindFromRequest().get().name;
-		String desc = newProduct.bindFromRequest().get().desc;
+		String desc = newProduct.bindFromRequest().get().description;
 		Double price = newProduct.bindFromRequest().get().price;
-		String category = newProduct.bindFromRequest().get().category;
+		String category = newProduct.bindFromRequest().get().categoryString;
 		String availability = newProduct.bindFromRequest().get().availability;
+		MainCategory mc = MainCategory.findMainCategoryByName(category);
 		
 		User u = User.finder(usernameSes);
-		Product p = Product.create(name, desc, price, category, availability, u);
+		Product p = Product.create(name, desc, price, u, mc, availability);
 		return redirect("/showProduct/" + p.id);	
 	
 	}
@@ -106,10 +107,12 @@ public class ProductController extends Controller {
 		//takes the new attributes that are entered in the form;
 		usernameSes = session("username");
 		String name = newProduct.bindFromRequest().get().name;
-		String desc = newProduct.bindFromRequest().get().desc;
+		String desc = newProduct.bindFromRequest().get().description;
 		Double price = newProduct.bindFromRequest().get().price;
-		String category = newProduct.bindFromRequest().get().category;
+		String category = newProduct.bindFromRequest().get().categoryString;
 		String availability = newProduct.bindFromRequest().get().availability;
+		
+		MainCategory mc = MainCategory.findMainCategoryByName(category);
 		
 		// sets all the new entered attributes as the original ones from the product;
 		// and saves();
@@ -117,7 +120,7 @@ public class ProductController extends Controller {
 		p.setName(name);
 		p.setDesc(desc);
 		p.setPrice(price);
-		p.setCategory(category);
+		p.setCategory(mc);
 		p.setAvailability(availability);
 		p.save();
 		

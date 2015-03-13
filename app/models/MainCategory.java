@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import play.data.validation.Constraints.Required;
@@ -14,6 +16,9 @@ public class MainCategory extends Model {
 	
 	@Required
 	public String name;
+	
+	@OneToMany(mappedBy="category", cascade=CascadeType.ALL)
+	public List<Product> products;
 	
 	/**
 	 * @author Graca Nermin
@@ -36,11 +41,15 @@ public class MainCategory extends Model {
 	
 	//Finder
 	public static Finder<Integer, MainCategory> find = new Finder<Integer, MainCategory>(Integer.class, MainCategory.class);
+	public static Finder<String, MainCategory> findByName = new Finder<String, MainCategory>(String.class, MainCategory.class);
 	
 	public static MainCategory findMainCategory(int id) {
 		return find.byId(id);
 	}
 	
+	public static MainCategory findMainCategoryByName(String name) {
+		return findByName.where().eq("name", name).findUnique();
+	}
 
 	public static void delete(int id) {
 		  find.ref(id).delete();

@@ -8,8 +8,8 @@
 			<div class="account_desc">
 				<ul>
 					@if(user == null || user.verified == false) {
-					<li><a href="/registration">Registracija</a></li>
-					<li><a href="/login">Login</a></li>
+						<li><a href="/registration">Registracija</a></li>
+						<li><a href="/login">Login</a></li>
 					}
 					@if(user != null && user.verified == true){
 						<li><a href="/addProduct">Objavite oglas</a></li>
@@ -18,11 +18,17 @@
 					}
 				</ul>
 			</div>
+						
+			<!-- OBRISATI? -->
 			<div class="clear"></div>
+
 		</div>
+
+		<!-- OBRISATI? -->
 		<div class="header_top">
 	 		<div class="clear"></div>
 		</div>
+
 		<div class="header_bottom">
 	     	<div class="menu">
 	     		<ul>
@@ -33,20 +39,26 @@
 			    	<li><a href="#">Servisi i usluge</a></li>
 			    	@if(user != null) {
 			    		@if(user.isAdmin == true){
-			    		<li class='@("active".when(location == "korisnici"))'><a href="/korisnici">Korisnici</a></li>
-+			    		<li class='@("active".when(location == "kategorije"))'><a href="/listaKategorija">Kategorije</a></li>
+				    		<li class='@("active".when(location == "korisnici"))'><a href="/korisnici">Korisnici</a></li>
+				    		<li class='@("active".when(location == "kategorije"))'><a href="/listaKategorija">Kategorije</a></li>
 			    		}
 			    	}
-			    			    	
+
+					<!-- OBRISATI? -->			    			    	
 			    	<div class="clear"></div>
+
      			</ul>
 	     	</div>
 	     	<div class="search_box">
 	     		<form>
-	     			<input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
+	     			<input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
+	     			<input type="submit" value="">
 	     		</form>
 	     	</div>
+	     	
+			<!-- OBRISATI? -->
 	     	<div class="clear"></div>
+
 		</div>
 	</div>
 </div>	
