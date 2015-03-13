@@ -1,0 +1,52 @@
+@(productList: List[Product])(mainCategoryList: List[MainCategory])
+
+@main("Kategorija", "") {
+
+    
+<div class="wrap">  
+	<div class="header_slide">
+		<div class="header_bottom_left">				
+			<div class="categories">
+				  <ul>
+				  	<h3>Kategorije</h3>
+				  	
+				  		@if(mainCategoryList.size() > 0 ) {
+				  			@for(mainCategory <- mainCategoryList) {
+				  				<li><a href="@mainCategory.id">@mainCategory.name</a></li>
+				  			}
+				  		}
+				  		
+				  </ul>
+			</div>					
+		</div>
+		<div class="main">	
+	    	<div class="content">
+				<div class="clear"></div>
+				<div class="section group">
+	      	      
+					@if(productList.size() > 0){
+						@for(product <- productList){
+							<div class="grid_1_of_4 images_1_of_4">
+								<a href="/showProduct/@product.id"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
+								<h2>@product.name </h2>
+								<div class="price-details">
+									<div class="price-number">
+										<p><span class="rupees">@product.price KM</span></p>
+									</div>
+									<div class="add-cart">								
+										<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+							     	</div>
+							 		<div class="clear"></div>
+								</div>					 
+							</div>
+				
+						}
+					}
+				
+				</div>	
+    		</div>
+		</div>
+	</div>
+</div>
+   
+}

@@ -47,6 +47,42 @@ body {
 }
 
 
+.sectiongroup2{
+	display: inline-block;
+	float: left;
+	width: 70%;
+}
+
+
+
+
+
+.addCategoryFill{
+	display: block;
+	width: 99%;
+	margin-left: 30px;
+	padding: 5px;
+	color: #B81D22;
+}
+
+#addCategoryFill{
+	width: 35%;
+	height: 20px;
+	
+}
+
+
+#productsOnProfile{
+	display: inline-block;
+	width: 100%;	
+	
+}
+
+#listOfCategory{
+	list-style: none;
+  	padding-bottom: 10px;
+}
+
 .leftBox{
 	display: inline-block;
 	float: left;
@@ -71,6 +107,84 @@ body {
 	margin-left:10px; 
 }
 
+/* this is fot editProfile red and blue text*/
+
+#redText{
+	color: #B81D22;
+	font-size: 20px;
+	font-style: bold;
+}
+
+.blueText{
+	color: #52478d;
+	font-size: 20px;
+	font-style: bold;
+	padding-bottom: 10px;
+	
+}
+
+/* this is button on profile.html for edditing profile*/
+.btn{
+	display: inline-block;
+	float: left;
+  	width: 27%;
+  	padding: 10px 16px;
+  	font-size: 18px;
+ 	line-height: 1.3333333;
+  	border-radius: 6px;
+  	background-color: #EEE;
+  	border-color: #B81D24;
+    font-weight: 400;
+    text-align: center;
+  	white-space: nowrap;
+  	vertical-align: middle;
+  	touch-action: manipulation;
+  	cursor: pointer;
+    border: 1px solid transparent;
+    -webkit-appearance: button;
+    overflow: visible;
+    color: #52478d;
+    margin-right: 10px;
+}
+
+.btn2{
+	
+	display: inline-block;
+	float: left;
+  	width: 27%;
+  	padding: 10px 16px;
+  	font-size: 18px;
+ 	line-height: 1.3333333;
+  	border-radius: 6px;
+  	background-color: #B81D22;
+  	border-color: #B81D22;
+    font-weight: 400;
+    text-align: center;
+  	white-space: nowrap;
+  	vertical-align: middle;
+  	touch-action: manipulation;
+  	cursor: pointer;
+    border: 1px solid transparent;
+    -webkit-appearance: button;
+    overflow: visible;
+    color: white;
+    margin-right: 10px;
+	
+}
+
+
+#whiteText{
+	color: white;
+	
+}
+/* button to delete product on profile page*/
+.btnDelete{
+	padding: 4px;
+	background-color: #CD1F25;
+	border-radius: 2px;
+	color: white;
+	border-color: #CD1F25;
+}
 
 .profilePicture{
 	border: 1px solid grren;
@@ -84,7 +198,11 @@ body {
  	
  }
 
-
+.redHeader{
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif, bold;
+	font-size: 20px;
+	color: #B81D22;
+}
 
 
 
@@ -287,8 +405,22 @@ body {
 	width: 20px;
 	height: 25px;
 }
+
+.buttonPosition{
+	float: right;
+	margin-left:10px; 
+}
+
+.buttonRed{	
+  margin: 10px;
+  }
+
+#editProfileText{
+	margin: 6px;
+}  
+  
 .header_slide{
-	margin-top:10px;
+	margin-top:15px;
 }
 .header_bottom_left{
 	float:left;
@@ -327,8 +459,35 @@ body {
 	width:74%;
 	padding-left:1%;
 }
+#BigTextCatgory{
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif, bold;
+	font-size: 20px;
+	color: #B81D22;
+}
 
+#buttonPossition{
+	margin: 10px;
+}
 
+#boxForEditingProduct{
+	border: #CECECE 2px solid;
+	padding: 20px;
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+
+.bottomLine{
+	border-bottom:#CECECE 2px solid;
+	margin-bottom: 5px;	
+}
+
+.contact-form-oglas{
+	
+	position: left;
+	padding-bottom: 30px;
+	padding-left: 50px; 
+}
+	
 
 
 .row{
@@ -435,6 +594,19 @@ box-sizing: border-box;
 	-moz-box-shadow: 0px 0px 3px rgb(150, 150, 150);
 	-o-box-shadow: 0px 0px 3px rgb(150, 150, 150);
 }
+
+.grid_1_of_42 {
+	
+	display:block;
+	float: left;
+	margin: 1% 0 1% 0;
+	box-shadow: 0px 0px 3px rgb(150, 150, 150);
+	-webkit-box-shadow: 0px 0px 3px rgb(150, 150, 150);
+	-moz-box-shadow: 0px 0px 3px rgb(150, 150, 150);
+	-o-box-shadow: 0px 0px 3px rgb(150, 150, 150);
+}
+
+
 .grid_1_of_4:first-child {
 	margin-left: 0;
 }
@@ -1746,3 +1918,4 @@ box-sizing: border-box;
 		color: #7db9e8;
 	}
 }
+

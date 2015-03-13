@@ -1,0 +1,29 @@
+@(mc : MainCategory)(mainCategoryList: List[MainCategory])(adminList: List[String])
+@import helper._
+
+
+@main("editCategory", "") {
+		
+	<div class="wrap">
+		<div class="main">
+			<div class="content">
+				<div class="section group">
+					<div class="col span_2_of_3">
+						<div class="contact-form">
+						<h1 id="BigTextCatgory">Izmijeni ime kategorije:</h1><br>
+						
+						@helper.form(routes.CategoryController.saveEditMainCategory(mc.id),'id->"productForm") {
+		
+							<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="@mc.name" id="name" name="name" required/>
+							<div id="buttonPossition">
+								<input type="submit" value="Spasi" />
+							</div>
+						}
+						</div>
+					</div>		
+				</div> 
+			</div>
+		</div>
+	</div>   
+}
+

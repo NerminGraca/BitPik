@@ -1,264 +1,105 @@
-@(usernameSes: String)
+@(usernameSes: String)(mainCategoryList: List[MainCategory])
 @import helper._
 
-
-@main("addProduct") {
+@main("addProduct", "") {
 		
-		<div class="wrap">
-	<div class="header">
-		<div class="headertop_desc">
-			<div class="logo">
-				<a href="/"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="75" heigth="75" alt=""></a>
-			</div>
-			<div class="account_desc">
-				<ul>
-					@if(usernameSes.equals("")) {
-					<li><a href="/registration">Registracija</a></li>
-					<li><a href="/login">Login</a></li>
-					}
-					@if(!usernameSes.isEmpty){
-						<li><a href="/addProduct">Objavite oglas</a></li>
-						<li><a href="/profile">Korisnik @usernameSes</a></li>
-						<li><a href="/logout">Logout</a></li>
-					}
-				</div>
-			<div class="clear"></div>
-		</div>
-		<div class="header_top">
-			
-			  <div class="cart">
-			  </div>
-			  <script type="text/javascript">
-			function DropDown(el) {
-				this.dd = el;
-				this.initEvents();
-			}
-			DropDown.prototype = {
-				initEvents : function() {
-					var obj = this;
-
-					obj.dd.on('click', function(event){
-						$(this).toggleClass('active');
-						event.stopPropagation();
-					});	
-				}
-			}
-
-			$(function() {
-
-				var dd = new DropDown( $('#dd') );
-
-				$(document).click(function() {
-					// all dropdowns
-					$('.wrapper-dropdown-2').removeClass('active');
-				});
-
-			});
-
-		</script>
-	 <div class="clear"></div>
-  </div>
-	<div class="header_bottom">
-	     	<div class="menu">
-	     		<ul>
-			    	<li class="active"><a href="/">Početna</a></li>
-			    	<li><a href="#">Radnje</a></li>
-			    	<li><a href="#">Nekretnine</a></li>
-			    	<li><a href="#">Hitno</a></li>
-			    	<li><a href="#">Servisi i usluge</a></li>
-			    	<div class="clear"></div>
-     			</ul>
-	     	</div>
-	     	<div class="search_box">
-	     		<form>
-	     			<input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}"><input type="submit" value="">
-	     		</form>
-	     	</div>
-	     	<div class="clear"></div>
-	     </div>	
- <div class="main">
-    <div class="content">
-    	<div class="section group">
+<div class="wrap">
+	<div class="main">
+		<div class="content">
+    		<div class="section group">
 				<div class="col span_2_of_3">
-				  <div class="contact-form">
-				  	<h1>DODAVANJE ARTIKLA</h1><br>
-	<!--
-		NAŠ HELPER 
-		
-		MINIMUM of three characters is here!! 
-		-->
-		@helper.form(routes.ProductController.createProduct(),'id->"productForm") {
-			<h5>Naziv:</h5>
-			<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="" id="name" name="name" required/>
-			<h5>Opis:</h5>
-			<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="desc" name="desc" required/>
-			<h5>Cijena:</h5>			
-			<input type="number" min="1" max="999999999" step="any" value="" id="price" name="price" required/>
-			<br><br>
+					<div class="contact-form">
+				  		<h1 class="redHeader">Dodaj proizvod:</h1><br>
+							
+							<!--	NAŠ HELPER 
+									MINIMUM of three characters is here!! 
+							-->
+							
+								@helper.form(routes.ProductController.createProduct(),'id->"productForm") {
+									
+									<h5 id="editProfileText">Naziv proizvoda:</h5>
+									<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="" id="name" name="name" required/>
+									
+									<h5 id="editProfileText">Opis:</h5>
+									<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="description" name="description" required/>
+									
+									<h5 id="editProfileText">Cijena:</h5>			
+									<input type="number" min="1" max="9999999" step="any" value="" id="price" name="price" required/>
+															
+						  			<!-- This is css for Kategorija and availability dropdown meni -->
+					
+						  			<style>
+						    			fieldset {
+							    			border: 0;
+						    	  			font-style: bold;
+						    	  			}
+						    			
+							    		label {
+							      			display: block;
+							      			margin: 0 0 0 0;
+							      			}
+							    		
+							    		select {
+							  		    	width: 53%;
+							  		    	height: 40px;
+							  		    	font-weight: bold;
+							  		    	color: #464646;
+											font-size: 1em;
+											font-family: Arial, Helvetica, sans-serif;
+											padding: 8px;
+											margin: 5px;
+											}
+							   			
+							    		.overflow {
+							      			height: 400px;
+							      			}
+						 			</style>
 			
-			
-			<script>
-  				
- 			 </script>
-  			<style>
-    			fieldset {
-      			border: 0;
-    			}
-    		label {
-      			display: block;
-      			margin: 0 0 0 0;
-    		}
-    		select {
-  		    	width: 50%;
-  		    	
-   			}
-    		.overflow {
-      			height: 200px;
-    		}
- 			 </style>
-			
-			<body>
- 
-			<div class="demo">
- 
-			<form action="#">
- 
-  			<fieldset>
-    		<label for="category">Kategorija</label>
-    		<select name="category" id="category">
-      			<option selected="selected">Vozila</option>
-      			<option>Nekretnine</option>
-      			<option>Mobilni uređaji</option>
-      			<option>Kompjuteri</option>
-      			<option>Tehnika</option>
-      			<option>Nakit i satovi</option>
-      			<option>Moj dom</option>
-      			<option>Biznis i industrija</option>
-      			<option>Životinje</option>
-      			<option>Odjeća i obuća</option>
-      			<option>Ostale kategorije</option>
-    		</select>
- 
-    
-			</fieldset>
- 
-			
-
- 
-
-  			<fieldset>
-
-   			<label for="availability">Dostupnost</label>
-
-    		<select name="availability" id="availability">
-
-     			<option selected="selected">Svugdje</option>
-
-     			<option>Unutar BiH</option>
-
-      			<option>Sarajevo</option>
-
-    			<option>Unsko sanski</option>
-
-    			<option>Posavski</option>
-
-     			<option>Tuzlanski</option>
-
-     			<option>Zenicko-dobojski</option>
-			
-		    	<option>Bosansko-Podrinjski</option>
-
-   				<option>Srednjo-bosanski</option>
-
-    			<option>Zapadno-hercegovacki</option>
+									<div class="demo">
+										<form action="#">
+  											<fieldset>
+	    										<label id="editProfileText" for="category">Kategorija:</label>
+	    										<select name="categoryString" id="categoryString">
+		    										@if(mainCategoryList.size() > 0 ) {
+						  								@for(mainCategory <- mainCategoryList) {
+						  									<option>@mainCategory.name</option>
+						  								}		
+						  							}
+						  						</select>
+ 											</fieldset>
 	
-    			<option>Livanjski</option>
-
-     			<option>Hercegovacko-neretvanski</option>
-
-   		   		<option>Distrikt Brcko</option>
-
-  		    	<option>Banjalucka</option>
-
-  		    	<option>Dobojsko-bijeljinska</option>
-
-   		   		<option>Sarajevsko-zvornicka</option>
-
-   		 		<option>Focansko-trebinjska</option>
-
-       
-   			 </select>
-
-
-			</fieldset> 
-
-			</form>
-
-
-			
-			<input type="submit" value="Objavi" />
-				  </div>
-  				</div>
-
-				<div class="col span_1_of_3">
-					<div class="contact_info">
-						
-				 </div>
-			  </div>		
-         </div> 
-    </div>
- </div>
-   
-<!-- FOOTER -->
-
-   <div class="footer">
-   	  <div class="wrap">	
-	     <div class="section group">
-				<div class="col_1_of_4 span_1_of_4">
-						<h4>Informacije</h4>
-						<ul>
-						<li><a href="about.html">O nama</a></li>
-						<li><a href="contact.html">Kontakt podaci</a></li>
-						<li><a href="#">Prijavi gresku</a></li>
-						</ul>
+											<fieldset>
+			   									<label id="editProfileText" for="availability">Dostupnost:</label>
+			    								<select name="availability" id="availability">
+			     									<option selected="selected">Svugdje</option>
+									     			<option>Unutar BiH</option>
+									      			<option>Sarajevo</option>
+									    			<option>Unsko sanski</option>
+									    			<option>Posavski</option>
+									     			<option>Tuzlanski</option>
+									     			<option>Zenicko-dobojski</option>
+											    	<option>Bosansko-Podrinjski</option>
+									   				<option>Srednjo-bosanski</option>
+									    			<option>Zapadno-hercegovacki</option>
+									    			<option>Livanjski</option>
+									     			<option>Hercegovacko-neretvanski</option>
+									   		   		<option>Distrikt Brcko</option>
+									  		    	<option>Banjalucka</option>
+									  		    	<option>Dobojsko-bijeljinska</option>
+									   		   		<option>Sarajevsko-zvornicka</option>
+									   		 		<option>Focansko-trebinjska</option>
+									   		 	</select>
+									   		 </fieldset> 
+										</form>
+									<input class="buttonRed" type="submit" value="Objavi" />
+						</div>
 					</div>
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Ostali linkovi</h4>
-						<ul>
-						<li><a href="about.html">Blog bitPik.ba</a></li>
-						<li><a href="contact.html">Pik na facebooku</a></li>
-						</ul>
-				</div>
-				
-				<div class="col_1_of_4 span_1_of_4">
-					<h4>Kontak telefon</h4>
-						<ul>
-							<li><span>+387-33-000000</span></li>
-							<li><span>+387-33-000001</span></li>
-						</ul>
-						<div class="social-icons">
-							<h4>Pratite nas</h4>
-					   		  <ul>
-		   <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
-							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/twitter.png")" alt="" /></a></li>
-							      <li><a href="#" target="_blank"><img src="@routes.Assets.at("images/skype.png")" alt="" /> </a></li>
-							      <li><a href="#" target="_blank"> <img src="@routes.Assets.at("images/dribbble.png")" alt="" /></a></li>
-							      <li><a href="#" target="_blank"> <img src="@routes.Assets.at("images/linkedin.png")" alt="" /></a></li>
-							      <div class="clear"></div>
-						     </ul>
-   	 					</div>
-				</div>
-			</div>			
-        </div>
-        
-    </div>
-    <script type="text/javascript">
-		$(document).ready(function() {			
-			$().UItoTop({ easingType: 'easeOutQuart' });
-			
-		});
-	</script>
-    <a href="#" id="toTop"><span id="toTopHover"> </span></a>
+  				</div>			
+        	</div> 
+    	</div>
+	</div>
+</div>
+ 
 	}
 }
 

@@ -1,12 +1,15 @@
 package models;
 
 import helpers.HashHelper;
+import helpers.MailHelper;
 
+import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.*;
 
@@ -37,6 +40,9 @@ public class User extends Model {
 	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL)
 	public List<Product> products;
 	
+	public boolean verified;
+	
+	public String confirmation;
 	
 	/**
 	 * @author Gordan Sajevic
@@ -48,10 +54,9 @@ public class User extends Model {
 		this.password = HashHelper.createPassword(password);
 		this.email = "johndoe@example.com";
 		isAdmin = false;		
-		createdDate = getDate();
+		createdDate = getDate();		
 	}
-	
-		
+
 	/**
 	 * Constructor of object User with three parameters. On default sets isAdmin to false and
 	 * creates String representation of date when was it created 
@@ -65,6 +70,8 @@ public class User extends Model {
 		this.email = email;
 		isAdmin = false;		
 		createdDate = getDate();
+		this.verified = false;
+		this.confirmation = UUID.randomUUID().toString();
 	}
 	
 	/**
@@ -80,6 +87,8 @@ public class User extends Model {
 		this.email = email;
 		this.isAdmin = isAdmin;		
 		createdDate = getDate();
+		this.verified = false;
+		this.confirmation = UUID.randomUUID().toString();
 	}
 	
 	/**
@@ -92,9 +101,7 @@ public class User extends Model {
 		Date date = Calendar.getInstance().getTime();
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		return formatter.format(date);
-	}
-
-	
+	}	
 	
 	/**
 	 * Creates a new user and saves the User into database;
@@ -112,10 +119,12 @@ public class User extends Model {
 	 * @param password
 	 * @param email
 	 */
-	public static int createSaveUser(String username, String password,String email) {
+	public static User createSaveUser(String username, String password,String email) {
 		User newUser = new User(username, password,email);
 		newUser.save();
-		return newUser.id;
+		
+		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
+		return newUser;
 	}
 	
 	/**
@@ -134,7 +143,6 @@ public class User extends Model {
 	// Finders
 	static Finder<String, User> find = new Finder<String, User>(String.class, User.class);
 	static Finder<Integer, User> findInt = new Finder<Integer, User>(Integer.class, User.class);
-	
 	/**
 	 * Finds the User under the username(parameter) in the database;
 	 * @param username
@@ -177,14 +185,60 @@ public class User extends Model {
 		findInt.ref(id).delete();
 	}
 	
+	public String getUsername(){
+		return this.username;
+	}
+	
 	/**
 	 * Setter for the isAdmin;
 	 */
-	public void setAdmin()
+	public void setAdmin(boolean isAdmin)
 	{
-		this.isAdmin = !isAdmin;
+		this.isAdmin = isAdmin;
 		save();
 			
+	}
+	
+	/**
+	 * Setter for username
+	 * @param username
+	 */
+	
+	public void setUsername(String username)
+	{
+		if(username.length()<1)
+		{
+			throw new IllegalArgumentException("Username cannot be empty field!");
+		}
+		this.username = username;
+	}
+	
+	/**
+	 * Setter for email
+	 * @param username
+	 */
+	
+	public void setEmail(String email)
+	{
+		if(!email.contains("@") || !email.contains("."))
+		{
+			throw new IllegalArgumentException("Email not valid!");
+		}
+		this.email = email;
+	}
+	
+	/**
+	 * Setter for password
+	 * @param username
+	 */
+	
+	public void setPassword(String password)
+	{
+		if(password.length() < 4)
+		{
+			throw new IllegalArgumentException("Password too short!");
+		}
+		this.password = password;
 	}
 	
 }

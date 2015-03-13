@@ -18,18 +18,18 @@ public class ModelsTest extends WithApplication {
 	public void setUp() {
 		fakeApplication(inMemoryDatabase());
 	}
-	/*
-	@Test
-	public void testCreateUser() {
-		User.createSaveUser("neko", "12345","neko@gmail.com");
-		User u = User.find(2);
-		String hashedPass=HashHelper.createPassword("12345");
-		assertNotNull(u);
-		assertEquals(u.username, "neko");
-		assertEquals(u.password, hashedPass);
-		assertEquals(u.email, "neko@gmail.com");
-
-	}*/
+	
+//	@Test
+//	public void testCreateUser() {
+//		User.createSaveUser("neko", "12345","neko@gmail.com");
+//		User u = User.find(2);
+//		String hashedPass=HashHelper.createPassword("12345");
+//		assertNotNull(u);
+//		assertEquals(u.username, "neko");
+//		assertEquals(u.password, hashedPass);
+//		assertEquals(u.email, "neko@gmail.com");
+//
+//	}
 	/*
 	@Test
 	public void testFindNonExistingUser() {
@@ -37,7 +37,7 @@ public class ModelsTest extends WithApplication {
 		
 		assertNull(u);
 	}
-	/*
+	
 	@Test
 	public void testDeleteUser() {
 		User.createSaveUser("neko", "12345","neko@gmail.com");
@@ -45,8 +45,7 @@ public class ModelsTest extends WithApplication {
 		User b = User.find(2);
 		assertNull(b);
 	}
-	*/
-	/*
+	
 	@Test
 	public void testCreateProduct() {
 		User.createSaveUser("neko", "12345","neko@gmail.com");
@@ -59,13 +58,13 @@ public class ModelsTest extends WithApplication {
 		assertEquals(p.price, 100,00);
 		assertEquals(p.category, "kompjuteri");
 		assertEquals(p.availability, "sarajevo");
-}*/
-	/*
+	}
+	
 	@Test
 	public void testFindNonExistingProduct() {
-		Product p=Product.find.byId(100);
+		Product p = Product.find.byId(100);
 		assertNull(p);
-}
+	}
 	
 	@Test
 	public void testDeleteProduct() {
@@ -75,36 +74,75 @@ public class ModelsTest extends WithApplication {
 		Product.delete(1);
 		Product p=Product.find.byId(1);
 		assertNull(p);
-
-
-	}*/
-	
-	
-	/*
-	@Test
-	public void testIsNotAdmin() {
-		User.createSaveUser("neko", "12345","neko@gmail.com");
-		User u = User.find(2);
-		//String hashedPass=HashHelper.createPassword("12345");
-		assertNotNull(u);
-		//assertEquals(u.username, "neko");
-		assertEquals(u.isAdmin, false);
-		//UserController.changeAdmin(2);
-		//assertEquals(u.isAdmin, true);
-	//	assertEquals(u.email, "neko@gmail.com");
-
 	}
 	
+//	
+//	
+//	@Test
+//	public void testIsNotAdmin() {
+//		User.createSaveUser("neko", "12345","neko@gmail.com");
+//		User u = User.find(2);
+//		//String hashedPass=HashHelper.createPassword("12345");
+//		assertNotNull(u);
+//		//assertEquals(u.username, "neko");
+//		assertEquals(u.isAdmin, false);
+//		//UserController.changeAdmin(2);
+//		//assertEquals(u.isAdmin, true);
+//	//	assertEquals(u.email, "neko@gmail.com");
+//
+//	}
+//	*/
+	/*
+	@Test
 	public void testIsAdmin() {
 		User.createSaveUser("neko", "12345","neko@gmail.com");
 		User u = User.find(2);
 		//String hashedPass=HashHelper.createPassword("12345");
 		assertNotNull(u);
-		//assertEquals(u.username, "neko");
-		//assertEquals(u.isAdmin, false);
-		UserController.changeAdmin(2);
+		Product.create("product1", "product1 description", 100.00, "kompjuteri", "sarajevo", u);
+		Product p=Product.find.byId(1);
+		assertNotNull(p);
+	//	assertEquals(u.username, "neko");
+		assertEquals(u.isAdmin, false);
+		u.setAdmin(true);
 		assertEquals(u.isAdmin, true);
 	//	assertEquals(u.email, "neko@gmail.com");
-
-	}*/
+*/
+	
+	/*
+	@Test
+	public void testCreateMainCategory() {
+		MainCategory.createMainCategory("Vozila");
+		MainCategory mc = MainCategory.findMainCategory(1);
+		assertNotNull(mc);
+		assertEquals(mc.name, "Vozila");
+	}
+	
+	@Test
+	public void testFindNonExistingMainCategory() {
+		MainCategory mc = MainCategory.findMainCategory(1000);		
+		assertNull(mc);
+	}
+	
+	
+	public void testEditUser(){
+		User.createSaveUser("neko", "12345","neko@gmail.com");
+		User u = User.find(2);
+		assertNotNull(u);
+		UserController.editUser(u.id);
+		UserController.saveEditedUser(u.id);
+		assertEquals(u.username, "JohnDoe");
+		assertEquals(u.email, "johndoe@example.com");
+		assertEquals(u.password, "johndoe");
+		assertEquals(u.isAdmin, false);
+	}
+	
+	public void testMailVerification(){
+		User.createSaveUser("neko", "12345","neko@gmail.com");
+		User u = User.find(2);
+		assertNotNull(u);
+		UserController.confirmEmail(u.confirmation);
+		assertEquals(u.verified, true);
+	}
+	*/
 }

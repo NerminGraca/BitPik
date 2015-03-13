@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import models.MainCategory;
+import models.Product;
+
 import org.junit.*;
 
 import play.mvc.*;
@@ -15,31 +19,28 @@ import play.i18n.Lang;
 import play.libs.F;
 import play.libs.F.*;
 import play.twirl.api.Content;
-
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
-
-/**
-*
-* Simple (JUnit) tests that can call all parts of a play app.
-* If you are interested in mocking a whole application, see the wiki for more details.
-*
-*/
 public class ApplicationTest {
-
-  /*  @Test
+	/* Working tests
+   
+   @Test
     public void simpleCheck() {
         int a = 1 + 1;
         assertThat(a).isEqualTo(2);
     }
-
+   
     @Test
     public void renderTemplate() {
-        Content html = views.html.index.render("Your new application is ready.");
+    	String s = "a";
+    	List<Product> pl = new ArrayList<Product>();
+    	List<String> sl = new ArrayList<String>();
+    	List<MainCategory> mcl = new ArrayList<MainCategory>();
+        Content html = views.html.index.render(s, pl, sl, mcl);
         assertThat(contentType(html)).isEqualTo("text/html");
-        assertThat(contentAsString(html)).contains("Your new application is ready.");
+        assertThat(contentAsString(html)).contains("BitPik");
     }
-
-*/
+    
+	*/
 }

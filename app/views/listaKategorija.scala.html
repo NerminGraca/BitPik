@@ -1,0 +1,49 @@
+@(mainCategoryList: List[MainCategory])
+
+@import helper._
+
+@main("editMainCategory", "kategorije") {
+
+	<div class="wrap">		     
+		<div class="header_slide">			 
+			<div class="leftBoxCategory">
+				<div class="categories">
+					<ul id="listOfCategory">
+				  	<h3>Kategorije</h3>
+				  		
+				  		@if(mainCategoryList.size() > 0 ) {
+				  			@for(mainCategory <- mainCategoryList) {
+				  				<li><a href="kategorija/@mainCategory.id">@mainCategory.name  				  							  				
+								<div class="buttonPosition">	
+				  				 @form(routes.CategoryController.deleteMainCategory(mainCategory.id)) {
+                   					 <input type="submit" value="Izbrisi"  onclick="return confirm('Da li si siguran-na da zelis izbrisati ovu kategoriju?');">
+                				}
+                				</div>               			
+                				<div class="buttonPosition">  				
+				  					 @form(routes.CategoryController.editMainCategory(mainCategory.id)) {
+                   					 	<input type="submit" value="Izmijeni">
+                					}
+                				</div>               
+				  				</a></li>
+				  			}
+				  		}
+				  		
+					</ul>
+				</div>	
+				
+				<div class="categories">
+					<div class="addCategoryFill">
+						@helper.form(routes.CategoryController.addMainCategory(), 'id->"categoryForm") {
+					  			<h5 id="editProfileText">Naziv kategorije:</h5>
+					  			<input id="addCategoryFill" pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="" id="name" name="name" required/>
+					  			<input class="buttonRed" type="submit" value="Dodaj kategoriju" />
+					  		}
+				  	</div>	
+				 </div>
+				
+					
+			</div>			
+    	</div>
+	</div>
+   
+}
