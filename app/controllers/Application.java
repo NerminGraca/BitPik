@@ -5,10 +5,10 @@ import helpers.MailHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import models.MainCategory;
 import models.Product;
 import play.data.Form;
+import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
@@ -42,6 +42,7 @@ public class Application extends Controller {
 	 */
 	public static Result logout() {
 		session().clear();
+		flash("logout", Messages.get("Odjavili ste se. "));
 		return redirect("/");
 	}
 	
