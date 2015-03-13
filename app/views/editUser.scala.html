@@ -18,13 +18,6 @@
 								<input pattern=".{3,20}" required title="Od 3 do 20 karaktera" type="text" value="@u.username" id="username" name="username" required/>
 								
 								
-								@if(!isAdmin || usernameSes==u.username){
-									<h5 id="editProfileText">Lozinka:</h5>
-									<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="password" name="password" required/>
-								}else{
-									<p hidden><input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="@u.password" id="password" name="password" required/></p>
-								}
-								
 								<h5 id="editProfileText">Email:</h5>			
 								<input type="email" value="@u.email" id="email" name="email" required/>
 									@if(isAdmin){

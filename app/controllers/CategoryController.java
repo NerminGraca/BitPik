@@ -86,6 +86,12 @@ public class CategoryController extends Controller {
 	public static Result deleteMainCategory(int id) {
 		  MainCategory.delete(id);
 		  return redirect(routes.CategoryController.allCategory());
-	}		
+	}
+	
+	public static Result addMainCategory() {
+		String name = newMainCategory.bindFromRequest().get().name;
+		MainCategory.createMainCategory(name);
+		return redirect(routes.CategoryController.allCategory());		
+	}
 	
 }

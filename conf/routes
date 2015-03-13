@@ -26,6 +26,7 @@ POST    /listaKategorija/:id/delete     controllers.CategoryController.deleteMai
 
 GET		/editMainCategory/:id			controllers.CategoryController.editMainCategory(id: Integer)
 POST	/editMainCategory/:id/change	controllers.CategoryController.saveEditMainCategory(id: Integer)
+POST	/addMainCategory				controllers.CategoryController.addMainCategory()
 
 POST	/editUser/:id/change			controllers.UserController.saveEditedUser(id: Integer)
 GET		/editUser/:id					controllers.UserController.editUser(id: Integer)
