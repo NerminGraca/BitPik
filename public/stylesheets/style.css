@@ -46,6 +46,32 @@ body {
         font-size: 15px;
 }
 
+
+.sectiongroup2{
+	display: inline-block;
+	float: left;
+	width: 70%;
+}
+
+
+
+
+
+.addCategoryFill{
+	display: block;
+	width: 99%;
+	margin-left: 30px;
+	padding: 5px;
+	color: #B81D22;
+}
+
+#addCategoryFill{
+	width: 35%;
+	height: 20px;
+	
+}
+
+
 #productsOnProfile{
 	display: inline-block;
 	width: 100%;	
@@ -568,6 +594,19 @@ box-sizing: border-box;
 	-moz-box-shadow: 0px 0px 3px rgb(150, 150, 150);
 	-o-box-shadow: 0px 0px 3px rgb(150, 150, 150);
 }
+
+.grid_1_of_42 {
+	
+	display:block;
+	float: left;
+	margin: 1% 0 1% 0;
+	box-shadow: 0px 0px 3px rgb(150, 150, 150);
+	-webkit-box-shadow: 0px 0px 3px rgb(150, 150, 150);
+	-moz-box-shadow: 0px 0px 3px rgb(150, 150, 150);
+	-o-box-shadow: 0px 0px 3px rgb(150, 150, 150);
+}
+
+
 .grid_1_of_4:first-child {
 	margin-left: 0;
 }
