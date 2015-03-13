@@ -80,7 +80,7 @@ public class ProductController extends Controller {
 	 * @param id
 	 * @return
 	 */
-	public static Result editProduct(int id) {
+	/*public static Result editProduct(int id) {
 		User currentUser=SessionHelper.getCurrentUser(ctx());
 		usernameSes = session("username");
 		// 1. Ako nije registrovan da mu oneomogucimo prikaz editProduct.html;
@@ -95,8 +95,29 @@ public class ProductController extends Controller {
 		Product p = findProduct.byId(id);
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		return ok(editProduct.render(usernameSes, p, mainCategoryList));
-	}
-	
+	}*/
+	public static Result editProduct(int id) {
+	   	 User currentUser=SessionHelper.getCurrentUser(ctx());
+	   	 usernameSes = session("username");
+	   	 Product p = findProduct.byId(id);
+	   	 if(p==null)
+	   		 return redirect("/");
+	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
+	    //  Ako nije registrovan da mu onemogucimo prikaz editProduct.html;
+	   			 if (usernameSes == null) {
+	   				 return redirect("/");
+	   			 }
+	   			 
+	   			 if(!currentUser.getUsername().equals(p.owner.getUsername()))
+	   			 return redirect("/");
+	   	 //  Ako je admin ulogovan, onemogucujemo mu da edituje proizvod;
+	   			 if (currentUser.isAdmin==true) {
+	   				 return redirect("/");
+	   			 }
+	   	 //  Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog proizvoda> da ga edituje;    
+	   	 return ok(editProduct.render(usernameSes, p, mainCategoryList));
+	    }
+
 	/**
 	 * Saves the new values of the attributes that are entered 
 	 * and overwrites over the ones that were entered before;

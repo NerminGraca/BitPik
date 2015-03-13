@@ -3,6 +3,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import helpers.AdminFilter;
 import helpers.HashHelper;
 import helpers.MailHelper;
 import models.*;
@@ -138,7 +139,7 @@ public class UserController extends Controller {
 	 * Method list all users registered in database
 	 * @return
 	 */
-	public static Result allUsers() {
+	/*public static Result allUsers() {
 		List<Product> productList = ProductController.findProduct.all();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		usernameSes = session("username");
@@ -162,14 +163,50 @@ public class UserController extends Controller {
 						}
 					}
 		return ok(korisnici.render(usernameSes, userList, adminList));
-	}
+	}*/
+	 @Security.Authenticated(AdminFilter.class)
+	    public static Result allUsers() {
+	   	 List<Product> productList = ProductController.findProduct.all();
+	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
+	   	 usernameSes = session("username");
+	   	 List<User> userList = findUser.all();
+	   	 for (User user: userList)
+	   				 {
+	   					 if(user.isAdmin)
+	   					 {
+	   						 insertAdmin(user.username);
+	   					 }
+	   				 }
+	   	 return ok(korisnici.render(usernameSes, userList, adminList));
+	    }
+
 	
 	/**
 	 * Method shows profile view of single user
 	 * @param id
 	 * @return
 	 */
-	public static Result singleUser(int id) {
+	  public static Result singleUser(int id) {
+		   	 usernameSes = session("username");
+		   	 User currentUser=SessionHelper.getCurrentUser(ctx());
+		   	 User u = findUser.byId(id);
+		   	 List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
+		   	if(u==null)
+		   		 return redirect ("/");
+		   	 if(currentUser==null)
+		   		 return redirect("/");
+		   	 //if(currentUser.isAdmin==true)
+		   	 //    return ok(korisnik.render(usernameSes, u, l, adminList));
+		   	 
+		   	 if(u.getUsername().equals(currentUser.getUsername()))
+		   		 return ok(korisnik.render(usernameSes, u, l, adminList));
+		   	 else
+		   		 return redirect("/");
+		   	// return ok(korisnik.render(usernameSes, u, l, adminList));
+
+		    }
+
+	/*public static Result singleUser(int id) {
 		usernameSes = session("username");
 		User u = findUser.byId(id);
 		String username=u.username;
@@ -182,7 +219,7 @@ public class UserController extends Controller {
 		
 		
 		return ok(korisnik.render(usernameSes, u, l, adminList));
-	}
+	}*/
 	
 	
 	
@@ -219,7 +256,26 @@ public class UserController extends Controller {
 			
 		return ok(editUser.render(usernameSes, userById, adminList, false));
 	}
-	
+	 /*public static Result editUser(int id) {
+	   	  usernameSes = session("username");
+	      	  User currentUser=SessionHelper.getCurrentUser(ctx());
+	      	  if(currentUser==null)
+	      		  return redirect("/");
+	      	  User userById = findUser.byId(id);
+	      	  User userbyName = findUser.where().eq("username", usernameSes).findUnique();
+	      	  if(currentUser.isAdmin==true)
+	      		 return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
+	      	  if(userById==null)
+	      		  return redirect("/");
+	      	  else
+	      		  if ((currentUser.getUsername().equals(userById.getUsername())))
+	       
+	      			  return redirect("/");
+	      			 
+	      	  return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
+
+	    }*/
+
 	/**
 	 * Saves the new values of the attributes that are entered 
 	 * and overwrites over the ones that were entered before;
