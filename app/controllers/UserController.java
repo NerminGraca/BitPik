@@ -6,6 +6,7 @@ import java.util.List;
 import helpers.HashHelper;
 import helpers.MailHelper;
 import models.*;
+import play.i18n.Messages;
 import play.*;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
@@ -57,9 +58,9 @@ public class UserController extends Controller {
 			return ok(registration.render("",
 					"Email already in use, please choose another one"));
 		}
+		
 		User.createSaveUser(username, password, email);
 		// automatically puts the 'username' created into the session variable;
-
 		return redirect("/");
 
 	}
