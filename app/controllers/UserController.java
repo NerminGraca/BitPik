@@ -34,8 +34,7 @@ public class UserController extends Controller {
 		if (usernameSes == null) {
 			usernameSes = "";
 		} 
-		return ok(index.render( usernameSes, productList, adminList, mainCategoryList));
-		
+		return ok(index.render( usernameSes, productList, adminList, mainCategoryList));		
 	}
 
 	/**

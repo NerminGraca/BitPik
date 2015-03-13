@@ -51,8 +51,8 @@
 						<div class="grid_1_of_4 images_1_of_4">
 							 <a href="/showProduct/@product.id"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
 					 		 <h2>@product.name </h2>
-					 		 @form(routes.ProductController.deleteProduct(product.id)) {
-                    			<input class="btnDelete" type="submit" value="Izbrisi proizvod"  onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+							@form(routes.ProductController.deleteProduct(product.id)) {
+                    			<input class="btnDelete" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
                 			}
 							<div class="price-details">
 				       			<div class="price-number">

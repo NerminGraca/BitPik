@@ -1,5 +1,7 @@
 @(usernameSes: String)(p: Product)
 
+@import helper._
+
 @main("showProduct", "") {
 	
 <div class="wrap">	
@@ -62,10 +64,12 @@
 					<!--  Vidljivost "EDIT "samo za vlasnika proizvoda -->
 						@if(usernameSes.equals(p.owner.username)) {
 						<div>
-						<button   type="button" class="btn2"><a id="whiteText" href="/editProduct/@p.id">Izmjeni oglas</a></button>
-						<button  type="button" class="btn2"><a id="whiteText" href='/product/@p.id/delete' onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">Izbrisi oglas</a></button><br><br>
-							</div>	
-							}
+						<button type="button" class="btn2"><a id="whiteText" href="/editProduct/@p.id">Izmjeni oglas</a></button>
+						@form(routes.ProductController.deleteProduct(p.id)) {
+                   				 <input class="btn2" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                		}
+						</div>	
+						}
 					
 				</div>
 			</div>
