@@ -21,6 +21,8 @@
 								@if(!isAdmin || usernameSes==u.username){
 									<h5 id="editProfileText">Lozinka:</h5>
 									<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="password" name="password" required/>
+								}else{
+									<p hidden><input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="@u.password" id="password" name="password" required/></p>
 								}
 								
 								<h5 id="editProfileText">Email:</h5>			

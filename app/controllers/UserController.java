@@ -230,13 +230,10 @@ public class UserController extends Controller {
 		usernameSes = session("username");
 		String username = newUser.bindFromRequest().get().username;
 		String email = newUser.bindFromRequest().get().email;
-		String password = newUser.bindFromRequest().get().password;
 		boolean isAdmin = newUser.bindFromRequest().get().isAdmin;
-		password = HashHelper.createPassword(password);
 		User u = findUser.byId(id);
 		u.setUsername(username);
 		u.setEmail(email);
-		u.setPassword(password);
 		u.setAdmin(isAdmin);
 		u.save();
 		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
