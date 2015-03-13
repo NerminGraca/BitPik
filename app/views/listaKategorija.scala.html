@@ -35,7 +35,7 @@
 					<div class="addCategoryFill">
 						@helper.form(routes.CategoryController.addMainCategory(), 'id->"categoryForm") {
 					  			<h5 id="editProfileText">Naziv kategorije:</h5>
-					  			<input id="addCategoryFill" pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="" id="name" name="name" required/>
+					  			<input id="addCategoryFill" pattern="[A-Za-z\s]{3,30}" required title="Od 3 do 30 karaktera, samo slova" type="text" value="" id="name" name="name" required/>
 					  			<input class="buttonRed" type="submit" value="Dodaj kategoriju" />
 					  		}
 				  	</div>	

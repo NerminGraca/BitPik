@@ -43,18 +43,45 @@ public class MainCategory extends Model {
 	public static Finder<Integer, MainCategory> find = new Finder<Integer, MainCategory>(Integer.class, MainCategory.class);
 	public static Finder<String, MainCategory> findByName = new Finder<String, MainCategory>(String.class, MainCategory.class);
 	
+	/**
+	 * Method finds MainCategory by its Id
+	 * @param id
+	 * @return
+	 */
 	public static MainCategory findMainCategory(int id) {
 		return find.byId(id);
 	}
 	
+	/**
+	 * Method finds MainCategory by its name
+	 * @param name
+	 * @return
+	 */
 	public static MainCategory findMainCategoryByName(String name) {
 		return findByName.where().eq("name", name).findUnique();
 	}
+	
+	/**
+	 * Method returns all of MainCategory instances
+	 * @return
+	 */
+	public static List<MainCategory> allMainCategories() {
+		List<MainCategory> allMainCategories = find.all();
+		return allMainCategories;
+	}
 
+	/**
+	 * Method deletes MainCategory
+	 * @param id
+	 */
 	public static void delete(int id) {
 		  find.ref(id).delete();
 	}
 	
+	/**
+	 * Setter for value name in object MainCategory
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}

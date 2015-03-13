@@ -88,10 +88,21 @@ public class CategoryController extends Controller {
 		  return redirect(routes.CategoryController.allCategory());
 	}
 	
+	/**
+	 * Method addMainCategory adds new category into the list and also in the database and
+	 * it will also check if that name is taken
+	 * @return to the view of all categories with new list shown
+	 */
 	public static Result addMainCategory() {
 		String name = newMainCategory.bindFromRequest().get().name;
-		MainCategory.createMainCategory(name);
-		return redirect(routes.CategoryController.allCategory());		
+		name = name.toLowerCase();
+		name = name.substring(0, 1).toUpperCase() + name.substring(1);
+		if (MainCategory.allMainCategories().contains(MainCategory.findMainCategoryByName(name))) {
+			return redirect(routes.CategoryController.allCategory());
+		} else {
+			MainCategory.createMainCategory(name);
+			return redirect(routes.CategoryController.allCategory());
+		}			
 	}
 	
 }
