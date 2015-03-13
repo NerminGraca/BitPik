@@ -51,12 +51,12 @@ public class UserController extends Controller {
 		// Unique 'username' verification
 		if (User.finder(username) != null) {
 			return ok(registration.render(
-					"Username already taken, please choose another one", ""));
+					"Korisnicko ime je zauzeto, molimo Vas izaberite drugo!", ""));
 		}
 		// Unique 'email' verification
 		if (User.emailFinder(email)) {
 			return ok(registration.render("",
-					"Email already in use, please choose another one"));
+					"Email je iskoristen, molimo Vas koristite drugi!"));
 		}
 		flash("validate", Messages.get("Primili ste email validaciju."));
 		User.createSaveUser(username, password, email);

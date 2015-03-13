@@ -16,12 +16,12 @@
 				  				<li><a href="kategorija/@mainCategory.id">@mainCategory.name  				  							  				
 								<div class="buttonPosition">	
 				  				 @form(routes.CategoryController.deleteMainCategory(mainCategory.id)) {
-                   					 <input type="submit" value="Delete"  onclick="return confirm('Da li si siguran-na da zelis izbrisati ovu kategoriju?');">
+                   					 <input type="submit" value="Izbrisi"  onclick="return confirm('Da li si siguran-na da zelis izbrisati ovu kategoriju?');">
                 				}
                 				</div>               			
                 				<div class="buttonPosition">  				
 				  					 @form(routes.CategoryController.editMainCategory(mainCategory.id)) {
-                   					 	<input type="submit" value="Edit">
+                   					 	<input type="submit" value="Izmijeni">
                 					}
                 				</div>               
 				  				</a></li>
