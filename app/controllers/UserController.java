@@ -205,6 +205,7 @@ public class UserController extends Controller {
 			usernameSes = "";
 			return redirect("/");
 		}
+
 		User userById = findUser.byId(id);
 		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
 		if(userbyName.isAdmin==true)
@@ -215,7 +216,8 @@ public class UserController extends Controller {
 			if ((userbyName.getUsername()!=userById.getUsername())) {
 				return redirect("/");
 			}
-		return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
+			
+		return ok(editUser.render(usernameSes, userById, adminList, false));
 	}
 	
 	/**
