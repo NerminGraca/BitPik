@@ -52,12 +52,12 @@ public class UserController extends Controller {
 		// Unique 'username' verification
 		if (User.finder(username) != null) {
 			return ok(registration.render(
-					"Username already taken, please choose another one", ""));
+					"Korisnicko ime je zauzeto, molimo Vas izaberite drugo!", ""));
 		}
 		// Unique 'email' verification
 		if (User.emailFinder(email)) {
 			return ok(registration.render("",
-					"Email already in use, please choose another one"));
+					"Email je iskoristen, molimo Vas koristite drugi!"));
 		}
 
 		
@@ -224,7 +224,7 @@ public class UserController extends Controller {
 	 * Saves the new values of the attributes that are entered 
 	 * and overwrites over the ones that were entered before;
 	 * @param id
-	 * @return redirect("/showProduct/" + id);
+	 * @return redirect("/korisnik/" + id);
 	 */
 	public static Result saveEditedUser(int id) {
 		usernameSes = session("username");
@@ -239,8 +239,13 @@ public class UserController extends Controller {
 		u.setPassword(password);
 		u.setAdmin(isAdmin);
 		u.save();
-		
-		return redirect("/korisnik/" + id);	
+		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
+		if(userbyName!=null)
+		{
+			if(userbyName.isAdmin==true && userbyName.id != u.id)
+				return redirect("/korisnik/" + u.id);
+		}
+		return redirect("/logout");	
 		
 	}
 	

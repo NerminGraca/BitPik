@@ -185,6 +185,112 @@ public class ProductTest extends WithApplication {
 						}
 				});
 			}
+	
+	/**
+	 * Creating one product and checking whether in database
+	 * the attributes of the only product;
+	 */
+	@Test
+	public void testcheckProduct() {
+		User.createSaveUser("neko", "12345","neko@gmail.com");
+		User u = User.find(2);
+		String hashedPass=HashHelper.createPassword("12345");
+		assertNotNull(u);
+		assertEquals(u.username, "neko");
+	//	assertEquals(u.password, hashedPass);
+		assertEquals(u.email, "neko@gmail.com");
+		
+		Product.create("original_product", "original_product_description", 10.00, "kompjuteri", "sarajevo", u);
+		Product p = Product.find.byId(1);
+		assertNotNull(p);
+		assertEquals(p.name, "original_product");
+		assertEquals(p.desc, "original_product_description");
+		assertEquals(p.category, "kompjuteri");
+		assertEquals(p.availability, "sarajevo");
+	}
+
+		
+	
+	
+	/**
+	 * Creating one product and checking if the showProduct.html contains the information
+	 * of the product added/created;
+	 */
+	@Test
+	public void testShowProduct() {
+			running(testServer(3333, fakeApplication(inMemoryDatabase())),
+					HTMLUNIT, new Callback<TestBrowser>() {
+						public void invoke(TestBrowser browser) {
+							User.createSaveUser("Necko", "password","necko@test.com");
+							User u = User.find(2);
+							u.verified = true;
+							u.save();
+							//takes the new attributes that are entered in the "form" and saves;
+							Product.create("original_product", "original_product_description", 10.00, "kompjuteri", "sarajevo", u);
+							browser.goTo("http://localhost:3333/showProduct/1");
+							assertThat(browser.pageSource()).contains("original_product");
+							assertThat(browser.pageSource()).contains("original_product_description");
+							assertThat(browser.pageSource()).contains("sarajevo");
+							assertThat(browser.pageSource()).contains("10.0");
+							assertThat(browser.pageSource()).contains("kompjuteri");
+
+						}
+					});
+	}
+	
+	/**
+	 * Creating one product and checking if the editProduct.html contains the information
+	 * of the product edited and its attributes;
+	 */
+	@Test
+	public void testEditProduct() {
+			running(testServer(3333, fakeApplication(inMemoryDatabase())),
+					HTMLUNIT, new Callback<TestBrowser>() {
+						public void invoke(TestBrowser browser) {
+							User.createSaveUser("Necko", "password","necko@test.com");
+							User u = User.find(2);
+							u.verified = true;
+							u.save();
+							//takes the new attributes that are entered in the "form" and saves;
+							Product.create("original_product", "original_product_description", 10.00, "kompjuteri", "sarajevo", u);
+							browser.goTo("http://localhost:3333/editProduct/1");
+							assertThat(browser.pageSource()).contains("original_product");
+							assertThat(browser.pageSource()).contains("10.0");
+							
+						}
+					});
+	}
+	
+	
+	/**
+	 * Test for deleting a product;
+	 */
+	@Test
+	public void testDeleteProduct() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						User.createSaveUser("Necko", "password","necko@test.com");
+						User u = User.find(2);
+						u.verified = true;
+						u.save();
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("Necko");
+						browser.fill("#password").with("password");
+						browser.submit("#nameForm");
+							
+						Product.create("original_product", "original_product_description", 10, "kompjuteri", "sarajevo", u);
+						Product findProduct = Product.find.byId(1);
+						assertNotNull(u);
+						
+						Product.delete(1);
+						Product p=Product.find.byId(1);
+						assertNull(p);
+						}
+				});
+			}
+	
+	
 	}
 
 
