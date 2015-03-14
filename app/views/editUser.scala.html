@@ -29,6 +29,9 @@
 					    				</select>
 					     				</fieldset>
 									}
+									@if(usernameSes.equals(u.username)){
+										<button type="button" class="btn"><a href="/changePassword/@u.id">Promijeni lozinku</a></button>
+									}
 								<input class="buttonRed" type="submit" value="Spasi promjene" />
 					</div>
 				</div>	
