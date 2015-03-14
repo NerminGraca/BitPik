@@ -10,7 +10,7 @@
     		<div class="section group">
 				<div class="col span_2_of_3">
 					<div class="contact-form">
-				  		<h1 class="redHeader">Izmjene</h1><br>
+				  		<h1 class="redHeader">Promijeni podatke</h1><br>
 							<!--NAŠ HELPER  MINIMUM of three characters is here!! -->
 							
 							@helper.form(routes.UserController.saveEditedUser(u.id),'id->"nameForm") {
@@ -29,10 +29,16 @@
 					    				</select>
 					     				</fieldset>
 									}
+									<br>
+									
+									
 									@if(usernameSes.equals(u.username)){
 										<button type="button" class="btn"><a href="/changePassword/@u.id">Promijeni lozinku</a></button>
 									}
-								<input class="buttonRed" type="submit" value="Spasi promjene" />
+									
+									
+								
+								<input class="btn" type="submit" value="Spasi promjene" />
 					</div>
 				</div>	
 			</div>

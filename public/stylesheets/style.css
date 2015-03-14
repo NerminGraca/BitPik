@@ -165,8 +165,8 @@ body {
   	font-size: 18px;
  	line-height: 1.3333333;
   	border-radius: 6px;
-  	background-color: #B81D22;
-  	border-color: #B81D22;
+  	background-color: #424768;
+  	border-color: #424768;
     font-weight: 400;
     text-align: center;
   	white-space: nowrap;
@@ -481,8 +481,7 @@ body {
 #boxForEditingProduct{
 	border: #CECECE 2px solid;
 	padding: 20px;
-	margin-bottom: 20px;
-	margin-top: 10px;
+	
 }
 
 .bottomLine{

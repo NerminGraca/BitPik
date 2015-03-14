@@ -9,7 +9,11 @@
     	<div class="content">
     		<div class="section group">
 				  <div class="contact-form-oglas">
-				  	<h1 class="redHeader">Oglas</h1>
+				  				  	
+				  	<div class="categories">
+				  	<h3>Oglas</h3>
+				  		
+				  	
 				  	<div id="boxForEditingProduct">
 					<!--
 						NAŠ OBJAVLJENI PROIZVOD
@@ -60,8 +64,8 @@
 						<p class="blueText">@p.owner.email</p>
 						<p class="blueText">@p.owner.username</p>
 						</div>
-					</div>
-					<!--  Vidljivost "EDIT "samo za vlasnika proizvoda -->
+						
+						<!--  Vidljivost "EDIT "samo za vlasnika proizvoda -->
 						@if(usernameSes.equals(p.owner.username)) {
 						
 						<div>
@@ -74,7 +78,10 @@
 						@form(routes.ProductController.deleteProduct(p.id)) {
                    				 <input class="btn2" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
                 		}
-						</div>	
+						</div><br><br>	
+						
+					</div>
+					
 						
 					
 				</div>

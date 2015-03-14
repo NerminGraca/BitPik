@@ -25,8 +25,12 @@
 					<h2 id="redText"><p>Datum registracije: </p></h2>
 					<p class="blueText">@u.createdDate</p><br>	
 		
-					<button type="button" class="btn"><a href="/editUser/@u.id">Izmijeni profil</a></button>
 		
+						<form action="/editUser/@u.id">
+    					<input class="btn2" type="submit" value="Izmijeni profil">
+						</form>
+		
+				
 				</div>
 				
 				<div class="leftBox">
