@@ -75,4 +75,19 @@ public class FAQ extends Model {
 	{
 		this.answer = answer;
 	}
+	
+	/**
+	 * Method creates new FAQ with question and answer
+	 * @param question
+	 * @param answer
+	 * @return newFaq
+	 */
+	
+	public FAQ create(String question, String answer)
+	{
+		FAQ newFaq = new FAQ(question, answer);
+		newFaq.save();
+		return newFaq;
+	}
+	
 }
