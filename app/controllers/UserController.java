@@ -215,11 +215,7 @@ public class UserController extends Controller {
 		u.setAdmin(isAdmin);
 		u.save();
 		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
-		if(userbyName!=null)
-		{
-			if(userbyName.isAdmin==true && userbyName.id != u.id)
-				return redirect("/korisnik/" + u.id);
-		}
+		session("username", u.username);
 		return redirect("/logout");	
 		
 	}
