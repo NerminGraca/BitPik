@@ -220,9 +220,7 @@ public class UserController extends Controller {
 
 		return redirect("/korisnik/" + u.id);	
 
-		
 
-		return redirect("/korisnik/" + u.id);		
 
 	}
 	

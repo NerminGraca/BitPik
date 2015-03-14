@@ -83,7 +83,7 @@ public class FAQ extends Model {
 	 * @return newFaq
 	 */
 	
-	public FAQ create(String question, String answer)
+	public static FAQ create(String question, String answer)
 	{
 		FAQ newFaq = new FAQ(question, answer);
 		newFaq.save();
