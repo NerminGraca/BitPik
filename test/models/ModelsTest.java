@@ -108,7 +108,6 @@ public class ModelsTest extends WithApplication {
 		assertEquals(u.isAdmin, true);
 	//	assertEquals(u.email, "neko@gmail.com");
 	
-	
 	public void testEditUser(){
 		User.createSaveUser("neko", "12345","neko@gmail.com");
 		User u = User.find(2);
@@ -128,5 +127,15 @@ public class ModelsTest extends WithApplication {
 		UserController.confirmEmail(u.confirmation);
 		assertEquals(u.verified, true);
 	}
+	
+	
+	public void testChangePassword(){
+		User.createSaveUser("neko", "12345","neko@gmail.com");
+		User u = User.find(2);
+		assertNotNull(u);
+		UserController.changePassword(u.id);
+		assertEquals(u.password, "johndoe");
+	}
+	
 	*/
 }

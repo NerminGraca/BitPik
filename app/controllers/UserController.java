@@ -329,8 +329,6 @@ public class UserController extends Controller {
 		u.setPassword(password);
 		u.save();
 		return redirect("/korisnik/" + id);
-			
-			
 		}
 	
 }
