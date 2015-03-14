@@ -45,8 +45,5 @@ public class Application extends Controller {
 		flash("logout", Messages.get("Odjavili ste se. "));
 		return redirect("/");
 	}
-	
-	
-	
 
 }

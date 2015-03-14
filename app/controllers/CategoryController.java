@@ -13,10 +13,8 @@ import views.html.*;
 
 public class CategoryController extends Controller {
 	
-	static String usernameSes;
-	
+	//Finders
 	static Form<MainCategory> newMainCategory = new Form<MainCategory>(MainCategory.class);
-
 	static Finder<Integer, MainCategory> findMainCategory = new Finder<Integer, MainCategory>(Integer.class, MainCategory.class);
 	
 	/**

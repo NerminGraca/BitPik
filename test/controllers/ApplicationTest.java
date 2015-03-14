@@ -1,3 +1,4 @@
+package controllers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,7 @@ import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
 public class ApplicationTest {
-	/* Working tests
+	/*
    
    @Test
     public void simpleCheck() {

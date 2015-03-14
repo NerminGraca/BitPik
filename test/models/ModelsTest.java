@@ -107,22 +107,6 @@ public class ModelsTest extends WithApplication {
 		u.setAdmin(true);
 		assertEquals(u.isAdmin, true);
 	//	assertEquals(u.email, "neko@gmail.com");
-*/
-	
-	/*
-	@Test
-	public void testCreateMainCategory() {
-		MainCategory.createMainCategory("Vozila");
-		MainCategory mc = MainCategory.findMainCategory(1);
-		assertNotNull(mc);
-		assertEquals(mc.name, "Vozila");
-	}
-	
-	@Test
-	public void testFindNonExistingMainCategory() {
-		MainCategory mc = MainCategory.findMainCategory(1000);		
-		assertNull(mc);
-	}
 	
 	
 	public void testEditUser(){
