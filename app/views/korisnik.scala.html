@@ -33,10 +33,10 @@
 	                    		
 	                  		} 
 				   		}
-					<!-- promijeni admin-a -->
-			
-					<button type="button" class="btn"><a href="/editUser/@user.id">Izmijeni profilne podatke</a></button>
-		
+					<!-- promijeni profilne podatke -->
+			  @if(usernameSes.equals(user.username)){
+			<button type="button" class="btn"><a href="/editUser/@user.id">Izmijeni profilne podatke</a></button>
+		}
 				</div>
 			
 				<div class="leftBox">
