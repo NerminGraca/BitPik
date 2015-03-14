@@ -220,7 +220,8 @@ public class UserController extends Controller {
 			if(userbyName.isAdmin==true && userbyName.id != u.id)
 				return redirect("/korisnik/" + u.id);
 		}
-		return redirect("/logout");	
+		session("username", u.username);
+		return redirect("/korisnik/" + u.id);	
 		
 	}
 	
