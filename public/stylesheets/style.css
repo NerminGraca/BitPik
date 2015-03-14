@@ -652,6 +652,28 @@ box-sizing: border-box;
 	float:right;
 	display: inline-block;
 }
+
+.add-cart2 {
+  float: none;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.add-cart2 h4 a{
+	font-size:0.9em;
+	display: block;
+	padding:10px 15px;
+
+	background:#CD1F25;
+	color: #FFF;
+	text-decoration: none;
+	outline: 0;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+
 .add-cart h4 a{
 	font-size:0.9em;
 	display: block;
@@ -1803,6 +1825,16 @@ box-sizing: border-box;
 	.add-cart{
 		float:none;
 	}
+	
+	
+	.price-number2{
+		float:none;
+		padding: 5px;
+		margin: 5px;
+		background: red;
+		
+	}
+	
 	.span_2_of_3 {
 		width:96%;
 		padding:2%; 
