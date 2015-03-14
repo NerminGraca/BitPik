@@ -32,6 +32,7 @@ public class UserController extends Controller {
 	public static Result addUser() {
 		String username = newUser.bindFromRequest().get().username;
 		String password = newUser.bindFromRequest().get().password;
+		String confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
 		String email = newUser.bindFromRequest().get().email;
 		// Unique 'username' verification
 		if (User.finder(username) != null) {
@@ -44,6 +45,10 @@ public class UserController extends Controller {
 					"Email je iskoristen, molimo Vas koristite drugi!"));
 		}
 
+		if(!password.equals(confirmPassword))
+		{
+			return ok(registration.render("", "Niste ispravno potvrdili lozinku!"));
+		}
 		
 
 		flash("validate", Messages.get("Primili ste email validaciju."));
@@ -240,5 +245,25 @@ public class UserController extends Controller {
 		session("username", u.username);
 		return redirect(routes.Application.index());
 	}
+	
+	public static Result changePassword(int id)
+	{
+		usernameSes = session("username");
+		if ((usernameSes == null)) {
+			usernameSes = "";
+			return redirect("/");
+		}
+		User u = findUser.byId(id);
+		String password = newUser.bindFromRequest().get().password;
+		String confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
+		if(!password.equals(confirmPassword))
+		{
+			return ok(changePassword.render(usernameSes, "Niste dobro potvrdili lozinku!", u));
+		}
+		password = HashHelper.createPassword(password);
+		u.setPassword(password);
+		u.save();
+		return redirect("/korisnik/" + id);
+		}
 	
 }

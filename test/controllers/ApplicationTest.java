@@ -25,7 +25,7 @@ import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
 public class ApplicationTest {
-	
+	/*
 	@Before
 	public void setUp() {
 		fakeApplication(inMemoryDatabase());
@@ -98,5 +98,5 @@ public class ApplicationTest {
 					}
 				});
 	}
-	
+	*/
 }

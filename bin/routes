@@ -17,6 +17,7 @@ POST    /korisnik/:id/delete       		controllers.UserController.deleteUser(id: I
 GET		/confirm/:r						controllers.UserController.confirmEmail(r: String)
 POST	/editUser/:id/change			controllers.UserController.saveEditedUser(id: Integer)
 GET		/editUser/:id					controllers.UserController.editUser(id: Integer)
+GET 	/changePassword/:id				controllers.UserController.changePassword(id: Integer)
 
 GET		/showProduct/:id				controllers.ProductController.showProduct(id: Integer)
 GET		/addProduct						controllers.ProductController.addProduct()
