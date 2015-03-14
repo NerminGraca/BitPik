@@ -122,31 +122,6 @@ public class UserController extends Controller {
 	 * Method list all users registered in database
 	 * @return
 	 */
-	/*public static Result allUsers() {
-		List<Product> productList = ProductController.findProduct.all();
-		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		usernameSes = session("username");
-		//1. Ne logovan korisnik; - vraca ga na pocetnu stranicu;
-		if (usernameSes == null) {
-			usernameSes = "";
-			return ok(index.render(usernameSes, productList, adminList, mainCategoryList));
-		}
-		// 2. Ako je obicni korisnik tj. ako nije admin; - vraca ga na pocetnu stranicu;
-		User u = findUser.where().eq("username", usernameSes).findUnique();
-		if (u.isAdmin == false) {
-			return ok(index.render(usernameSes, productList, adminList, mainCategoryList));
-		}
-		// 3. Ako je prosao prethodne if-ove; Slucaj ako je stvarno admin, prikazuju se svi korisnici;
-		List<User> userList = findUser.all();
-		for (User user: userList)
-					{
-						if(user.isAdmin)
-						{
-							insertAdmin(user.username);
-						}
-					}
-		return ok(korisnici.render(usernameSes, userList, adminList));
-	}*/
 	 @Security.Authenticated(AdminFilter.class)
 	    public static Result allUsers() {
 	   	 List<Product> productList = ProductController.findProduct.all();
@@ -178,9 +153,6 @@ public class UserController extends Controller {
 		   		 return redirect (routes.Application.index());
 		   	 if(currentUser==null)
 		   		 return redirect("/");
-		   	 //if(currentUser.isAdmin==true)
-		   	 //    return ok(korisnik.render(usernameSes, u, l, adminList));
-		   	 
 		   	 if(u.getUsername().equals(currentUser.getUsername()))
 		   		 return ok(korisnik.render(usernameSes, u, l, adminList));
 		   	 else
@@ -188,22 +160,6 @@ public class UserController extends Controller {
 
 		    }
 
-	/*public static Result singleUser(int id) {
-		usernameSes = session("username");
-		User u = findUser.byId(id);
-		String username=u.username;
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
-		if ((usernameSes == null)) {
-			
-			return redirect("/");
-		}
-		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
-		
-		
-		return ok(korisnik.render(usernameSes, u, l, adminList));
-	}*/
-	
-	
 	
 	/**
 	 * Deletes the User;
@@ -229,34 +185,13 @@ public class UserController extends Controller {
 		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
 		if(userbyName.isAdmin==true)
 			return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
-		
-		
 		else 
 			if ((userbyName.getUsername()!=userById.getUsername())) {
 				return redirect(routes.Application.index());
 			}
-			
-		return ok(editUser.render(usernameSes, userById, adminList, false));
+			return ok(editUser.render(usernameSes, userById, adminList, false));
 	}
-	 /*public static Result editUser(int id) {
-	   	  usernameSes = session("username");
-	      	  User currentUser=SessionHelper.getCurrentUser(ctx());
-	      	  if(currentUser==null)
-	      		  return redirect("/");
-	      	  User userById = findUser.byId(id);
-	      	  User userbyName = findUser.where().eq("username", usernameSes).findUnique();
-	      	  if(currentUser.isAdmin==true)
-	      		 return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
-	      	  if(userById==null)
-	      		  return redirect("/");
-	      	  else
-	      		  if ((currentUser.getUsername().equals(userById.getUsername())))
-	       
-	      			  return redirect("/");
-	      			 
-	      	  return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
-
-	    }*/
+	 
 
 	/**
 	 * Saves the new values of the attributes that are entered 
