@@ -3,33 +3,34 @@
 # ~~~~
 
 # Home page
-GET     /                           	controllers.UserController.index()
+GET     /                           	controllers.Application.index()
 GET		/registration 					controllers.Application.registration()
 GET		/login							controllers.Application.login()
+GET     /logout							controllers.Application.logout()
+
 POST	/adduser						controllers.UserController.addUser()
 POST	/finduser						controllers.UserController.findUser()
-GET     /logout							controllers.Application.logout()
+GET		/profile						controllers.UserController.findProfileProducts()
+GET		/korisnici						controllers.UserController.allUsers()
+GET		/korisnik/:id					controllers.UserController.singleUser(id: Integer)
+POST    /korisnik/:id/delete       		controllers.UserController.deleteUser(id: Integer)
+GET		/confirm/:r						controllers.UserController.confirmEmail(r: String)
+POST	/editUser/:id/change			controllers.UserController.saveEditedUser(id: Integer)
+GET		/editUser/:id					controllers.UserController.editUser(id: Integer)
+
 GET		/showProduct/:id				controllers.ProductController.showProduct(id: Integer)
 GET		/addProduct						controllers.ProductController.addProduct()
 GET		/editProduct/:id				controllers.ProductController.editProduct(id: Integer)
 POST	/editProduct/:id/change			controllers.ProductController.saveEditedProduct(id: Integer)
 POST	/createProduct					controllers.ProductController.createProduct()
 POST    /products/:id/delete       		controllers.ProductController.deleteProduct(id: Integer)
-GET		/profile						controllers.UserController.findProfileProducts()
-GET		/korisnici						controllers.UserController.allUsers()
-GET		/korisnik/:id					controllers.UserController.singleUser(id: Integer)
-POST    /korisnik/:id/delete       		controllers.UserController.deleteUser(id: Integer)
+
 GET		/kategorija/:id					controllers.CategoryController.categories(id: Integer)
-GET		/confirm/:r						controllers.UserController.confirmEmail(r: String)
 GET		/listaKategorija 				controllers.CategoryController.allCategory()
 POST    /listaKategorija/:id/delete     controllers.CategoryController.deleteMainCategory(id: Integer)
-
 GET		/editMainCategory/:id			controllers.CategoryController.editMainCategory(id: Integer)
 POST	/editMainCategory/:id/change	controllers.CategoryController.saveEditMainCategory(id: Integer)
 POST	/addMainCategory				controllers.CategoryController.addMainCategory()
-
-POST	/editUser/:id/change			controllers.UserController.saveEditedUser(id: Integer)
-GET		/editUser/:id					controllers.UserController.editUser(id: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               	controllers.Assets.at(path="/public", file)

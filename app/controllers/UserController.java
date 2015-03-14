@@ -20,22 +20,6 @@ public class UserController extends Controller {
 	static Form<User> newUser = new Form<User>(User.class);
 	static ArrayList<String> adminList = new ArrayList<String>();
 	static String usernameSes;	
-	
-	/**
-	 * Either directs to the index.html with the session name already logged in
-	 * or directs to the index.html page with "Unknown" as username;
-	 * 
-	 * @return
-	 */
-	public static Result index() {
-		List<Product> productList = ProductController.findProduct.all();
-		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		} 
-		return ok(index.render( usernameSes, productList, adminList, mainCategoryList));		
-	}
 
 	/**
 	 * 1. Gets the username, password and email from the form from the
@@ -66,7 +50,7 @@ public class UserController extends Controller {
 
 		User.createSaveUser(username, password, email);
 		// automatically puts the 'username' created into the session variable;
-		return redirect("/");
+		return redirect(routes.Application.index());
 
 	}
 
@@ -98,7 +82,7 @@ public class UserController extends Controller {
 			// the username put in the session variable under the key
 			// "username";
 		session("username", username);
-			return redirect("/");
+			return redirect(routes.Application.index());
 		} else {
 			return ok(login.render("", "Password je netacan"));
 		}
@@ -115,7 +99,7 @@ public class UserController extends Controller {
 		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
 		User u = User.finder(usernameSes);
@@ -191,7 +175,7 @@ public class UserController extends Controller {
 		   	 User u = findUser.byId(id);
 		   	 List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
 		   	if(u==null)
-		   		 return redirect ("/");
+		   		 return redirect (routes.Application.index());
 		   	 if(currentUser==null)
 		   		 return redirect("/");
 		   	 //if(currentUser.isAdmin==true)
@@ -238,7 +222,7 @@ public class UserController extends Controller {
 		usernameSes = session("username");
 		if ((usernameSes == null)) {
 			usernameSes = "";
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 
 		User userById = findUser.byId(id);
@@ -249,7 +233,7 @@ public class UserController extends Controller {
 		
 		else 
 			if ((userbyName.getUsername()!=userById.getUsername())) {
-				return redirect("/");
+				return redirect(routes.Application.index());
 			}
 			
 		return ok(editUser.render(usernameSes, userById, adminList, false));
@@ -312,14 +296,14 @@ public class UserController extends Controller {
 		User u = UserController.findUser.where().eq("confirmation", r).findUnique();
 		if(r == null || u == null)
 		{
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 		u.confirmation = null;
 		u.verified = true;
 		u.save();
 
 		session("username", u.username);
-		return redirect("/");
+		return redirect(routes.Application.index());
 	}
 	
 }

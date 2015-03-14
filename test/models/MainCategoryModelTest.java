@@ -9,13 +9,13 @@ import org.junit.Test;
 
 import play.test.WithApplication;
 
-public class MainCategoryTest extends WithApplication {
+public class MainCategoryModelTest extends WithApplication {
 	
 	@Before
 	public void SetUp() {
 		fakeApplication(inMemoryDatabase());
 	}
-	
+	/*
 	@Test
 	public void testCreateMainCategory() {
 		MainCategory.createMainCategory("Vozila");
@@ -36,5 +36,5 @@ public class MainCategoryTest extends WithApplication {
 		MainCategory mc = MainCategory.findMainCategory(1);
 		assertNull(mc);
 	}
-
+	*/
 }

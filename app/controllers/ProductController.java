@@ -41,7 +41,7 @@ public class ProductController extends Controller {
 		usernameSes = session("username");
 		// 1. Ako nije registrovan da mu oneomogucimo prikaz addProduct.html;
 		if (usernameSes == null) {
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		return ok(addProduct.render(usernameSes, mainCategoryList));
@@ -101,7 +101,7 @@ public class ProductController extends Controller {
 	   	 usernameSes = session("username");
 	   	 Product p = findProduct.byId(id);
 	   	 if(p==null)
-	   		 return redirect("/");
+	   		 return redirect(routes.Application.index());
 	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
 	    //  Ako nije registrovan da mu onemogucimo prikaz editProduct.html;
 	   			 if (usernameSes == null) {
@@ -109,10 +109,10 @@ public class ProductController extends Controller {
 	   			 }
 	   			 
 	   			 if(!currentUser.getUsername().equals(p.owner.getUsername()))
-	   			 return redirect("/");
+	   			 return redirect(routes.Application.index());
 	   	 //  Ako je admin ulogovan, onemogucujemo mu da edituje proizvod;
 	   			 if (currentUser.isAdmin==true) {
-	   				 return redirect("/");
+	   				 return redirect(routes.Application.index());
 	   			 }
 	   	 //  Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog proizvoda> da ga edituje;    
 	   	 return ok(editProduct.render(usernameSes, p, mainCategoryList));

@@ -17,7 +17,7 @@ public class SessionHelper extends Security.Authenticator {
 	
 	@Override
 	public Result onUnauthorized(Context ctx){
-		return redirect("/");
+		return redirect(routes.Application.index());
 	}
 	
 	public static boolean isAdminCheck(Context ctx) {
