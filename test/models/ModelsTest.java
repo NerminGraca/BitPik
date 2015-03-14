@@ -107,23 +107,6 @@ public class ModelsTest extends WithApplication {
 		u.setAdmin(true);
 		assertEquals(u.isAdmin, true);
 	//	assertEquals(u.email, "neko@gmail.com");
-*/
-	
-	/*
-	@Test
-	public void testCreateMainCategory() {
-		MainCategory.createMainCategory("Vozila");
-		MainCategory mc = MainCategory.findMainCategory(1);
-		assertNotNull(mc);
-		assertEquals(mc.name, "Vozila");
-	}
-	
-	@Test
-	public void testFindNonExistingMainCategory() {
-		MainCategory mc = MainCategory.findMainCategory(1000);		
-		assertNull(mc);
-	}
-	
 	
 	public void testEditUser(){
 		User.createSaveUser("neko", "12345","neko@gmail.com");
@@ -144,5 +127,15 @@ public class ModelsTest extends WithApplication {
 		UserController.confirmEmail(u.confirmation);
 		assertEquals(u.verified, true);
 	}
+	
+	
+	public void testChangePassword(){
+		User.createSaveUser("neko", "12345","neko@gmail.com");
+		User u = User.find(2);
+		assertNotNull(u);
+		UserController.changePassword(u.id);
+		assertEquals(u.password, "johndoe");
+	}
+	
 	*/
 }

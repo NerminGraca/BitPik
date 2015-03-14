@@ -20,8 +20,10 @@
 							@if(!usernameMessage.equals("")) {
 								<br>
 							}
-							<h5>Password:</h5>
-							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="password" name="password" required/>
+							<h5>Lozinka:</h5>
+ 							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="password" name="password" required/>
+							<h5>Potvrdite lozinku:</h5>
+							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="confirmPassword" name="confirmPassword" required/>
 							<h5>Email:</h5>			
 							<input type="email"  value="" id="email" name="email" required/>
 							<h6>@emailMessage</h6>

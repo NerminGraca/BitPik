@@ -17,6 +17,19 @@ import views.html.*;
 public class Application extends Controller {
 	
 	/**
+	 * Either directs to the index.html with the session name already logged in
+	 * or directs to the index.html page with "Unknown" as username;
+	 * 
+	 * @return
+	 */
+	public static Result index() {
+		List<Product> productList = ProductController.findProduct.all();
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
+ 
+		return ok(index.render(productList, mainCategoryList));		
+	}
+	
+	/**
 	 * Renders the registration.html page;
 	 * 
 	 * @return
@@ -43,10 +56,7 @@ public class Application extends Controller {
 	public static Result logout() {
 		session().clear();
 		flash("logout", Messages.get("Odjavili ste se. "));
-		return redirect("/");
+		return redirect(routes.Application.index());
 	}
-	
-	
-	
 
 }

@@ -69,13 +69,13 @@
 						<form action="/editProduct/@p.id">
     					<input class="btn2" type="submit" value="Izmijeni proizvod">
 						</form>
-						
+						}
 				
 						@form(routes.ProductController.deleteProduct(p.id)) {
                    				 <input class="btn2" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
                 		}
 						</div>	
-						}
+						
 					
 				</div>
 			</div>

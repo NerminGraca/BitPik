@@ -108,12 +108,14 @@ public class User extends Model {
 	 * @param username
 	 * @param password
 	 */
-	public static void create(String username, String password, String email) {
-		new User(username, password, email).save();
+	public static User create(String username, String password, String email) {
+		User user = new User(username, password, email);
+		user.save();
+		return user;
 	}
 
 	/**
-	 * Creates a new User object and saves it into database, and returns value of it's ID variable
+	 * Creates a new User object and saves it into database
 	 * 
 	 * @param username
 	 * @param password
