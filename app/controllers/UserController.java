@@ -217,9 +217,13 @@ public class UserController extends Controller {
 		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
 		session("username", u.username);
 
+
 		return redirect("/korisnik/" + u.id);	
 
 		
+
+		return redirect("/korisnik/" + u.id);		
+
 	}
 	
 	/**

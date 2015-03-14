@@ -29,7 +29,7 @@
 							@for(product <- productList){
 							<div class="grid_1_of_4 images_1_of_4">
 								<a href="/showProduct/@product.id"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
-								<h2>@product.name </h2>
+								<h2 id="oneLineText">@product.name </h2>
 								<div class="price-details">
 									<div class="price-number2">
 										<span class="price-number2">@product.price KM</span>
