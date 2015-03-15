@@ -1,4 +1,4 @@
-@(usernameSes: String)(u: User)(adminList: List[String])(isAdmin: Boolean)
+@(usernameSes: String)(u: User)
 @import helper._
 
 
@@ -20,30 +20,19 @@
 								
 								<h5 id="editProfileText">Email:</h5>			
 								<input type="email" value="@u.email" id="email" name="email" required/>
-									@if(isAdmin){
-										<fieldset>
-						   				<label for="isAdmin">Admin:</label>
-						    			<select id="isAdmin" name="isAdmin" id="isAdmin">
-					     					<option selected="selected">false</option>
-						     				<option>true</option> 			
-					    				</select>
-					     				</fieldset>
-									}
-									<br>
-									
+									<br>									
 									
 									@if(usernameSes.equals(u.username)){
 										<button type="button" class="btn"><a href="/changePassword/@u.id">Promijeni lozinku</a></button>
 									}
-									
-									
-								
+																
 								<input class="btn" type="submit" value="Spasi promjene" />
+							}
 					</div>
 				</div>	
 			</div>
 		</div>		
 	</div> 
 </div>   
-							}
+							
 }

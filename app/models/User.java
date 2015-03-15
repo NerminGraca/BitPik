@@ -44,6 +44,10 @@ public class User extends Model {
 	
 	public String confirmation;
 	
+	public boolean emailVerified;
+	
+	public String emailConfirmation;
+	
 	/**
 	 * @author Gordan Sajevic
 	 * Constructor with default values
@@ -54,7 +58,9 @@ public class User extends Model {
 		this.password = HashHelper.createPassword(password);
 		this.email = "johndoe@example.com";
 		isAdmin = false;		
-		createdDate = getDate();		
+		createdDate = getDate();
+		this.verified = false;
+		this.emailVerified = false;
 	}
 
 	/**
@@ -72,6 +78,8 @@ public class User extends Model {
 		createdDate = getDate();
 		this.verified = false;
 		this.confirmation = UUID.randomUUID().toString();
+		this.emailVerified = false;
+		this.emailConfirmation = UUID.randomUUID().toString();
 	}
 	
 	/**
@@ -87,8 +95,9 @@ public class User extends Model {
 		this.email = email;
 		this.isAdmin = isAdmin;		
 		createdDate = getDate();
-		this.verified = false;
-		this.confirmation = UUID.randomUUID().toString();
+		this.verified = true;
+		this.confirmation = null;
+		this.emailVerified = true;
 	}
 	
 	/**

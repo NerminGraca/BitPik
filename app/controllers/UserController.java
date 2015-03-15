@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import helpers.AdminFilter;
 import helpers.HashHelper;
@@ -18,7 +19,6 @@ import views.html.*;
 public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
-	static ArrayList<String> adminList = new ArrayList<String>();
 	static String usernameSes;	
 
 	/**
@@ -100,7 +100,6 @@ public class UserController extends Controller {
 	 * @return renders the profile.html page with the list of products mentioned;
 	 */
 	public static Result findProfileProducts(){
-		User currentUser=SessionHelper.getCurrentUser(ctx());
 		usernameSes = session("username");
 		if (usernameSes == null) {
 			usernameSes = "";
@@ -108,20 +107,10 @@ public class UserController extends Controller {
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
 		User u = User.finder(usernameSes);
-		return ok(profile.render(usernameSes, l, u, adminList));
+		return ok(profile.render(usernameSes, l, u));
 	}
 	
 	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
-	
-	/**
-	 * 
-	 * @param username
-	 */
-	public static void insertAdmin(String username)	{
-		if(!adminList.contains(username)) {
-				adminList.add(username);
-		}
-	}
 	
 	/**
 	 * Method list all users registered in database
@@ -133,14 +122,7 @@ public class UserController extends Controller {
 	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
 	   	 usernameSes = session("username");
 	   	 List<User> userList = findUser.all();
-	   	 for (User user: userList)
-	   				 {
-	   					 if(user.isAdmin)
-	   					 {
-	   						 insertAdmin(user.username);
-	   					 }
-	   				 }
-	   	 return ok(korisnici.render(usernameSes, userList, adminList));
+	   	 return ok(korisnici.render(usernameSes, userList));
 	    }
 
 	
@@ -150,35 +132,29 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	  public static Result singleUser(int id) {
-		   	 usernameSes = session("username");
-		   	 User currentUser=SessionHelper.getCurrentUser(ctx());
-		   	 User u = findUser.byId(id);
-		   	 List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
-		   	if(u==null)
-		   		 return redirect (routes.Application.index());
-		   	 if(currentUser==null)
-		   		 return redirect("/");
-		   	 if(u.getUsername().equals(currentUser.getUsername()))
-		   		 return ok(korisnik.render(usernameSes, u, l, adminList));
-		   	 else
-		   		 return ok(korisnik.render(usernameSes, u, l, adminList));
-
-		    }
-
+		  User currentUser = SessionHelper.getCurrentUser(ctx());
+		  User u = findUser.byId(id);
+		  List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
+		  if(u==null)
+			  return redirect (routes.Application.index());
+		  if(currentUser==null)
+			  return redirect("/");
+		  if(u.getUsername().equals(currentUser.getUsername()))
+			  return ok(korisnik.render(currentUser, u, l));
+		  else
+			  return ok(korisnik.render(currentUser, u, l));
+	}
 	
 	/**
 	 * Deletes the User;
 	 * @param id
 	 * @return
 	 */
-	public static Result deleteUser(int id) {
-		
+	public static Result deleteUser(int id) {		
 		  User.delete(id);
 		  return redirect(routes.UserController.allUsers());
 	}
-	
-	
-	
+		
 	public static Result editUser(int id) {
 		usernameSes = session("username");
 		if ((usernameSes == null)) {
@@ -189,15 +165,14 @@ public class UserController extends Controller {
 		User userById = findUser.byId(id);
 		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
 		if(userbyName.isAdmin==true)
-			return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
+			return ok(editUser.render(usernameSes, userById));
 		else 
 			if ((userbyName.getUsername()!=userById.getUsername())) {
 				return redirect(routes.Application.index());
 			}
-			return ok(editUser.render(usernameSes, userById, adminList, false));
+			return ok(editUser.render(usernameSes, userById));
 	}
 	 
-
 	/**
 	 * Saves the new values of the attributes that are entered 
 	 * and overwrites over the ones that were entered before;
@@ -205,18 +180,28 @@ public class UserController extends Controller {
 	 * @return redirect("/korisnik/" + id);
 	 */
 	public static Result saveEditedUser(int id) {
+		
+		User user = User.find(id);
+		String oldEmail = user.email;
+		
 		usernameSes = session("username");
 		String username = newUser.bindFromRequest().get().username;
 		String email = newUser.bindFromRequest().get().email;
-		boolean isAdmin = newUser.bindFromRequest().get().isAdmin;
-		User u = findUser.byId(id);
-		u.setUsername(username);
-		u.setEmail(email);
-		u.setAdmin(isAdmin);
-		u.save();
-		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
-		session("username", u.username);
-		return redirect("/korisnik/" + u.id);		
+		
+		user.setUsername(username);
+		
+		if (oldEmail.equals(email)) {
+			user.setEmail(email);
+		} else {
+			user.setEmail(email);
+			user.emailVerified = false;
+			String confirmation = UUID.randomUUID().toString();
+			user.emailConfirmation = confirmation;
+			MailHelper.sendEmailVerification(email,"http://localhost:9000/validateEmail/" + confirmation);
+		}
+		user.save();
+		session("username", user.username);
+		return redirect("/korisnik/" + user.id);		
 	}
 	
 	/**
@@ -235,9 +220,25 @@ public class UserController extends Controller {
 		}
 		u.confirmation = null;
 		u.verified = true;
+		u.emailVerified = true;
+		u.emailConfirmation = null;
 		u.save();
 
 		session("username", u.username);
+		return redirect(routes.Application.index());
+	}
+	
+	public static Result validateEmail(String r)
+	{
+		User u = UserController.findUser.where().eq("emailConfirmation", r).findUnique();
+		if(r == null || u == null)
+		{
+			return redirect(routes.Application.index());
+		}
+		u.emailVerified = true;
+		u.emailConfirmation = null;
+		u.save();
+
 		return redirect(routes.Application.index());
 	}
 	
@@ -246,7 +247,7 @@ public class UserController extends Controller {
 		usernameSes = session("username");
 		if ((usernameSes == null)) {
 			usernameSes = "";
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 		User u = findUser.byId(id);
 		String password = newUser.bindFromRequest().get().password;
@@ -259,6 +260,14 @@ public class UserController extends Controller {
 		u.setPassword(password);
 		u.save();
 		return redirect("/korisnik/" + id);
-		}
+	}
+	
+	public static Result changeAdmin(int id) {
+		User user = User.find(id);
+		boolean admin = newUser.bindFromRequest().get().isAdmin;
+		user.isAdmin = admin;
+		user.save();
+		return redirect("/korisnik/" + id);
+	}
 	
 }

@@ -87,6 +87,7 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
+	 * @author Graca Nermin
 	 * Method addMainCategory adds new category into the list and also in the database and
 	 * it will also check if that name is taken
 	 * @return to the view of all categories with new list shown

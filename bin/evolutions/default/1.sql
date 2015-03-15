@@ -31,6 +31,8 @@ create table user (
   created_date              varchar(255),
   verified                  boolean,
   confirmation              varchar(255),
+  email_verified            boolean,
+  email_confirmation        varchar(255),
   constraint pk_user primary key (id))
 ;
 

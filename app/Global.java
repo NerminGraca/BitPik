@@ -14,7 +14,6 @@ public class Global extends GlobalSettings {
 			User ad = User.createAdmin("admin", "admin", "admin@admin.ba", true);	
 			ad.verified = true;
 			ad.save();
-			UserController.insertAdmin(ad.username);
 		}
 		
 		if (MainCategory.findMainCategory(1) == null) {

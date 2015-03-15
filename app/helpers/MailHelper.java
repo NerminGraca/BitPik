@@ -18,4 +18,19 @@ public class MailHelper {
 		MailerPlugin.send(mail);
 		
 	}
+	
+public static void sendEmailVerification(String email, String message) {
+		
+		Email mail = new Email();
+		mail.setSubject("Potvrda emaila");
+		mail.setFrom("bitpikgroup@gmail.com");
+		mail.addTo("bitpikgroup@gmail.com");
+		mail.addTo(email);		
+		mail.setBodyText(message);
+		mail.setBodyHtml("Kliknite na slijedeci link kako biste verifikovali vas email :\n"+message);
+
+		MailerPlugin.send(mail);
+		
+	}
+	
 }
