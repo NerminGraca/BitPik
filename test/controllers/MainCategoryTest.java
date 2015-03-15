@@ -146,20 +146,49 @@ public class MainCategoryTest {
 						browser.fill("#password").with("admin");
 						browser.submit("#nameForm");
 						
-						browser.goTo("http://localhost:3333/editMainCategory/1");
-						browser.fill("#name").with("Vozilice");
+						browser.goTo("http://localhost:3333/listaKategorija");
+						browser.fill("#addCategoryFill").with("JavaProgremeri");
 						browser.submit("#productForm");
-						assertThat(browser.pageSource()).contains("Vozilice");
+						assertThat(browser.pageSource()).contains("JavaProgremeri");
 					}
 				});
 	}
 	
+	@Test
 	public void testSaveEditMainCategory() {
-		//TODO Sanela
-	}
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("admin");
+						browser.fill("#password").with("admin");
+						browser.submit("#nameForm");
+						
+						browser.goTo("http://localhost:3333/editMainCategory/1");
+						browser.fill("#name").with("Vozilice");
+						browser.submit("#productForm");
+						assertThat(browser.pageSource()).contains("Vozilice");
+						
+					}
+		});
+}
 	
+	@Test
 	public void testDeleteMainCategory() {
-		//TODO Sanela
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("admin");
+						browser.fill("#password").with("admin");
+						browser.submit("#nameForm");
+						
+						browser.goTo("http://localhost:3333/listaKategorija");
+						assertThat(browser.pageSource()).contains("Nekretnine");
+						MainCategory.delete(2);
+						assertThat(browser.pageSource()).contains("Nekretnine");
+					}
+		});
 	}
-	*/
+*/
 }

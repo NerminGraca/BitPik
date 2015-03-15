@@ -313,4 +313,122 @@ public class ProductTest extends WithApplication {
 			}
 	
 	*/
+
+	/**
+	 * URL security for showProduct(id);
+	 * First create user (not admin), login, then create product, logout, 
+	 * and then test can you see localhost:9000/showproduct/1 while U ar not login 
+	 *
+	*/
+	
+	/*
+	@Test
+	public void tesURLshowProduct() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						User.createSaveUser("Necko", "password","necko@test.com");
+						User u = User.find(2);
+						u.verified = true;
+						u.save();
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("Necko");
+						browser.fill("#password").with("password");
+						browser.submit("#nameForm");
+						
+						MainCategory mc = MainCategory.findMainCategoryByName("Ostale kategorije");
+						Product.create("original_product", "original_product_description", 10.00, u, mc, "sarajevo");
+						
+						
+						browser.goTo("http://localhost:3333/logout");
+						browser.goTo("http://localhost:3333/showProduct/1");
+						assertThat(browser.pageSource()).contains("original_product");
+						assertThat(browser.pageSource()).contains("original_product_description");
+						assertThat(browser.pageSource()).contains("sarajevo");
+						assertThat(browser.pageSource()).contains("10.0");
+						assertThat(browser.pageSource()).contains("Ostale kategorije");
+	
+	
+					}
+		});
 	}
+	*/
+
+	/**
+	 * URL security for addUser when U are not login
+	 */
+	
+	/*
+	@Test
+	public void tesURLaddProduct() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						
+						browser.goTo("http://localhost:3333/addProduct");
+						browser.goTo("http://localhost:3333/showProduct/1");
+						assertThat(browser.pageSource()).doesNotContain("Dodaj proizvod:");
+						
+					}
+		});
+	}
+	*/
+	
+	/**
+	 * URL security to checkout if nonUser can change existing product
+	*/
+	
+	/*
+	@Test
+	public void tesURLeditProduct() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						
+						User.createSaveUser("Necko", "password","necko@test.com");
+						User u = User.find(2);
+						u.verified = true;
+						u.save();
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("Necko");
+						browser.fill("#password").with("password");
+						browser.submit("#nameForm");
+						
+						MainCategory mc = MainCategory.findMainCategoryByName("Ostale kategorije");
+						Product.create("original_product", "original_product_description", 10.00, u, mc, "sarajevo");
+						
+						browser.goTo("http://localhost:3333/logout");
+						browser.goTo("http://localhost:3333/editProduct/1");
+						assertThat(browser.pageSource()).doesNotContain("Izmijeni podatke o proizvodu");
+					}
+		});
+	}
+	*/
+	
+	
+	/**
+	 * URL security to checkout if admin can change existing product 
+	 */
+	
+	/*
+	@Test
+	public void tesURLeditProduct() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("admin");
+						browser.fill("#password").with("admin");
+						browser.submit("#nameForm");
+						
+						User u = User.find(1);
+						MainCategory mc = MainCategory.findMainCategoryByName("Ostale kategorije");
+						Product.create("original_product", "original_product_description", 10.00, u, mc, "sarajevo");
+						
+						browser.goTo("http://localhost:3333/editProduct/1");
+						assertThat(browser.pageSource()).doesNotContain("Izmijeni podatke o proizvodu");
+					}
+		});
+	}
+	*/
+}
