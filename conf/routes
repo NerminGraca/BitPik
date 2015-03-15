@@ -20,6 +20,7 @@ POST	/editUser/:id/change			controllers.UserController.saveEditedUser(id: Intege
 GET		/editUser/:id					controllers.UserController.editUser(id: Integer)
 GET 	/changePassword/:id				controllers.UserController.changePassword(id: Integer)
 POST	/changeAdmin/:id				controllers.UserController.changeAdmin(id: Int)
+GET		/adminProfil					controllers.UserController.adminProfile()
 
 GET		/showProduct/:id				controllers.ProductController.showProduct(id: Integer)
 GET		/addProduct						controllers.ProductController.addProduct()

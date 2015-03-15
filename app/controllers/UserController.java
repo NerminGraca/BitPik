@@ -124,8 +124,7 @@ public class UserController extends Controller {
 	   	 List<User> userList = findUser.all();
 	   	 return ok(korisnici.render(usernameSes, userList));
 	    }
-
-	
+	 
 	/**
 	 * Method shows profile view of single user
 	 * @param id
@@ -269,5 +268,16 @@ public class UserController extends Controller {
 		user.save();
 		return redirect("/korisnik/" + id);
 	}
+	
+	/**
+	 *  If user is admin send him to adminProfile.html
+	 * @return adminProfile.html
+	 */
+	@Security.Authenticated(AdminFilter.class)
+    public static Result adminProfile() {
+   	  	usernameSes = session("username");
+   	  	User u = User.finder(usernameSes);
+   	 return ok(adminProfil.render(usernameSes, u));
+    }
 	
 }
