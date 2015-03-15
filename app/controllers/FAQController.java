@@ -28,8 +28,8 @@ public class FAQController extends Controller{
 		String answer = newFaq.bindFromRequest().get().answer;
 		FAQ faq = FAQ.create(question, answer);
 		User u = User.finder(usernameSes);
-		
-		return ok(showAllFaq.render(usernameSes, FaqList));	
+		return TODO;
+		//return ok(showAllFaq.render(usernameSes, FaqList));	
 	}
 	
 	public static Result showFaq(int id){
@@ -38,7 +38,8 @@ public class FAQController extends Controller{
 			usernameSes = "";
 		}
 		FAQ faq = FAQController.findFaq.byId(id);
-		return ok(showFaq.render(usernameSes, faq));
+		return TODO;
+		//return ok(showFaq.render(usernameSes, faq));
 	}
 	
 	public static Result showAllFaq(int id){
@@ -47,7 +48,8 @@ public class FAQController extends Controller{
 			usernameSes = "";
 		}
 		FAQ faq = FAQController.findFaq.byId(id);
-		return ok(showAllFaq.render(usernameSes, FaqList));
+		return TODO;
+		//return ok(showAllFaq.render(usernameSes, FaqList));
 	}
 	
 	public static Result editFaq(int id)
@@ -59,7 +61,8 @@ public class FAQController extends Controller{
 		FAQ faq = FAQController.findFaq.byId(id);
 		String question = newFaq.bindFromRequest().get().question;
 		String answer = newFaq.bindFromRequest().get().answer;
-		return redirect("/showFaq/" + faq);
+		return TODO;
+		//return redirect("/showFaq/" + faq);
 	}
 
 }

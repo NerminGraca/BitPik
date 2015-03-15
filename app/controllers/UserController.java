@@ -129,8 +129,6 @@ public class UserController extends Controller {
 	 */
 	 @Security.Authenticated(AdminFilter.class)
 	    public static Result allUsers() {
-	   	 List<Product> productList = ProductController.findProduct.all();
-	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
 	   	 usernameSes = session("username");
 	   	 List<User> userList = findUser.all();
 	   	 for (User user: userList)
