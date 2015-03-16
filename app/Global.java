@@ -2,7 +2,6 @@ import models.MainCategory;
 import models.User;
 import play.Application;
 import play.GlobalSettings;
-import controllers.UserController;
 
 public class Global extends GlobalSettings {
 	
