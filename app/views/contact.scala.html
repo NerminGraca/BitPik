@@ -1,0 +1,60 @@
+@(contactForm: Form[Application.Contact])
+
+@import helper._
+
+@main("Contact", "contact"){
+@if(flash.get("success")){
+		<div class="alert alert-success" role="alert"> 
+			<div class="container">
+				@flash.get("success") 
+			</div>
+		</div>
+	}	
+<div class="wrap">	
+	<div class="main">
+		<div class="content">
+			<div class="section group">
+				<div class="col span_2_of_3">
+				  <div class="contact-form">
+				  	<h1><strong>CONTACT US</strong></h1><br><br>
+				  	
+	<!--
+		NAŠ HELPER
+		-->
+	@helper.form(routes.Application.sendMail(), 'class->"form-horizontal", 'id->"contactForm"){
+					<h5>Email:</h5>
+					 <input type="email" class='@("error-input".when(contactForm("email").hasErrors)) form-control' 
+      				name="email" id="email" placeholder="john@@mail.com" value='@contactForm("email").value' />
+					
+					<h5>Message:</h5>
+					 <textarea class='@("error-input".when(contactForm("message").hasErrors)) form-control' 
+      				name="message" id="message" placeholder="Write something nice" value='@contactForm("message").value' > @contactForm("message").value </textarea>
+					<br><br>
+					
+						<div class="form-group">
+					 <div class="col-md-offset-2 col-sm-10 col-md-5">
+			<div class="g-recaptcha" data-sitekey="6LfrmQMTAAAAALfMimGrrcLFOhlv6vRLcr1ZrTxM"></div>
+			</div>
+			</div>
+					 <input type="submit" value="Send message" class="btn btn-success" />
+				<a href="/" class="btn btn-danger"> Cancel </a>
+				<input type="reset" value="Clean" class="btn btn-warning" />
+					
+					
+				  </div>
+  				</div>
+
+				<div class="col span_1_of_3">
+					<div class="contact_info">
+						
+				 </div>
+			  </div>		
+			</div> 
+		</div>
+	</div>
+</div>
+   
+	}
+	
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+}
