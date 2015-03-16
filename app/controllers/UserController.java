@@ -118,8 +118,6 @@ public class UserController extends Controller {
 	 */
 	 @Security.Authenticated(AdminFilter.class)
 	    public static Result allUsers() {
-	   	 List<Product> productList = ProductController.findProduct.all();
-	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
 	   	 usernameSes = session("username");
 	   	 List<User> userList = findUser.all();
 	   	 return ok(korisnici.render(usernameSes, userList));
@@ -186,6 +184,7 @@ public class UserController extends Controller {
 		usernameSes = session("username");
 		String username = newUser.bindFromRequest().get().username;
 		String email = newUser.bindFromRequest().get().email;
+
 		
 		user.setUsername(username);
 		
@@ -201,6 +200,7 @@ public class UserController extends Controller {
 		user.save();
 		session("username", user.username);
 		return redirect("/korisnik/" + user.id);		
+
 	}
 	
 	/**
