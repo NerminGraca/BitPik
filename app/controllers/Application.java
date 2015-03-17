@@ -84,6 +84,11 @@ public class Application extends Controller {
 		return redirect(routes.Application.index());
 	}
 
+/**
+	 * Renders(gets) the contact.html page;
+	 * 
+	 * @return
+	 */
 	public static Result contact() {
 		return ok(contact.render(new Form<Contact>(Contact.class)));
 	}
