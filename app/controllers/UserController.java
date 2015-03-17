@@ -18,7 +18,8 @@ public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
 	static String usernameSes;	
-
+	//private static final String SESSION_USERNAME = session("username");
+	
 	/**
 	 * 1. Gets the username, password and email from the form from the
 	 * Registration.html page; 2. If the username or email is already in our
@@ -129,14 +130,17 @@ public class UserController extends Controller {
 		  User currentUser = SessionHelper.getCurrentUser(ctx());
 		  User u = findUser.byId(id);
 		  List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
-		  if(u==null)
+		  if(u==null){
 			  return redirect (routes.Application.index());
-		  if(currentUser==null)
+			  }
+		  if(currentUser==null){
 			  return redirect(routes.Application.index());
-		  if(u.getUsername().equals(currentUser.getUsername()))
+			  }
+		  if(u.getUsername().equals(currentUser.getUsername())){
+			  return ok(korisnik.render(currentUser, u, l));}		  
+		  else {
 			  return ok(korisnik.render(currentUser, u, l));
-		  else
-			  return ok(korisnik.render(currentUser, u, l));
+			  }
 	}
 	
 	/**
