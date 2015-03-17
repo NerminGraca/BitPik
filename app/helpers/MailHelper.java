@@ -38,6 +38,8 @@ public class MailHelper {
 	/**
 	 * first creates the Email object, then sets its properties(some of them with values passed as parameters),
 	 * and finally, sends that object
+	 * @param email email
+	 * @param message message
 	public static void sendContactMessage(String email, String message) {
 
 		Email mail = new Email();
