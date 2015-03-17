@@ -35,6 +35,10 @@ h6 {
 	color: #FF0000;
 }
 
+.hideFieldsetNG {
+	display: none;
+}
+
 
 /* Template CSS */
 @font-face {

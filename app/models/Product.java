@@ -25,7 +25,7 @@ public class Product extends Model {
 	public String categoryString;
 	
 	@ManyToOne
-	public MainCategory category;
+	public MainCategory mainCategory;
 	
 	@Required
 	public double price;
@@ -38,6 +38,11 @@ public class Product extends Model {
 	@Required
 	public String availability;
 	
+	@ManyToOne
+	public SubCategory subCategory;
+	
+	public String subCategoryString;
+	
 	/**
 	 * Constructor with default values
 	 */
@@ -45,9 +50,11 @@ public class Product extends Model {
 		this.name = "Unknown";
 		this.description = "Unknown";
 		this.categoryString = "Unknown";
+		this.subCategoryString = "Unknown";
 		this.price = -1;
 		this.owner = null;
-		this.category = null;
+		this.mainCategory = null;
+		this.subCategory = null;
 		this.availability = "Unknown";
 		publishedDate = getDate();
 	}
@@ -58,12 +65,13 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, double price, User owner, MainCategory category, String availability) {
+	public Product(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability) {
 		this.name = name;
 		this.description = desc;
 		this.price = price;
 		this.owner = owner;
-		this.category = category;		
+		this.mainCategory = mainCategory;
+		this.subCategory = subCategory;
 		this.availability = availability;
 		publishedDate = getDate();
 	}
@@ -90,10 +98,10 @@ public class Product extends Model {
 
 	/**
 	 * Sets the category of the product;
-	 * @param category
+	 * @param mainCategory
 	 */
-	public void setCategory(MainCategory category) {
-		this.category = category;
+	public void setCategory(MainCategory mainCategory) {
+		this.mainCategory = mainCategory;
 	}
 
 	/**
@@ -130,8 +138,8 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static Product create(String name, String desc, double price, User owner, MainCategory category, String availability) {
-		Product newProduct = new Product(name, desc, price, owner, category, availability);
+	public static Product create(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability) {
+		Product newProduct = new Product(name, desc, price, owner, mainCategory, subCategory, availability);
 		newProduct.save();
 		return newProduct;
 	}

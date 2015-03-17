@@ -54,6 +54,8 @@
 							      			height: 400px;
 							      			}
 						 			</style>
+						 			
+						 			
 			
 									<div class="demo">
 										<form action="#">
@@ -62,11 +64,46 @@
 	    										<select name="categoryString" id="categoryString">
 		    										@if(mainCategoryList.size() > 0 ) {
 						  								@for(mainCategory <- mainCategoryList) {
-						  									<option>@mainCategory.name</option>
+						  									<option id="@mainCategory.name">@mainCategory.name</option>
 						  								}		
 						  							}
 						  						</select>
  											</fieldset>
+ 											
+ 											@if(mainCategoryList.size() > 0) {
+ 												@for(mainCategory <- mainCategoryList) {
+ 													@if(mainCategory.subCategories.size > 0) {
+ 														
+ 															<fieldset id="@mainCategory.name">
+						  										<label id="editProfileText" for="subcategory">Podkategorija:</label>
+						  										<select name="subCategoryString" id="subCategoryString">
+						  											@for(subCategory <- mainCategory.subCategories) {
+ 																		<option>@subCategory.name</option>
+						  											}
+						  										</select>
+						  							
+						  									</fieldset>
+ 														
+ 														
+ 													}
+						  							
+						  						}
+ 											}
+ 											
+ 											<script language="JavaScript">
+
+												function showStuff(element) {
+
+													var e = document.getElementById("categoryString");
+
+													var selected = e.options[e.selectedIndex].value;
+														
+													document.getElementById("fieldsetToHide").style.visibility = 'hidden';
+											
+											
+												}
+
+						 					</script>
 	
 											<fieldset>
 			   									<label id="editProfileText" for="availability">Dostupnost:</label>

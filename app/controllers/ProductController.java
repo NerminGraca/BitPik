@@ -1,9 +1,11 @@
 package controllers;
 
 import java.util.List;
+import java.util.Iterator;
 
 import models.MainCategory;
 import models.Product;
+import models.SubCategory;
 import models.User;
 import views.html.*;
 import play.data.Form;
@@ -63,12 +65,23 @@ public class ProductController extends Controller {
 		String name = newProduct.bindFromRequest().get().name;
 		String desc = newProduct.bindFromRequest().get().description;
 		Double price = newProduct.bindFromRequest().get().price;
-		String category = newProduct.bindFromRequest().get().categoryString;
+		String mainCategory = newProduct.bindFromRequest().get().categoryString;
+		String subCategory = newProduct.bindFromRequest().get().subCategoryString;
 		String availability = newProduct.bindFromRequest().get().availability;
-		MainCategory mc = MainCategory.findMainCategoryByName(category);
+		MainCategory mc = MainCategory.findMainCategoryByName(mainCategory);
+		List<SubCategory> subCats = mc.subCategories;
+		Iterator<SubCategory> iter = subCats.iterator();
+		SubCategory sc = null;
+		while(iter.hasNext()) {
+			SubCategory temp = iter.next();
+			if(temp.name.equals(subCategory)) {
+				sc = temp;
+				break;
+			}
+		}
 		
 		User u = User.finder(usernameSes);
-		Product p = Product.create(name, desc, price, u, mc, availability);
+		Product p = Product.create(name, desc, price, u, mc, sc, availability);
 		return redirect("/showProduct/" + p.id);	
 	
 	}

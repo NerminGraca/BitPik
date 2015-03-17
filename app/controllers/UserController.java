@@ -234,7 +234,7 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * Method is called when velidated user changes it's email,
+	 * Method is called when validated user changes it's email,
 	 * a verification mail will be sent to him which will verify
 	 * given email address
 	 * @param r
@@ -251,6 +251,7 @@ public class UserController extends Controller {
 		u.emailConfirmation = null;
 		u.save();
 
+		flash("validate", Messages.get("Primili ste email validaciju."));
 		return redirect(routes.Application.index());
 	}
 	
