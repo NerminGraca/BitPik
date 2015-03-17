@@ -34,7 +34,10 @@ public class MailHelper {
 		MailerPlugin.send(mail);
 
 	}
-
+	
+	/**
+	 * first creates the Email object, then sets its properties(some of them with values passed as parameters),
+	 * and finally, sends that object
 	public static void sendContactMessage(String email, String message) {
 
 		Email mail = new Email();
