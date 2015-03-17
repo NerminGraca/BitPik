@@ -1,7 +1,12 @@
 package controllers;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import com.google.common.io.Files;
 
 import helpers.AdminFilter;
 import helpers.HashHelper;
@@ -12,6 +17,8 @@ import play.*;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.*;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 import views.html.*;
 
 public class UserController extends Controller {
@@ -298,5 +305,26 @@ public class UserController extends Controller {
    	  	User u = User.finder(usernameSes);
    	 return ok(adminPanel.render(usernameSes, u));
     }
+	
+	
+	
+	public static Result showFileUpload(){
+		return ok(fileUpload.render());
+	}
+	
+	public static Result saveFile(){
+		MultipartFormData body = request().body().asMultipartFormData();
+		FilePart filePart = body.getFile("image");
+		Logger.debug("Content type: " + filePart.getContentType());
+		Logger.debug("Key: " + filePart.getKey());
+		File image = filePart.getFile();
+		try {
+			Files.move(image, new File("./public/images/"+new Date().toString()+filePart.getFilename()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return TODO;
+	}
 	
 }
