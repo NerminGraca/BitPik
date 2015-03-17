@@ -1,13 +1,9 @@
 package controllers;
 
-import helpers.MailHelper;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import models.MainCategory;
 import models.Product;
-import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -17,8 +13,7 @@ import views.html.*;
 public class Application extends Controller {
 	
 	/**
-	 * Either directs to the index.html with the session name already logged in
-	 * or directs to the index.html page with "Unknown" as username;
+	 * Method index renders the index.hmtl page
 	 * 
 	 * @return
 	 */

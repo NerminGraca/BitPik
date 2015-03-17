@@ -28,8 +28,11 @@ public class UserControllerTest extends WithApplication{
 	}
 
 	/**
-	 * Test for : Going on to the webpage "/profile";
-	 * while logged in as a User with the username : "necko";
+	 * This current test is for the following : 
+	 * 1. Going on to the page "/profile";
+	 * 2. While logged in as a User with the username : "necko";
+	 * 3. And testing whether the "/profile" page contains the info and data about the
+	 * user logged in.
 	 *//*
 	@Test
 	public void testProfileUser() {
@@ -64,8 +67,11 @@ public class UserControllerTest extends WithApplication{
 	}*/
 	
 	/**
-	 * Test for : Going on to the webpage "/profile";
-	 * while logged in as an admin;
+	 *This current test is for the following : 
+	 *1. Going on to the page "/profile";
+	 *2. While logged in as an admin user;
+	 *3. And testing whether the "/profile" page contains the info and data about the
+	 * user admin logged in.
 	 *//*
 	@Test
 	public void testProfileAdmin() {
@@ -90,9 +96,12 @@ public class UserControllerTest extends WithApplication{
 	}*/
 	
 	/**
-	 * Test for : Going on to the webpage "/profile";
-	 * while not logged in at all;
-	 * (we redirect the guest of the webpage to the index.html);
+	 *This current test is for the following : 
+	 *1. Going on to the page "/profile";
+	 *2. While not logged in at all;
+	 *3. We know that the guest will be redirected to the index.html page;
+	 *4. Checking and asserting that the page we are then on, coes not contain
+	 *the information about any user in this test the info about the admin.
 	 *//*
 	@Test
 	public void testProfileNoLogin() {
@@ -114,8 +123,13 @@ public class UserControllerTest extends WithApplication{
 	}*/
 	
 	/**
-	 * Test for : Going on to the webpage "/korisnik/id";
-	 * while logged in as an admin;
+	 *This current test is for the following : 
+	 *1. Going on to the page "/korisnik/id";
+	 *2. While logged in as an admin user;
+	 *3. A user is created and that user has added/published a product.
+	 *4. Checking & asserting the the korisnik/id page contains the information 
+	 *(id of the user that has just added/published the product), that the page
+	 *contains the information about the user and the product that he has published. 
 	 *//*
 	@Test
 	public void testSingleUserAdmin() {
@@ -152,8 +166,14 @@ public class UserControllerTest extends WithApplication{
 	}*/
 	
 	/**
-	 * Test for : Going on to the webpage "/korisnik/id";
-	 * while not logged in at all;
+	 *This current test is for the following : 
+	 *1. Going on to the page "/korisnik/id";
+	 *2. While not logged in at all;
+ 	 *3. A user is created and that user has added/published a product.
+ 	 *4. We assert and check that the page the our guest/visiot is on does not 
+ 	 *contain the information about the user just created and the information
+ 	 *about the product.
+ 	 *Since we know that he will be automatically redirected to the index.html page;
 	 *//*
 	@Test
 	public void testSingleUserNoLogin() {
@@ -188,9 +208,13 @@ public class UserControllerTest extends WithApplication{
 	}*/
 	
 	/**
-	 * Test for : Going on to the webpage "/editUser/id";
-	 * while logged in as the user "necko";
-	 * checking for data of the user in the forms;
+	 * This current test is for the following : 
+	 * 1. Going on to the page "/editUser/id" & later korisnik/id;
+	 * 2. While logged in as a User with the username : "necko";
+	 * 3. We go to the editUser/id page and we assert and check whether
+	 * the page contains information about the user. Actually what we are checking
+	 * is that the forms for editing the users name or email etc.. contain the 
+	 * current values of the user.
 	 *//*
 	@Test
 	public void testEditUser() {
@@ -222,13 +246,18 @@ public class UserControllerTest extends WithApplication{
 	
 	
 	/**
-	 * Test for : Going on to the webpage "/editUser/id";
-	 * while logged in as the user "necko";
-	 * checking for data of the user in the forms;
-	 * and checking for the changed attributes(username) have been applied for the user;
+	 * This current test is for the following : 
+	 * 1. Going on to the page "/editUser/id";
+	 * 2. While logged in as a User with the username : "necko";
+	 * 3. We go to the editUser/id page and we assert and check whether
+	 * the page contains information about the user. Actually what we are checking
+	 * is that the forms for editing the users name or email or etc.. contain the 
+	 * current values of the user.
+	 * 4. We then change the users username to a new String and submit/apply the change.
+	 * 5. Then we check and assert that the changed attributes(username) have been applied for the user;
 	 *//*
 	@Test
-	public void testEditUser() {
+	public void testSaveEditUser() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
@@ -260,9 +289,14 @@ public class UserControllerTest extends WithApplication{
 	}*/
 	
 	/**
-	 * Test for : Going on to the webpage "/korisnici";
-	 * while logged in as the admin;
-	 * and checking for the usernames of users registered;
+	 *This current test is for the following : 
+	 *1. Going on to the page "/korisnici";
+	 *2. While logged in as an admin user;
+	 *3. We create two users with their attributes, username, password and email.
+	 *3. Then we assert and check that the page /korisnici contains the usernames
+	 *of the just created two users. As we know that this page should contain all
+	 *the usernames of all the users registered. Which is only visible to the 
+	 *admin user.
 	 *//*
 	@Test
 	public void testAllUsers() {
@@ -295,10 +329,14 @@ public class UserControllerTest extends WithApplication{
 	}*/
 	
 	/**
-	 * Test for : Going on to the webpage "/korisnici";
-	 * while logged in as a user;
-	 * and checking for the usernames of users registered;
-	 * whilst knowing that the user will be redirected to the index.html page;
+	 *This current test is for the following : 
+	 *1. Going on to the page "/korisnici";
+	 *2. While logged in as an user with the username necko;
+	 *3. We create two users with their attributes, username, password and email.
+	 *4. Then we assert and check that the page /korisnici does not contain the 
+	 *usernames of users registered; As we know we will redirect the user logged
+	 *in to the index.html page. As the only one who can visit the /korisnici
+	 *page is the admin. (or any other user who's attribute isAdmin is true);
 	 *//*
 	@Test
 	public void testAllUsers() {
@@ -334,10 +372,15 @@ public class UserControllerTest extends WithApplication{
 	}*/
 	
 	/**
-	 * Test for : Going on to the webpage "/korisnici";
-	 * while not logged in at all;
-	 * and checking for the usernames of users registered;
-	 * whilst knowing that the guest will be redirected to the index.html page;
+	/**
+	 *This current test is for the following : 
+	 *1. Going on to the page "/korisnici";
+	 *2. While not logged in at all;
+	 *3. We create two users with their attributes, username, password and email.
+	 *4. Then we assert and check that the page /korisnici does not contain the 
+	 *usernames of users registered; As we know we will redirect the user logged
+	 *in to the index.html page. As the only one who can visit the /korisnici
+	 *page is the admin. (or any other user who's attribute isAdmin is true);
 	 *//*
 	@Test
 	public void testAllUsers() {

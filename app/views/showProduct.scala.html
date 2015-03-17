@@ -24,45 +24,44 @@
 						- TODO - Kasnije dodati, i na pocetak stranice, sve dodatne varijable koje primamo;
 						-->
 						<div class="bottomLine">
-						<h2 id="redText"><p>Korisnicko ime:</p></h2>
-						<h6 class="blueText">@usernameSes</h6>
+							<h2 id="redText"><p>Korisnicko ime:</p></h2>
+							<h6 class="blueText">@usernameSes</h6>
 						</div>
 						
 						<div class="bottomLine">
-						<h2 id="redText"><p>ID oglasa:</p></h2>
-						<h6 class="blueText">@p.id</h6>
+							<h2 id="redText"><p>ID oglasa:</p></h2>
+							<h6 class="blueText">@p.id</h6>
 						</div>
 		
 						<div class="bottomLine">	
-						<h2 id="redText">Naziv proizvoda:</h2>
-						<p class="blueText">@p.name</p>
+							<h2 id="redText">Naziv proizvoda:</h2>
+							<p class="blueText">@p.name</p>
 						</div>	
 			
 						<div class="bottomLine">
-						<h2 id="redText">Opis:</h2>
-						<p class="blueText">@p.description</p>
+							<h2 id="redText">Opis:</h2>
+							<p class="blueText">@p.description</p>
 						</div>
 				
 						<div class="bottomLine">
-						<h2 id="redText">Cijena:</h2>
-						<p class="blueText">@p.price KM</p>
+							<h2 id="redText">Cijena:</h2>
+							<p class="blueText">@p.price KM</p>
 						</div>
 		
 						<div class="bottomLine">		
-						<h2  id="redText">Kategorija:</h2>
-						<p class="blueText">@p.category.name</p>
+							<h2 id="redText">Kategorija:</h2>
+							<p class="blueText">@p.category.name</p>
 						</div>
 		
-		
 						<div class="bottomLine">
-						<h2  id="redText">Dostupnost:</h2>
-						<p class="blueText">@p.availability</p>
+							<h2  id="redText">Dostupnost:</h2>
+							<p class="blueText">@p.availability</p>
 						</div>	
 		
 						<div class="bottomLine">
-						<h2 id="redText">Objavio korisnik:</h2>
-						<p class="blueText">@p.owner.email</p>
-						<p class="blueText">@p.owner.username</p>
+							<h2 id="redText">Objavio korisnik:</h2>
+							<p class="blueText">@p.owner.email</p>
+							<p class="blueText">@p.owner.username</p>
 						</div>
 						
 						<!--  Vidljivost "EDIT "samo za vlasnika proizvoda -->
@@ -70,20 +69,16 @@
 						
 						<div>
 						
-						<form action="/editProduct/@p.id">
-    					<input class="btn2" type="submit" value="Izmijeni proizvod">
-						</form>
-						}
-				
-						@form(routes.ProductController.deleteProduct(p.id)) {
-                   				 <input class="btn2" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
-                		}
+							<form action="/editProduct/@p.id">
+    							<input class="btn2" type="submit" value="Izmijeni proizvod">
+							</form>
+										
+							@form(routes.ProductController.deleteProduct(p.id)) {
+                   				<input class="btn2" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                			}
 						</div><br><br>	
-						
-					</div>
-					
-						
-					
+						}
+					</div>					
 				</div>
 			</div>
 		</div>

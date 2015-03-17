@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,7 +11,6 @@ import play.i18n.Messages;
 import play.*;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
-import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
 
@@ -50,7 +48,6 @@ public class UserController extends Controller {
 			return ok(registration.render("", "Niste ispravno potvrdili lozinku!"));
 		}
 		
-
 		flash("validate", Messages.get("Primili ste email validaciju."));
 
 		User.createSaveUser(username, password, email);
@@ -107,7 +104,7 @@ public class UserController extends Controller {
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
 		User u = User.finder(usernameSes);
-		return ok(profile.render(usernameSes, l, u));
+		return ok(profile.render(l, u));
 	}
 	
 	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
@@ -135,7 +132,7 @@ public class UserController extends Controller {
 		  if(u==null)
 			  return redirect (routes.Application.index());
 		  if(currentUser==null)
-			  return redirect("/");
+			  return redirect(routes.Application.index());
 		  if(u.getUsername().equals(currentUser.getUsername()))
 			  return ok(korisnik.render(currentUser, u, l));
 		  else
@@ -152,6 +149,11 @@ public class UserController extends Controller {
 		  return redirect(routes.UserController.allUsers());
 	}
 		
+	/**
+	 * Method renders the view in which given user will be edited
+	 * @param id
+	 * @return
+	 */
 	public static Result editUser(int id) {
 		usernameSes = session("username");
 		if ((usernameSes == null)) {
@@ -227,6 +229,13 @@ public class UserController extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
+	/**
+	 * Method is called when velidated user changes it's email,
+	 * a verification mail will be sent to him which will verify
+	 * given email address
+	 * @param r
+	 * @return
+	 */
 	public static Result validateEmail(String r)
 	{
 		User u = UserController.findUser.where().eq("emailConfirmation", r).findUnique();
@@ -261,6 +270,12 @@ public class UserController extends Controller {
 		return redirect("/korisnik/" + id);
 	}
 	
+	/**
+	 * Method changes the administrator status of some user
+	 * by changing it to either true or false
+	 * @param id
+	 * @return
+	 */
 	public static Result changeAdmin(int id) {
 		User user = User.find(id);
 		boolean admin = newUser.bindFromRequest().get().isAdmin;
@@ -270,14 +285,14 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 *  If user is admin send him to adminProfile.html
+	 *  If user is administrator send him to adminProfile.html
 	 * @return adminProfile.html
 	 */
 	@Security.Authenticated(AdminFilter.class)
-    public static Result adminProfile() {
+    public static Result adminPanel() {
    	  	usernameSes = session("username");
    	  	User u = User.finder(usernameSes);
-   	 return ok(adminProfil.render(usernameSes, u));
+   	 return ok(adminPanel.render(usernameSes, u));
     }
 	
 }

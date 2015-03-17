@@ -100,7 +100,7 @@ public class ProductController extends Controller {
 	   	 User currentUser=SessionHelper.getCurrentUser(ctx());
 	   	 usernameSes = session("username");
 	   	 Product p = findProduct.byId(id);
-	   	 if(p==null)
+	   	 if(p == null)
 	   		 return redirect(routes.Application.index());
 	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
 	    //  Ako nije registrovan da mu onemogucimo prikaz editProduct.html;
