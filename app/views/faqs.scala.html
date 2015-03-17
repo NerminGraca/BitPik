@@ -1,0 +1,84 @@
+@(username: String)(faqList: List[FAQ])(user: User)
+@import helper._
+
+@main("FAQs", "") {
+	
+<div class="wrap">
+	
+ <div class="main">
+    <div class="content">
+    	<div class="section group">
+				
+				<h1 class="redHeader">FAQs Pitanja & Odgovori:</h1><br>  	
+
+					<table border="0" cellspacing="0" cellpadding="0">
+				  <tr>
+				    <td width="100%"><form name="ddmessage"><table border="0" width="100%" cellspacing="0" cellpadding="0">
+				        <tr>
+				          <td width="100%"><select name="selectbox" size="1" onChange="changecontent(this)">
+	<!-- PITANJA - OPCIJE U NIZU! -->			          
+				          	  @if(faqList.size() > 0 ) {
+				          	  		 <li><a href=#">Pitanja</a></li>
+							         <option selected value="pitanja">Pitanja</option>
+									@for(faq <- faqList) {
+					   				   <li><a href="/faq/@faq.id">@faq.question</a></li>
+							            <option selected value="@faq.question">@faq.question</option>
+							            }
+							         }
+				          </select><br>
+				          </td>
+				        </tr>
+				        <tr>
+				          <td width="100%"><textarea rows="15" name="contentbox" cols="100" wrap="virtual" readonly></textarea><br></td>
+				        </tr>
+				      </table>
+				    </form>
+				    </td>
+				  </tr>
+				</table>
+				
+				<p>
+				
+				<script language="JavaScript">
+				
+	<!-- ODGOVORI - OPCIJE U NIZU! -->
+					
+				var theAnswers=new Array()
+
+				@if(faqList.size() > 0 ) {
+							theAnswers[0]='Ovdje su odgovori!'
+						@for(faq <- faqList) {
+							theAnswers[@faq.id]='@faq.answer';							
+							}
+					}	
+												
+				function changecontent(which){
+				document.ddmessage.contentbox.value=theAnswers[which.selectedIndex]
+				}
+				
+				document.ddmessage.contentbox.value=theAnswers[document.ddmessage.selectbox.selectedIndex]
+				</script>
+@if(user != null) {					 
+ 		 @if(user.isAdmin) {
+			 				<br><br>
+			 				<h1 class="redHeader">Dodaj Pitanje & Odgovor:</h1><br>
+		 						<div>
+										@helper.form(routes.FAQController.addFaq(), 'id -> "faqForm") {
+											<h5 id="editProfileText">Pitanje :</h5>
+											<input type="text" value="" id="question" name="question" required/>
+											
+											<h5 id="editProfileText">Odgovor :</h5>
+											<input type="text" value="" id="answer" name="answer" required/>
+										<br>	
+		 									<input class="buttonRed" type="submit" value="Add a FAQ" />
+		 						</div>
+		 							}
+							}
+				}
+			 </div>
+ 		</div>
+ </div>
+		}
+ 
+ 
+	

@@ -22,6 +22,9 @@ GET 	/changePassword/:id				controllers.UserController.changePassword(id: Intege
 POST	/changeAdmin/:id				controllers.UserController.changeAdmin(id: Int)
 GET		/adminPanel						controllers.UserController.adminPanel()
 
+GET		/faqs							controllers.FAQController.allFaqs()
+POST	/faqs							controllers.FAQController.addFaq()
+
 GET		/showProduct/:id				controllers.ProductController.showProduct(id: Integer)
 GET		/addProduct						controllers.ProductController.addProduct()
 GET		/editProduct/:id				controllers.ProductController.editProduct(id: Integer)
@@ -35,6 +38,8 @@ POST    /listaKategorija/:id/delete     controllers.CategoryController.deleteMai
 GET		/editMainCategory/:id			controllers.CategoryController.editMainCategory(id: Integer)
 POST	/editMainCategory/:id/change	controllers.CategoryController.saveEditMainCategory(id: Integer)
 POST	/addMainCategory				controllers.CategoryController.addMainCategory()
+
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               	controllers.Assets.at(path="/public", file)
