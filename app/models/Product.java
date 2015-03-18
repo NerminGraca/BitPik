@@ -104,6 +104,14 @@ public class Product extends Model {
 	public void setCategory(MainCategory mainCategory) {
 		this.mainCategory = mainCategory;
 	}
+	
+	/**
+	 * Sets the subCategory of the product;
+	 * @param subCategory
+	 */
+	public void setSubCategory(SubCategory subCategory) {
+		this.subCategory = subCategory;
+	}
 
 	/**
 	 * Sets the price of the product;
