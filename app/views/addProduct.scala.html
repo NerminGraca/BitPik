@@ -74,9 +74,9 @@
  												@for(mainCategory <- mainCategoryList) {
  													@if(mainCategory.subCategories.size > 0) {
  														<div id="@mainCategory.name" class="fieldsetToHide">
- 															<fieldset >
+ 															<fieldset>
 						  										<label id="editProfileText" for="subcategory">Podkategorija:</label>
-						  										<select name="subCategoryString" id="subCategoryString">
+						  										<select name="inactive" id="inactive">
 						  											@for(subCategory <- mainCategory.subCategories) {
  																		<option value="@subCategory.name">@subCategory.name</option>
 						  											}
@@ -102,10 +102,28 @@
 													for (var i = 0; i < hiddenDivs.length; i++) {
 														hiddenDivs[i].style.display = 'none';
 													}
-													
-													var shown = document.getElementById(selected);
 
+													var actives = document.querySelectorAll("#subCategoryString");
+
+													for (var i = 0; i < actives.length; i++) {
+														actives[i].id = "inactive";
+														actives[i].name = "inactive";
+													}
+
+
+													var shown = document.getElementById(selected);
 													shown.style.display = 'block';
+													debugger;
+
+													var children = shown.childNodes;
+													var node = children[1];
+													var children2 = node.childNodes;
+													var selectNode = children2[3];
+													
+													selectNode.id = "subCategoryString";
+													selectNode.name = "subCategoryString";
+													
+													
 														
 												};
 												
