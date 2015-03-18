@@ -15,15 +15,13 @@
 				  <tr>
 				    <td width="100%"><form name="ddmessage"><table border="0" width="100%" cellspacing="0" cellpadding="0">
 				        <tr>
-				          <td width="100%"><select name="selectbox" size="1" onChange="changecontent(this)">
-	<!-- PITANJA - OPCIJE U NIZU! -->			          
+				          <td width="100%">
+				          <select id="selectbox" name="selectbox" size="1" onChange="changecontent(this)">
+							<!-- PITANJA - OPCIJE U NIZU! -->			          
 				          	  @if(faqList.size() > 0 ) {
-				          	  		 <li><a href=#">Pitanja</a></li>
-							         <option selected value="pitanja">Pitanja</option>
+							         <option selected value="0">Pitanja</option>
 									@for(faq <- faqList) {
-										
-					   				   <li><a href="/faq/@faq.id">@faq.question</a></li>
-							            <option selected value="@faq.question">@faq.question</option>
+							            <option selected value="@faq.id">@faq.question</option>
 							            }
 							         }
 				          </select><br>
@@ -44,9 +42,8 @@
 				<script language="JavaScript">
 				
 	<!-- ODGOVORI - OPCIJE U NIZU! -->
-					
+				
 				var theAnswers=new Array()
-				var questions = new Array()
 				@if(faqList.size() > 0 ) {
 							theAnswers[0]='Ovdje su odgovori!'
 						@for(faq <- faqList) {
@@ -57,13 +54,32 @@
 					}	
 				 
 				function changecontent(which){
-				document.ddmessage.contentbox.value=theAnswers[which.selectedIndex]
+					document.ddmessage.contentbox.value=theAnswers[which.value]
 				}
+							
+				document.ddmessage.contentbox.value=theAnswers[document.ddmessage.selectbox.value]
 				
-				document.ddmessage.contentbox.value=theAnswers[document.ddmessage.selectbox.selectedIndex]
+	<!-- FUNKCIJA UZIMA ID FAQ-A I REDIRECTA NA EDITFAQ/ID! -->			
+				function editFaq() {
+					var id = document.getElementById("selectbox").value;
+					window.location = "/editFaq/"+id;
+				}
+	<!-- FUNKCIJA UZIMA ID FAQ-A I REDIRECTA NA DELETEFAQ/ID! -->				
+				function deleteFaq() {
+					if(confirm('Da li si siguran-na da zelis izbrisati ovo pitanje?')==true)
+					{
+						var id = document.getElementById("selectbox").value;
+						window.location = "/deleteFaq/"+id;
+					}
+				}
+	
 				</script>
-				
-@if(user != null) {					 
+	@if(user != null) {	
+				 @if(user.isAdmin) {
+					<button id="link" onclick="editFaq()">Edituj</button>
+					<button id="link1" onclick="deleteFaq()" >Izbriši</button>
+				}
+				 
  		 @if(user.isAdmin) {
 			 				<br><br>
 			 				<h1 class="redHeader">Dodaj Pitanje & Odgovor:</h1><br>
