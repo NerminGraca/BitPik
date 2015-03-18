@@ -17,8 +17,18 @@ public class MainCategory extends Model {
 	@Required
 	public String name;
 	
-	@OneToMany(mappedBy="category", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="mainCategory", cascade=CascadeType.ALL)
 	public List<Product> products;
+	
+	@OneToMany(mappedBy="mainCategory", cascade=CascadeType.ALL)
+	public List<SubCategory> subCategories;
+	
+	/**
+	 * Default constructor
+	 */
+	public MainCategory() {
+		this.name = "Unknown";
+	}
 	
 	/**
 	 * @author Graca Nermin
