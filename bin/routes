@@ -42,7 +42,6 @@ POST	/addMainCategory				controllers.CategoryController.addMainCategory()
 
 
 POST   /fileupload          controllers.UserController.saveFile()
-GET    /fileupload          controllers.UserController.showFileUpload()
 
 
 # Map static resources from the /public folder to the /assets URL path

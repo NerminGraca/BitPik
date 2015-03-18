@@ -199,8 +199,7 @@ body {
 	border: 1px solid grren;
 	position: relative;
 	display: block;
-	text-align: center;
- 	
+	text-align: center; 	
 }
 
 .profilePicture img {

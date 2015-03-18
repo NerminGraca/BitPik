@@ -40,6 +40,7 @@ create table user (
   confirmation              varchar(255),
   email_verified            boolean,
   email_confirmation        varchar(255),
+  image_path                varchar(255),
   constraint pk_user primary key (id))
 ;
 

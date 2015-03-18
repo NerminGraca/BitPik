@@ -306,25 +306,60 @@ public class UserController extends Controller {
    	 return ok(adminPanel.render(usernameSes, u));
     }
 	
-	
-	
-	public static Result showFileUpload(){
-		return ok(fileUpload.render());
-	}
+	/**
+	 * Uplade image for User profile, and show picture on user /profile.html. 
+	 * If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
+	 * If file size is bigger then 2MB, redirect user on profile without uploading image.
+	 * @return
+	 */
 	
 	public static Result saveFile(){
+		User u = SessionHelper.getCurrentUser(ctx());
+		usernameSes = session("username");
+		
+   	  	int userID = User.finder(usernameSes).id;
+   	  	//creating path where we are going to save image
+		final String savePath = "." + File.separator 
+				+ "public" + File.separator + "images" 
+				+ File.separator + "profilePicture" + File.separator;
+		
+		//it takes uploaded information  
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("image");
-		Logger.debug("Content type: " + filePart.getContentType());
-		Logger.debug("Key: " + filePart.getKey());
 		File image = filePart.getFile();
+		//it takes extension from image that is uploaded
+		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
+		extension.trim();
+		
+		//If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
+		if(	   !extension.equalsIgnoreCase(".jpeg") 
+			&& !extension.equalsIgnoreCase(".jpg")
+			&& !extension.equalsIgnoreCase(".png") ){
+			
+			flash("error", "Image type not valid");
+			return redirect("/profile");
+		}
+		
+		//If file size is bigger then 2MB, redirect user on profile without uploading image.
+		double megabyteSize = (image.length() / 1024) / 1024;
+		if(megabyteSize > 2){
+			flash("error", "Image size not valid");
+			return redirect("/profile");
+		}
+		
+		//creating image name from user id, and take image extension, than move image to new location
 		try {
-			Files.move(image, new File("./public/images/"+new Date().toString()+filePart.getFilename()));
+			File profile = new File(savePath + userID + extension);
+			Files.move(image, profile );		
+			String assetsPath = "images" 
+					+ File.separator + "profilePicture" + File.separator + profile.getName();
+			u.imagePath = assetsPath;
+			u.save();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return TODO;
+		return redirect("/profile");
 	}
 	
 }

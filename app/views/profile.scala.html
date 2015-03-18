@@ -3,6 +3,11 @@
 
 @main("Profile", "") {
 		
+		<div class="validateAndLogout">
+	
+	@flash.get("error")     
+	</div>
+		
 <div class="wrap">
 	<div class="main">
     	<div class="content">
@@ -34,15 +39,24 @@
 				</div>
 				
 				<div class="leftBox">
-					<div><a class="profilePicture" ><img src="@routes.Assets.at("images/profileimg.png")" alt="" /></a></div>				
+					<div><a class="profilePicture" ><img src="@routes.Assets.at(u.imagePath)" alt="" /></a></div>				
 					
 					<div class="categories">
 					  	<ul>
+					  		<li>
+						  		<form action="@routes.UserController.saveFile()" method="post" 
+					enctype="multipart/form-data" >
+				<input type="file" name="image" id="image" />
+				<input type="submit" value="Send file" />
+			</form>
+					  		
+					  		</li>
 					      <li><a href="#">Moj pik</a></li>
 					      <li><a href="#">Poruke</a></li>
 					      <li><a href="#">Blokirani korisnici</a></li>
 					      <li><a href="#">Javna pitanja</a></li>
 					      <li><a href="#">Spaseni proizvodi</a></li>
+					      
 						</ul>
 					</div>					
 	  	    

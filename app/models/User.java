@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
+import controllers.UserController;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -48,6 +49,7 @@ public class User extends Model {
 	
 	public String emailConfirmation;
 	
+	public String imagePath;
 	/**
 	 * @author Gordan Sajevic
 	 * Constructor with default values
@@ -61,6 +63,7 @@ public class User extends Model {
 		createdDate = getDate();
 		this.verified = false;
 		this.emailVerified = false;
+		this.imagePath = "images/no-img.jpg";
 	}
 
 	/**
@@ -80,6 +83,7 @@ public class User extends Model {
 		this.confirmation = UUID.randomUUID().toString();
 		this.emailVerified = false;
 		this.emailConfirmation = UUID.randomUUID().toString();
+		
 	}
 	
 	/**
@@ -98,7 +102,31 @@ public class User extends Model {
 		this.verified = true;
 		this.confirmation = null;
 		this.emailVerified = true;
+		this.imagePath = "images/no-img.jpg";
+
 	}
+	
+	
+	public User(String username, String password, String email, String imagePath) {
+		this.username = username;
+		this.password = HashHelper.createPassword(password);
+		this.email = email;
+		isAdmin = false;		
+		createdDate = getDate();
+		this.verified = false;
+		this.confirmation = UUID.randomUUID().toString();
+		this.emailVerified = false;
+		this.emailConfirmation = UUID.randomUUID().toString();
+		this.imagePath = imagePath;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * @author Graca Nermin
