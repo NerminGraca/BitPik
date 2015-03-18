@@ -23,6 +23,7 @@ public class FAQController extends Controller{
 	 */
 	
 	public static Result addFaq() {
+		Logger.of("faq").info("Added new FAQ");
 		usernameSes = session("username");
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (usernameSes == null) {
@@ -61,6 +62,7 @@ public class FAQController extends Controller{
 	
 	public static Result editFaq(int id)
 	{
+		Logger.of("faq").info("Updated FAQ");
 		usernameSes = session("username");
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (currentUser == null) {
@@ -105,6 +107,7 @@ public class FAQController extends Controller{
 	 */
 	
 	public static Result deleteFaq(int id) {
+		Logger.of("faq").info("Deleted FAQ");
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (currentUser == null) {
 			return redirect("/");

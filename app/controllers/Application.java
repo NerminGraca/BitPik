@@ -8,6 +8,7 @@ import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
+import play.Logger;
 
 
 public class Application extends Controller {
@@ -30,6 +31,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result registration() {
+		Logger.of("login").info("User registered");
 		return ok(registration.render( "", ""));
 	}
 
@@ -39,6 +41,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result login() {
+		Logger.of("login").info("User logged");
 		return ok(login.render("", ""));
 		
 	}
@@ -49,6 +52,7 @@ public class Application extends Controller {
 	 * @return redirect to index.html
 	 */
 	public static Result logout() {
+		Logger.of("login").info("User logout");
 		session().clear();
 		flash("logout", Messages.get("Odjavili ste se. "));
 		return redirect(routes.Application.index());

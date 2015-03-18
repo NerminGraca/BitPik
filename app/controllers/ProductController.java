@@ -6,6 +6,7 @@ import models.MainCategory;
 import models.Product;
 import models.User;
 import views.html.*;
+import play.Logger;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
@@ -38,6 +39,7 @@ public class ProductController extends Controller {
 	 * needs to be filled in order to add the Product;
 	 */
 	public static Result addProduct() {
+		Logger.of("product").info("Added new product");
 		usernameSes = session("username");
 		// 1. Ako nije registrovan da mu oneomogucimo prikaz addProduct.html;
 		if (usernameSes == null) {
@@ -59,6 +61,7 @@ public class ProductController extends Controller {
 	 * @return showProducts.html with the necessary variables;
 	 */
 	public static Result createProduct() {
+		Logger.of("product").info("Added new product");
 		usernameSes = session("username");
 		String name = newProduct.bindFromRequest().get().name;
 		String desc = newProduct.bindFromRequest().get().description;
@@ -97,6 +100,7 @@ public class ProductController extends Controller {
 		return ok(editProduct.render(usernameSes, p, mainCategoryList));
 	}*/
 	public static Result editProduct(int id) {
+		Logger.of("product").info("Updated product");
 	   	 User currentUser=SessionHelper.getCurrentUser(ctx());
 	   	 usernameSes = session("username");
 	   	 Product p = findProduct.byId(id);
@@ -155,6 +159,7 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result deleteProduct(int id) {
+		  Logger.of("product").info("Deleted product");
 		  Product.delete(id);
 		  return redirect(routes.UserController.findProfileProducts());
 	}	

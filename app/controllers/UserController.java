@@ -28,23 +28,27 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result addUser() {
+		Logger.of("user").info("Added new user");
 		String username = newUser.bindFromRequest().get().username;
 		String password = newUser.bindFromRequest().get().password;
 		String confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
 		String email = newUser.bindFromRequest().get().email;
 		// Unique 'username' verification
 		if (User.finder(username) != null) {
+			Logger.of("user").error("Username already exist");
 			return ok(registration.render(
 					"Korisnicko ime je zauzeto, molimo Vas izaberite drugo!", ""));
 		}
 		// Unique 'email' verification
 		if (User.emailFinder(email)) {
+			Logger.of("user").error("Email already exist");
 			return ok(registration.render("",
 					"Email je iskoristen, molimo Vas koristite drugi!"));
 		}
 
 		if(!password.equals(confirmPassword))
 		{
+			Logger.of("user").error("Password not confirmed correctly");
 			return ok(registration.render("", "Niste ispravno potvrdili lozinku!"));
 		}
 		
@@ -74,6 +78,7 @@ public class UserController extends Controller {
 		User u = User.finder(username);
 		//if not found or not verified email, after login;
 		if (u == null || u.verified==false) {
+			Logger.of("user").error("User does not exist, or email not verified yet");
 			return ok(login.render("Ne postoji korisnik ili email nije verificiran", ""));
 		} else {
 			hashPass = u.password;
@@ -144,7 +149,8 @@ public class UserController extends Controller {
 	 * @param id
 	 * @return
 	 */
-	public static Result deleteUser(int id) {		
+	public static Result deleteUser(int id) {
+		Logger.of("user").info("User deleted");
 		  User.delete(id);
 		  return redirect(routes.UserController.allUsers());
 	}
@@ -155,6 +161,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result editUser(int id) {
+		Logger.of("user").info("User updated");
 		usernameSes = session("username");
 		if ((usernameSes == null)) {
 			usernameSes = "";
@@ -214,6 +221,7 @@ public class UserController extends Controller {
 	 */
 	public static Result confirmEmail(String r)
 	{
+		Logger.of("user").info("Email verified");
 		User u = UserController.findUser.where().eq("confirmation", r).findUnique();
 		if(r == null || u == null)
 		{
@@ -252,6 +260,7 @@ public class UserController extends Controller {
 	
 	public static Result changePassword(int id)
 	{
+		Logger.of("user").info("User password changed");
 		usernameSes = session("username");
 		if ((usernameSes == null)) {
 			usernameSes = "";
@@ -262,6 +271,7 @@ public class UserController extends Controller {
 		String confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
 		if(!password.equals(confirmPassword))
 		{
+			Logger.of("user").error("Password not confirmed correctly");
 			return ok(changePassword.render(usernameSes, "Niste dobro potvrdili lozinku!", u));
 		}
 		password = HashHelper.createPassword(password);
@@ -277,6 +287,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result changeAdmin(int id) {
+		Logger.of("user").info("Added new admin");
 		User user = User.find(id);
 		boolean admin = newUser.bindFromRequest().get().isAdmin;
 		user.isAdmin = admin;
