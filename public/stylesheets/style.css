@@ -26,11 +26,14 @@ a{text-decoration:none;}
 .underline{	padding-bottom:5px;	border-bottom: 1px solid #eee; margin:0 0 20px 0;}/* Add 5px bottom padding and a underline */
 nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
-img{max-width:100%;}
+img{max-width:100%;
+	}
 /*end reset*/
 
 /* Our CSS */
-
+img imgs{
+	
+}
 h6 {
 	color: #FF0000;
 }
@@ -199,11 +202,13 @@ body {
 	border: 1px solid grren;
 	position: relative;
 	display: block;
-	text-align: center; 	
+	text-align: center;
+	 	
 }
 
 .profilePicture img {
- 	
+ 	max-width:200px;
+	max-height: 200px;
  }
 
 .redHeader{
