@@ -64,7 +64,7 @@
 	    										<select name="categoryString" id="categoryString">
 		    										@if(mainCategoryList.size() > 0 ) {
 						  								@for(mainCategory <- mainCategoryList) {
-						  									<option id="@mainCategory.name">@mainCategory.name</option>
+						  									<option value="@mainCategory.name">@mainCategory.name</option>
 						  								}		
 						  							}
 						  						</select>
@@ -73,16 +73,17 @@
  											@if(mainCategoryList.size() > 0) {
  												@for(mainCategory <- mainCategoryList) {
  													@if(mainCategory.subCategories.size > 0) {
- 														
- 															<fieldset id="@mainCategory.name">
+ 														<div id="@mainCategory.name" class="fieldsetToHide">
+ 															<fieldset >
 						  										<label id="editProfileText" for="subcategory">Podkategorija:</label>
 						  										<select name="subCategoryString" id="subCategoryString">
 						  											@for(subCategory <- mainCategory.subCategories) {
- 																		<option>@subCategory.name</option>
+ 																		<option value="@subCategory.name">@subCategory.name</option>
 						  											}
 						  										</select>
 						  							
 						  									</fieldset>
+						  								</div>
  														
  														
  													}
@@ -92,17 +93,26 @@
  											
  											<script language="JavaScript">
 
-												function showStuff(element) {
+												var e = document.getElementById("categoryString");
+												function showHideCategoryFields() {
+													var selected = e.value;
 
-													var e = document.getElementById("categoryString");
+													var hiddenDivs = document.querySelectorAll('.fieldsetToHide');
 
-													var selected = e.options[e.selectedIndex].value;
+													for (var i = 0; i < hiddenDivs.length; i++) {
+														hiddenDivs[i].style.display = 'none';
+													}
+													
+													var shown = document.getElementById(selected);
+
+													shown.style.display = 'block';
 														
-													document.getElementById("fieldsetToHide").style.visibility = 'hidden';
-											
-											
-												}
-
+												};
+												
+												e.onchange = showHideCategoryFields;
+												
+												showHideCategoryFields();
+		
 						 					</script>
 	
 											<fieldset>

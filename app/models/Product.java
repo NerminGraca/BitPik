@@ -65,7 +65,7 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability) {
+	public Product(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability, String subCatString) {
 		this.name = name;
 		this.description = desc;
 		this.price = price;
@@ -73,6 +73,7 @@ public class Product extends Model {
 		this.mainCategory = mainCategory;
 		this.subCategory = subCategory;
 		this.availability = availability;
+		this.subCategoryString = subCatString;
 		publishedDate = getDate();
 	}
 	
@@ -138,8 +139,8 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static Product create(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability) {
-		Product newProduct = new Product(name, desc, price, owner, mainCategory, subCategory, availability);
+	public static Product create(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability, String subCString) {
+		Product newProduct = new Product(name, desc, price, owner, mainCategory, subCategory, availability, subCString);
 		newProduct.save();
 		return newProduct;
 	}
