@@ -45,16 +45,16 @@
   </appender>
   
   <logger name="play" level="INFO" />
-  <logger name="login" level="INFO" additivity="false">
+  <logger name="login" level="INFO" additivity="true">
   		<appender-ref ref="LOGIN" />
   </logger>
-  <logger name="user" level="INFO" additivity="false">
+  <logger name="user" level="INFO" additivity="true">
   		<appender-ref ref="USER" />
   </logger>
-  <logger name="product" level="INFO" additivity="false">
+  <logger name="product" level="INFO" additivity="true">
   		<appender-ref ref="PRODUCT" />
   </logger>
-  <logger name="faq" level="INFO" additivity="false">
+  <logger name="faq" level="INFO" additivity="true">
   		<appender-ref ref="FAQ" />
   </logger>
   <logger name="category" level="INFO" additivity="false">

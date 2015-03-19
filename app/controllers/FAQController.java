@@ -23,7 +23,7 @@ public class FAQController extends Controller{
 	 */
 	
 	public static Result addFaq() {
-		Logger.of("faq").info("Added new FAQ");
+		
 		usernameSes = session("username");
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (usernameSes == null) {
@@ -31,8 +31,8 @@ public class FAQController extends Controller{
 		}
 		String question = newFaq.bindFromRequest().get().question;
 		String answer = newFaq.bindFromRequest().get().answer;
-		
 		FAQ faq = FAQ.create(question, answer);
+		Logger.of("faq").info("Admin added a new FAQ");
 		List <FAQ> faqList = findFaq.all();
 		return ok(faqs.render(usernameSes, faqList, currentUser));	
 	}
@@ -62,15 +62,16 @@ public class FAQController extends Controller{
 	
 	public static Result editFaq(int id)
 	{
-		Logger.of("faq").info("Updated FAQ");
 		usernameSes = session("username");
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (currentUser == null) {
+			Logger.of("faq").warn("Not registered user tried to edit a FAQ");
 			return redirect("/");
 		}
 		FAQ faq = FAQController.findFaq.byId(id);
 		if(!currentUser.isAdmin)
 		{
+			Logger.of("faq").warn("Not an admin user tried to edit a FAQ");
 			return redirect("/");
 		}
 		return ok(editFaq.render(usernameSes, faq, currentUser));
@@ -96,6 +97,7 @@ public class FAQController extends Controller{
 		faq.setQuestion(question);
 		faq.setAnswer(answer);
 		faq.save();
+		Logger.of("faq").info("Admin user updated a FAQ");
 		return redirect(routes.FAQController.allFaqs());
 	}
 	
@@ -107,16 +109,19 @@ public class FAQController extends Controller{
 	 */
 	
 	public static Result deleteFaq(int id) {
-		Logger.of("faq").info("Deleted FAQ");
+	
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (currentUser == null) {
+			Logger.of("faq").warn("Not registered user tried delete a FAQ");
 			return redirect("/");
 		}
 		if(!currentUser.isAdmin)
 		{
+			Logger.of("faq").warn("Not an admin user tried delete a FAQ");
 			return redirect("/");
 		}
 		FAQ.delete(id);
+		Logger.of("faq").info("Admin deleted a FAQ");
 		return redirect(routes.FAQController.allFaqs());
 	}
 }

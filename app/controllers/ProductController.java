@@ -39,7 +39,6 @@ public class ProductController extends Controller {
 	 * needs to be filled in order to add the Product;
 	 */
 	public static Result addProduct() {
-		Logger.of("product").info("Added new product");
 		usernameSes = session("username");
 		// 1. Ako nije registrovan da mu oneomogucimo prikaz addProduct.html;
 		if (usernameSes == null) {
@@ -61,7 +60,6 @@ public class ProductController extends Controller {
 	 * @return showProducts.html with the necessary variables;
 	 */
 	public static Result createProduct() {
-		Logger.of("product").info("Added new product");
 		usernameSes = session("username");
 		String name = newProduct.bindFromRequest().get().name;
 		String desc = newProduct.bindFromRequest().get().description;
@@ -72,6 +70,7 @@ public class ProductController extends Controller {
 		
 		User u = User.finder(usernameSes);
 		Product p = Product.create(name, desc, price, u, mc, availability);
+		Logger.of("product").info("User "+ usernameSes +" added a new product");
 		return redirect("/showProduct/" + p.id);	
 	
 	}
@@ -100,23 +99,28 @@ public class ProductController extends Controller {
 		return ok(editProduct.render(usernameSes, p, mainCategoryList));
 	}*/
 	public static Result editProduct(int id) {
-		Logger.of("product").info("Updated product");
-	   	 User currentUser=SessionHelper.getCurrentUser(ctx());
+		 User currentUser=SessionHelper.getCurrentUser(ctx());
 	   	 usernameSes = session("username");
 	   	 Product p = findProduct.byId(id);
-	   	 if(p == null)
-	   		 return redirect(routes.Application.index());
+	   	 if(p == null) {
+	 		Logger.of("product").warn("Failed try to update a product which doesnt exist");
+	   		return redirect(routes.Application.index());
+	   	 }
 	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
 	    //  Ako nije registrovan da mu onemogucimo prikaz editProduct.html;
 	   			 if (usernameSes == null) {
+	   				Logger.of("product").warn("Not registered user tried to update a product");
 	   				 return redirect("/");
 	   			 }
 	   			 
-	   			 if(!currentUser.getUsername().equals(p.owner.getUsername()))
-	   			 return redirect(routes.Application.index());
+	   			 if(!currentUser.getUsername().equals(p.owner.getUsername())) {
+	   				Logger.of("product").warn(usernameSes + " tried to update an anothers user's product");
+	   				return redirect(routes.Application.index());
+	   			 }
 	   	 //  Ako je admin ulogovan, onemogucujemo mu da edituje proizvod;
 	   			 if (currentUser.isAdmin==true) {
-	   				 return redirect(routes.Application.index());
+	   				Logger.of("product").warn("An admin tried to update a users product");
+	   				return redirect(routes.Application.index());
 	   			 }
 	   	 //  Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog proizvoda> da ga edituje;    
 	   	 return ok(editProduct.render(usernameSes, p, mainCategoryList));
@@ -148,7 +152,7 @@ public class ProductController extends Controller {
 		p.setCategory(mc);
 		p.setAvailability(availability);
 		p.save();
-		
+		Logger.of("product").info("User "+ usernameSes + " updated a product");
 		return redirect("/showProduct/" + id);	
 		
 	}
@@ -159,8 +163,8 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result deleteProduct(int id) {
-		  Logger.of("product").info("Deleted product");
 		  Product.delete(id);
+		  Logger.of("product").info( session("username") + " deleted a product");
 		  return redirect(routes.UserController.findProfileProducts());
 	}	
 	

@@ -31,7 +31,6 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result registration() {
-		Logger.of("login").info("User registered");
 		return ok(registration.render( "", ""));
 	}
 
@@ -41,7 +40,6 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result login() {
-		Logger.of("login").info("User logged");
 		return ok(login.render("", ""));
 		
 	}
@@ -52,7 +50,7 @@ public class Application extends Controller {
 	 * @return redirect to index.html
 	 */
 	public static Result logout() {
-		Logger.of("login").info("User logout");
+		Logger.of("login").info("User "+ session("username") +" loged out");
 		session().clear();
 		flash("logout", Messages.get("Odjavili ste se. "));
 		return redirect(routes.Application.index());
