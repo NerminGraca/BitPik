@@ -1,12 +1,9 @@
 package controllers;
 
 import java.util.List;
-<<<<<<< HEAD
 import java.util.Iterator;
-=======
 import java.io.File;
 import java.io.IOException;
->>>>>>> imageProductDev
 
 import models.MainCategory;
 import models.Product;

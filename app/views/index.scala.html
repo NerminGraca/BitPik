@@ -126,7 +126,7 @@
 					@if(products.size() > 0 ) {
 						@for(product <- products) {						
 							<div class="grid_1_of_4 images_1_of_4">
-					 			<a href="/showProduct/@product.id"><img src="@routes.Assets.at("images/no-img.jpg")" alt="" /></a>
+					 			<a href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
 					 			<h2>@product.name </h2>
 									<div class="price-details">
 				       					<div class="price-number">
