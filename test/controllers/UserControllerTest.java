@@ -411,6 +411,57 @@ public class UserControllerTest extends WithApplication{
 				});
 	}*/
 	
+	/**
+	 * This test tests will the changed email be verified after user clickes on link
+	 * which was sent to him after email change
+	 */
+	@Test
+	public void testEmailChangeVerification() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+
+					@Override
+					public void invoke(TestBrowser browser) throws Throwable {
+						
+						User.createSaveUser("neko", "pass","neko@test.ba");
+						User u = User.find(2);
+						u.verified = true;
+						u.save();
+						
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("neko");
+						browser.fill("#password").with("pass");
+						browser.submit("#nameForm");
+						
+						browser.goTo("http://localhost:3333/editUser/2");
+						assertThat(browser.pageSource()).contains("neko");
+						assertThat(browser.pageSource()).contains("neko@test.ba");
+						browser.fill("#username").with("neko2");
+						assertThat(browser.pageSource()).contains("neko2");
+						browser.fill("#email").with("newmail@test.ba");
+						assertThat(browser.pageSource()).contains("newmail@test.ba");
+						browser.submit("#nameForm");
+						
+						browser.goTo("http://localhost:3333/profile");
+						assertThat(browser.pageSource()).contains("newmail@test.ba");
+						assertThat(browser.pageSource()).contains("neko2");
+						
+						u = User.find(2);
+						
+						assertEquals(u.username, "neko2");
+						assertEquals(u.email, "newmail@test.ba");
+						
+						String verif = u.emailConfirmation;
+						browser.goTo("http://localhost:3333/validateEmail/" + verif);
+						
+						u = User.find(2);
+						assertEquals(u.emailVerified, true);
+						
+					}
+			
+		});
+	}
+	
 }
 	
 	
