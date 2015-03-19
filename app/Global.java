@@ -67,7 +67,7 @@ public class Global extends GlobalSettings {
 			
 			String[] domSubCats = {"Namjestaj", "Vrt biljke i vrtlarstvo", "Grijanje i hladjenje", "Dekoracije",
 					"Prehrana i pica", "Stolarija", "Lampe i rasvjeta", "Kuhinja", "Sigurnosni uredjaji", "Kupatilo",
-					"Cilimi, tepisi, etisoni i ostalo", "Kupatilo", "Sredstva i uredjaji za ciscenje", "Tekstilni Proizvodi",
+					"Cilimi, tepisi, etisoni i ostalo", "Sredstva i uredjaji za ciscenje", "Tekstilni Proizvodi",
 					"Vodoistalacije i oprema", "Ostalo"};
 			MainCategory mc6 = MainCategory.findMainCategory(6);
 			for (int i = 0; i < domSubCats.length; i++) {

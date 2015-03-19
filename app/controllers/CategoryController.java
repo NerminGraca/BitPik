@@ -16,6 +16,7 @@ public class CategoryController extends Controller {
 	
 	//Finders
 	static Form<MainCategory> newMainCategory = new Form<MainCategory>(MainCategory.class);
+	static Form<SubCategory> newSubCategory = new Form<SubCategory>(SubCategory.class);
 	static Finder<Integer, MainCategory> findMainCategory = new Finder<Integer, MainCategory>(Integer.class, MainCategory.class);
 	
 	/**
@@ -43,6 +44,11 @@ public class CategoryController extends Controller {
 		return ok(listaKategorija.render(mainCategoryList));
 	}
 	
+	public static Result subCategories(int id) {
+		MainCategory mc = MainCategory.findMainCategory(id);
+		return ok(listaPodKategorija.render(mc));
+	}
+	
 	/**
 	 * @author Graca Nermin
 	 * Method editMainCategory allows administrator to edit one of the category
@@ -53,10 +59,16 @@ public class CategoryController extends Controller {
 	public static Result editMainCategory(int id) {
 		Logger.of("category").info("Updated category");
 		MainCategory mc = findMainCategory.byId(id);
-		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		ArrayList<String> adminList = new ArrayList<String>();
 
-		return ok(editMainCategory.render(mc, mainCategoryList, adminList ));
+		return ok(editMainCategory.render(mc));
+	}
+	
+	@Security.Authenticated(AdminFilter.class)
+	public static Result editSubCategory(int id) {
+		Logger.of("category").info("Updated subcategory");
+		SubCategory sc = SubCategory.findSubCategory(id);
+
+		return ok(editSubCategory.render(sc));
 	}
 	
 	/**
@@ -71,11 +83,36 @@ public class CategoryController extends Controller {
 		
 		// sets all the new entered attributes as the original ones from the product;
 		// and saves();
-		MainCategory mc = findMainCategory.byId(id);
-		mc.setName(name);
-		mc.save();
 		
-		return redirect(routes.CategoryController.allCategory());		
+		name = name.toLowerCase();
+		name = name.substring(0, 1).toUpperCase() + name.substring(1);
+		if (MainCategory.allMainCategories().contains(MainCategory.findMainCategoryByName(name))) {
+			return redirect(routes.CategoryController.editMainCategory(id));
+		} else {
+			MainCategory mc = findMainCategory.byId(id);
+			mc.setName(name);
+			mc.save();
+			return redirect(routes.CategoryController.allCategory());
+		}		
+	}
+	
+	public static Result saveEditSubCategory(int id) {
+		
+		String name = newSubCategory.bindFromRequest().get().name;
+		SubCategory sc = SubCategory.findSubCategory(id);
+		
+		name = name.toLowerCase();
+		name = name.substring(0, 1).toUpperCase() + name.substring(1);
+				
+		MainCategory mc = sc.mainCategory;
+		
+		if (SubCategory.findSubCategoryByNameAndMainCategory(name, mc)) {
+			return redirect(routes.CategoryController.editSubCategory(id));
+		} else {
+			sc.setName(name);
+			sc.save();
+			return redirect(routes.CategoryController.subCategories(mc.id));
+		}
 	}
 	
 	/**
@@ -84,9 +121,18 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result deleteMainCategory(int id) {
-		  Logger.of("category").info("Deleted category");
-		  MainCategory.delete(id);
-		  return redirect(routes.CategoryController.allCategory());
+		Logger.of("category").info("Deleted category");
+		MainCategory.delete(id);
+		return redirect(routes.CategoryController.allCategory());
+	}
+	
+	public static Result deleteSubCategory(int id) {
+		SubCategory sc = SubCategory.findSubCategory(id);
+		MainCategory mc = sc.mainCategory;
+		Logger.of("category").info("Deleted subcategory");
+		SubCategory.delete(id);
+		return redirect(routes.CategoryController.subCategories(mc.id));
+
 	}
 	
 	/**
@@ -105,6 +151,22 @@ public class CategoryController extends Controller {
 		} else {
 			MainCategory.createMainCategory(name);
 			return redirect(routes.CategoryController.allCategory());
+		}			
+	}
+	
+	public static Result addSubCategory(int id) {
+		Logger.of("category").info("Added main category");
+		String name = newSubCategory.bindFromRequest().get().name;
+		name = name.toLowerCase();
+		name = name.substring(0, 1).toUpperCase() + name.substring(1);
+		
+		MainCategory mc = MainCategory.findMainCategory(id);
+		
+		if (SubCategory.findSubCategoryByNameAndMainCategory(name, mc)) {
+			return redirect(routes.CategoryController.subCategories(mc.id));
+		} else {
+			SubCategory.createSubCategory(name, mc);
+			return redirect(routes.CategoryController.subCategories(mc.id));
 		}			
 	}
 	

@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.*;
@@ -40,6 +41,10 @@ public class SubCategory extends Model {
 		this.mainCategory = mainCategory;
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public static void createSubCategory(String name, MainCategory mainCategory) {
 		new SubCategory(name, mainCategory).save();
 	}
@@ -55,6 +60,17 @@ public class SubCategory extends Model {
 		return findByName.where().eq("name", name).findUnique();
 	}
 	
+	public static boolean findSubCategoryByNameAndMainCategory(String name, MainCategory mc) {
+		List<SubCategory> subcategories = mc.subCategories;
+		Iterator<SubCategory> iter = subcategories.iterator();
+		while (iter.hasNext()) {
+			SubCategory temp = iter.next();
+			if (temp.name.equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public static void delete(int id) {
 		  find.ref(id).delete();
