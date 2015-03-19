@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 import javax.persistence.*;
 
 import play.data.validation.Constraints.Required;
@@ -42,6 +43,9 @@ public class Product extends Model {
 	public SubCategory subCategory;
 	
 	public String subCategoryString;
+
+	public String productImagePath;
+
 	
 	/**
 	 * Constructor with default values
@@ -57,6 +61,7 @@ public class Product extends Model {
 		this.subCategory = null;
 		this.availability = "Unknown";
 		publishedDate = getDate();
+		this.productImagePath = "images/no-img.jpg";
 	}
 
 	/**
@@ -65,7 +70,7 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability, String subCatString) {
+	public Product(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability) {
 		this.name = name;
 		this.description = desc;
 		this.price = price;
@@ -73,9 +78,22 @@ public class Product extends Model {
 		this.mainCategory = mainCategory;
 		this.subCategory = subCategory;
 		this.availability = availability;
-		this.subCategoryString = subCatString;
 		publishedDate = getDate();
+		this.productImagePath = "images/no-img.jpg";
 	}
+	
+	public Product(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability, String productImagePath) {
+		this.name = name;
+		this.description = desc;
+		this.price = price;
+		this.owner = owner;
+		this.mainCategory = mainCategory;
+		this.subCategory = subCategory;
+		this.availability = availability;
+		publishedDate = getDate();
+		this.productImagePath = productImagePath;
+	}
+	
 	
 	//Finder
 	public static Finder<Integer, Product> find = new Finder<Integer, Product>(Integer.class, Product.class);
@@ -147,8 +165,8 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static Product create(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability, String subCString) {
-		Product newProduct = new Product(name, desc, price, owner, mainCategory, subCategory, availability, subCString);
+	public static Product create(String name, String desc, double price, User owner, MainCategory category, SubCategory subCategory, String availability, String productImagePath  ) {
+		Product newProduct = new Product(name, desc, price, owner, category, subCategory, availability, productImagePath);
 		newProduct.save();
 		return newProduct;
 	}

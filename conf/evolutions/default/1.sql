@@ -28,6 +28,7 @@ create table product (
   availability              varchar(255),
   sub_category_id           integer,
   sub_category_string       varchar(255),
+  product_image_path        varchar(255),
   constraint pk_product primary key (id))
 ;
 
