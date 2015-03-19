@@ -29,8 +29,14 @@
 						<fieldset>
 						   	<label for="isAdmin">Admin:</label>
 						    <select id="isAdmin" name="isAdmin" id="isAdmin">
-					     		<option selected="selected">false</option>
-						     	<option>true</option> 			
+						    	@if(user.isAdmin) {
+						    		<option>false</option>
+						     		<option selected="selected">true</option>
+						    	} else {
+						    		<option selected="selected">false</option>
+						     		<option>true</option>
+						    	}
+					     		 			
 					    	</select>
 					     </fieldset>
 						}

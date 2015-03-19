@@ -6,8 +6,7 @@
 		
 <div class="wrap">
 	<div class="validateAndLogout">
-	@flash.get("validate")
-	@flash.get("logout")     
+	@flash.get("validate")    
 	</div>
 	<div class="main">
     	<div class="content">
@@ -19,19 +18,14 @@
 							
 							@helper.form(routes.UserController.saveEditedUser(u.id),'id->"nameForm") {
 								<h5 id="editProfileText">Ime:</h5>
-								<input pattern=".{3,20}" required title="Od 3 do 20 karaktera" type="text" value="@u.username" id="username" name="username" required/>
-								
+								<input pattern=".{3,20}" required title="Od 3 do 20 karaktera" type="text" value="@u.username" id="username" name="username" required/>								
 								
 								<h5 id="editProfileText">Email:</h5>			
 								<input type="email" value="@u.email" id="email" name="email" required/>
 									<br>									
-									
-									
-									
-									@if(usernameSes.equals(u.username)){
-										<button type="button" class="btn"><a href="/changePassword/@u.id">Promijeni lozinku</a></button>
-									}
-																
+								@if(usernameSes.equals(u.username)){
+									<button type="button" class="btn"><a href="/changePassword/@u.id">Promijeni lozinku</a></button>
+								}																
 								<input class="btn" type="submit" value="Spasi promjene" />
 							}
 					</div>

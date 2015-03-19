@@ -27,6 +27,9 @@ public class UserController extends Controller {
 	static String usernameSes;	
 	//private static final String SESSION_USERNAME = session("username");
 	
+	//Finders
+	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
+	
 	/**
 	 * 1. Gets the username, password and email from the form from the
 	 * Registration.html page; 2. If the username or email is already in our
@@ -93,7 +96,7 @@ public class UserController extends Controller {
 		}
 		boolean userExists = HashHelper.checkPassword(password, hashPass);
 		// if verified and matching passwords;
-		if (userExists == true && u.verified==true) {
+		if (userExists && u.verified) {
 			// the username put in the session variable under the key
 			// "username";
 			session("username", username);
@@ -121,9 +124,7 @@ public class UserController extends Controller {
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
 		User u = User.finder(usernameSes);
 		return ok(profile.render(l, u));
-	}
-	
-	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
+	}	
 	
 	/**
 	 * Method list all users registered in database
@@ -146,7 +147,7 @@ public class UserController extends Controller {
 		  User u = findUser.byId(id);
 		  List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
 		  if(u==null){
-			  return redirect (routes.Application.index());
+			  return redirect(routes.Application.index());
 			  }
 		  if(currentUser==null){
 			  return redirect(routes.Application.index());
@@ -155,7 +156,7 @@ public class UserController extends Controller {
 			  return ok(korisnik.render(currentUser, u, l));}		  
 		  else {
 			  return ok(korisnik.render(currentUser, u, l));
-			  }
+		  }
 	}
 	
 	/**
@@ -191,7 +192,7 @@ public class UserController extends Controller {
 				Logger.of("user").warn("User "+ usernameSes +" tried to edit/update another user");
 				return redirect(routes.Application.index());
 			}
-			return ok(editUser.render(usernameSes, userById));
+		return ok(editUser.render(usernameSes, userById));
 	}
 	 
 	/**
@@ -208,7 +209,6 @@ public class UserController extends Controller {
 		usernameSes = session("username");
 		String username = newUser.bindFromRequest().get().username;
 		String email = newUser.bindFromRequest().get().email;
-
 		
 		user.setUsername(username);
 		
@@ -220,6 +220,7 @@ public class UserController extends Controller {
 			String confirmation = UUID.randomUUID().toString();
 			user.emailConfirmation = confirmation;
 			MailHelper.sendEmailVerification(email,"http://localhost:9000/validateEmail/" + confirmation);
+			flash("validate", Messages.get("Primili ste email validaciju."));
 		}
 		user.save();
 		Logger.of("user").info("User "+ username +" updated");
@@ -272,7 +273,7 @@ public class UserController extends Controller {
 		u.emailConfirmation = null;
 		u.save();
 
-		flash("validate", Messages.get("Primili ste email validaciju."));
+		flash("validate", Messages.get("Novi email verifikovan"));
 		return redirect(routes.Application.index());
 	}
 	
@@ -315,7 +316,7 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 *  If user is administrator send him to adminProfile.html
+	 * If user is administrator send him to adminProfile.html
 	 * @return adminProfile.html
 	 */
 	@Security.Authenticated(AdminFilter.class)
@@ -326,12 +327,11 @@ public class UserController extends Controller {
     }
 	
 	/**
-	 * Uplade image for User profile, and show picture on user /profile.html. 
+	 * Upload image for User profile, and show picture on user /profile.html. 
 	 * If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
 	 * If file size is bigger then 2MB, redirect user on profile without uploading image.
 	 * @return
 	 */
-	
 	public static Result saveFile(){
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session("username");

@@ -138,7 +138,7 @@ public class ModelsTest extends WithApplication {
 		assertEquals(u.password, "johndoe");
 	}
 	
-	*/
+	
 	
 	public void testDeleteFaq(){
 		FAQ.create("pitanje", "odgovor");
@@ -147,4 +147,5 @@ public class ModelsTest extends WithApplication {
 		FAQController.deleteFaq(6);
 		assertNull(f);
 	}
+	*/
 }
