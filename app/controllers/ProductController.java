@@ -8,6 +8,7 @@ import models.Product;
 import models.SubCategory;
 import models.User;
 import views.html.*;
+import play.Logger;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
@@ -80,10 +81,9 @@ public class ProductController extends Controller {
 		}
 
 		User u = User.finder(usernameSes);
-		Product p = Product.create(name, desc, price, u, mc, sc, availability,
-				subCategory);
-		return redirect("/showProduct/" + p.id);
-
+		Product p = Product.create(name, desc, price, u, mc, sc, subCategory, availability);
+		Logger.of("product").info("User "+ usernameSes +" added a new product");
+		return redirect("/showProduct/" + p.id);	
 	}
 
 	/**
@@ -95,27 +95,32 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result editProduct(int id) {
-		User currentUser = SessionHelper.getCurrentUser(ctx());
-		usernameSes = session("username");
-		Product p = findProduct.byId(id);
-		if (p == null)
-			return redirect(routes.Application.index());
-		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		// Ako nije registrovan da mu onemogucimo prikaz editProduct.html;
-		if (usernameSes == null) {
-			return redirect("/");
-		}
-
-		if (!currentUser.getUsername().equals(p.owner.getUsername()))
-			return redirect(routes.Application.index());
-		// Ako je admin ulogovan, onemogucujemo mu da edituje proizvod;
-		if (currentUser.isAdmin == true) {
-			return redirect(routes.Application.index());
-		}
-		// Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog
-		// proizvoda> da ga edituje;
-		return ok(editProduct.render(usernameSes, p, mainCategoryList));
-	}
+		 User currentUser=SessionHelper.getCurrentUser(ctx());
+	   	 usernameSes = session("username");
+	   	 Product p = findProduct.byId(id);
+	   	 if(p == null) {
+	 		Logger.of("product").warn("Failed try to update a product which doesnt exist");
+	   		return redirect(routes.Application.index());
+	   	 }
+	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
+	    //  Ako nije registrovan da mu onemogucimo prikaz editProduct.html;
+	   			 if (usernameSes == null) {
+	   				Logger.of("product").warn("Not registered user tried to update a product");
+	   				 return redirect("/");
+	   			 }
+	   			 
+	   			 if(!currentUser.getUsername().equals(p.owner.getUsername())) {
+	   				Logger.of("product").warn(usernameSes + " tried to update an anothers user's product");
+	   				return redirect(routes.Application.index());
+	   			 }
+	   	 //  Ako je admin ulogovan, onemogucujemo mu da edituje proizvod;
+	   			 if (currentUser.isAdmin==true) {
+	   				Logger.of("product").warn("An admin tried to update a users product");
+	   				return redirect(routes.Application.index());
+	   			 }
+	   	 //  Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog proizvoda> da ga edituje;    
+	   	 return ok(editProduct.render(usernameSes, p, mainCategoryList));
+	    }
 
 	/**
 	 * Saves the new values of the attributes that are entered and overwrites
@@ -158,8 +163,8 @@ public class ProductController extends Controller {
 		p.setAvailability(availability);
 		p.save();
 
-		return redirect("/showProduct/" + id);
-
+		Logger.of("product").info("User "+ usernameSes + " updated a product");
+		return redirect("/showProduct/" + id);	
 	}
 
 	/**
@@ -169,8 +174,10 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result deleteProduct(int id) {
-		Product.delete(id);
-		return redirect(routes.UserController.findProfileProducts());
-	}
 
+		  Product.delete(id);
+		  Logger.of("product").info( session("username") + " deleted a product");
+		  return redirect(routes.UserController.findProfileProducts());
+	}	
+	
 }

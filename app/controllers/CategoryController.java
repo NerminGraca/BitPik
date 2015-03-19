@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.*;
@@ -50,6 +51,7 @@ public class CategoryController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editMainCategory(int id) {
+		Logger.of("category").info("Updated category");
 		MainCategory mc = findMainCategory.byId(id);
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		ArrayList<String> adminList = new ArrayList<String>();
@@ -82,6 +84,7 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result deleteMainCategory(int id) {
+		  Logger.of("category").info("Deleted category");
 		  MainCategory.delete(id);
 		  return redirect(routes.CategoryController.allCategory());
 	}
@@ -93,6 +96,7 @@ public class CategoryController extends Controller {
 	 * @return to the view of all categories with new list shown
 	 */
 	public static Result addMainCategory() {
+		Logger.of("category").info("Added main category");
 		String name = newMainCategory.bindFromRequest().get().name;
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);

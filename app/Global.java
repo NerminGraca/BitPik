@@ -5,12 +5,13 @@ import models.User;
 import play.Application;
 import play.GlobalSettings;
 import controllers.FAQController;
+import play.Logger;
 
 public class Global extends GlobalSettings {
 
 	@Override
 	public void onStart(Application app) {
-
+		Logger.info("Application start");
 		if (User.finder("admin") == null) {
 			// Administrator entry
 			User ad = User

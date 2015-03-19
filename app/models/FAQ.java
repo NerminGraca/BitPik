@@ -5,6 +5,7 @@ import javax.persistence.Id;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 public class FAQ extends Model {
@@ -17,6 +18,7 @@ public class FAQ extends Model {
 	
 	@Required
 	public String answer;
+	
 	
 	/**
 	 * Default constructor
@@ -37,6 +39,9 @@ public class FAQ extends Model {
 		this.question = question;
 		this.answer  = answer;
 	}
+	
+	public static Finder<Integer, FAQ> find = new Finder<Integer, FAQ>(Integer.class, FAQ.class);
+
 	
 	/**
 	 * Getter for question
@@ -92,4 +97,11 @@ public class FAQ extends Model {
 		return newFaq;
 	}
 	
+	public static FAQ finder(int id) {
+		return find.where().eq("id", id).findUnique();
+	}
+	
+	public static void delete(int id) {
+		FAQ.finder(id).delete();
+	}
 }

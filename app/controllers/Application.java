@@ -26,6 +26,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import models.*;
+import play.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.io.Files;
@@ -77,6 +78,7 @@ public class Application extends Controller {
 	 * @return redirect to index.html
 	 */
 	public static Result logout() {
+		Logger.of("login").info("User "+ session("username") +" loged out");
 		session().clear();
 		flash("logout", Messages.get("Odjavili ste se. "));
 		return redirect(routes.Application.index());

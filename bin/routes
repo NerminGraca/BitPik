@@ -23,8 +23,11 @@ GET 	/changePassword/:id				controllers.UserController.changePassword(id: Intege
 POST	/changeAdmin/:id				controllers.UserController.changeAdmin(id: Int)
 GET		/adminPanel						controllers.UserController.adminPanel()
 
+GET		/editFaq/:id					controllers.FAQController.editFaq(id: Integer)
+POST	/editFaq/:id/change				controllers.FAQController.saveEditedFaq(id: Integer)
 GET		/faqs							controllers.FAQController.allFaqs()
 POST	/faqs							controllers.FAQController.addFaq()
+GET		/deleteFaq/:id					controllers.FAQController.deleteFaq(id: Integer)
 
 GET		/showProduct/:id				controllers.ProductController.showProduct(id: Integer)
 GET		/addProduct						controllers.ProductController.addProduct()

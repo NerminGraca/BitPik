@@ -8,6 +8,7 @@ import models.*;
 
 import org.junit.*;
 
+import controllers.FAQController;
 import controllers.UserController;
 import play.test.WithApplication;
 import static org.junit.Assert.*;
@@ -138,4 +139,12 @@ public class ModelsTest extends WithApplication {
 	}
 	
 	*/
+	
+	public void testDeleteFaq(){
+		FAQ.create("pitanje", "odgovor");
+		FAQ f = FAQ.finder(6);
+		assertNotNull(f);
+		FAQController.deleteFaq(6);
+		assertNull(f);
+	}
 }
