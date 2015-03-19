@@ -26,6 +26,7 @@ create table product (
   published_date            varchar(255),
   owner_id                  integer,
   availability              varchar(255),
+  product_image_path        varchar(255),
   constraint pk_product primary key (id))
 ;
 

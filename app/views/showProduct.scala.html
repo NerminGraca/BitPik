@@ -15,6 +15,9 @@
 				  		
 				  	
 				  	<div id="boxForEditingProduct">
+				  	
+				  	<div><a class="profilePicture" ><img src="@routes.Assets.at(p.productImagePath)" alt="" /></a></div>				
+				  	
 					<!--
 						NAŠ OBJAVLJENI PROIZVOD
 						TJ. NJEGOVI PODACI IZ BAZE;
@@ -23,6 +26,15 @@
 						- TOOO - Kasnije ubaciti <div> - img src, desc small, desc big, kategorije, etc... 
 						- TODO - Kasnije dodati, i na pocetak stranice, sve dodatne varijable koje primamo;
 						-->
+						
+						<div >
+							<form id="imgs" action="@routes.ProductController.saveFile(p.id)" method="post" 
+							enctype="multipart/form-data" >
+						<input type="file" name="image" id="image" />
+						<input type="submit" value="Send file" />
+							
+						</div>
+						
 						<div class="bottomLine">
 							<h2 id="redText"><p>Korisnicko ime:</p></h2>
 							<h6 class="blueText">@usernameSes</h6>

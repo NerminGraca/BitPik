@@ -1,6 +1,8 @@
 package controllers;
 
 import java.util.List;
+import java.io.File;
+import java.io.IOException;
 
 import models.MainCategory;
 import models.Product;
@@ -10,6 +12,11 @@ import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
+
+import com.google.common.io.Files;
+
 
 public class ProductController extends Controller {
 
@@ -66,9 +73,9 @@ public class ProductController extends Controller {
 		String category = newProduct.bindFromRequest().get().categoryString;
 		String availability = newProduct.bindFromRequest().get().availability;
 		MainCategory mc = MainCategory.findMainCategoryByName(category);
-		
+		String productImagePath = newProduct.bindFromRequest().get().productImagePath;
 		User u = User.finder(usernameSes);
-		Product p = Product.create(name, desc, price, u, mc, availability);
+		Product p = Product.create(name, desc, price, u, mc, availability, productImagePath);
 		return redirect("/showProduct/" + p.id);	
 	
 	}
@@ -158,5 +165,64 @@ public class ProductController extends Controller {
 		  Product.delete(id);
 		  return redirect(routes.UserController.findProfileProducts());
 	}	
+	
+	/**
+	 * Uplade image for User profile, and show picture on user /profile.html. 
+	 * If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
+	 * If file size is bigger then 2MB, redirect user on profile without uploading image.
+	 * @return
+	 */
+	
+	public static Result saveFile(int id){
+		User u = SessionHelper.getCurrentUser(ctx());
+		usernameSes = session("username");
+		
+	   	 Product p = findProduct.byId(id);
+	   	 int idProduct = p.id;
+		
+   	  	//creating path where we are going to save image
+		final String savePath = "." + File.separator 
+				+ "public" + File.separator + "images" 
+				+ File.separator + "productPicture" + File.separator;
+		
+		//it takes uploaded information  
+		MultipartFormData body = request().body().asMultipartFormData();
+		FilePart filePart = body.getFile("image");
+		File image = filePart.getFile();
+		//it takes extension from image that is uploaded
+		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
+		extension.trim();
+		
+		//If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
+		if(	   !extension.equalsIgnoreCase(".jpeg") 
+			&& !extension.equalsIgnoreCase(".jpg")
+			&& !extension.equalsIgnoreCase(".png") ){
+			
+			flash("error", "Image type not valid");
+			return redirect("/showProduct");
+		}
+		
+		//If file size is bigger then 2MB, redirect user on profile without uploading image.
+		double megabyteSize = (image.length() / 1024) / 1024;
+		if(megabyteSize > 2){
+			flash("error", "Image size not valid");
+			return redirect("/showProduct");
+		}
+		
+		//creating image name from user id, and take image extension, than move image to new location
+		try {
+			File profile = new File(savePath + idProduct + extension);
+			Files.move(image, profile );		
+			String assetsPath = "images" 
+					+ File.separator + "productPicture" + File.separator + profile.getName();
+			p.productImagePath = assetsPath;
+			p.save();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return redirect("/showProduct/"+p.id);
+	}
+	
 	
 }

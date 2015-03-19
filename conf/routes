@@ -42,6 +42,8 @@ POST	/addMainCategory				controllers.CategoryController.addMainCategory()
 
 
 POST   /fileupload          controllers.UserController.saveFile()
+POST   /showProduct/:id          controllers.ProductController.saveFile(id: Integer)
+
 
 
 # Map static resources from the /public folder to the /assets URL path

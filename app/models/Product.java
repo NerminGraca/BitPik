@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 import javax.persistence.*;
 
 import play.data.validation.Constraints.Required;
@@ -38,6 +39,9 @@ public class Product extends Model {
 	@Required
 	public String availability;
 	
+	public String productImagePath;
+
+	
 	/**
 	 * Constructor with default values
 	 */
@@ -50,6 +54,7 @@ public class Product extends Model {
 		this.category = null;
 		this.availability = "Unknown";
 		publishedDate = getDate();
+		this.productImagePath = "images/no-img.jpg";
 	}
 
 	/**
@@ -66,7 +71,20 @@ public class Product extends Model {
 		this.category = category;		
 		this.availability = availability;
 		publishedDate = getDate();
+		this.productImagePath = "images/no-img.jpg";
 	}
+	
+	public Product(String name, String desc, double price, User owner, MainCategory category, String availability, String productImagePath) {
+		this.name = name;
+		this.description = desc;
+		this.price = price;
+		this.owner = owner;
+		this.category = category;		
+		this.availability = availability;
+		publishedDate = getDate();
+		this.productImagePath = productImagePath;
+	}
+	
 	
 	//Finder
 	public static Finder<Integer, Product> find = new Finder<Integer, Product>(Integer.class, Product.class);
@@ -130,8 +148,8 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static Product create(String name, String desc, double price, User owner, MainCategory category, String availability) {
-		Product newProduct = new Product(name, desc, price, owner, category, availability);
+	public static Product create(String name, String desc, double price, User owner, MainCategory category, String availability, String productImagePath  ) {
+		Product newProduct = new Product(name, desc, price, owner, category, availability, productImagePath);
 		newProduct.save();
 		return newProduct;
 	}
