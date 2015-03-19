@@ -107,6 +107,7 @@ public class ProductTest extends WithApplication {
 	 * checks that the new name is one the showProduct/id.html page;
 	 * checks that the new product has changed the name and desc;
 	 *//*
+	 *
 	@Test
 	public void testSaveEditProduct() {
 			running(testServer(3333, fakeApplication(inMemoryDatabase())),

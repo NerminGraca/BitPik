@@ -28,7 +28,10 @@
 				          </td>
 				        </tr>
 				        <tr>
-				          <td width="100%"><textarea rows="15" name="contentbox" cols="100" wrap="virtual" readonly></textarea><br></td>
+				        <style type="text/css">
+    						textarea { border: none; resize: none; }
+    					</style>
+				          <td width="100%"><textarea rows="5" name="contentbox" cols="100" wrap="virtual" readonly></textarea><br></td>
 				        </tr>
 				       
 				      </table>
@@ -86,10 +89,10 @@
 		 						<div>
 										@helper.form(routes.FAQController.addFaq(), 'id -> "faqForm") {
 											<h5 id="editProfileText">Pitanje :</h5>
-											<input type="text" value="" id="question" name="question" size="25" required/>
+											<input pattern=".{3,250}" type="text" value="" id="question" name="question" size="25" required/>
 											
 											<h5 id="editProfileText">Odgovor :</h5>
-											<input type="text" value="" id="answer" name="answer" size="65" required/>
+											<input pattern=".{3,250}" type="text" value="" id="answer" name="answer" size="65" required/>
 										<br>	
 		 									<input class="buttonRed" type="submit" value="Add a FAQ" />
 		 						</div>

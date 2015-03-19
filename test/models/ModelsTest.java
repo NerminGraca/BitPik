@@ -140,11 +140,4 @@ public class ModelsTest extends WithApplication {
 	
 	*/
 	
-	public void testDeleteFaq(){
-		FAQ.create("pitanje", "odgovor");
-		FAQ f = FAQ.finder(6);
-		assertNotNull(f);
-		FAQController.deleteFaq(6);
-		assertNull(f);
-	}
 }

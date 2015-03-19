@@ -4,6 +4,7 @@ import static play.test.Helpers.*;
 import org.junit.*;
 
 import controllers.Application;
+import controllers.Application.Contact;
 import play.test.WithApplication;
 
 public class ContactTest extends WithApplication {
@@ -21,3 +22,4 @@ public class ContactTest extends WithApplication {
 		assertEquals(testContact.email.contains("@"), true);
 		
 	}
+}
