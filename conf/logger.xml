@@ -57,7 +57,7 @@
   <logger name="faq" level="INFO" additivity="true">
   		<appender-ref ref="FAQ" />
   </logger>
-  <logger name="category" level="INFO" additivity="false">
+  <logger name="category" level="INFO" additivity="true">
   		<appender-ref ref="CATEGORY" />
   </logger>
 </configuration>

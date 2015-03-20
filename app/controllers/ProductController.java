@@ -91,7 +91,7 @@ public class ProductController extends Controller {
 
 		User u = User.finder(usernameSes);
 		Product p = Product.create(name, desc, price, u, mc, sc, availability, productImagePath);
-		Logger.of("product").info("User "+ usernameSes +" added a new product");
+		Logger.of("product").info("User "+ usernameSes +" added a new product '" + p.name + "'");
 
 		return redirect("/showProduct/" + p.id);	
 	}
@@ -172,8 +172,8 @@ public class ProductController extends Controller {
 		p.setSubCategory(sc);
 		p.setAvailability(availability);
 		p.save();
-
-		Logger.of("product").info("User "+ usernameSes + " updated a product");
+		Logger.of("product").info("User "+ usernameSes + " updated the info of product " + p.name);
+		
 		return redirect("/showProduct/" + id);	
 	}
 
@@ -184,10 +184,11 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result deleteProduct(int id) {
-
-		  Product.delete(id);
-		  Logger.of("product").info( session("username") + " deleted a product");
-		  return redirect(routes.UserController.findProfileProducts());
+		String toBeDeleted = Product.find.byId(id).name;
+		Product.delete(id);
+		Logger.of("product").info( session("username") + " deleted the product "+toBeDeleted);
+		toBeDeleted = null;
+		return redirect(routes.UserController.findProfileProducts());
 	}	
 	
 	/**
@@ -221,8 +222,9 @@ public class ProductController extends Controller {
 		if(	   !extension.equalsIgnoreCase(".jpeg") 
 			&& !extension.equalsIgnoreCase(".jpg")
 			&& !extension.equalsIgnoreCase(".png") ){
-			
+		
 			flash("error", "Image type not valid");
+			Logger.of("product").warn( usernameSes + " tried to upload an image that is not valid.");
 			return redirect("/showProduct");
 		}
 		
@@ -230,6 +232,7 @@ public class ProductController extends Controller {
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
 			flash("error", "Image size not valid");
+			Logger.of("product").warn( usernameSes + " tried to upload an image that is bigger than 2MB.");
 			return redirect("/showProduct");
 		}
 		
@@ -242,7 +245,7 @@ public class ProductController extends Controller {
 			p.productImagePath = assetsPath;
 			p.save();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Logger.of("product").error( usernameSes + " failed to upload an image to the product " +p.name);
 			e.printStackTrace();
 		}
 		return redirect("/showProduct/"+p.id);

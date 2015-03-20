@@ -155,7 +155,7 @@ public class UserController extends Controller {
 		  if(u.getUsername().equals(currentUser.getUsername())){
 			  return ok(korisnik.render(currentUser, u, l));}		  
 		  else {
-			  return ok(korisnik.render(currentUser, u, l));
+			  return redirect(routes.Application.index());
 		  }
 	}
 	
@@ -356,6 +356,7 @@ public class UserController extends Controller {
 			&& !extension.equalsIgnoreCase(".png") ){
 			
 			flash("error", "Image type not valid");
+			Logger.of("user").warn( usernameSes + " tried to upload an image that is not valid.");
 			return redirect("/profile");
 		}
 		
@@ -363,6 +364,7 @@ public class UserController extends Controller {
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
 			flash("error", "Image size not valid");
+			Logger.of("user").warn( usernameSes + " tried to upload an image that is bigger than 2MB.");
 			return redirect("/profile");
 		}
 		
@@ -375,7 +377,7 @@ public class UserController extends Controller {
 			u.imagePath = assetsPath;
 			u.save();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Logger.of("user").error( usernameSes + " failed to upload an image to his profile page.");
 			e.printStackTrace();
 		}
 		return redirect("/profile");

@@ -13,7 +13,7 @@
 				  		
 				  		@if(mainCategory.subCategories.size() > 0 ) {
 				  			@for(subCategory <- mainCategory.subCategories) {
-				  				<li><a href="podKategorija/@subCategory.id">@subCategory.name  				  							  				
+				  				<li><a href="#">@subCategory.name  				  							  				
 								<div class="buttonPosition">	
 				  				 @form(routes.CategoryController.deleteSubCategory(subCategory.id)) {
                    					 <input type="submit" value="Izbrisi" onclick="return confirm('Da li si siguran-na da zelis izbrisati ovu kategoriju?');">

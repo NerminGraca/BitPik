@@ -57,17 +57,15 @@ public class CategoryController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editMainCategory(int id) {
-		Logger.of("category").info("Updated category");
 		MainCategory mc = findMainCategory.byId(id);
-
+				
 		return ok(editMainCategory.render(mc));
 	}
 	
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editSubCategory(int id) {
-		Logger.of("category").info("Updated subcategory");
 		SubCategory sc = SubCategory.findSubCategory(id);
-
+				
 		return ok(editSubCategory.render(sc));
 	}
 	
@@ -92,6 +90,7 @@ public class CategoryController extends Controller {
 			MainCategory mc = findMainCategory.byId(id);
 			mc.setName(name);
 			mc.save();
+			Logger.of("category").info("Admin updated category to " + name);
 			return redirect(routes.CategoryController.allCategory());
 		}		
 	}
@@ -111,6 +110,7 @@ public class CategoryController extends Controller {
 		} else {
 			sc.setName(name);
 			sc.save();
+			Logger.of("category").info("Admin updated subcategory to " + sc.name);
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}
 	}
@@ -121,16 +121,17 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result deleteMainCategory(int id) {
-		Logger.of("category").info("Deleted category");
+		MainCategory mc = findMainCategory.byId(id);
 		MainCategory.delete(id);
+		Logger.of("category").info("Admin deleted category " + mc.name);
 		return redirect(routes.CategoryController.allCategory());
 	}
 	
 	public static Result deleteSubCategory(int id) {
 		SubCategory sc = SubCategory.findSubCategory(id);
 		MainCategory mc = sc.mainCategory;
-		Logger.of("category").info("Deleted subcategory");
 		SubCategory.delete(id);
+		Logger.of("category").info("Admin deleted subcategory " + sc.name);
 		return redirect(routes.CategoryController.subCategories(mc.id));
 
 	}
@@ -142,7 +143,6 @@ public class CategoryController extends Controller {
 	 * @return to the view of all categories with new list shown
 	 */
 	public static Result addMainCategory() {
-		Logger.of("category").info("Added main category");
 		String name = newMainCategory.bindFromRequest().get().name;
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
@@ -150,12 +150,12 @@ public class CategoryController extends Controller {
 			return redirect(routes.CategoryController.allCategory());
 		} else {
 			MainCategory.createMainCategory(name);
+			Logger.of("category").info("Admin added main category " + name);
 			return redirect(routes.CategoryController.allCategory());
 		}			
 	}
 	
 	public static Result addSubCategory(int id) {
-		Logger.of("category").info("Added main category");
 		String name = newSubCategory.bindFromRequest().get().name;
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
@@ -166,6 +166,7 @@ public class CategoryController extends Controller {
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		} else {
 			SubCategory.createSubCategory(name, mc);
+			Logger.of("category").info("Admin added subcategory " + name);
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}			
 	}
