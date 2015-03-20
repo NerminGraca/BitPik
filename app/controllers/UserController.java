@@ -223,7 +223,7 @@ public class UserController extends Controller {
 			flash("validate", Messages.get("Primili ste email validaciju."));
 		}
 		user.save();
-		Logger.of("user").info("User "+ username +" updated");
+		Logger.of("user").info("User with "+ oldEmail +" updated. NEW : ["+ user.username +", "+ user.email +"]");
 		session(SESSION_USERNAME, user.username);
 		return redirect("/korisnik/" + user.id);		
 

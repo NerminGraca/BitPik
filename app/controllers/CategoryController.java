@@ -88,9 +88,11 @@ public class CategoryController extends Controller {
 			return redirect(routes.CategoryController.editMainCategory(id));
 		} else {
 			MainCategory mc = findMainCategory.byId(id);
+			String oldname = mc.name;
 			mc.setName(name);
 			mc.save();
-			Logger.of("category").info("Admin updated category to " + name);
+			Logger.of("category").info("Admin updated category " +oldname+" to " + name);
+			oldname = null;
 			return redirect(routes.CategoryController.allCategory());
 		}		
 	}
@@ -108,9 +110,11 @@ public class CategoryController extends Controller {
 		if (SubCategory.findSubCategoryByNameAndMainCategory(name, mc)) {
 			return redirect(routes.CategoryController.editSubCategory(id));
 		} else {
+			String oldname = sc.name;
 			sc.setName(name);
 			sc.save();
-			Logger.of("category").info("Admin updated subcategory to " + sc.name);
+			Logger.of("category").info("Admin updated subcategory "+oldname+" to " + sc.name);
+			oldname = null;
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}
 	}

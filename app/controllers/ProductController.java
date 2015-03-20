@@ -165,6 +165,7 @@ public class ProductController extends Controller {
 		// product;
 		// and saves();
 		Product p = findProduct.byId(id);
+		String oldname = p.name;
 		p.setName(name);
 		p.setDesc(desc);
 		p.setPrice(price);
@@ -172,8 +173,8 @@ public class ProductController extends Controller {
 		p.setSubCategory(sc);
 		p.setAvailability(availability);
 		p.save();
-		Logger.of("product").info("User "+ usernameSes + " updated the info of product " + p.name);
-		
+		Logger.of("product").info("User "+ usernameSes + " updated the info of product " + oldname + ", NAME : ["+p.name+"]");
+		oldname = null;
 		return redirect("/showProduct/" + id);	
 	}
 

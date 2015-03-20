@@ -131,9 +131,11 @@ public class Application extends Controller {
 							String message = newMessage.message;
 							flash("success2", Messages.get("Message sent"));
 							MailHelper.sendContactMessage(email, message);
+							Logger.of("user").info("Sending email with ContactForm successfull ["+ email +"]");
 							return redirect("/contact");
 						} else {
 							flash("error", "There has been a problem");
+							Logger.of("user").info("Error sending email with ContactForm");
 							return ok(contact.render(submit));
 						}
 					}
