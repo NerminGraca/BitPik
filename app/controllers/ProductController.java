@@ -17,6 +17,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
+import play.i18n.Messages;
 
 import com.google.common.io.Files;
 
@@ -93,7 +94,7 @@ public class ProductController extends Controller {
 		Product p = Product.create(name, desc, price, u, mc, sc, availability, productImagePath);
 		Logger.of("product").info("User "+ usernameSes +" added a new product '" + p.name + "'");
 
-		return redirect("/showProduct/" + p.id);	
+		return redirect("/addPictureProduct/" + p.id);
 	}
 
 	/**
@@ -193,6 +194,19 @@ public class ProductController extends Controller {
 	}	
 	
 	/**
+	 * @param id is Product id
+	 * @return redirect to html for adding picture
+	 */
+	public static Result productPicture(int id) {
+		   	  	usernameSes = session("username");
+			   	 Product p = findProduct.byId(id);
+		
+		   	 return ok(addPictureProduct.render(usernameSes, p));
+		    }
+	
+	
+	
+	/**
 	 * Uplade image for User profile, and show picture on user /profile.html. 
 	 * If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
 	 * If file size is bigger then 2MB, redirect user on profile without uploading image.
@@ -224,7 +238,7 @@ public class ProductController extends Controller {
 			&& !extension.equalsIgnoreCase(".jpg")
 			&& !extension.equalsIgnoreCase(".png") ){
 		
-			flash("error", "Image type not valid");
+			flash("error",  Messages.get("Image type not valid"));
 			Logger.of("product").warn( usernameSes + " tried to upload an image that is not valid.");
 			return redirect("/showProduct");
 		}
@@ -232,7 +246,7 @@ public class ProductController extends Controller {
 		//If file size is bigger then 2MB, redirect user on profile without uploading image.
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
-			flash("error", "Image size not valid");
+			flash("error",  Messages.get("Image size not valid"));
 			Logger.of("product").warn( usernameSes + " tried to upload an image that is bigger than 2MB.");
 			return redirect("/showProduct");
 		}

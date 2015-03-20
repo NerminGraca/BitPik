@@ -30,6 +30,7 @@ POST	/faqs							controllers.FAQController.addFaq()
 GET		/deleteFaq/:id					controllers.FAQController.deleteFaq(id: Integer)
 
 GET		/showProduct/:id				controllers.ProductController.showProduct(id: Integer)
+POST	/showProduct/:id				controllers.ProductController.showProduct(id: Integer)
 GET		/addProduct						controllers.ProductController.addProduct()
 GET		/editProduct/:id				controllers.ProductController.editProduct(id: Integer)
 POST	/editProduct/:id/change			controllers.ProductController.saveEditedProduct(id: Integer)
@@ -50,8 +51,8 @@ POST	/addSubCategory/:id				controllers.CategoryController.addSubCategory(id: In
 
 
 POST   /fileupload          controllers.UserController.saveFile()
-POST   /showProduct/:id          controllers.ProductController.saveFile(id: Integer)
-
+GET   /addPictureProduct/:id         controllers.ProductController.productPicture(id: Integer)
+POST   /addPictureProduct/:id          controllers.ProductController.saveFile(id: Integer)
 
 
 # Map static resources from the /public folder to the /assets URL path

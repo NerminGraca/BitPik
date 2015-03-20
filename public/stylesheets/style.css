@@ -49,6 +49,46 @@ body {
         font-size: 15px;
 }
 
+.addImage{
+	margin: 10px;
+}
+
+.sendFile{
+	padding-bottom:5px; 
+}
+
+.btn3{
+	
+	display: inline-block;
+	float: left;
+  	width: 20%;
+  	height: 18px; 
+ 	line-height: 1.3333333;
+ 	background-color: #CD1F25;
+  	border-color: #CD1F25;
+  	
+    text-align: center;
+  	white-space: nowrap;
+  	vertical-align: middle;
+  	touch-action: manipulation;
+  	cursor: pointer;
+    border: 1px solid transparent;
+    -webkit-appearance: button;
+    overflow: visible;
+    color: white;
+    margin-right: 10px;
+    
+    font-size: 1em;
+  padding: 10px 15px;
+  background: #CD1F25;
+  color: #424768;
+  border: none;
+  text-decoration: none;
+	
+}
+
+
+
 
 .sectiongroup2{
 	display: inline-block;
@@ -167,8 +207,7 @@ body {
   	padding: 10px 16px;
   	font-size: 18px;
  	line-height: 1.3333333;
-  	border-radius: 6px;
-  	background-color: #424768;
+  	
   	border-color: #424768;
     font-weight: 400;
     text-align: center;
@@ -179,7 +218,7 @@ body {
     border: 1px solid transparent;
     -webkit-appearance: button;
     overflow: visible;
-    color: white;
+    color: #424768;
     margin-right: 10px;
 	
 }
@@ -635,9 +674,18 @@ box-sizing: border-box;
 	padding: 1.5%;
 	text-align: center;
 	position: relative;
+	
 }
+
+.productImge img{
+	max-width: 100px;
+	max-height: 100px;
+}
+
 .images_1_of_4  img {
-	max-width: 100%;
+max-height: 150px;
+	max-width: 150px;
+	 
 }
 .images_1_of_4  h2 {
 	color:#6A82A4;

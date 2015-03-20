@@ -225,8 +225,7 @@ public class UserController extends Controller {
 		user.save();
 		Logger.of("user").info("User with "+ oldEmail +" updated. NEW : ["+ user.username +", "+ user.email +"]");
 		session(SESSION_USERNAME, user.username);
-		return redirect("/korisnik/" + user.id);		
-
+		return redirect("/profile" );
 	}
 	
 	/**
@@ -355,7 +354,7 @@ public class UserController extends Controller {
 			&& !extension.equalsIgnoreCase(".jpg")
 			&& !extension.equalsIgnoreCase(".png") ){
 			
-			flash("error", "Image type not valid");
+			flash("error",  Messages.get("Image type not valid"));
 			Logger.of("user").warn( usernameSes + " tried to upload an image that is not valid.");
 			return redirect("/profile");
 		}
@@ -363,7 +362,7 @@ public class UserController extends Controller {
 		//If file size is bigger then 2MB, redirect user on profile without uploading image.
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
-			flash("error", "Image size not valid");
+			flash("error",  Messages.get("Image size not valid"));
 			Logger.of("user").warn( usernameSes + " tried to upload an image that is bigger than 2MB.");
 			return redirect("/profile");
 		}

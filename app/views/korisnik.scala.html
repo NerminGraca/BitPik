@@ -39,7 +39,7 @@
 					     		 			
 					    	</select>
 					     </fieldset>
-					     <input class="btn" type="submit" value="Spasi promjene" />
+					    
 						}
 						
 					}				
@@ -49,15 +49,23 @@
 						@if(!userSes.username.equals(user.username)){
 							@if(userSes.isAdmin){
 								@form(routes.UserController.deleteUser(user.id)) {
-				        	  		<input class="btn" type="submit" value="Izbrisi korisnika"  onclick="return confirm('Da li ste sigurni da zelite izbrisati korisnika?');">
+									<input class="btn2" type="submit" value="Izbrisi korisnika"  onclick="return confirm('Da li ste sigurni da zelite izbrisati korisnika?');">
 	                    		}
 	                    		
 	                  		} 
 				   		}
 					<!-- promijeni profilne podatke -->
-			  @if(userSes.username.equals(user.username)){
-			<button type="button" class="btn"><a href="/editUser/@user.id">Izmijeni profilne podatke</a></button>
-		}
+					
+					<form action="/editUser/@user.id">
+    					<a href="/editUser/@user.id" class="btn2">Izmijeni profil</a>
+						</form>
+		
+					
+					
+					
+					
+					
+		
 				</div>
 			
 				<div class="leftBox">

@@ -4,6 +4,8 @@
 
 @main("showProduct", "") {
 	
+
+		
 <div class="wrap">	
 	<div class="main">
     	<div class="content">
@@ -27,13 +29,6 @@
 						- TODO - Kasnije dodati, i na pocetak stranice, sve dodatne varijable koje primamo;
 						-->
 						
-						<div >
-							<form id="imgs" action="@routes.ProductController.saveFile(p.id)" method="post" 
-							enctype="multipart/form-data" >
-						<input type="file" name="image" id="image" />
-						<input type="submit" value="Send file" />
-							
-						</div>
 						
 						<div class="bottomLine">
 							<h2 id="redText"><p>Korisnicko ime:</p></h2>
@@ -88,6 +83,7 @@
 						
 							
 							<a href="/editProduct/@p.id" class="btn2">Izmijeni proizvod</a>
+							<a href="/addPictureProduct/@p.id" class="btn2">Promijeni sliku</a>
 										
 							@form(routes.ProductController.deleteProduct(p.id)) {
                    				<input class="btn2" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
