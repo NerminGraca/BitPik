@@ -16,20 +16,11 @@ import play.Logger;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
-import play.data.validation.Constraints.Email;
-import play.data.validation.Constraints.Required;
 import play.libs.F.Function;
 import play.libs.F.Promise;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
-import play.mvc.Controller;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
-import models.*;
-import play.Logger;
-
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.io.Files;
 
 public class Application extends Controller {
 
@@ -39,6 +30,18 @@ public class Application extends Controller {
 		public String email;
 		@Required
 		public String message;
+		
+		/**
+		 * Constructor
+		 * @param email
+		 * @param message
+		 */
+		public Contact(String email, String message) {
+			super();
+			this.email = email;
+			this.message = message;
+		}
+				
 	}
 
 	/**

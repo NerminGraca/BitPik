@@ -9,6 +9,7 @@ GET		/login							controllers.Application.login()
 GET     /logout							controllers.Application.logout()
 POST 	/contact                        controllers.Application.sendMail()
 GET 	/contact 						controllers.Application.contact()
+
 POST	/adduser						controllers.UserController.addUser()
 POST	/finduser						controllers.UserController.findUser()
 GET		/profile						controllers.UserController.findProfileProducts()
@@ -50,9 +51,9 @@ POST	/editSubCategory/:id/change		controllers.CategoryController.saveEditSubCate
 POST	/addSubCategory/:id				controllers.CategoryController.addSubCategory(id: Integer)
 
 
-POST   /fileupload          controllers.UserController.saveFile()
-GET   /addPictureProduct/:id         controllers.ProductController.productPicture(id: Integer)
-POST   /addPictureProduct/:id          controllers.ProductController.saveFile(id: Integer)
+POST   	/fileupload          			controllers.UserController.saveFile()
+GET   	/addPictureProduct/:id         	controllers.ProductController.productPicture(id: Integer)
+POST   	/addPictureProduct/:id          controllers.ProductController.saveFile(id: Integer)
 
 
 # Map static resources from the /public folder to the /assets URL path

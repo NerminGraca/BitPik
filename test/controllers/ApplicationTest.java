@@ -1,31 +1,15 @@
 package controllers;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-import models.MainCategory;
-import models.Product;
 import models.User;
 
 import org.junit.*;
 
-import play.mvc.*;
 import play.test.*;
-import play.data.DynamicForm;
-import play.data.validation.ValidationError;
-import play.data.validation.Constraints.RequiredValidator;
-import play.i18n.Lang;
-import play.libs.F;
 import play.libs.F.*;
-import play.twirl.api.Content;
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
 public class ApplicationTest {
-	/*
+	
 	@Before
 	public void setUp() {
 		fakeApplication(inMemoryDatabase());
@@ -53,6 +37,7 @@ public class ApplicationTest {
 						browser.goTo("http://localhost:3333/registration");
 						browser.fill("#username").with("test");
 						browser.fill("#password").with("testPass");
+						browser.fill("#confirmPassword").with("testPass");
 						browser.fill("#email").with("test@test.ba");
 						browser.submit("#nameForm");
 						User user = User.finder("test");
@@ -98,5 +83,5 @@ public class ApplicationTest {
 					}
 				});
 	}
-	*/
+	
 }

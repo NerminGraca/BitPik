@@ -8,17 +8,17 @@ import static org.junit.Assert.*;
 import static play.test.Helpers.*;
 import models.*;
 
-public class LoginTest extends WithApplication {
+public class LoginTest extends WithApplication {/*
 	@Before
 	public void setup() {
 		fakeApplication(inMemoryDatabase(), fakeGlobal());
-//		User.createAdmin("admin", "admin", "admin@admin.ba", true);
+		User.createAdmin("admin", "admin", "admin@admin.ba", true);
 	}
-/*
+
 	@Test
 	public void authenticateSuccess() {
 		Result result = callAction(
-				controllers.routes.ref.UserController.login(),
+				controllers.routes.ref.Application.login(),
 				fakeRequest().withFormUrlEncodedBody(
 						ImmutableMap.of("username", "admin", "password",
 								"admin")));
@@ -28,7 +28,7 @@ public class LoginTest extends WithApplication {
 	@Test
 	public void authenticateFail() {
 		Result result = callAction(
-				controllers.routes.ref.UserController.login(),
+				controllers.routes.ref.Application.login(),
 				fakeRequest().withFormUrlEncodedBody(
 						ImmutableMap.of("username", "admin", "password",
 								"admin")));

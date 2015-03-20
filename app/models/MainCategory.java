@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class MainCategory extends Model {

@@ -3,7 +3,6 @@ package models;
 import helpers.HashHelper;
 import helpers.MailHelper;
 
-import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,11 +12,9 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
-import controllers.UserController;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class User extends Model {
@@ -50,6 +47,7 @@ public class User extends Model {
 	public String emailConfirmation;
 	
 	public String imagePath;
+	
 	/**
 	 * @author Gordan Sajevic
 	 * Constructor with default values
