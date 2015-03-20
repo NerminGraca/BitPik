@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import models.MainCategory;
 import models.Product;
@@ -218,8 +219,7 @@ public class ProductController extends Controller {
 		usernameSes = session("username");
 		
 	   	 Product p = findProduct.byId(id);
-	   	 int idProduct = p.id;
-		
+	   	 		
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 
 				+ "public" + File.separator + "images" 
@@ -253,7 +253,7 @@ public class ProductController extends Controller {
 		
 		//creating image name from user id, and take image extension, than move image to new location
 		try {
-			File profile = new File(savePath + idProduct + extension);
+			File profile = new File(savePath + UUID.randomUUID().toString() + extension);
 			Files.move(image, profile );		
 			String assetsPath = "images" 
 					+ File.separator + "productPicture" + File.separator + profile.getName();
