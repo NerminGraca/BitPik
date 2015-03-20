@@ -25,7 +25,7 @@ public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
 	static String usernameSes;	
-	//private static final String SESSION_USERNAME = session("username");
+	private static final String SESSION_USERNAME = "username";
 	
 	//Finders
 	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
@@ -99,7 +99,7 @@ public class UserController extends Controller {
 		if (userExists && u.verified) {
 			// the username put in the session variable under the key
 			// "username";
-			session("username", username);
+			session(SESSION_USERNAME, username);
 			Logger.of("login").info("User " + username + " logged in");
 			return redirect(routes.Application.index());
 		} else {
@@ -115,7 +115,7 @@ public class UserController extends Controller {
 	 * @return renders the profile.html page with the list of products mentioned;
 	 */
 	public static Result findProfileProducts(){
-		usernameSes = session("username");
+		usernameSes = session(SESSION_USERNAME);
 		if (usernameSes == null) {
 			usernameSes = "";
 			Logger.of("user").warn("Not registered User tried access the profile page");
@@ -132,7 +132,7 @@ public class UserController extends Controller {
 	 */
 	 @Security.Authenticated(AdminFilter.class)
 	    public static Result allUsers() {
-	   	 usernameSes = session("username");
+	   	 usernameSes = session(SESSION_USERNAME);
 	   	 List<User> userList = findUser.all();
 	   	 return ok(korisnici.render(usernameSes, userList));
 	    }
@@ -176,14 +176,14 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result editUser(int id) {
-		usernameSes = session("username");
+		usernameSes = session(SESSION_USERNAME);
 		if ((usernameSes == null)) {
 			usernameSes = "";
 			return redirect(routes.Application.index());
 		}
 
 		User userById = findUser.byId(id);
-		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
+		User userbyName = findUser.where().eq(SESSION_USERNAME, usernameSes).findUnique();
 		if(userbyName.isAdmin==true) {
 			Logger.of("user").info("User updated");
 			return ok(editUser.render(usernameSes, userById));
@@ -206,7 +206,7 @@ public class UserController extends Controller {
 		User user = User.find(id);
 		String oldEmail = user.email;
 		
-		usernameSes = session("username");
+		usernameSes = session(SESSION_USERNAME);
 		String username = newUser.bindFromRequest().get().username;
 		String email = newUser.bindFromRequest().get().email;
 		
@@ -224,7 +224,7 @@ public class UserController extends Controller {
 		}
 		user.save();
 		Logger.of("user").info("User "+ username +" updated");
-		session("username", user.username);
+		session(SESSION_USERNAME, user.username);
 		return redirect("/korisnik/" + user.id);		
 
 	}
@@ -251,7 +251,7 @@ public class UserController extends Controller {
 		u.emailConfirmation = null;
 		u.save();
 		Logger.of("user").info("User " + u.username+ " verified the email");
-		session("username", u.username);
+		session(SESSION_USERNAME, u.username);
 		return redirect(routes.Application.index());
 	}
 	
@@ -279,7 +279,7 @@ public class UserController extends Controller {
 	
 	public static Result changePassword(int id)
 	{
-		usernameSes = session("username");
+		usernameSes = session(SESSION_USERNAME);
 		if ((usernameSes == null)) {
 			usernameSes = "";
 			Logger.of("user").warn("Not registered user tried to change a password");
@@ -321,7 +321,7 @@ public class UserController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
     public static Result adminPanel() {
-   	  	usernameSes = session("username");
+   	  	usernameSes = session(SESSION_USERNAME);
    	  	User u = User.finder(usernameSes);
    	 return ok(adminPanel.render(usernameSes, u));
     }
@@ -334,7 +334,7 @@ public class UserController extends Controller {
 	 */
 	public static Result saveFile(){
 		User u = SessionHelper.getCurrentUser(ctx());
-		usernameSes = session("username");
+		usernameSes = session(SESSION_USERNAME);
 		
    	  	int userID = User.finder(usernameSes).id;
    	  	//creating path where we are going to save image

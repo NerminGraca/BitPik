@@ -129,7 +129,7 @@ public class Application extends Controller {
 							Contact newMessage = submit.get();
 							String email = newMessage.email;
 							String message = newMessage.message;
-							flash("success", "Message sent");
+							flash("success2", Messages.get("Message sent"));
 							MailHelper.sendContactMessage(email, message);
 							return redirect("/contact");
 						} else {

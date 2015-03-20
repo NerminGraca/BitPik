@@ -46,8 +46,12 @@ public class MailHelper {
 		Email mail = new Email();
 		mail.setSubject("Contact request BitPik");
 		mail.setFrom("BitPik Contact <bitpikgroup@gmail.com>");
-		mail.addTo("BitPik Admin <nermin.vucinic@gmail.com>");
-		mail.addTo(email);
+		mail.addTo("BitPik Admin <nermin.vucinic@bitcamp.ba>");
+		mail.addTo("BitPik Admin <sanela.grcic@bitcamp.ba>");
+		mail.addTo("BitPik Admin <nermin.graca@bitcamp.ba>");
+		mail.addTo("BitPik Admin <nedzad.hamzic@bitcamp.ba>");
+		mail.addTo("BitPik Admin <adnan.spahic@bitcamp.ba>");
+		mail.addTo("BitPik Admin <gordan.sajevic@bitcamp.ba>");
 
 		mail.setBodyText(message);
 		mail.setBodyHtml(String

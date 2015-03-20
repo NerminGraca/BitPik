@@ -3,13 +3,11 @@
 @import helper._
 
 @main("Contact", "contact"){
-@if(flash.get("success")){
-		<div class="alert alert-success" role="alert"> 
-			<div class="container">
-				@flash.get("success") 
-			</div>
-		</div>
-	}	
+<div class="validateAndLogout">
+	@flash.get("success2")
+	    
+	</div>
+
 <div class="wrap">	
 	<div class="main">
 		<div class="content">
