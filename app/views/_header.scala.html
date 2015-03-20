@@ -12,7 +12,10 @@
 						<li><a href="/login">Login</a></li>
 					}
 					@if(user != null && user.verified == true){
+						<!--  Da admin ne moze vidjeti Objavite oglas -->
+						@if(!user.isAdmin) {
 						<li><a href="/addProduct">Objavite oglas</a></li>
+						}
 						<li><a href="/profile">Korisnik @user.username</a></li>
 						<li><a href="/logout">Logout</a></li>
 					}

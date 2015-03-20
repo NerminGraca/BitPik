@@ -32,6 +32,14 @@ public class Application extends Controller {
 		public String message;
 		
 		/**
+		 * Default constructor;
+		 */
+		public Contact() {
+			super();
+			this.email = "";
+			this.message = "";
+		}
+		/**
 		 * Constructor
 		 * @param email
 		 * @param message

@@ -21,12 +21,12 @@
 		-->
 	@helper.form(routes.Application.sendMail(), 'class->"form-horizontal", 'id->"contactForm"){
 					<h5>Email:</h5>
-					 <input type="email" class='@("error-input".when(contactForm("email").hasErrors)) form-control' 
-      				name="email" id="email" placeholder="john@@mail.com" value='@contactForm("email").value' />
+					 <input pattern=".{3,250}" type="email" class='@("error-input".when(contactForm("email").hasErrors)) form-control' 
+      				name="email" id="email" placeholder="john@@mail.com" value='@contactForm("email").value' required/>
 					
 					<h5>Message:</h5>
-					 <textarea class='@("error-input".when(contactForm("message").hasErrors)) form-control' 
-      				name="message" id="message" placeholder="Write something nice" value='@contactForm("message").value' > @contactForm("message").value </textarea>
+					<textarea maxlength="250" class='@("error-input".when(contactForm("message").hasErrors)) form-control' 
+      				name="message" id="message" placeholder="Write something nice" value='@contactForm("message").value' required> @contactForm("message").value </textarea>
 					<br><br>
 					
 						<div class="form-group">

@@ -89,10 +89,11 @@
 		 						<div>
 										@helper.form(routes.FAQController.addFaq(), 'id -> "faqForm") {
 											<h5 id="editProfileText">Pitanje :</h5>
-											<input pattern=".{3,250}" type="text" value="" id="question" name="question" size="25" required/>
+											<input pattern=".{3,250}" type="text" value="" id="question" name="question" size="25" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" required/>
 											
 											<h5 id="editProfileText">Odgovor :</h5>
-											<input pattern=".{3,250}" type="text" value="" id="answer" name="answer" size="65" required/>
+											<input pattern=".{3,250}" type="text" value="" id="answer" name="answer" size="25" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" required/>
+											
 										<br>	
 		 									<input class="buttonRed" type="submit" value="Add a FAQ" />
 		 						</div>

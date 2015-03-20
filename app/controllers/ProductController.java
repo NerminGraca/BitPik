@@ -52,8 +52,13 @@ public class ProductController extends Controller {
 	 */
 	public static Result addProduct() {
 		usernameSes = session("username");
+		User currentUser=SessionHelper.getCurrentUser(ctx());
 		// 1. Ako nije registrovan da mu oneomogucimo prikaz addProduct.html;
 		if (usernameSes == null) {
+			return redirect(routes.Application.index());
+		}
+		// 2. Zabrana admin user-u da objavljuje proizvod;
+		if (currentUser.isAdmin) {
 			return redirect(routes.Application.index());
 		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
@@ -218,7 +223,7 @@ public class ProductController extends Controller {
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session("username");
 		
-	   	 Product p = findProduct.byId(id);
+	   	Product p = findProduct.byId(id);
 	   	 		
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 

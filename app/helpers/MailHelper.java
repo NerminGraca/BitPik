@@ -42,22 +42,20 @@ public class MailHelper {
 	 * @param message message
 	 */
 	public static void sendContactMessage(String email, String message) {
-
+		if (message != null) {
 		Email mail = new Email();
 		mail.setSubject("Contact request BitPik");
 		mail.setFrom("BitPik Contact <bitpikgroup@gmail.com>");
-		mail.addTo("BitPik Admin <nermin.vucinic@bitcamp.ba>");
 		mail.addTo("BitPik Admin <sanela.grcic@bitcamp.ba>");
-		mail.addTo("BitPik Admin <nermin.graca@bitcamp.ba>");
 		mail.addTo("BitPik Admin <nedzad.hamzic@bitcamp.ba>");
 		mail.addTo("BitPik Admin <adnan.spahic@bitcamp.ba>");
-		mail.addTo("BitPik Admin <gordan.sajevic@bitcamp.ba>");
 
 		mail.setBodyText(message);
 		mail.setBodyHtml(String
 				.format("<html><body><strong> %s </strong>: <p> %s </p> </body></html>",
 						email, message));
 		MailerPlugin.send(mail);
+		}
 	}
 
 }
