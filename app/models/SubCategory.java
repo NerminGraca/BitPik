@@ -71,6 +71,18 @@ public class SubCategory extends Model {
 		return false;
 	}
 	
+	public static SubCategory findReturnSubCategoryByNameAndMainCategory(String name, MainCategory mc) {
+		List<SubCategory> subcategories = mc.subCategories;
+		Iterator<SubCategory> iter = subcategories.iterator();
+		while (iter.hasNext()) {
+			SubCategory temp = iter.next();
+			if (temp.name.equals(name)) {
+				return temp;
+			}
+		}
+		return null;
+	}
+	
 	public static void delete(int id) {
 		  find.ref(id).delete();
 	}

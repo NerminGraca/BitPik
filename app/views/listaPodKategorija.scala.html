@@ -13,18 +13,22 @@
 				  		
 				  		@if(mainCategory.subCategories.size() > 0 ) {
 				  			@for(subCategory <- mainCategory.subCategories) {
-				  				<li><a href="#">@subCategory.name  				  							  				
-								<div class="buttonPosition">	
-				  				 @form(routes.CategoryController.deleteSubCategory(subCategory.id)) {
-                   					 <input type="submit" value="Izbrisi" onclick="return confirm('Da li si siguran-na da zelis izbrisati ovu kategoriju?');">
-                				}
-                				</div>               			
-                				<div class="buttonPosition">  				
-				  					 @form(routes.CategoryController.editSubCategory(subCategory.id)) {
-                   					 	<input type="submit" value="Izmijeni">
-                					}
-                				</div>               
-				  				</a></li>
+				  				<li>
+				  					<a href="#">@subCategory.name  				  							  				
+										<div class="buttonPosition">
+										@if(!subCategory.name.equals("Ostalo")){
+											@form(routes.CategoryController.deleteSubCategory(subCategory.id)) {
+                   					 		<input type="submit" value="Izbrisi" onclick="return confirm('Da li si siguran-na da zelis izbrisati ovu kategoriju?');">
+                						}
+                						</div>               			
+                						<div class="buttonPosition">  				
+				  					 	@form(routes.CategoryController.editSubCategory(subCategory.id)) {
+                   					 		<input type="submit" value="Izmijeni">
+                						}
+                						</div> 
+										}
+				  					</a>
+				  				</li>
 				  			}
 				  		}
 				  		

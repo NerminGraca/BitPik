@@ -4,7 +4,6 @@ import models.SubCategory;
 import models.User;
 import play.Application;
 import play.GlobalSettings;
-import controllers.FAQController;
 import play.Logger;
 
 public class Global extends GlobalSettings {
@@ -18,20 +17,18 @@ public class Global extends GlobalSettings {
 					.createAdmin("admin", "admin", "admin@admin.ba", true);
 			ad.verified = true;
 			ad.save();
-		}
 
-		if (MainCategory.findMainCategory(1) == null) {
 			//Main Categories entry
 			String[] categoryArray = {"Vozila", "Odjeca i obuca", "Kompjuteri", "Biznis i industrija",
 					"Mobilni uredjaji", "Moj dom", "Nekretnine", "Literatura", "Tehnika", "Sportska oprema",
-					"Nakit i satovi", "Kolekcionarstvo", "Ljepota i zdravlje", "Zivotinje", "Video igre"};
+					"Nakit i satovi", "Kolekcionarstvo", "Ljepota i zdravlje", "Zivotinje", "Video igre", "Ostalo"};
 			
 			for (int i = 0; i < categoryArray.length; i++) {
 				MainCategory.createMainCategory(categoryArray[i]);
 			}
 			
 			String[] vozilaSubCats = {"Dijelovi i oprema", "Automobili", "Motocikli", "Bicikli",
-					"Teretna vozila", "Prikolice", "Nautika", "Autobusi i minibusi", "Kamperi"};
+					"Teretna vozila", "Prikolice", "Nautika", "Autobusi i minibusi", "Kamperi", "Ostalo"};
 			MainCategory mc1 = MainCategory.findMainCategory(1);
 			for (int i = 0; i < vozilaSubCats.length; i++) {
 				SubCategory.createSubCategory(vozilaSubCats[i], mc1);
@@ -137,9 +134,9 @@ public class Global extends GlobalSettings {
 				SubCategory.createSubCategory(videoIgreSubCats[i], mc15);
 			}
 			
-		}
-
-		if (FAQController.findFaq.byId(1) == null) {
+			MainCategory mc16 = MainCategory.findMainCategory(16);
+			SubCategory.createSubCategory("Ostalo", mc16);
+			
 			// FAQ Entries;
 			// the list of questions
 			String[] questions = new String[] { 

@@ -19,7 +19,6 @@ public class CategoryController extends Controller {
 	static Finder<Integer, MainCategory> findMainCategory = new Finder<Integer, MainCategory>(Integer.class, MainCategory.class);
 	
 	/**
-	 * @author Graca Nermin
 	 * Method categories finds all entries in database in table Main_Category and collects them and sends
 	 * them to view which will represent them correctly
 	 * @param id
@@ -33,7 +32,6 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * @author Graca Nermin
 	 * Method allCategory list all of present categories at single view
 	 * @return
 	 */
@@ -43,6 +41,11 @@ public class CategoryController extends Controller {
 		return ok(listaKategorija.render(mainCategoryList));
 	}
 	
+	/**
+	 * Method subCategories list all Sub Categories of given Main Category
+	 * @param id
+	 * @return
+	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result subCategories(int id) {
 		MainCategory mc = MainCategory.findMainCategory(id);
@@ -50,7 +53,6 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * @author Graca Nermin
 	 * Method editMainCategory allows administrator to edit one of the category
 	 * @param id = id of category which will be edited
 	 * @return = New view in which edit is performed
@@ -62,6 +64,11 @@ public class CategoryController extends Controller {
 		return ok(editMainCategory.render(mc));
 	}
 	
+	/**
+	 * Method editSubCategory allows administrator to edit one of the Sub categories
+	 * @param id
+	 * @return
+	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editSubCategory(int id) {
 		SubCategory sc = SubCategory.findSubCategory(id);
@@ -97,6 +104,11 @@ public class CategoryController extends Controller {
 		}		
 	}
 	
+	/**
+	 * Method saveEditSubCategory allows administrator to save changes made to Sub Category
+	 * @param id
+	 * @return
+	 */
 	public static Result saveEditSubCategory(int id) {
 		
 		String name = newSubCategory.bindFromRequest().get().name;
@@ -126,14 +138,39 @@ public class CategoryController extends Controller {
 	 */
 	public static Result deleteMainCategory(int id) {
 		MainCategory mc = findMainCategory.byId(id);
+		if(mc.name.equals("Ostalo")) {
+			return redirect(routes.CategoryController.allCategory());
+		}
+		List<Product> products = mc.products;
+		MainCategory various = MainCategory.findMainCategoryByName("Ostalo");
+		SubCategory variousSub = various.subCategories.get(0);
+		for (Product product : products) {
+			product.setCategory(various);
+			product.setSubCategory(variousSub);
+			product.save();
+		}
 		MainCategory.delete(id);
 		Logger.of("category").info("Admin deleted category " + mc.name);
 		return redirect(routes.CategoryController.allCategory());
 	}
 	
+	/**
+	 * Method deleteSubCategory deletes gives sub category from the views and the database
+	 * @param id
+	 * @return
+	 */
 	public static Result deleteSubCategory(int id) {
 		SubCategory sc = SubCategory.findSubCategory(id);
 		MainCategory mc = sc.mainCategory;
+		if(sc.name.equals("Ostalo")) {
+			return redirect(routes.CategoryController.subCategories(mc.id));
+		}
+		SubCategory various = SubCategory.findReturnSubCategoryByNameAndMainCategory("Ostalo", mc);
+		List<Product> products = sc.products;
+		for (Product product : products) {
+			product.setSubCategory(various);
+			product.save();
+		}
 		SubCategory.delete(id);
 		Logger.of("category").info("Admin deleted subcategory " + sc.name);
 		return redirect(routes.CategoryController.subCategories(mc.id));
@@ -141,7 +178,6 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * @author Graca Nermin
 	 * Method addMainCategory adds new category into the list and also in the database and
 	 * it will also check if that name is taken
 	 * @return to the view of all categories with new list shown
@@ -159,6 +195,12 @@ public class CategoryController extends Controller {
 		}			
 	}
 	
+	/**
+	 * Method addSubCategory adds new sub category into the list and also in the database and
+	 * it will also check if that name is taken
+	 * @param id
+	 * @return
+	 */
 	public static Result addSubCategory(int id) {
 		String name = newSubCategory.bindFromRequest().get().name;
 		name = name.toLowerCase();

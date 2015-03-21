@@ -36,10 +36,8 @@
 	     	<div class="menu">
 	     		<ul>
 			    	<li class='@("active".when(location == "index"))'><a href="/">Početna</a></li>
-			    	<li><a href="#">Radnje</a></li>
-			    	<li><a href="#">Nekretnine</a></li>
-			    	<li><a href="#">Hitno</a></li>
-			    	<li><a href="/faqs">FAQs</a></li>
+			    	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">FAQs</a></li>
+			    	<li class='@("active".when(location == "Kontakt"))'><a href="/contact">Kontakt</a></li>
 			    	@if(user != null) {
 			    		@if(user.isAdmin == true){
 				    		<li class='@("active".when(location == "Admin Panel"))'><a href="/adminPanel">Admin Panel</a></li>
