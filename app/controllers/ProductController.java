@@ -49,10 +49,10 @@ public class ProductController extends Controller {
 	 * to be filled in order to add the Product;
 	 */
 	public static Result addProduct() {
-		usernameSes = session("username");
-		User currentUser=SessionHelper.getCurrentUser(ctx());
+		
+		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// 1. Ako nije registrovan da mu oneomogucimo prikaz addProduct.html;
-		if (usernameSes == null) {
+		if (currentUser == null) {
 			return redirect(routes.Application.index());
 		}
 		// 2. Zabrana admin user-u da objavljuje proizvod;
@@ -60,7 +60,7 @@ public class ProductController extends Controller {
 			return redirect(routes.Application.index());
 		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		return ok(addProduct.render(usernameSes, mainCategoryList));
+		return ok(addProduct.render(mainCategoryList));
 
 	}
 
@@ -73,13 +73,24 @@ public class ProductController extends Controller {
 	 * @return showProducts.html with the necessary variables;
 	 */
 	public static Result createProduct() {
-		usernameSes = session("username");
-		String name = newProduct.bindFromRequest().get().name;
-		String desc = newProduct.bindFromRequest().get().description;
-		Double price = newProduct.bindFromRequest().get().price;
-		String mainCategory = newProduct.bindFromRequest().get().categoryString;
-		String subCategory = newProduct.bindFromRequest().get().subCategoryString;
-		String availability = newProduct.bindFromRequest().get().availability;
+		
+		String name;
+		String desc;
+		Double price;
+		String mainCategory;
+		String subCategory;
+		String availability;
+		
+		try {
+			name = newProduct.bindFromRequest().get().name;
+			desc = newProduct.bindFromRequest().get().description;
+			price = newProduct.bindFromRequest().get().price;
+			mainCategory = newProduct.bindFromRequest().get().categoryString;
+			subCategory = newProduct.bindFromRequest().get().subCategoryString;
+			availability = newProduct.bindFromRequest().get().availability;
+		} catch(IllegalStateException e) {
+			return redirect(routes.ProductController.addProduct());
+		}
 
 		MainCategory mc = MainCategory.findMainCategoryByName(mainCategory);
 		List<SubCategory> subCats = mc.subCategories;
@@ -94,64 +105,80 @@ public class ProductController extends Controller {
 		}
 		String productImagePath = newProduct.bindFromRequest().get().productImagePath;
 
-		User u = User.finder(usernameSes);
+		User u = SessionHelper.getCurrentUser(ctx());
 		Product p = Product.create(name, desc, price, u, mc, sc, availability, productImagePath);
 		Logger.of("product").info("User "+ usernameSes +" added a new product '" + p.name + "'");
+		
 		return redirect("/addPictureProduct/" + p.id);
 	}
 
 	/**
-	 * Finds the product under the id number; And sends that product to the
-	 * editProduct.html page on redering; Where we will have a new form that we
-	 * will edit;
-	 * 
-	 * @param id
-	 * @return
-	 */
+	* Finds the product under the id number; And sends that product to the
+	* editProduct.html page on redering; Where we will have a new form that we
+	* will edit;
+	* 
+	* @param id
+	* @return
+	*/
 	public static Result editProduct(int id) {
-		 User currentUser=SessionHelper.getCurrentUser(ctx());
+		 User currentUser = SessionHelper.getCurrentUser(ctx());
 	   	 usernameSes = session("username");
 	   	 Product p = findProduct.byId(id);
-	   	 if(p == null) {
+	   	 
+	   	 if (p == null) {
 	 		Logger.of("product").warn("Failed try to update a product which doesnt exist");
 	   		return redirect(routes.Application.index());
 	   	 }
+	   	 
 	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
-	    //  Ako nije registrovan da mu onemogucimo prikaz editProduct.html;
-	   			 if (usernameSes == null) {
-	   				Logger.of("product").warn("Not registered user tried to update a product");
-	   				 return redirect("/");
-	   			 }
+	   	 
+	   	 //  Ako nije registrovan da mu onemogucimo prikaz editProduct.html;
+	   	 if (currentUser == null) {
+	   		Logger.of("product").warn("Not registered user tried to update a product");
+	   		return redirect("/");
+		}
 	   			 
-	   			 if(!currentUser.username.equals(p.owner.username)) {
-	   				Logger.of("product").warn(usernameSes + " tried to update an anothers user's product");
-	   				return redirect(routes.Application.index());
-	   			 }
-	   	 //  Ako je admin ulogovan, onemogucujemo mu da edituje proizvod;
-	   			 if (currentUser.isAdmin==true) {
-	   				Logger.of("product").warn("An admin tried to update a users product");
-	   				return redirect(routes.Application.index());
-	   			 }
-	   	 //  Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog proizvoda> da ga edituje;    
-	   	 return ok(editProduct.render(usernameSes, p, mainCategoryList));
-	    }
+	   	if(!currentUser.username.equals(p.owner.username)) {
+	   		Logger.of("product").warn(usernameSes + " tried to update an anothers user's product");
+  			return redirect(routes.Application.index());
+ 		}
+	   	//  Ako je admin ulogovan, onemogucujemo mu da edituje proizvod;
+	   	if (currentUser.isAdmin==true) {
+			Logger.of("product").warn("An admin tried to update a users product");
+ 			return redirect(routes.Application.index());
+   		}
+   		//  Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog proizvoda> da ga edituje;    
+   		return ok(editProduct.render(usernameSes, p, mainCategoryList));
+    }
 
 	/**
-	 * Saves the new values of the attributes that are entered and overwrites
-	 * over the ones that were entered before;
-	 * 
-	 * @param id
-	 * @return redirect("/showProduct/" + id);
-	 */
+	* Saves the new values of the attributes that are entered and overwrites
+	* over the ones that were entered before;
+	* 
+	* @param id
+	* @return redirect("/showProduct/" + id);
+	*/
 	public static Result saveEditedProduct(int id) {
 		// takes the new attributes that are entered in the form;
 		usernameSes = session("username");
-		String name = newProduct.bindFromRequest().get().name;
-		String desc = newProduct.bindFromRequest().get().description;
-		Double price = newProduct.bindFromRequest().get().price;
-		String mainCategory = newProduct.bindFromRequest().get().categoryString;
-		String subCategory = newProduct.bindFromRequest().get().subCategoryString;
-		String availability = newProduct.bindFromRequest().get().availability;
+		
+		String name;
+		String desc;
+		Double price;
+		String mainCategory;
+		String subCategory;
+		String availability;
+		
+		try {
+			name = newProduct.bindFromRequest().get().name;
+			desc = newProduct.bindFromRequest().get().description;
+			price = newProduct.bindFromRequest().get().price;
+			mainCategory = newProduct.bindFromRequest().get().categoryString;
+			subCategory = newProduct.bindFromRequest().get().subCategoryString;
+			availability = newProduct.bindFromRequest().get().availability;
+		} catch(IllegalStateException e) {
+			return redirect(routes.ProductController.editProduct(id));
+		}
 
 		MainCategory mc = MainCategory.findMainCategoryByName(mainCategory);
 		List<SubCategory> subCats = mc.subCategories;

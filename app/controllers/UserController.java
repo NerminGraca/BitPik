@@ -40,10 +40,27 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result addUser() {
-		String username = newUser.bindFromRequest().get().username;
-		String password = newUser.bindFromRequest().get().password;
-		String confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
-		String email = newUser.bindFromRequest().get().email;
+		
+		String username;
+		String password;
+		String confirmPassword;
+		String email;
+		
+		try {
+			username = newUser.bindFromRequest().get().username;
+			password = newUser.bindFromRequest().get().password;
+			confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
+			email = newUser.bindFromRequest().get().email;
+		} catch(IllegalStateException e) {
+			return redirect(routes.Application.registration());
+		}
+
+		if (	username == null ||
+				password == null ||
+				confirmPassword == null ||
+				email == null) {
+			return redirect(routes.Application.registration());
+		}
 		
 		// Unique 'username' verification
 		if (User.finder(username) != null) {
@@ -87,8 +104,20 @@ public class UserController extends Controller {
 	 */
 	public static Result findUser() {
 		String hashPass;
-		String username = newUser.bindFromRequest().get().username;
-		String password = newUser.bindFromRequest().get().password;
+		String username;
+		String password;
+		
+		try {
+			username = newUser.bindFromRequest().get().username;
+			password = newUser.bindFromRequest().get().password;
+		} catch(IllegalStateException e) {
+			return redirect(routes.Application.login());
+		}
+				
+		if (username == null || password == null) {
+			return redirect(routes.Application.login());
+		}
+		
 		User u = User.finder(username);
 		
 		//if not found or not verified email, after login;
@@ -167,28 +196,21 @@ public class UserController extends Controller {
 	}
 		
 	/**
-	 * Method renders the view in which given user will be edited
-	 * @param id
-	 * @return
-	 */
+	* Method renders the view in which given user will be edited
+	* @param id
+	* @return
+	*/
+	@Security.Authenticated(CurrentUserFilter.class)
 	public static Result editUser(int id) {
-		usernameSes = session(SESSION_USERNAME);
-		if ((usernameSes == null)) {
-			usernameSes = "";
-			return redirect(routes.Application.index());
-		}
 
 		User userById = findUser.byId(id);
-		User userbyName = findUser.where().eq(SESSION_USERNAME, usernameSes).findUnique();
-		if(userbyName.isAdmin==true) {
-			Logger.of("user").info("User updated");
-			return ok(editUser.render(usernameSes, userById));
-		} else 
-			if ((userbyName.username != userById.username)) {
-				Logger.of("user").warn("User "+ usernameSes +" tried to edit/update another user");
-				return redirect(routes.Application.index());
-			}
-		return ok(editUser.render(usernameSes, userById));
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+	
+		if (userById.equals(currentUser)) {
+			return ok(editUser.render(userById, currentUser));
+		} else {
+			return redirect(routes.Application.index());	
+		}				
 	}
 	 
 	/**
@@ -199,12 +221,20 @@ public class UserController extends Controller {
 	 */
 	public static Result saveEditedUser(int id) {
 		
+		User currentUser = SessionHelper.getCurrentUser(ctx());
 		User user = User.find(id);
-		String oldEmail = user.email;
-		
+		String oldEmail = user.email;		
 		usernameSes = session(SESSION_USERNAME);
-		String username = newUser.bindFromRequest().get().username;
-		String email = newUser.bindFromRequest().get().email;
+		
+		String username;
+		String email;
+		
+		try {
+			username = newUser.bindFromRequest().get().username;
+			email = newUser.bindFromRequest().get().email;
+		} catch(IllegalStateException e) {
+			return ok(editUser.render(user, currentUser));
+		}
 		
 		user.setUsername(username);
 		
@@ -221,6 +251,7 @@ public class UserController extends Controller {
 		user.save();
 		Logger.of("user").info("User with "+ oldEmail +" updated. NEW : ["+ user.username +", "+ user.email +"]");
 		session(SESSION_USERNAME, user.username);
+		
 		return redirect("/profile" );
 	}
 	
@@ -272,21 +303,24 @@ public class UserController extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
+	@Security.Authenticated(CurrentUserFilter.class)
 	public static Result changePassword(int id)
 	{
-		usernameSes = session(SESSION_USERNAME);
-		if ((usernameSes == null)) {
-			usernameSes = "";
-			Logger.of("user").warn("Not registered user tried to change a password");
-			return redirect(routes.Application.index());
-		}
 		User u = findUser.byId(id);
-		String password = newUser.bindFromRequest().get().password;
-		String confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
-		if(!password.equals(confirmPassword))
+		String password;
+		String confirmPassword;
+		
+		try {
+			password = newUser.bindFromRequest().get().password;
+			confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
+		} catch(IllegalStateException e) {
+			return ok(changePassword.render("Polje prazno", u));
+		}
+		
+		if (!password.equals(confirmPassword))
 		{
 			Logger.of("user").error(u.username + " tried to change password - Password not confirmed correctly");
-			return ok(changePassword.render(usernameSes, "Niste dobro potvrdili lozinku!", u));
+			return ok(changePassword.render("Niste dobro potvrdili lozinku!", u));
 		}
 		password = HashHelper.createPassword(password);
 		u.setPassword(password);

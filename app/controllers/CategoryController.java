@@ -84,7 +84,13 @@ public class CategoryController extends Controller {
 	 */
 	public static Result saveEditMainCategory(int id) {
 		//takes the new attributes that are entered in the form;
-		String name = newMainCategory.bindFromRequest().get().name;
+		String name;
+		MainCategory mc = findMainCategory.byId(id);
+		try {
+			name = newMainCategory.bindFromRequest().get().name;
+		} catch(IllegalStateException e) {
+			return ok(editMainCategory.render(mc));
+		}
 		
 		// sets all the new entered attributes as the original ones from the product;
 		// and saves();
@@ -94,7 +100,7 @@ public class CategoryController extends Controller {
 		if (MainCategory.allMainCategories().contains(MainCategory.findMainCategoryByName(name))) {
 			return redirect(routes.CategoryController.editMainCategory(id));
 		} else {
-			MainCategory mc = findMainCategory.byId(id);
+			
 			String oldname = mc.name;
 			mc.setName(name);
 			mc.save();
@@ -111,8 +117,13 @@ public class CategoryController extends Controller {
 	 */
 	public static Result saveEditSubCategory(int id) {
 		
-		String name = newSubCategory.bindFromRequest().get().name;
+		String name;
 		SubCategory sc = SubCategory.findSubCategory(id);
+		try {
+			name = newSubCategory.bindFromRequest().get().name;
+		} catch(IllegalStateException e) {
+			return ok(editSubCategory.render(sc));
+		}
 		
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
@@ -183,7 +194,13 @@ public class CategoryController extends Controller {
 	 * @return to the view of all categories with new list shown
 	 */
 	public static Result addMainCategory() {
-		String name = newMainCategory.bindFromRequest().get().name;
+		String name;
+		try {
+			name = newMainCategory.bindFromRequest().get().name;
+		} catch(IllegalStateException e) {
+			return redirect(routes.CategoryController.allCategory());
+		}
+
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
 		if (MainCategory.allMainCategories().contains(MainCategory.findMainCategoryByName(name))) {
@@ -202,11 +219,15 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result addSubCategory(int id) {
-		String name = newSubCategory.bindFromRequest().get().name;
+		MainCategory mc = MainCategory.findMainCategory(id);
+		String name;
+		try {
+			name = newSubCategory.bindFromRequest().get().name;
+		} catch(IllegalStateException e) {
+			return ok(listaPodKategorija.render(mc));
+		}
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
-		
-		MainCategory mc = MainCategory.findMainCategory(id);
 		
 		if (SubCategory.findSubCategoryByNameAndMainCategory(name, mc)) {
 			return redirect(routes.CategoryController.subCategories(mc.id));

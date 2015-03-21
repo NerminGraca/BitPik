@@ -1,4 +1,4 @@
-@(usernameSes: String)(u: User)
+@(u: User)(userCurrent: User)
 @import helper._
 
 
@@ -23,7 +23,7 @@
 								<h5 id="editProfileText">Email:</h5>			
 								<input type="email" value="@u.email" id="email" name="email" required/>
 									<br>									
-								@if(usernameSes.equals(u.username)){
+								@if(userCurrent.equals(u)){
 									<a class="btn3" href="/changePassword/@u.id">Promijeni lozinku</a>
 								}																
 								<input  type="submit" value="Spasi promjene" />

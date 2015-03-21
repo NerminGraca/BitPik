@@ -29,9 +29,17 @@ public class FAQController extends Controller{
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (usernameSes == null) {
 			usernameSes = "";
+		}		
+		String question;
+		String answer;
+		
+		try {
+			question = newFaq.bindFromRequest().get().question;
+			answer = newFaq.bindFromRequest().get().answer;
+		} catch(IllegalStateException e) {
+			return redirect(routes.FAQController.allFaqs());
 		}
-		String question = newFaq.bindFromRequest().get().question;
-		String answer = newFaq.bindFromRequest().get().answer;
+		
 		FAQ faq = FAQ.create(question, answer);
 		Logger.of("faq").info("Admin added a new FAQ");
 		List <FAQ> faqList = findFaq.all();
@@ -92,8 +100,14 @@ public class FAQController extends Controller{
 		if (currentUser == null) {
 			usernameSes = "";
 		}
-		String question = newFaq.bindFromRequest().get().question;
-		String answer = newFaq.bindFromRequest().get().answer;
+		String question;
+		String answer;
+		try {
+			question = newFaq.bindFromRequest().get().question;
+			answer = newFaq.bindFromRequest().get().answer;
+		} catch(IllegalStateException e) {
+			return ok(editFaq.render(usernameSes, faq, currentUser));
+		}
 		
 		faq.setQuestion(question);
 		faq.setAnswer(answer);
