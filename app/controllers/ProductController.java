@@ -38,13 +38,9 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result showProduct(int id) {
-		usernameSes = session("username");
-		// 1. Ako nije registrovan da omogucimo prikaz proizvoda;
-		if (usernameSes == null) {
-			usernameSes = "";
-		}
+		User u = helpers.SessionHelper.getCurrentUser(ctx());
 		Product p = ProductController.findProduct.byId(id);
-		return ok(showProduct.render(usernameSes, p));
+		return ok(showProduct.render(p, u));
 	}
 
 	/**

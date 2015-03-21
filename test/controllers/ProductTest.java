@@ -147,6 +147,42 @@ public class ProductTest extends WithApplication {
 					}
 				});
 	}*/
+	
+	@Test
+	public void testEditUsersProductWhileAdmin() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						User.createSaveUser("Necko", "password",
+								"necko@test.com");
+						User u = User.find(2);
+						u.verified = true;
+						u.save();
+						assertNotNull(u);
+						
+						// takes the new attributes that are entered in the
+						// "form" and saves;
+						MainCategory mc = MainCategory
+								.findMainCategoryByName("Kompjuteri");
+
+						Product.create("original_product",
+								"original_product_description", 10.00, u, mc, null,
+								"sarajevo", null);
+						Product findProduct = Product.find.byId(1);
+						assertNotNull(findProduct);
+											
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("admin");
+						browser.fill("#password").with("admin");
+						browser.submit("#nameForm");
+
+						browser.goTo("http://localhost:3333/editProduct/1");
+
+						assertThat(browser.pageSource()).doesNotContain(
+								"izmijeni");
+					}
+				});
+	}
 
 	/**
 	 * Test whether the 3-rd non existing product is Null;

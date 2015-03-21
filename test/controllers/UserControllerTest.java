@@ -102,6 +102,37 @@ public class UserControllerTest extends WithApplication {
 					}
 				});
 	}*/
+	
+	/**
+	 * This current test is for the following : 1. Going on to the page
+	 * "/profile"; 2. While logged in as an admin user; 3. And testing whether
+	 * the "/profile" page does not contain the info and data about the user
+	 */
+	@Test
+	public void testUserProfileAdminAccess() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						User.createSaveUser("necko", "password",
+								"necko@test.com");
+						User u = User.find(2);
+						u.verified = true;
+						u.save();
+						// LogIn
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("admin");
+						browser.fill("#password").with("admin");
+						browser.submit("#nameForm");
+
+						// Going to the profile page; (checking for data of the
+						// user, some Strings, should not be there);
+						browser.goTo("http://localhost:3333/profile");
+						assertThat(browser.pageSource()).doesNotContain("necko");
+						assertThat(browser.pageSource()).doesNotContain("necko@test.com");
+						assertThat(browser.pageSource()).contains("Izmijeni");
+					}
+				});
+	}
 
 	/**
 	 * This current test is for the following : 1. Going on to the page
