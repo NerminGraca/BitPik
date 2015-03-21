@@ -97,7 +97,6 @@ public class ProductController extends Controller {
 		User u = User.finder(usernameSes);
 		Product p = Product.create(name, desc, price, u, mc, sc, availability, productImagePath);
 		Logger.of("product").info("User "+ usernameSes +" added a new product '" + p.name + "'");
-
 		return redirect("/addPictureProduct/" + p.id);
 	}
 
@@ -218,6 +217,7 @@ public class ProductController extends Controller {
 	 */
 	
 	public static Result saveFile(int id){
+	
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session("username");
 		
@@ -266,8 +266,23 @@ public class ProductController extends Controller {
 			Logger.of("product").error( usernameSes + " failed to upload an image to the product " +p.name);
 			e.printStackTrace();
 		}
+		flash("successAddProduct", Messages.get("Uspjesno ste objavili oglas"));
 		return redirect("/showProduct/"+p.id);
 	}
 	
-	
+	/**
+	 * If the user does not want to upload a picture.
+	 * If we wants to publish the product with no picture.
+	 * @param id
+	 * @return Result redirect("/showProduct/"+p.id);
+	 */
+	public static Result saveNoFile(int id){
+			User u = SessionHelper.getCurrentUser(ctx());
+			usernameSes = session("username");
+			Product p = findProduct.byId(id);
+			p.productImagePath = null;
+			p.save();
+			flash("successAddProduct", Messages.get("Uspjesno ste objavili oglas"));
+			return redirect("/showProduct/"+p.id);
+	}
 }
