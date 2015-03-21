@@ -15,7 +15,7 @@ public class MainCategoryModelTest extends WithApplication {
 	public void SetUp() {
 		fakeApplication(inMemoryDatabase());
 	}
-	/*
+	
 	@Test
 	public void testCreateMainCategory() {
 		MainCategory.createMainCategory("Vozila");
@@ -31,10 +31,19 @@ public class MainCategoryModelTest extends WithApplication {
 	}
 	
 	@Test
+	public void testEditMainCategory() {
+		MainCategory mc = MainCategory.findMainCategory(1);
+		assertNotNull(mc);
+		assertEquals(mc.name, "Vozila");
+		mc.setName("Vozilice");
+		assertEquals(mc.name, "Vozilice");
+	}
+	
+	@Test
 	public void testDeleteMainCategory() {
 		MainCategory.delete(1);
 		MainCategory mc = MainCategory.findMainCategory(1);
 		assertNull(mc);
 	}
-	*/
+	
 }

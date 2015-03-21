@@ -14,7 +14,7 @@ public class ApplicationTest {
 	public void setUp() {
 		fakeApplication(inMemoryDatabase());
 	}	
-    /*
+    
     @Test
 	public void test() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -83,5 +83,4 @@ public class ApplicationTest {
 					}
 				});
 	}
-	*/
 }

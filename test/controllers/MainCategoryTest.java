@@ -11,8 +11,8 @@ import play.libs.F.*;
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
-public class MainCategoryTest {
-	/*
+public class MainCategoryTest extends WithApplication {
+	
 	@Test
 	public void testMainCategories() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -31,7 +31,7 @@ public class MainCategoryTest {
 					public void invoke(TestBrowser browser) {
 						User owner = User.finder("admin");
 						MainCategory mc = MainCategory.findMainCategory(1);
-						Product.create("Auto", "New", 5000, owner, mc, null, "Svugdje", null);
+						Product.create("Auto", "New", 5000, owner, mc, mc.subCategories.get(1), "Svugdje", null);
 						browser.goTo("http://localhost:3333/kategorija/1");
 						assertThat(browser.pageSource()).contains("Vozila");
 						assertThat(browser.pageSource()).contains("Auto");
@@ -171,8 +171,8 @@ public class MainCategoryTest {
 						
 					}
 		});
-}
-	
+	}
+	/*
 	@Test
 	public void testDeleteMainCategory() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -184,11 +184,10 @@ public class MainCategoryTest {
 						browser.submit("#nameForm");
 						
 						browser.goTo("http://localhost:3333/listaKategorija");
-						assertThat(browser.pageSource()).contains("Nekretnine");
-						MainCategory.delete(2);
-						assertThat(browser.pageSource()).contains("Nekretnine");
+						assertThat(browser.pageSource()).contains("Vozila");
+						browser.submit("Izbrisi");
+						assertThat(browser.pageSource()).doesNotContain("Vozila");
 					}
 		});
-	}
-*/
+	}*/
 }

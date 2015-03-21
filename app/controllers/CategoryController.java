@@ -43,6 +43,7 @@ public class CategoryController extends Controller {
 		return ok(listaKategorija.render(mainCategoryList));
 	}
 	
+	@Security.Authenticated(AdminFilter.class)
 	public static Result subCategories(int id) {
 		MainCategory mc = MainCategory.findMainCategory(id);
 		return ok(listaPodKategorija.render(mc));

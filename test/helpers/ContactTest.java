@@ -15,7 +15,7 @@ public class ContactTest extends WithApplication {
 	public void setUp() {
 		fakeApplication(inMemoryDatabase());
 	}
-/*
+
 	@Test
 	public void validateContact() {
 		Contact testContact = new Contact("test@gmail.com", "message");
@@ -23,5 +23,5 @@ public class ContactTest extends WithApplication {
 		assertNotNull(testContact.message);
 		assertEquals(testContact.email.contains("@"), true);
 	}
-*/
+
 }

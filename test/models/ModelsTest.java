@@ -137,15 +137,6 @@ public class ModelsTest extends WithApplication {
 		UserController.changePassword(u.id);
 		assertEquals(u.password, "johndoe");
 	}
-	
-
-	public void testDeleteFaq(){
-		FAQ.create("pitanje", "odgovor");
-		FAQ f = FAQ.finder(6);
-		assertNotNull(f);
-		FAQController.deleteFaq(6);
-		assertNull(f);
-	}
 	*/
 
 }
