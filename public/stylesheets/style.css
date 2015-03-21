@@ -93,12 +93,13 @@ body {
 
 .validateAndLogout{
 	font-family: 'Open Sans', sans-serif;
-    color: #B81D22;
+	background-color :#B81D22;
+    color: #FFFFFF;
 	font-size: 20px;
 	font-style: bold;
 	text-align: center;
-	padding: 5px;
 	margin-top: 5px;
+	box-sizing: border-box;
 	
 }
 

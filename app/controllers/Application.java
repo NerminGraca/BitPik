@@ -90,7 +90,7 @@ public class Application extends Controller {
 	public static Result logout() {
 		Logger.of("login").info("User "+ session("username") +" loged out");
 		session().clear();
-		flash("logout", Messages.get("Odjavili ste se. "));
+		flash("logout", Messages.get("Odjavili ste se."));
 		return redirect(routes.Application.index());
 	}
 
@@ -139,12 +139,17 @@ public class Application extends Controller {
 							Contact newMessage = submit.get();
 							String email = newMessage.email;
 							String message = newMessage.message;
-							flash("success2", Messages.get("Message sent"));
+							// BE-Security -if the message is not entered; 
+							if (message.equals("")) {
+								flash("fail", Messages.get("Molim vas popunite dio za poruku"));
+								return redirect("/contact");
+							}
+							flash("success", Messages.get("Poruka je poslana"));
 							MailHelper.sendContactMessage(email, message);
 							Logger.of("user").info("Sending email with ContactForm successfull ["+ email +"]");
 							return redirect("/contact");
 						} else {
-							flash("error", "There has been a problem");
+							flash("error", "Desila se greska pri slanju poruke");
 							Logger.of("user").info("Error sending email with ContactForm");
 							return ok(contact.render(submit));
 						}

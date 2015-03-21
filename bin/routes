@@ -23,6 +23,7 @@ GET		/editUser/:id					controllers.UserController.editUser(id: Integer)
 GET 	/changePassword/:id				controllers.UserController.changePassword(id: Integer)
 POST	/changeAdmin/:id				controllers.UserController.changeAdmin(id: Int)
 GET		/adminPanel						controllers.UserController.adminPanel()
+POST   	/fileupload          			controllers.UserController.saveFile()
 
 GET		/editFaq/:id					controllers.FAQController.editFaq(id: Integer)
 POST	/editFaq/:id/change				controllers.FAQController.saveEditedFaq(id: Integer)
@@ -37,6 +38,9 @@ GET		/editProduct/:id				controllers.ProductController.editProduct(id: Integer)
 POST	/editProduct/:id/change			controllers.ProductController.saveEditedProduct(id: Integer)
 POST	/createProduct					controllers.ProductController.createProduct()
 POST    /products/:id/delete       		controllers.ProductController.deleteProduct(id: Integer)
+GET   	/addPictureProduct/:id         	controllers.ProductController.productPicture(id: Integer)
+POST   	/addPictureProduct/:id          controllers.ProductController.saveFile(id: Integer)
+GET   	/addNoPictureProduct/:id        controllers.ProductController.saveNoFile(id: Integer)
 
 GET		/kategorija/:id					controllers.CategoryController.categories(id: Integer)
 GET		/listaKategorija 				controllers.CategoryController.allCategory()
@@ -51,9 +55,8 @@ POST	/editSubCategory/:id/change		controllers.CategoryController.saveEditSubCate
 POST	/addSubCategory/:id				controllers.CategoryController.addSubCategory(id: Integer)
 
 
-POST   	/fileupload          			controllers.UserController.saveFile()
-GET   	/addPictureProduct/:id         	controllers.ProductController.productPicture(id: Integer)
-POST   	/addPictureProduct/:id          controllers.ProductController.saveFile(id: Integer)
+
+
 
 
 # Map static resources from the /public folder to the /assets URL path
