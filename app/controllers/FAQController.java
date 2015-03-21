@@ -1,5 +1,7 @@
 package controllers;
 
+import helpers.SessionHelper;
+
 import java.util.List;
 
 import models.*;
@@ -7,7 +9,6 @@ import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.*;
 import play.*;
 import views.html.*;
 

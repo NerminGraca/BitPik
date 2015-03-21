@@ -2,15 +2,16 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import com.google.common.io.Files;
 
+import helpers.CurrentUserFilter;
 import helpers.AdminFilter;
 import helpers.HashHelper;
 import helpers.MailHelper;
+import helpers.SessionHelper;
 import models.*;
 import play.i18n.Messages;
 import play.*;
@@ -43,12 +44,14 @@ public class UserController extends Controller {
 		String password = newUser.bindFromRequest().get().password;
 		String confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
 		String email = newUser.bindFromRequest().get().email;
+		
 		// Unique 'username' verification
 		if (User.finder(username) != null) {
 			Logger.of("user").error("User tried to register with "+ username +" which already exist");
 			return ok(registration.render(
 					"Korisnicko ime je zauzeto, molimo Vas izaberite drugo!", ""));
 		}
+		
 		// Unique 'email' verification
 		if (User.emailFinder(email)) {
 			Logger.of("user").error("User tried to register with "+ email +" which already exist");
@@ -66,7 +69,7 @@ public class UserController extends Controller {
 
 		User.createSaveUser(username, password, email);
 		Logger.of("user").info("Added a new user "+ username +" (email not verified)");
-		// automatically puts the 'username' created into the session variable;
+		
 		return redirect(routes.Application.index());
 
 	}
@@ -87,6 +90,7 @@ public class UserController extends Controller {
 		String username = newUser.bindFromRequest().get().username;
 		String password = newUser.bindFromRequest().get().password;
 		User u = User.finder(username);
+		
 		//if not found or not verified email, after login;
 		if (u == null || u.verified==false) {
 			Logger.of("login").error("Login Try - User does not exist, or email not verified yet");
@@ -109,15 +113,14 @@ public class UserController extends Controller {
 	}
 
 	/**
-	 * For the profiles products - that the current logged in user that has published;
-	 * The query search for all the products are published by the user logged in;
-	 * And renders the profile.html page;
-	 * @return renders the profile.html page with the list of products mentioned;
-	 */
+	* For the profiles products - that the current logged in user that has published;
+	* The query search for all the products are published by the user logged in;
+	* And renders the profile.html page;
+	* @return renders the profile.html page with the list of products mentioned;
+	*/
 	public static Result findProfileProducts(){
 		usernameSes = session(SESSION_USERNAME);
 		if (usernameSes == null) {
-			usernameSes = "";
 			Logger.of("user").warn("Not registered User tried access the profile page");
 			return redirect(routes.Application.index());
 		}
@@ -127,36 +130,29 @@ public class UserController extends Controller {
 	}	
 	
 	/**
-	 * Method list all users registered in database
-	 * @return
-	 */
-	 @Security.Authenticated(AdminFilter.class)
-	    public static Result allUsers() {
-	   	 usernameSes = session(SESSION_USERNAME);
+	* Method list all users registered in database
+	* @return
+	*/
+	@Security.Authenticated(AdminFilter.class)
+	public static Result allUsers() {
 	   	 List<User> userList = findUser.all();
-	   	 return ok(korisnici.render(usernameSes, userList));
-	    }
+	   	 return ok(korisnici.render(userList));
+	}
 	 
 	/**
-	 * Method shows profile view of single user
-	 * @param id
-	 * @return
-	 */
-	  public static Result singleUser(int id) {
-		  User currentUser = SessionHelper.getCurrentUser(ctx());
-		  User u = findUser.byId(id);
-		  List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
-		  if(u==null){
-			  return redirect(routes.Application.index());
-			  }
-		  if(currentUser==null){
-			  return redirect(routes.Application.index());
-			  }
-		  if(u.getUsername().equals(currentUser.getUsername())){
-			  return ok(korisnik.render(currentUser, u, l));}		  
-		  else {
-			  return redirect(routes.Application.index());
-		  }
+	* Method shows profile view of single user
+	* @param id
+	* @return
+	*/
+	@Security.Authenticated(CurrentUserFilter.class)
+	public static Result singleUser(int id) {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		User u = findUser.byId(id);
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
+		if(currentUser==null){
+			return redirect(routes.Application.index());
+		}
+		return ok(korisnik.render(currentUser, u, l));	  
 	}
 	
 	/**
@@ -188,7 +184,7 @@ public class UserController extends Controller {
 			Logger.of("user").info("User updated");
 			return ok(editUser.render(usernameSes, userById));
 		} else 
-			if ((userbyName.getUsername()!=userById.getUsername())) {
+			if ((userbyName.username != userById.username)) {
 				Logger.of("user").warn("User "+ usernameSes +" tried to edit/update another user");
 				return redirect(routes.Application.index());
 			}

@@ -31,22 +31,20 @@ img{max-width:100%;
 /*end reset*/
 
 /* Our CSS */
-img imgs{
-	
-}
+
 h6 {
 	color: #FF0000;
 }
-
 
 /* Template CSS */
 @font-face {
     font-family: 'ambleregular';
     src:url(../font/Amble-Regular-webfont.ttf) format('truetype');
 }
+
 body {
 	font-family: 'Sintony', sans-serif;
-        font-size: 15px;
+	font-size: 15px;
 }
 
 .addImage{
@@ -79,16 +77,13 @@ body {
     margin-right: 10px;
     
     font-size: 1em;
-  padding: 10px 15px;
-  background: #CD1F25;
-  color: #424768;
-  border: none;
-  text-decoration: none;
+	padding: 10px 15px;
+	background: #CD1F25;
+	color: #424768;
+	border: none;
+	text-decoration: none;
 	
 }
-
-
-
 
 .sectiongroup2{
 	display: inline-block;
@@ -107,8 +102,6 @@ body {
 	
 }
 
-
-
 .addCategoryFill{
 	display: block;
 	width: 99%;
@@ -122,7 +115,6 @@ body {
 	height: 20px;
 	
 }
-
 
 #productsOnProfile{
 	display: inline-block;
@@ -159,7 +151,7 @@ body {
 	margin-left:10px; 
 }
 
-/* this is fot editProfile red and blue text*/
+/* this is for editProfile red and blue text*/
 
 #redText{
 	color: #B81D22;
@@ -175,7 +167,7 @@ body {
 	
 }
 
-/* this is button on profile.html for edditing profile*/
+/* this is button on profile.html for editing profile*/
 .btn{
 	display: inline-block;
 	float: left;
@@ -196,6 +188,29 @@ body {
     -webkit-appearance: button;
     overflow: visible;
     color: #52478d;
+    margin-right: 10px;
+}
+
+.btnRed {
+	display: inline-block;
+	float: left;
+  	width: 27%;
+  	padding: 10px 16px;
+  	font-size: 18px;
+ 	line-height: 1.3333333;
+  	border-radius: 6px;
+  	background-color: #F00;
+  	border-color: #B81D24;
+    font-weight: 400;
+    text-align: center;
+  	white-space: nowrap;
+  	vertical-align: middle;
+  	touch-action: manipulation;
+  	cursor: pointer;
+    border: 1px solid transparent;
+    -webkit-appearance: button;
+    overflow: visible;
+    color: #FFF;
     margin-right: 10px;
 }
 
@@ -222,7 +237,6 @@ body {
     margin-right: 10px;
 	
 }
-
 
 #whiteText{
 	color: white;
@@ -1443,8 +1457,9 @@ max-height: 150px;
 	line-height: 1.8em;
 }
 /* FAQ  ============================================================================= */
-.ui-accordion .bar{ cursor:pointer;
-      margin:15px 0;
+.ui-accordion .bar { 
+	cursor:pointer;
+	margin:15px 0;
  }
 #posts .tab .post-title{
 	color:#B81D22;

@@ -84,8 +84,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * @author Sanela Grcic & Nermin Graca Method Logout - clears current
-	 *         session and redirects to index.html
+	 * Method Logout - clears current session and redirects to index.html
 	 * @return redirect to index.html
 	 */
 	public static Result logout() {
@@ -95,11 +94,11 @@ public class Application extends Controller {
 		return redirect(routes.Application.index());
 	}
 
-/**
-	 * Renders(gets) the contact.html page;
-	 * 
-	 * @return
-	 */
+	/**
+	* Renders(gets) the contact.html page;
+	* 
+	* @return
+	*/
 	public static Result contact() {
 		return ok(contact.render(new Form<Contact>(Contact.class)));
 	}
@@ -151,7 +150,7 @@ public class Application extends Controller {
 						}
 					}
 				});
-		// return the promisse
+		// return the promise
 		return holder;
 	}
 

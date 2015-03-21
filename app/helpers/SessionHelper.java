@@ -1,4 +1,4 @@
-package controllers;
+package helpers;
 
 import play.mvc.Http.Context;
 import play.mvc.Result;
@@ -17,18 +17,7 @@ public class SessionHelper extends Security.Authenticator {
 	
 	@Override
 	public Result onUnauthorized(Context ctx){
-		return redirect(routes.Application.index());
-	}
-	
-	public static boolean isAdminCheck(Context ctx) {
-
-		if(getCurrentUser(ctx) == null)
-			return false;
-		if(getCurrentUser(ctx).isAdmin==true)
-			return true;
-		else
-			return false;
-	}
-	
+		return redirect("/");
+	}	
 
 }

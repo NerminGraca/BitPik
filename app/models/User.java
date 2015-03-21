@@ -104,30 +104,7 @@ public class User extends Model {
 
 	}
 	
-	
-	public User(String username, String password, String email, String imagePath) {
-		this.username = username;
-		this.password = HashHelper.createPassword(password);
-		this.email = email;
-		isAdmin = false;		
-		createdDate = getDate();
-		this.verified = false;
-		this.confirmation = UUID.randomUUID().toString();
-		this.emailVerified = false;
-		this.emailConfirmation = UUID.randomUUID().toString();
-		this.imagePath = imagePath;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
-	 * @author Graca Nermin
 	 * Method creates simple date as string which will be represented on users profile
 	 * It will be set once the profile has been created
 	 * @return String of current date
@@ -220,10 +197,6 @@ public class User extends Model {
 	 */
 	public static void delete(int id) {
 		findInt.ref(id).delete();
-	}
-	
-	public String getUsername(){
-		return this.username;
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package controllers;
 
+import helpers.SessionHelper;
+
 import java.util.List;
 import java.util.Iterator;
 import java.io.File;
@@ -126,7 +128,7 @@ public class ProductController extends Controller {
 	   				 return redirect("/");
 	   			 }
 	   			 
-	   			 if(!currentUser.getUsername().equals(p.owner.getUsername())) {
+	   			 if(!currentUser.username.equals(p.owner.username)) {
 	   				Logger.of("product").warn(usernameSes + " tried to update an anothers user's product");
 	   				return redirect(routes.Application.index());
 	   			 }
