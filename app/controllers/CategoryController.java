@@ -8,6 +8,7 @@ import models.*;
 import play.Logger;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
+import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
 
@@ -89,6 +90,7 @@ public class CategoryController extends Controller {
 		try {
 			name = newMainCategory.bindFromRequest().get().name;
 		} catch(IllegalStateException e) {
+			flash("change_maincat_null_field", Messages.get("Molim Vas popunite polje u formi."));
 			return ok(editMainCategory.render(mc));
 		}
 		
@@ -106,6 +108,7 @@ public class CategoryController extends Controller {
 			mc.save();
 			Logger.of("category").info("Admin updated category " +oldname+" to " + name);
 			oldname = null;
+			flash("change_maincat_success", Messages.get("Uspjesno promijenjen naziv kategorije."));
 			return redirect(routes.CategoryController.allCategory());
 		}		
 	}
@@ -122,6 +125,7 @@ public class CategoryController extends Controller {
 		try {
 			name = newSubCategory.bindFromRequest().get().name;
 		} catch(IllegalStateException e) {
+			flash("change_sub_null_field", Messages.get("Molim Vas popunite polje u formi."));
 			return ok(editSubCategory.render(sc));
 		}
 		
@@ -138,6 +142,7 @@ public class CategoryController extends Controller {
 			sc.save();
 			Logger.of("category").info("Admin updated subcategory "+oldname+" to " + sc.name);
 			oldname = null;
+			flash("change_sub_success", Messages.get("Uspjesno promijenjen naziv podkategorije."));
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}
 	}
@@ -198,6 +203,7 @@ public class CategoryController extends Controller {
 		try {
 			name = newMainCategory.bindFromRequest().get().name;
 		} catch(IllegalStateException e) {
+			flash("add_maincat_null_field", Messages.get("Molim Vas popunite polje u formi."));
 			return redirect(routes.CategoryController.allCategory());
 		}
 
@@ -208,6 +214,7 @@ public class CategoryController extends Controller {
 		} else {
 			MainCategory.createMainCategory(name);
 			Logger.of("category").info("Admin added main category " + name);
+			flash("add_maincat_success", Messages.get("Uspjesno ste dodali novu kategoriju."));
 			return redirect(routes.CategoryController.allCategory());
 		}			
 	}
@@ -224,6 +231,7 @@ public class CategoryController extends Controller {
 		try {
 			name = newSubCategory.bindFromRequest().get().name;
 		} catch(IllegalStateException e) {
+			flash("add_sub_null_field", Messages.get("Molim Vas popunite polje u formi."));
 			return ok(listaPodKategorija.render(mc));
 		}
 		name = name.toLowerCase();
@@ -234,6 +242,7 @@ public class CategoryController extends Controller {
 		} else {
 			SubCategory.createSubCategory(name, mc);
 			Logger.of("category").info("Admin added subcategory " + name);
+			flash("add_sub_success", Messages.get("Uspjesno ste dodali novu podkategoriju."));
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}			
 	}

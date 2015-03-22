@@ -4,7 +4,14 @@
 
 @main("Lista Kategorija", "") {
 
-	<div class="wrap">		     
+	<div class="wrap">		 
+		<div class="validateAndLogout">
+			@flash.get("change_maincat_success")
+			@flash.get("add_maincat_success")
+			@flash.get("add_maincat_null_field")
+			
+			
+ 		</div>    
 		<div class="header_slide">			 
 			<div class="leftBoxCategory">
 				<div class="categories">

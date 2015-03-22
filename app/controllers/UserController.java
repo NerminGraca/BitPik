@@ -52,6 +52,7 @@ public class UserController extends Controller {
 			confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
 			email = newUser.bindFromRequest().get().email;
 		} catch(IllegalStateException e) {
+			flash("add_user_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 			return redirect(routes.Application.registration());
 		}
 
@@ -83,10 +84,8 @@ public class UserController extends Controller {
 		}
 		
 		flash("validate", Messages.get("Primili ste email validaciju."));
-
 		User.createSaveUser(username, password, email);
 		Logger.of("user").info("Added a new user "+ username +" (email not verified)");
-		
 		return redirect(routes.Application.index());
 
 	}
@@ -111,6 +110,7 @@ public class UserController extends Controller {
 			username = newUser.bindFromRequest().get().username;
 			password = newUser.bindFromRequest().get().password;
 		} catch(IllegalStateException e) {
+			flash("login_null_field", Messages.get("Molim Vas popunite sva polja u formi"));
 			return redirect(routes.Application.login());
 		}
 				
@@ -134,6 +134,7 @@ public class UserController extends Controller {
 			// "username";
 			session(SESSION_USERNAME, username);
 			Logger.of("login").info("User " + username + " logged in");
+			flash("login_success", Messages.get("Dobrodosli "+ u.username));
 			return redirect(routes.Application.index());
 		} else {
 			Logger.of("login").error("User " + username + " tried to login with incorrect password");
@@ -192,6 +193,7 @@ public class UserController extends Controller {
 	public static Result deleteUser(int id) {
 		  User.delete(id);
 		  Logger.of("user").info("Admin deleted a User");
+		  flash("delete_user_success",  Messages.get("Uspjesno ste izbrisali Usera"));
 		  return redirect(routes.UserController.allUsers());
 	}
 		
@@ -233,6 +235,7 @@ public class UserController extends Controller {
 			username = newUser.bindFromRequest().get().username;
 			email = newUser.bindFromRequest().get().email;
 		} catch(IllegalStateException e) {
+			flash("edit_user_null_field", Messages.get("Molim Vas popunite sva polja u formi"));
 			return ok(editUser.render(user, currentUser));
 		}
 		
@@ -240,6 +243,7 @@ public class UserController extends Controller {
 		
 		if (oldEmail.equals(email)) {
 			user.setEmail(email);
+			flash("edit_user_success", Messages.get("Uspjesno ste izmijenili profil"));
 		} else {
 			user.setEmail(email);
 			user.emailVerified = false;
@@ -251,7 +255,6 @@ public class UserController extends Controller {
 		user.save();
 		Logger.of("user").info("User with "+ oldEmail +" updated. NEW : ["+ user.username +", "+ user.email +"]");
 		session(SESSION_USERNAME, user.username);
-		
 		return redirect("/profile" );
 	}
 	
@@ -314,18 +317,21 @@ public class UserController extends Controller {
 			password = newUser.bindFromRequest().get().password;
 			confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
 		} catch(IllegalStateException e) {
-			return ok(changePassword.render("Polje prazno", u));
+			flash("chng_pass_null_field", Messages.get("Molimo Vas da popunite sva polja u formi."));
+			return ok(changePassword.render(u));
 		}
 		
 		if (!password.equals(confirmPassword))
 		{
 			Logger.of("user").error(u.username + " tried to change password - Password not confirmed correctly");
-			return ok(changePassword.render("Niste dobro potvrdili lozinku!", u));
+			flash("chng_pass_not_confirmed", Messages.get("Niste dobro potvrdili sifru."));
+			return ok(changePassword.render(u));
 		}
 		password = HashHelper.createPassword(password);
 		u.setPassword(password);
 		u.save();
 		Logger.of("user").info("User "+ u.username + " changed their password successfully");
+		flash("chng_pass_success", Messages.get("Uspjesno ste zamijenili vasu sifru."));
 		return redirect("/korisnik/" + id);
 	}
 	
@@ -409,6 +415,7 @@ public class UserController extends Controller {
 			Logger.of("user").error( usernameSes + " failed to upload an image to his profile page.");
 			e.printStackTrace();
 		}
+		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
 		return redirect("/profile");
 	}
 	

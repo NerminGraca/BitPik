@@ -8,6 +8,7 @@ import models.*;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
+import play.i18n.Messages;
 import play.mvc.Result;
 import play.*;
 import views.html.*;
@@ -37,12 +38,14 @@ public class FAQController extends Controller{
 			question = newFaq.bindFromRequest().get().question;
 			answer = newFaq.bindFromRequest().get().answer;
 		} catch(IllegalStateException e) {
+			flash("add_faq_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 			return redirect(routes.FAQController.allFaqs());
 		}
 		
 		FAQ faq = FAQ.create(question, answer);
 		Logger.of("faq").info("Admin added a new FAQ");
 		List <FAQ> faqList = findFaq.all();
+		flash("add_faq_success", Messages.get("Uspjesno ste dodali novi FAQ."));
 		return ok(faqs.render(usernameSes, faqList, currentUser));	
 	}
 	
@@ -106,6 +109,7 @@ public class FAQController extends Controller{
 			question = newFaq.bindFromRequest().get().question;
 			answer = newFaq.bindFromRequest().get().answer;
 		} catch(IllegalStateException e) {
+			flash("edit_faq__null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 			return ok(editFaq.render(usernameSes, faq, currentUser));
 		}
 		
@@ -113,6 +117,7 @@ public class FAQController extends Controller{
 		faq.setAnswer(answer);
 		faq.save();
 		Logger.of("faq").info("Admin user updated a FAQ");
+		flash("edit_faq_success", Messages.get("Uspjesno ste izmijenili FAQ."));
 		return redirect(routes.FAQController.allFaqs());
 	}
 	
@@ -137,6 +142,7 @@ public class FAQController extends Controller{
 		}
 		FAQ.delete(id);
 		Logger.of("faq").info("Admin deleted a FAQ");
+		flash("delete_faq_success",  Messages.get("Uspjesno ste izbrisali FAQ"));
 		return redirect(routes.FAQController.allFaqs());
 	}
 }
