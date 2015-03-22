@@ -1,15 +1,19 @@
-@(usernameSes: String)(mainCategoryList: List[MainCategory])
+@(mainCategoryList: List[MainCategory])
 @import helper._
 
 @main("addProduct", "") {
 		
 <div class="wrap">
+	<div class="validateAndLogout">
+		@flash.get("add_product_null_field")
+	</div>
+
 	<div class="main">
 		<div class="content">
     		<div class="section group">
 				<div class="col span_2_of_3">
 					<div class="contact-form">
-				  		<h1 class="redHeader">Dodaj proizvod:</h1><br>
+				  		<h1 class="redHeader">KORAK 1 : Dodaj proizvod:</h1><br>
 							
 							<!--	NAŠ HELPER 
 									MINIMUM of three characters is here!! 
@@ -54,6 +58,8 @@
 							      			height: 400px;
 							      			}
 						 			</style>
+						 			
+						 			
 			
 									<div class="demo">
 										<form action="#">
@@ -62,11 +68,73 @@
 	    										<select name="categoryString" id="categoryString">
 		    										@if(mainCategoryList.size() > 0 ) {
 						  								@for(mainCategory <- mainCategoryList) {
-						  									<option>@mainCategory.name</option>
+						  									<option value="@mainCategory.name">@mainCategory.name</option>
 						  								}		
 						  							}
 						  						</select>
  											</fieldset>
+ 											
+ 											@if(mainCategoryList.size() > 0) {
+ 												@for(mainCategory <- mainCategoryList) {
+ 													@if(mainCategory.subCategories.size > 0) {
+ 														<div id="@mainCategory.name" class="fieldsetToHide">
+ 															<fieldset>
+						  										<label id="editProfileText" for="subcategory">Podkategorija:</label>
+						  										<select name="inactive" id="inactive">
+						  											@for(subCategory <- mainCategory.subCategories) {
+ 																		<option value="@subCategory.name">@subCategory.name</option>
+						  											}
+						  										</select>
+						  							
+						  									</fieldset>
+						  								</div>
+ 														
+ 														
+ 													}
+						  							
+						  						}
+ 											}
+ 											
+ 											<script language="JavaScript">
+
+												var e = document.getElementById("categoryString");
+												function showHideCategoryFields() {
+													var selected = e.value;
+
+													var hiddenDivs = document.querySelectorAll('.fieldsetToHide');
+
+													for (var i = 0; i < hiddenDivs.length; i++) {
+														hiddenDivs[i].style.display = 'none';
+													}
+
+													var actives = document.querySelectorAll("#subCategoryString");
+
+													for (var i = 0; i < actives.length; i++) {
+														actives[i].id = "inactive";
+														actives[i].name = "inactive";
+													}
+
+
+													var shown = document.getElementById(selected);
+													shown.style.display = 'block';
+											
+													var children = shown.childNodes;
+													var node = children[1];
+													var children2 = node.childNodes;
+													var selectNode = children2[3];
+													
+													selectNode.id = "subCategoryString";
+													selectNode.name = "subCategoryString";
+													
+													
+														
+												};
+												
+												e.onchange = showHideCategoryFields;
+												
+												showHideCategoryFields();
+		
+						 					</script>
 	
 											<fieldset>
 			   									<label id="editProfileText" for="availability">Dostupnost:</label>

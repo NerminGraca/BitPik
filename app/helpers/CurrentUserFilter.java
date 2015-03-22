@@ -4,12 +4,6 @@ import models.User;
 import play.mvc.Result;
 import play.mvc.Security;
 import play.mvc.Http.Context;
-/**
- * We use this class as a controller action filter
- * to ensure that only a logged in user can perform certain actions
- * @author benjamin
- *
- */
 
 public class CurrentUserFilter extends Security.Authenticator {
 
@@ -24,10 +18,12 @@ public class CurrentUserFilter extends Security.Authenticator {
 		return null;
 	}
 
+	/**
+	 * Redirects unauthorized users to the specified page
+	 */
 	@Override
 	public Result onUnauthorized(Context ctx) {
-		return redirect("/loginToComplete");
+		return redirect("/");
 	}
-
 
 }

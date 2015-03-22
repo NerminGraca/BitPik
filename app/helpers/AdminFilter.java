@@ -1,30 +1,33 @@
 package helpers;
 
+import controllers.routes;
 import models.User;
 import play.mvc.Result;
 import play.mvc.Http.Context;
 import play.mvc.Security;
 
 public class AdminFilter extends Security.Authenticator {
-
+	
+	/**
+	 * gets username from context object for only those users with admin rights
+	 */
 	@Override
 	public String getUsername(Context ctx) {
-		if (!ctx.session().containsKey("username"))
-			return null;
-		String username = ctx.session().get("username");
-		User u = User.finder(username);
-		if (u != null) {
-			if (u.isAdmin == true)
+		if (ctx.session().containsKey("username")) {
+			User u = User.finder(ctx.session().get("username"));
+			if (u != null && Boolean.TRUE.equals(u.isAdmin)) {
 				return u.username;
-			else
-				return null;
+			}
 		}
 		return null;
 	}
 
+	/**
+	 * Redirects unauthorized users to the specified page
+	 */
 	@Override
 	public Result onUnauthorized(Context ctx) {
-		return redirect("/");
+		return redirect(routes.Application.index());
 	}
 
 }

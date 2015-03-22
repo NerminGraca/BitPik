@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class MainCategory extends Model {
@@ -17,8 +16,18 @@ public class MainCategory extends Model {
 	@Required
 	public String name;
 	
-	@OneToMany(mappedBy="category", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="mainCategory", cascade=CascadeType.ALL)
 	public List<Product> products;
+	
+	@OneToMany(mappedBy="mainCategory", cascade=CascadeType.ALL)
+	public List<SubCategory> subCategories;
+	
+	/**
+	 * Default constructor
+	 */
+	public MainCategory() {
+		this.name = "Unknown";
+	}
 	
 	/**
 	 * @author Graca Nermin
@@ -38,8 +47,8 @@ public class MainCategory extends Model {
 	public static void createMainCategory(String name) {
 		new MainCategory(name).save();
 	}
+
 	
-	//Finder
 	public static Finder<Integer, MainCategory> find = new Finder<Integer, MainCategory>(Integer.class, MainCategory.class);
 	public static Finder<String, MainCategory> findByName = new Finder<String, MainCategory>(String.class, MainCategory.class);
 	

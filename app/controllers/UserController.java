@@ -1,42 +1,36 @@
 package controllers;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import com.google.common.io.Files;
+
+import helpers.CurrentUserFilter;
 import helpers.AdminFilter;
 import helpers.HashHelper;
 import helpers.MailHelper;
+import helpers.SessionHelper;
 import models.*;
 import play.i18n.Messages;
 import play.*;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
-import play.i18n.Messages;
 import play.mvc.*;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 import views.html.*;
 
 public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
-	static ArrayList<String> adminList = new ArrayList<String>();
 	static String usernameSes;	
+	private static final String SESSION_USERNAME = "username";
 	
-	/**
-	 * Either directs to the index.html with the session name already logged in
-	 * or directs to the index.html page with "Unknown" as username;
-	 * 
-	 * @return
-	 */
-	public static Result index() {
-		List<Product> productList = ProductController.findProduct.all();
-		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		usernameSes = session("username");
-		if (usernameSes == null) {
-			usernameSes = "";
-		} 
-		return ok(index.render( usernameSes, productList, adminList, mainCategoryList));		
-	}
-
+	//Finders
+	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
+	
 	/**
 	 * 1. Gets the username, password and email from the form from the
 	 * Registration.html page; 2. If the username or email is already in our
@@ -46,27 +40,53 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result addUser() {
-		String username = newUser.bindFromRequest().get().username;
-		String password = newUser.bindFromRequest().get().password;
-		String email = newUser.bindFromRequest().get().email;
+		
+		String username;
+		String password;
+		String confirmPassword;
+		String email;
+		
+		try {
+			username = newUser.bindFromRequest().get().username;
+			password = newUser.bindFromRequest().get().password;
+			confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
+			email = newUser.bindFromRequest().get().email;
+		} catch(IllegalStateException e) {
+			flash("add_user_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
+			return redirect(routes.Application.registration());
+		}
+
+		if (	username == null ||
+				password == null ||
+				confirmPassword == null ||
+				email == null) {
+			return redirect(routes.Application.registration());
+		}
+		
 		// Unique 'username' verification
 		if (User.finder(username) != null) {
+			Logger.of("user").error("User tried to register with "+ username +" which already exist");
 			return ok(registration.render(
 					"Korisnicko ime je zauzeto, molimo Vas izaberite drugo!", ""));
 		}
+		
 		// Unique 'email' verification
 		if (User.emailFinder(email)) {
+			Logger.of("user").error("User tried to register with "+ email +" which already exist");
 			return ok(registration.render("",
 					"Email je iskoristen, molimo Vas koristite drugi!"));
 		}
 
+		if(!password.equals(confirmPassword))
+		{
+			Logger.of("user").error("At Registration - Password not confirmed correctly");
+			return ok(registration.render("", "Niste ispravno potvrdili lozinku!"));
+		}
 		
-
 		flash("validate", Messages.get("Primili ste email validaciju."));
-
 		User.createSaveUser(username, password, email);
-		// automatically puts the 'username' created into the session variable;
-		return redirect("/");
+		Logger.of("user").info("Added a new user "+ username +" (email not verified)");
+		return redirect(routes.Application.index());
 
 	}
 
@@ -83,143 +103,87 @@ public class UserController extends Controller {
 	 */
 	public static Result findUser() {
 		String hashPass;
-		String username = newUser.bindFromRequest().get().username;
-		String password = newUser.bindFromRequest().get().password;
+		String username;
+		String password;
+		
+		try {
+			username = newUser.bindFromRequest().get().username;
+			password = newUser.bindFromRequest().get().password;
+		} catch(IllegalStateException e) {
+			flash("login_null_field", Messages.get("Molim Vas popunite sva polja u formi"));
+			return redirect(routes.Application.login());
+		}
+				
+		if (username == null || password == null) {
+			return redirect(routes.Application.login());
+		}
+		
 		User u = User.finder(username);
+		
 		//if not found or not verified email, after login;
 		if (u == null || u.verified==false) {
+			Logger.of("login").error("Login Try - User does not exist, or email not verified yet");
 			return ok(login.render("Ne postoji korisnik ili email nije verificiran", ""));
 		} else {
 			hashPass = u.password;
 		}
 		boolean userExists = HashHelper.checkPassword(password, hashPass);
 		// if verified and matching passwords;
-		if (userExists == true && u.verified==true) {
+		if (userExists && u.verified) {
 			// the username put in the session variable under the key
 			// "username";
-		session("username", username);
-			return redirect("/");
+			session(SESSION_USERNAME, username);
+			Logger.of("login").info("User " + username + " logged in");
+			flash("login_success", Messages.get("Dobrodosli "+ u.username));
+			return redirect(routes.Application.index());
 		} else {
+			Logger.of("login").error("User " + username + " tried to login with incorrect password");
 			return ok(login.render("", "Password je netacan"));
 		}
 	}
 
 	/**
-	 * For the profiles products - that the current logged in user that has published;
-	 * The query search for all the products are published by the user logged in;
-	 * And renders the profile.html page;
-	 * @return renders the profile.html page with the list of products mentioned;
-	 */
+	* For the profiles products - that the current logged in user that has published;
+	* The query search for all the products are published by the user logged in;
+	* And renders the profile.html page;
+	* @return renders the profile.html page with the list of products mentioned;
+	*/
 	public static Result findProfileProducts(){
-		User currentUser=SessionHelper.getCurrentUser(ctx());
-		usernameSes = session("username");
+		usernameSes = session(SESSION_USERNAME);
 		if (usernameSes == null) {
-			usernameSes = "";
-			return redirect("/");
+			Logger.of("user").warn("Not registered User tried access the profile page");
+			return redirect(routes.Application.index());
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
 		User u = User.finder(usernameSes);
-		return ok(profile.render(usernameSes, l, u, adminList));
-	}
-	
-	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
+		return ok(profile.render(l, u));
+	}	
 	
 	/**
-	 * 
-	 * @param username
-	 */
-	public static void insertAdmin(String username)	{
-		if(!adminList.contains(username)) {
-				adminList.add(username);
-		}
-	}
-	
-	/**
-	 * Method list all users registered in database
-	 * @return
-	 */
-	/*public static Result allUsers() {
-		List<Product> productList = ProductController.findProduct.all();
-		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		usernameSes = session("username");
-		//1. Ne logovan korisnik; - vraca ga na pocetnu stranicu;
-		if (usernameSes == null) {
-			usernameSes = "";
-			return ok(index.render(usernameSes, productList, adminList, mainCategoryList));
-		}
-		// 2. Ako je obicni korisnik tj. ako nije admin; - vraca ga na pocetnu stranicu;
-		User u = findUser.where().eq("username", usernameSes).findUnique();
-		if (u.isAdmin == false) {
-			return ok(index.render(usernameSes, productList, adminList, mainCategoryList));
-		}
-		// 3. Ako je prosao prethodne if-ove; Slucaj ako je stvarno admin, prikazuju se svi korisnici;
-		List<User> userList = findUser.all();
-		for (User user: userList)
-					{
-						if(user.isAdmin)
-						{
-							insertAdmin(user.username);
-						}
-					}
-		return ok(korisnici.render(usernameSes, userList, adminList));
-	}*/
-	 @Security.Authenticated(AdminFilter.class)
-	    public static Result allUsers() {
-	   	 List<Product> productList = ProductController.findProduct.all();
-	   	 List<MainCategory> mainCategoryList = MainCategory.find.all();
-	   	 usernameSes = session("username");
+	* Method list all users registered in database
+	* @return
+	*/
+	@Security.Authenticated(AdminFilter.class)
+	public static Result allUsers() {
 	   	 List<User> userList = findUser.all();
-	   	 for (User user: userList)
-	   				 {
-	   					 if(user.isAdmin)
-	   					 {
-	   						 insertAdmin(user.username);
-	   					 }
-	   				 }
-	   	 return ok(korisnici.render(usernameSes, userList, adminList));
-	    }
-
-	
+	   	 return ok(korisnici.render(userList));
+	}
+	 
 	/**
-	 * Method shows profile view of single user
-	 * @param id
-	 * @return
-	 */
-	  public static Result singleUser(int id) {
-		   	 usernameSes = session("username");
-		   	 User currentUser=SessionHelper.getCurrentUser(ctx());
-		   	 User u = findUser.byId(id);
-		   	 List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
-		   	if(u==null)
-		   		 return redirect ("/");
-		   	 if(currentUser==null)
-		   		 return redirect("/");
-		   	 //if(currentUser.isAdmin==true)
-		   	 //    return ok(korisnik.render(usernameSes, u, l, adminList));
-		   	 
-		   	 if(u.getUsername().equals(currentUser.getUsername()))
-		   		 return ok(korisnik.render(usernameSes, u, l, adminList));
-		   	 else
-		   		 return ok(korisnik.render(usernameSes, u, l, adminList));
-
-		    }
-
-	/*public static Result singleUser(int id) {
-		usernameSes = session("username");
+	* Method shows profile view of single user
+	* @param id
+	* @return
+	*/
+	@Security.Authenticated(CurrentUserFilter.class)
+	public static Result singleUser(int id) {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
 		User u = findUser.byId(id);
-		String username=u.username;
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
-		if ((usernameSes == null)) {
-			
-			return redirect("/");
+		if(currentUser==null){
+			return redirect(routes.Application.index());
 		}
-		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
-		
-		
-		return ok(korisnik.render(usernameSes, u, l, adminList));
-	}*/
-	
-	
+		return ok(korisnik.render(currentUser, u, l));	  
+	}
 	
 	/**
 	 * Deletes the User;
@@ -227,53 +191,30 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result deleteUser(int id) {
-		
 		  User.delete(id);
+		  Logger.of("user").info("Admin deleted a User");
+		  flash("delete_user_success",  Messages.get("Uspjesno ste izbrisali Usera"));
 		  return redirect(routes.UserController.allUsers());
 	}
-	
-	
-	
+		
+	/**
+	* Method renders the view in which given user will be edited
+	* @param id
+	* @return
+	*/
+	@Security.Authenticated(CurrentUserFilter.class)
 	public static Result editUser(int id) {
-		usernameSes = session("username");
-		if ((usernameSes == null)) {
-			usernameSes = "";
-			return redirect("/");
-		}
 
 		User userById = findUser.byId(id);
-		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
-		if(userbyName.isAdmin==true)
-			return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
-		
-		
-		else 
-			if ((userbyName.getUsername()!=userById.getUsername())) {
-				return redirect("/");
-			}
-			
-		return ok(editUser.render(usernameSes, userById, adminList, false));
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+	
+		if (userById.equals(currentUser)) {
+			return ok(editUser.render(userById, currentUser));
+		} else {
+			return redirect(routes.Application.index());	
+		}				
 	}
-	 /*public static Result editUser(int id) {
-	   	  usernameSes = session("username");
-	      	  User currentUser=SessionHelper.getCurrentUser(ctx());
-	      	  if(currentUser==null)
-	      		  return redirect("/");
-	      	  User userById = findUser.byId(id);
-	      	  User userbyName = findUser.where().eq("username", usernameSes).findUnique();
-	      	  if(currentUser.isAdmin==true)
-	      		 return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
-	      	  if(userById==null)
-	      		  return redirect("/");
-	      	  else
-	      		  if ((currentUser.getUsername().equals(userById.getUsername())))
-	       
-	      			  return redirect("/");
-	      			 
-	      	  return ok(editUser.render(usernameSes, userById, adminList, userbyName.isAdmin));
-
-	    }*/
-
+	 
 	/**
 	 * Saves the new values of the attributes that are entered 
 	 * and overwrites over the ones that were entered before;
@@ -281,23 +222,40 @@ public class UserController extends Controller {
 	 * @return redirect("/korisnik/" + id);
 	 */
 	public static Result saveEditedUser(int id) {
-		usernameSes = session("username");
-		String username = newUser.bindFromRequest().get().username;
-		String email = newUser.bindFromRequest().get().email;
-		boolean isAdmin = newUser.bindFromRequest().get().isAdmin;
-		User u = findUser.byId(id);
-		u.setUsername(username);
-		u.setEmail(email);
-		u.setAdmin(isAdmin);
-		u.save();
-		User userbyName = findUser.where().eq("username", usernameSes).findUnique();
-		if(userbyName!=null)
-		{
-			if(userbyName.isAdmin==true && userbyName.id != u.id)
-				return redirect("/korisnik/" + u.id);
-		}
-		return redirect("/logout");	
 		
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		User user = User.find(id);
+		String oldEmail = user.email;		
+		usernameSes = session(SESSION_USERNAME);
+		
+		String username;
+		String email;
+		
+		try {
+			username = newUser.bindFromRequest().get().username;
+			email = newUser.bindFromRequest().get().email;
+		} catch(IllegalStateException e) {
+			flash("edit_user_null_field", Messages.get("Molim Vas popunite sva polja u formi"));
+			return ok(editUser.render(user, currentUser));
+		}
+		
+		user.setUsername(username);
+		
+		if (oldEmail.equals(email)) {
+			user.setEmail(email);
+			flash("edit_user_success", Messages.get("Uspjesno ste izmijenili profil"));
+		} else {
+			user.setEmail(email);
+			user.emailVerified = false;
+			String confirmation = UUID.randomUUID().toString();
+			user.emailConfirmation = confirmation;
+			MailHelper.sendEmailVerification(email,"http://localhost:9000/validateEmail/" + confirmation);
+			flash("validate", Messages.get("Primili ste email validaciju."));
+		}
+		user.save();
+		Logger.of("user").info("User with "+ oldEmail +" updated. NEW : ["+ user.username +", "+ user.email +"]");
+		session(SESSION_USERNAME, user.username);
+		return redirect("/profile" );
 	}
 	
 	/**
@@ -309,17 +267,156 @@ public class UserController extends Controller {
 	 */
 	public static Result confirmEmail(String r)
 	{
+		
 		User u = UserController.findUser.where().eq("confirmation", r).findUnique();
 		if(r == null || u == null)
 		{
-			return redirect("/");
+			Logger.of("user").warn("Wrong confirmation string sent in URL to verify email");
+			return redirect(routes.Application.index());
 		}
 		u.confirmation = null;
 		u.verified = true;
+		u.emailVerified = true;
+		u.emailConfirmation = null;
+		u.save();
+		Logger.of("user").info("User " + u.username+ " verified the email");
+		session(SESSION_USERNAME, u.username);
+		return redirect(routes.Application.index());
+	}
+	
+	/**
+	 * Method is called when validated user changes it's email,
+	 * a verification mail will be sent to him which will verify
+	 * given email address
+	 * @param r
+	 * @return
+	 */
+	public static Result validateEmail(String r)
+	{
+		User u = UserController.findUser.where().eq("emailConfirmation", r).findUnique();
+		if(r == null || u == null)
+		{
+			return redirect(routes.Application.index());
+		}
+		u.emailVerified = true;
+		u.emailConfirmation = null;
 		u.save();
 
-		session("username", u.username);
-		return redirect("/");
+		flash("validate", Messages.get("Novi email verifikovan"));
+		return redirect(routes.Application.index());
+	}
+	
+	@Security.Authenticated(CurrentUserFilter.class)
+	public static Result changePassword(int id)
+	{
+		User u = findUser.byId(id);
+		String password;
+		String confirmPassword;
+		
+		try {
+			password = newUser.bindFromRequest().get().password;
+			confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
+		} catch(IllegalStateException e) {
+			flash("chng_pass_null_field", Messages.get("Molimo Vas da popunite sva polja u formi."));
+			return ok(changePassword.render(u));
+		}
+		
+		if (!password.equals(confirmPassword))
+		{
+			Logger.of("user").error(u.username + " tried to change password - Password not confirmed correctly");
+			flash("chng_pass_not_confirmed", Messages.get("Niste dobro potvrdili sifru."));
+			return ok(changePassword.render(u));
+		}
+		password = HashHelper.createPassword(password);
+		u.setPassword(password);
+		u.save();
+		Logger.of("user").info("User "+ u.username + " changed their password successfully");
+		flash("chng_pass_success", Messages.get("Uspjesno ste zamijenili vasu sifru."));
+		return redirect("/korisnik/" + id);
+	}
+	
+	/**
+	 * Method changes the administrator status of some user
+	 * by changing it to either true or false
+	 * @param id
+	 * @return
+	 */
+	public static Result changeAdmin(int id) {
+		User user = User.find(id);
+		boolean admin = newUser.bindFromRequest().get().isAdmin;
+		user.isAdmin = admin;
+		user.save();
+		Logger.of("user").info("An admin user made the User "+ user.username+" an admin");
+		return redirect("/korisnik/" + id);
+	}
+	
+	/**
+	 * If user is administrator send him to adminProfile.html
+	 * @return adminProfile.html
+	 */
+	@Security.Authenticated(AdminFilter.class)
+    public static Result adminPanel() {
+   	  	usernameSes = session(SESSION_USERNAME);
+   	  	User u = User.finder(usernameSes);
+   	 return ok(adminPanel.render(usernameSes, u));
+    }
+	
+	/**
+	 * Upload image for User profile, and show picture on user /profile.html. 
+	 * If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
+	 * If file size is bigger then 2MB, redirect user on profile without uploading image.
+	 * @return
+	 */
+	public static Result saveFile(){
+		User u = SessionHelper.getCurrentUser(ctx());
+		usernameSes = session(SESSION_USERNAME);
+		
+   	  	int userID = User.finder(usernameSes).id;
+   	  	//creating path where we are going to save image
+		final String savePath = "." + File.separator 
+				+ "public" + File.separator + "images" 
+				+ File.separator + "profilePicture" + File.separator;
+		
+		//it takes uploaded information  
+		MultipartFormData body = request().body().asMultipartFormData();
+		FilePart filePart = body.getFile("image");
+		File image = filePart.getFile();
+		//it takes extension from image that is uploaded
+		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
+		extension.trim();
+		
+		//If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
+		if(	   !extension.equalsIgnoreCase(".jpeg") 
+			&& !extension.equalsIgnoreCase(".jpg")
+			&& !extension.equalsIgnoreCase(".png") ){
+			
+			flash("error",  Messages.get("Image type not valid"));
+			Logger.of("user").warn( usernameSes + " tried to upload an image that is not valid.");
+			return redirect("/profile");
+		}
+		
+		//If file size is bigger then 2MB, redirect user on profile without uploading image.
+		double megabyteSize = (image.length() / 1024) / 1024;
+		if(megabyteSize > 2){
+			flash("error",  Messages.get("Image size not valid"));
+			Logger.of("user").warn( usernameSes + " tried to upload an image that is bigger than 2MB.");
+			return redirect("/profile");
+		}
+		
+		//creating image name from user id, and take image extension, than move image to new location
+		try {
+			File profile = new File(savePath + userID + extension);
+			Files.move(image, profile );		
+			String assetsPath = "images" 
+					+ File.separator + "profilePicture" + File.separator + profile.getName();
+			u.imagePath = assetsPath;
+			u.save();
+		} catch (IOException e) {
+			Logger.of("user").error( usernameSes + " failed to upload an image to his profile page.");
+			e.printStackTrace();
+		}
+		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
+		return redirect("/profile");
 	}
 	
 }

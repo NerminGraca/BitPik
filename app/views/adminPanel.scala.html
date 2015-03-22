@@ -1,0 +1,45 @@
+@(usernameSes: String)(u: User)
+@import helper._
+
+@main("Admin Panel", "Admin Panel") {
+		
+<div class="wrap">
+	<div class="main">
+    	<div class="content">
+    		<div class="section group">
+				
+				
+				<div class="leftBox">
+					<div><a class="profilePicture" ><img src="@routes.Assets.at(u.imagePath)" alt="" /></a></div>				
+					
+					<div class="categories">
+					  	<ul>
+					      <li><a>Ime: @u.username </a></li>
+					      <li><a>E-mail: @u.email </a></li>
+					      <li><a href="http://localhost:9000/profile">Moj profil</a></li>
+					     
+						</ul>
+					</div>					
+	  	    
+				</div>
+						
+				<div class="leftBox">
+									
+					
+					<div class="categories">
+					<h3> Admin prava</h3>
+					  	<ul>
+					      <li><a href="/korisnici">Korisnici</a></li>
+					      <li><a href="/listaKategorija">Kategorije</a></li>
+					      <li><a href="/faqs">FAQS</a><li>
+					      
+					     
+						</ul>
+					</div>					
+	  	    
+				</div>
+			</div>	
+ 		</div>
+	</div>
+</div>	
+}

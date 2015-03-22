@@ -1,0 +1,32 @@
+@(username: String)(f: FAQ)(user: User)
+@import helper._
+
+@main("FAQs", "") {
+	
+<div class="wrap">
+		<div class="validateAndLogout">
+		@flash.get("edit_faq__null_field")
+		</div>
+	 <div class="main">
+   		 <div class="content">
+    			<div class="section group">
+				
+				@helper.form(routes.FAQController.saveEditedFaq(f.id),'id->"faqForm") {
+								<h5 id="editProfileText">Pitanje:</h5>
+								<input pattern=".{3,100}" required title="Od 10 do 100 karaktera" type="text" value="@f.question" id="question" name="question" size="25" required />
+								
+								<h5 id="editProfileText">Odgovor:</h5>
+								<input pattern=".{3,250}" required title="Od 3 do 250 karaktera" type="text" value="@f.answer" id="answer" name="answer" size="65" required />
+								
+								
+				 </div>
+			 <br>
+			 <input type="submit" value="Spasi promjene" />
+			
+ 		</div>
+	 </div>
+</div>
+		}
+ 
+ }
+	

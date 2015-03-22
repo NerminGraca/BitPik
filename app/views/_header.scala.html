@@ -1,4 +1,4 @@
-@(location: String)(implicit user: User = SessionHelper.getCurrentUser(ctx()) )
+@(location: String)(implicit user: User = helpers.SessionHelper.getCurrentUser(ctx()))
 <div class="wrap">
 	<div class="header">
 		<div class="headertop_desc">
@@ -12,7 +12,10 @@
 						<li><a href="/login">Login</a></li>
 					}
 					@if(user != null && user.verified == true){
+						<!--  Da admin ne moze vidjeti Objavite oglas -->
+						@if(!user.isAdmin) {
 						<li><a href="/addProduct">Objavite oglas</a></li>
+						}
 						<li><a href="/profile">Korisnik @user.username</a></li>
 						<li><a href="/logout">Logout</a></li>
 					}
@@ -33,14 +36,11 @@
 	     	<div class="menu">
 	     		<ul>
 			    	<li class='@("active".when(location == "index"))'><a href="/">Početna</a></li>
-			    	<li><a href="#">Radnje</a></li>
-			    	<li><a href="#">Nekretnine</a></li>
-			    	<li><a href="#">Hitno</a></li>
-			    	<li><a href="#">Servisi i usluge</a></li>
+			    	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">FAQs</a></li>
+			    	<li class='@("active".when(location == "Kontakt"))'><a href="/contact">Kontakt</a></li>
 			    	@if(user != null) {
 			    		@if(user.isAdmin == true){
-				    		<li class='@("active".when(location == "korisnici"))'><a href="/korisnici">Korisnici</a></li>
-				    		<li class='@("active".when(location == "kategorije"))'><a href="/listaKategorija">Kategorije</a></li>
+				    		<li class='@("active".when(location == "Admin Panel"))'><a href="/adminPanel">Admin Panel</a></li>
 			    		}
 			    	}
 

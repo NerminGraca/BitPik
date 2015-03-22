@@ -1,10 +1,13 @@
-@(mc : MainCategory)(mainCategoryList: List[MainCategory])(adminList: List[String])
+@(mc : MainCategory)
 @import helper._
 
 
 @main("editCategory", "") {
 		
 	<div class="wrap">
+		<div class="validateAndLogout">
+  			@flash.get("change_maincat_null_field") 
+  		</div>   
 		<div class="main">
 			<div class="content">
 				<div class="section group">

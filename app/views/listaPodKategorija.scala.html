@@ -1,0 +1,59 @@
+@(mainCategory: MainCategory)
+
+@import helper._
+
+@main("Lista Podkategorija", "") {
+	
+	<div class="wrap">	
+		<div class="validateAndLogout">
+			@flash.get("change_sub_success")
+			@flash.get("add_sub_success")
+			@flash.get("add_sub_null_field")
+		</div> 	     
+		<div class="header_slide">			 
+			<div class="leftBoxCategory">
+				<div class="categories">
+					<ul id="listOfCategory">
+				  	<h3>Podkategorije kategorije @mainCategory.name</h3>
+				  		
+				  		@if(mainCategory.subCategories.size() > 0 ) {
+				  			@for(subCategory <- mainCategory.subCategories) {
+				  				<li>
+				  					<a href="#">@subCategory.name  				  							  				
+										<div class="buttonPosition">
+										@if(!subCategory.name.equals("Ostalo")){
+											@form(routes.CategoryController.deleteSubCategory(subCategory.id)) {
+                   					 		<input type="submit" value="Izbrisi" onclick="return confirm('Da li si siguran-na da zelis izbrisati ovu kategoriju?');">
+                						}
+                						</div>               			
+                						<div class="buttonPosition">  				
+				  					 	@form(routes.CategoryController.editSubCategory(subCategory.id)) {
+                   					 		<input type="submit" value="Izmijeni">
+                						}
+                						</div> 
+										}
+				  					</a>
+				  				</li>
+				  			}
+				  		}
+				  		
+					</ul>
+				</div>	
+				
+				<div class="categories">
+					<div class="addCategoryFill">
+						@helper.form(routes.CategoryController.addSubCategory(mainCategory.id), 'id->"subCsategoryForm") {
+					  			<h5 id="editProfileText">Naziv podkategorije:</h5>
+					  			<input id="addCategoryFill"  pattern="[A-Za-z\s]{3,30}" required title="Od 3 do 30 karaktera, samo slova" type="text" value="" id="name" name="name" required/>
+					  			<input class="buttonRed" type="submit" value="Dodaj podkategoriju" />
+					  		}
+				  	</div>	
+				 </div>
+				
+					
+			</div>			
+    	</div>
+	</div>
+
+
+}

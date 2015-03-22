@@ -3,7 +3,6 @@ package models;
 import helpers.HashHelper;
 import helpers.MailHelper;
 
-import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,7 +15,6 @@ import javax.persistence.*;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class User extends Model {
@@ -44,6 +42,12 @@ public class User extends Model {
 	
 	public String confirmation;
 	
+	public boolean emailVerified;
+	
+	public String emailConfirmation;
+	
+	public String imagePath;
+	
 	/**
 	 * @author Gordan Sajevic
 	 * Constructor with default values
@@ -54,7 +58,10 @@ public class User extends Model {
 		this.password = HashHelper.createPassword(password);
 		this.email = "johndoe@example.com";
 		isAdmin = false;		
-		createdDate = getDate();		
+		createdDate = getDate();
+		this.verified = false;
+		this.emailVerified = false;
+		this.imagePath = "images/profileimg.png";
 	}
 
 	/**
@@ -72,6 +79,9 @@ public class User extends Model {
 		createdDate = getDate();
 		this.verified = false;
 		this.confirmation = UUID.randomUUID().toString();
+		this.emailVerified = false;
+		this.emailConfirmation = UUID.randomUUID().toString();
+		this.imagePath = "images/profileimg.png";
 	}
 	
 	/**
@@ -87,12 +97,14 @@ public class User extends Model {
 		this.email = email;
 		this.isAdmin = isAdmin;		
 		createdDate = getDate();
-		this.verified = false;
-		this.confirmation = UUID.randomUUID().toString();
+		this.verified = true;
+		this.confirmation = null;
+		this.emailVerified = true;
+		this.imagePath = "images/profileimg.png";
+
 	}
 	
 	/**
-	 * @author Graca Nermin
 	 * Method creates simple date as string which will be represented on users profile
 	 * It will be set once the profile has been created
 	 * @return String of current date
@@ -108,12 +120,14 @@ public class User extends Model {
 	 * @param username
 	 * @param password
 	 */
-	public static void create(String username, String password, String email) {
-		new User(username, password, email).save();
+	public static User create(String username, String password, String email) {
+		User user = new User(username, password, email);
+		user.save();
+		return user;
 	}
 
 	/**
-	 * Creates a new User object and saves it into database, and returns value of it's ID variable
+	 * Creates a new User object and saves it into database
 	 * 
 	 * @param username
 	 * @param password
@@ -183,10 +197,6 @@ public class User extends Model {
 	 */
 	public static void delete(int id) {
 		findInt.ref(id).delete();
-	}
-	
-	public String getUsername(){
-		return this.username;
 	}
 	
 	/**

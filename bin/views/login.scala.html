@@ -1,19 +1,25 @@
 @(usernameMessage: String)(passwordMessage: String)
+
 @import helper._
 
 @main("Login", "") {
 	
-<div class="wrap">	
+<div class="wrap">
+	<div class="validateAndLogout">
+		@flash.get("login_null_field")
+	</div>
+
 	<div class="main">
 		<div class="content">
 			<div class="section group">
 				<div class="col span_2_of_3">
 				  <div class="contact-form">
-				  	<h1>LOGIN</h1><br>
+				  	<h1 class="redHeader">LOGIN</h1><br>
 				  	
 	<!--
 		NAŠ HELPER
 		-->
+		
 			@helper.form(routes.UserController.findUser(),'id->"nameForm") {
 					<h5>Ime:</h5>
 					<input type="text" value="" id="username" name="username" required/>
@@ -24,23 +30,13 @@
 					<h5>Password:</h5>
 					<input type="password" value="" id="password" name="password" required/>
 					<h6>@passwordMessage</h6>
-					<br><br>
-					<input type="submit" value="Login" />
-					
-					
+					<br>
+					<input type="submit" value="Login" />					
+			}		
 				  </div>
-  				</div>
-
-				<div class="col span_1_of_3">
-					<div class="contact_info">
-						
-				 </div>
-			  </div>		
+  				</div>		
 			</div> 
 		</div>
 	</div>
-</div>
-   
-	}
-	
+</div>	
 }
