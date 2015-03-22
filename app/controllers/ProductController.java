@@ -28,8 +28,7 @@ import com.google.common.io.Files;
 public class ProductController extends Controller {
 
 	static Form<Product> newProduct = new Form<Product>(Product.class);
-	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(
-			Integer.class, Product.class);
+	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
 	static String usernameSes;
 
 	/**
@@ -103,10 +102,8 @@ public class ProductController extends Controller {
 				break;
 			}
 		}
-		String productImagePath = newProduct.bindFromRequest().get().productImagePath;
-
 		User u = SessionHelper.getCurrentUser(ctx());
-		Product p = Product.create(name, desc, price, u, mc, sc, availability, productImagePath);
+		Product p = Product.create(name, desc, price, u, mc, sc, availability);
 		Logger.of("product").info("User "+ usernameSes +" added a new product '" + p.name + "'");
 		
 		return redirect("/addPictureProduct/" + p.id);
@@ -245,7 +242,6 @@ public class ProductController extends Controller {
 	
 	public static Result saveFile(int id){
 	
-		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session("username");
 		
 	   	Product p = findProduct.byId(id);
@@ -270,7 +266,7 @@ public class ProductController extends Controller {
 		
 			flash("error",  Messages.get("Image type not valid"));
 			Logger.of("product").warn( usernameSes + " tried to upload an image that is not valid.");
-			return redirect("/showProduct");
+			return redirect(routes.ProductController.addProduct());
 		}
 		
 		//If file size is bigger then 2MB, redirect user on profile without uploading image.
@@ -278,7 +274,7 @@ public class ProductController extends Controller {
 		if(megabyteSize > 2){
 			flash("error",  Messages.get("Image size not valid"));
 			Logger.of("product").warn( usernameSes + " tried to upload an image that is bigger than 2MB.");
-			return redirect("/showProduct");
+			return redirect(routes.ProductController.addProduct());
 		}
 		
 		//creating image name from user id, and take image extension, than move image to new location
@@ -304,11 +300,7 @@ public class ProductController extends Controller {
 	 * @return Result redirect("/showProduct/"+p.id);
 	 */
 	public static Result saveNoFile(int id){
-			User u = SessionHelper.getCurrentUser(ctx());
-			usernameSes = session("username");
 			Product p = findProduct.byId(id);
-			p.productImagePath = null;
-			p.save();
 			flash("successAddProduct", Messages.get("Uspjesno ste objavili oglas"));
 			return redirect("/showProduct/"+p.id);
 	}

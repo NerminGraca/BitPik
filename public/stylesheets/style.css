@@ -253,11 +253,10 @@ body {
 }
 
 .profilePicture{
-	border: 1px solid grren;
+	margin: 0 auto;
 	position: relative;
 	display: block;
-	text-align: center;
-	 	
+	text-align: center;	 	
 }
 
 .profilePicture img {

@@ -8,9 +8,11 @@
 		</div>
 		
 <div class="wrap">
+
 		<div class="validateAndLogout">
 			@flash.get("validate")
 		</div>
+		
 	<div class="main">
     	<div class="content">
     		<div class="section group">
@@ -29,19 +31,21 @@
 							<p class="blueText">Ne</p>			
 						}
 					
-					<h2 id="redText"><p>Datum registracije: </p></h2>
+					<h2 id="redText"><p>Datum registracije:</p></h2>
 					<p class="blueText">@u.createdDate</p><br>	
 		
 		
 						<form action="/editUser/@u.id">
-    					<a class="btn2" href="/editUser/@u.id" class="btn">Izmijeni profil</a>
+    						<a class="btn" href="/editUser/@u.id" class="btn">Izmijeni profil</a>
 						</form>
 		
 				
 				</div>
 				
 				<div class="leftBox">
-					<div><a class="profilePicture" ><img src="@routes.Assets.at(u.imagePath)" alt="" /></a></div>				
+					<div>
+						<img class="profilePicture" src="@routes.Assets.at(u.imagePath)" alt="" />
+					</div>				
 					
 					<div class="addImage" >
 						  		<form id="imgs"  action="@routes.UserController.saveFile()" method="post" enctype="multipart/form-data" >
@@ -54,7 +58,6 @@
 					<div class="categories">
 					  	<ul>
 					  		
-					      <li><a href="#">Moj pik</a></li>
 					      <li><a href="#">Poruke</a></li>
 					      <li><a href="#">Blokirani korisnici</a></li>
 					      <li><a href="#">Javna pitanja</a></li>

@@ -61,7 +61,7 @@ public class User extends Model {
 		createdDate = getDate();
 		this.verified = false;
 		this.emailVerified = false;
-		this.imagePath = "images/no-img.jpg";
+		this.imagePath = "images/profileimg.png";
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class User extends Model {
 		this.confirmation = UUID.randomUUID().toString();
 		this.emailVerified = false;
 		this.emailConfirmation = UUID.randomUUID().toString();
-		
+		this.imagePath = "images/profileimg.png";
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class User extends Model {
 		this.verified = true;
 		this.confirmation = null;
 		this.emailVerified = true;
-		this.imagePath = "images/no-img.jpg";
+		this.imagePath = "images/profileimg.png";
 
 	}
 	
