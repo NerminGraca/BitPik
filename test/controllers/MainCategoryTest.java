@@ -31,7 +31,7 @@ public class MainCategoryTest extends WithApplication {
 					public void invoke(TestBrowser browser) {
 						User owner = User.finder("admin");
 						MainCategory mc = MainCategory.findMainCategory(1);
-						Product.create("Auto", "New", 5000, owner, mc, mc.subCategories.get(1), "Svugdje", null);
+						Product.create("Auto", "New", 5000, owner, mc, mc.subCategories.get(1), "Svugdje");
 						browser.goTo("http://localhost:3333/kategorija/1");
 						assertThat(browser.pageSource()).contains("Vozila");
 						assertThat(browser.pageSource()).contains("Auto");

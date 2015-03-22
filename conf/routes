@@ -53,7 +53,7 @@ POST	/listaPodKategorija/:id/delete	controllers.CategoryController.deleteSubCate
 GET		/editSubCategory/:id			controllers.CategoryController.editSubCategory(id: Int)
 POST	/editSubCategory/:id/change		controllers.CategoryController.saveEditSubCategory(id: Integer)
 POST	/addSubCategory/:id				controllers.CategoryController.addSubCategory(id: Integer)
-
+GET		/podKategorija/:id				controllers.CategoryController.subCategoriesView(id: Integer)
 
 
 

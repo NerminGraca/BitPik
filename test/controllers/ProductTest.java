@@ -167,7 +167,7 @@ public class ProductTest extends WithApplication {
 
 						Product.create("original_product",
 								"original_product_description", 10.00, u, mc, null,
-								"sarajevo", null);
+								"sarajevo");
 						Product findProduct = Product.find.byId(1);
 						assertNotNull(findProduct);
 											
