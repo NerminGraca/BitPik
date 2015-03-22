@@ -89,6 +89,7 @@ public class ProductController extends Controller {
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
 			availability = newProduct.bindFromRequest().get().availability;
 		} catch(IllegalStateException e) {
+			flash("add_product_null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.addProduct());
 		}
 
@@ -108,7 +109,6 @@ public class ProductController extends Controller {
 		User u = SessionHelper.getCurrentUser(ctx());
 		Product p = Product.create(name, desc, price, u, mc, sc, availability, productImagePath);
 		Logger.of("product").info("User "+ usernameSes +" added a new product '" + p.name + "'");
-		
 		return redirect("/addPictureProduct/" + p.id);
 	}
 
@@ -176,7 +176,8 @@ public class ProductController extends Controller {
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
 			availability = newProduct.bindFromRequest().get().availability;
-		} catch(IllegalStateException e) {
+		} catch(IllegalStateException e) {		
+			flash("edit_product_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.editProduct(id));
 		}
 
@@ -206,6 +207,7 @@ public class ProductController extends Controller {
 		p.save();
 		Logger.of("product").info("User "+ usernameSes + " updated the info of product " + oldname + ", NAME : ["+p.name+"]");
 		oldname = null;
+		flash("edit_product_success", Messages.get("Uspjesno ste izmijenili oglas"));
 		return redirect("/showProduct/" + id);	
 	}
 
@@ -220,6 +222,7 @@ public class ProductController extends Controller {
 		Product.delete(id);
 		Logger.of("product").info( session("username") + " deleted the product "+toBeDeleted);
 		toBeDeleted = null;
+		flash("delete_product_success",  Messages.get("Uspjesno ste izbrisali oglas"));
 		return redirect(routes.UserController.findProfileProducts());
 	}	
 	
@@ -293,7 +296,7 @@ public class ProductController extends Controller {
 			Logger.of("product").error( usernameSes + " failed to upload an image to the product " +p.name);
 			e.printStackTrace();
 		}
-		flash("successAddProduct", Messages.get("Uspjesno ste objavili oglas"));
+		flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
 		return redirect("/showProduct/"+p.id);
 	}
 	
@@ -309,7 +312,7 @@ public class ProductController extends Controller {
 			Product p = findProduct.byId(id);
 			p.productImagePath = null;
 			p.save();
-			flash("successAddProduct", Messages.get("Uspjesno ste objavili oglas"));
+			flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
 			return redirect("/showProduct/"+p.id);
 	}
 }

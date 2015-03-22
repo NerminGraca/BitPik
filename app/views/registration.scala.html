@@ -3,14 +3,17 @@
 
 @main("Registration", "") {
 		
-	<div class="wrap">
-		
- <div class="main">
-    <div class="content">
-    	<div class="section group">
-			<div class="col span_2_of_3">
-				<div class="contact-form">
-				  	<h1 class="redHeader">Registracija</h1><br>
+<div class="wrap">
+	<div class="validateAndLogout">
+	@flash.get("add_user_null_field	")
+	</div>
+	
+	 <div class="main">
+    	<div class="content">
+    		<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="contact-form">
+				  		<h1 class="redHeader">Registracija</h1><br>
 	
 	<!-- NAŠ HELPER : MINIMUM of three characters is here!! -->
 						@helper.form(routes.UserController.addUser(),'id->"nameForm") {
@@ -29,11 +32,11 @@
 							<h6>@emailMessage</h6>
 							<br><br>
 							<input type="submit" value="Registruj" />
-				</div>
-			</div>		
-         </div> 
-    </div>
- </div>
+					</div>
+				</div>		
+         	</div> 
+    	</div>
+ 	</div>
 </div>
 	}
 }

@@ -4,10 +4,15 @@
 @main("FAQs", "FAQs") {
 	
 <div class="wrap">
-	
- <div class="main">
-    <div class="content">
-    	<div class="section group">
+	<div class="validateAndLogout">
+		@flash.get("add_faq_success")
+		@flash.get("add_faq_null_field")
+		@flash.get("edit_faq_success")
+		@flash.get("delete_faq_success")
+	</div>
+	 <div class="main">
+    	<div class="content">
+    		<div class="section group">
 				
 				<h1 class="redHeader">FAQs Pitanja & Odgovori:</h1><br>  	
 
