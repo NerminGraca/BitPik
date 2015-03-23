@@ -13,6 +13,7 @@ GET 	/contact 						controllers.Application.contact()
 POST	/adduser						controllers.UserController.addUser()
 POST	/finduser						controllers.UserController.findUser()
 GET		/profile						controllers.UserController.findProfileProducts()
+GET		/boughtproducts					controllers.UserController.find_bought_products()
 GET		/korisnici						controllers.UserController.allUsers()
 GET		/korisnik/:id					controllers.UserController.singleUser(id: Integer)
 POST    /korisnik/:id/delete       		controllers.UserController.deleteUser(id: Integer)
@@ -24,6 +25,7 @@ GET 	/changePassword/:id				controllers.UserController.changePassword(id: Intege
 POST	/changeAdmin/:id				controllers.UserController.changeAdmin(id: Int)
 GET		/adminPanel						controllers.UserController.adminPanel()
 POST   	/fileupload          			controllers.UserController.saveFile()
+
 
 GET		/editFaq/:id					controllers.FAQController.editFaq(id: Integer)
 POST	/editFaq/:id/change				controllers.FAQController.saveEditedFaq(id: Integer)
@@ -41,6 +43,7 @@ POST    /products/:id/delete       		controllers.ProductController.deleteProduct
 GET   	/addPictureProduct/:id         	controllers.ProductController.productPicture(id: Integer)
 POST   	/addPictureProduct/:id          controllers.ProductController.saveFile(id: Integer)
 GET   	/addNoPictureProduct/:id        controllers.ProductController.saveNoFile(id: Integer)
+GET		/buyingAProduct/:id				controllers.ProductController.buyProductSuccess(id : Integer)
 
 GET		/kategorija/:id					controllers.CategoryController.categories(id: Integer)
 GET		/listaKategorija 				controllers.CategoryController.allCategory()

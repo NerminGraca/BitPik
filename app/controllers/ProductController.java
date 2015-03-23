@@ -228,10 +228,9 @@ public class ProductController extends Controller {
 	 * @return redirect to html for adding picture
 	 */
 	public static Result productPicture(int id) {
-		   	  	usernameSes = session("username");
-			   	 Product p = findProduct.byId(id);
-		
-		   	 return ok(addPictureProduct.render(usernameSes, p));
+		   	usernameSes = session("username");
+			Product p = findProduct.byId(id);
+		 	 return ok(addPictureProduct.render(usernameSes, p));
 		    }
 	
 	
@@ -304,7 +303,7 @@ public class ProductController extends Controller {
 	 */
 	public static Result saveNoFile(int id){
 			Product p = findProduct.byId(id);
-			flash("successAddProduct", Messages.get("Uspjesno ste objavili oglas"));
+			flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
 			return redirect("/showProduct/"+p.id);
 	}
 	
@@ -316,40 +315,51 @@ public class ProductController extends Controller {
 	 * @param product_id
 	 * @return
 	 */
-	public static Result buy_product_success(int product_id) {
+	public static Result buyProductSuccess(int product_id) {
 		User buyer_user = SessionHelper.getCurrentUser(ctx());
-		// kasnije dodati zabrane za admina;
-		// zabrane za neregistrovanog usera;
+		//1. No permission for unregistered user;
+		if (buyer_user == null) {
+			return redirect(routes.Application.index());
+		}
+		//2. No permission for an admin user;
+		if (buyer_user.isAdmin) {
+			return redirect(routes.Application.index());
+		}
 		Product p = findProduct.byId(product_id);
+		//3. URL Security - No Product under the given id number;
+		if (p == null) {
+			return redirect(routes.Application.index());
+		}
+		// URL Security;
+		//4. No permission for the user to buy his own product (BE Security);
+		// Although we will hide the "KUPI"/"BUY" button from the user for
+		// his own products on certain .html pages; with listing of products;
+				
+		if (buyer_user == p.owner) {
+			return redirect(routes.Application.index());
+		}
 		p.setSold(true);
 		p.setBuyer_user(buyer_user);
+		buyer_user.bought_products.add(p);
 		p.save();
-		
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyer_user.username).eq("isSold", false).findList();
-		
-		/*
-		 * Provjeriti jel RADI!!!!
-		 * Ubaciti
-		 * join(ProductController.findProduct.where().eq("isSold", false));
-		 * ili sa and();
-		 * html zavrsiti!!!
-		 */
 		Logger.of("product").info("User "+ buyer_user.username +" bought the product '" + p.name + "'");
+		flash("buy_product_success", Messages.get("Cestitamo, Uspjesno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
 		return ok(profile.render(l, buyer_user));
 	}
 	
 	/**
-	 * When an paypal procedure has failed for some reason (creditcard number wrong or any kind of error occured in the
+	 * When a paypal procedure has failed for some reason (creditcard number wrong or any kind of error occured in the
 	 * process), we redirect the user to his profile page, with the list of the products if he has any.
 	 * @param product_id
 	 * @return we render the .html page : profile.render(l, buyer_user));
-	 */
+	 *//*
 	public static Result buy_product_fail(int product_id) {
 		Product p = findProduct.byId(product_id);
 		User buyer_user = SessionHelper.getCurrentUser(ctx());
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyer_user.username).findList();
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyer_user.username).eq("isSold", false).findList();
 		Logger.of("product").info("User "+ buyer_user.username +" failed to buy the product '" + p.name + "'");
 		return ok(profile.render(l, buyer_user));
 	}
-	
+	*/
 }

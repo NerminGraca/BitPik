@@ -154,10 +154,26 @@ public class UserController extends Controller {
 			Logger.of("user").warn("Not registered User tried access the profile page");
 			return redirect(routes.Application.index());
 		}
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).eq("isSold", false).findList();
 		User u = User.finder(usernameSes);
 		return ok(profile.render(l, u));
 	}	
+	
+	/**
+	 * This method lists all the bought items of the User logged in;
+	 * If no products where bought by the user; 
+	 * 
+	 * @return Result;
+	 */
+	public static Result find_bought_products() {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// List of products that the current logged in User has bought;
+		List <Product> l = ProductController.findProduct.where().eq("buyer_user", currentUser).findList();
+		if (l.isEmpty()) {
+			flash("no_bought_products", Messages.get("Vi jos uvijek nemate kupljenih proizvoda"));
+		}
+		return ok(boughtproducts.render(l, currentUser));
+	}
 	
 	/**
 	* Method list all users registered in database

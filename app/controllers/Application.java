@@ -58,7 +58,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		List<Product> productList = ProductController.findProduct.all();
+		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).findList();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 
 		return ok(index.render(productList, mainCategoryList));
