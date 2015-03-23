@@ -307,4 +307,16 @@ public class ProductController extends Controller {
 			flash("successAddProduct", Messages.get("Uspjesno ste objavili oglas"));
 			return redirect("/showProduct/"+p.id);
 	}
+	
+	public static Result search(String q){
+		List<Product>products=Product.find.where().like("name","%" + q + "%").findList();
+		
+		if(products.isEmpty()){
+			flash("error",Messages.get("Nije pronadjen proizvod za vasu pretragu"));
+			return redirect(routes.Application.index());
+		}
+		
+		return ok(listaProizvoda.render(products));
+		
+	}
 }
