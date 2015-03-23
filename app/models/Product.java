@@ -35,6 +35,8 @@ public class Product extends Model {
 	@ManyToOne
 	public User owner;
 	
+	public boolean isSold;
+	
 	@Required
 	public String availability;
 	
@@ -44,6 +46,10 @@ public class Product extends Model {
 	public String subCategoryString;
 
 	public String productImagePath;
+	
+	@ManyToOne
+	public User buyer_user;
+	
 	
 	/**
 	 * Constructor with default values
@@ -56,10 +62,12 @@ public class Product extends Model {
 		this.price = -1;
 		publishedDate = getDate();
 		this.owner = null;
+		this.isSold = false;
 		this.availability = "Unknown";
 		this.subCategory = null;
 		this.subCategoryString = "Unknown";
 		this.productImagePath = "images/no-img.jpg";
+		this.buyer_user = null;
 	}
 
 	/**
@@ -73,11 +81,13 @@ public class Product extends Model {
 		this.description = desc;
 		this.price = price;
 		this.owner = owner;
+		this.isSold = false;
 		this.mainCategory = mainCategory;
 		this.subCategory = subCategory;
 		this.availability = availability;
 		publishedDate = getDate();
 		this.productImagePath = "images/no-img.jpg";
+		this.buyer_user = null;
 	}
 	
 	//Finder
@@ -98,6 +108,41 @@ public class Product extends Model {
 	 */
 	public void setDesc(String desc) {
 		this.description = desc;
+	}
+	
+	/**
+	 * Gets the information whether the product is sold or not;
+	 * @return boolean isSold;
+	 */
+	public boolean isSold() {
+		return isSold;
+	}
+
+	/**
+	 * Sets the isSold boolean to either true or false 
+	 * depending on whether the item is sold or not;
+	 * @param isSold
+	 */
+	public void setSold(boolean isSold) {
+		this.isSold = isSold;
+	}
+	
+	/**
+	 * If the product is bought returns the User who has bought the item;
+	 * If not returns a null value;
+	 * @return User buyer_user;
+	 */
+	public User getBuyer_user() {
+		return buyer_user;
+	}
+
+	/**
+	 * We use this method when this product has been bought, thus we
+	 * set this buyer_user to the User who has bought the product;
+	 * @param buyer_user
+	 */
+	public void setBuyer_user(User buyer_user) {
+		this.buyer_user = buyer_user;
 	}
 
 	/**
