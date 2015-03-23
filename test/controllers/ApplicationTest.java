@@ -24,6 +24,7 @@ public class ApplicationTest {
 						assertThat(browser.pageSource()).contains("BitPik");
 						assertThat(browser.pageSource()).contains("Login");
 						assertThat(browser.pageSource()).contains("Registracija");
+						
 
 					}
 				});
@@ -82,5 +83,39 @@ public class ApplicationTest {
 						
 					}
 				});
+	}
+	
+	@Test
+	public void testAdminPanelIfIsAdmin(){
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("admin");
+						browser.fill("#password").with("admin");
+						browser.submit("#nameForm");
+						browser.goTo("http://localhost:3333/adminPanel");
+						assertThat(browser.pageSource()).contains("Korisnici");
+						assertThat(browser.pageSource()).contains("Kategorije");
+						assertThat(browser.pageSource()).contains("FAQS");
+					}
+		});
+						
+	}
+	
+	@Test
+	public void testAdminPanelIfIsNotAdmin(){
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("selma");
+						browser.fill("#password").with("selma");
+						browser.submit("#nameForm");
+						browser.goTo("http://localhost:3333/adminPanel");
+						assertThat(browser.pageSource().contains("Kategorije"));
+					}
+		});
+						
 	}
 }
