@@ -2,10 +2,17 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.io.Files;
+import com.paypal.*;
+import com.paypal.core.rest.APIContext;
+import com.paypal.core.rest.OAuthTokenCredential;
+import com.paypal.core.rest.PayPalRESTException;
 
 import helpers.CurrentUserFilter;
 import helpers.AdminFilter;
@@ -23,10 +30,12 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import views.html.*;
 
 public class UserController extends Controller {
+	
 
 	static Form<User> newUser = new Form<User>(User.class);
 	static String usernameSes;	
 	private static final String SESSION_USERNAME = "username";
+	
 	
 	//Finders
 	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
@@ -40,6 +49,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result addUser() {
+		
 		
 		String username;
 		String password;
@@ -417,6 +427,43 @@ public class UserController extends Controller {
 		}
 		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
 		return redirect("/profile");
+	}
+	
+	public static Result paypal()
+	{
+		Map<String, String> sdkConfig = new HashMap<String, String>();
+		sdkConfig.put("mode", "sandbox");
+
+		String accessToken = "Bearer A015Jr-3qMqmlid.XDBCq.2JzoKzJ0ux5NMY-u5JiP2jzqk";
+		APIContext apiContext = new APIContext(accessToken);
+		apiContext.setConfigurationMap(sdkConfig);
+
+		Amount amount = new Amount();
+		amount.setCurrency("USD");
+		amount.setTotal("12");
+
+		Transaction transaction = new Transaction();
+		transaction.setDescription("creating a payment");
+		transaction.setAmount(amount);
+
+		List<Transaction> transactions = new ArrayList<Transaction>();
+		transactions.add(transaction);
+
+		Payer payer = new Payer();
+		payer.setPaymentMethod("paypal");
+
+		Payment payment = new Payment();
+		payment.setIntent("sale");
+		payment.setPayer(payer);
+		payment.setTransactions(transactions);
+		RedirectUrls redirectUrls = new RedirectUrls();
+		redirectUrls.setCancelUrl("https://devtools-paypal.com/guide/pay_paypal?cancel=true");
+		redirectUrls.setReturnUrl("https://devtools-paypal.com/guide/pay_paypal?success=true");
+		payment.setRedirectUrls(redirectUrls);
+
+		Payment createdPayment = payment.create(apiContext);
+		
+		return TODO;
 	}
 	
 }

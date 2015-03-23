@@ -7,10 +7,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.*;
+
+import oauth.signpost.OAuth;
 
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
@@ -47,6 +50,8 @@ public class User extends Model {
 	public String emailConfirmation;
 	
 	public String imagePath;
+	
+	
 	
 	/**
 	 * @author Gordan Sajevic
