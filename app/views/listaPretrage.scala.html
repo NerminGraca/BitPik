@@ -1,0 +1,68 @@
+@(productList: List[Product])(userList: List[User])
+
+@main("Proizvodi", "Korisnici") {
+<div class="wrap">
+     <div class="main">
+    	<div class="content">
+    		<div class="section group">
+				<h1 class="redHeader">Rezultati pretrage:</h1><br>  
+					@if((productList.isEmpty())&&(userList.isEmpty())){
+						<div class="section group">
+						<h2 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za vasu pretragu</font></h2>	
+					}else{
+						@if(productList.size() > 0){
+							<h3 class="redHeader">Proizvodi:</h3>	
+							@for(product <- productList){
+							<div class="grid_1_of_4 images_1_of_4">
+								<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
+								<h4 id="oneLineText">@product.name </h4>
+								<div class="price-details">
+									<div class="price-number2">
+										<span class="price-number2">@product.getPriceString() KM</span>
+									</div>
+									<div class="add-cart2">								
+										<h5><a href="/showProduct/@product.id">Pogledaj</a></h5>
+							     	</div>
+							 		<div class="clear"></div>
+								</div>					 
+							</div>
+						}
+						</div>
+						}else{
+						<h3 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za pretragu proizvoda</font></h3>
+							}	
+			</div>
+		</div>
+	</div>
+</div>
+							
+<div class="wrap">
+	<div class="main">
+		<div class="content">
+			<div class="section group">
+				@if(userList.size()>0){
+					<h3 class="redHeader">Korisnici:</h3>
+		  				<div class="validateAndLogout">
+							@flash.get("delete_user_success")
+								</div>
+									<div class="listOfUsers">										
+										<div class="categories">
+				  							<ul>
+				  							@if(userList.size() > 0 ) {
+												@for(user <- userList) {
+				     								<li><a href="/korisnik/@user.id">@user.username</a></li>
+				     								}			     
+											</ul>
+										</div>						  	    
+										}else{
+											<h4 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za pretragu korisnika</font></h4>
+											}
+									</div>
+				</div>
+			</div>
+		</div>
+	</div>
+						
+}
+}	
+}

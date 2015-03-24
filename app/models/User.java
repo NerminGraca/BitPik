@@ -158,8 +158,8 @@ public class User extends Model {
 	}
 	
 	// Finders
-	static Finder<String, User> find = new Finder<String, User>(String.class, User.class);
-	static Finder<Integer, User> findInt = new Finder<Integer, User>(Integer.class, User.class);
+	public static Finder<String, User> find = new Finder<String, User>(String.class, User.class);
+	public static Finder<Integer, User> findInt = new Finder<Integer, User>(Integer.class, User.class);
 	/**
 	 * Finds the User under the username(parameter) in the database;
 	 * @param username

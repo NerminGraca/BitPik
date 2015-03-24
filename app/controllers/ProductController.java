@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import models.FAQ;
 import models.MainCategory;
 import models.Product;
 import models.SubCategory;
@@ -383,19 +384,13 @@ public class ProductController extends Controller {
 	*/
 
 	public static Result searchUsers(String q){
-		if(q.isEmpty()){
-			return redirect(routes.Application.index());
-		}
 		List<Product>products=Product.find.where().like("name","%" + q + "%").eq("isSold", false).findList();
-		
-		if(products.isEmpty()||products==null){
-			flash("error",Messages.get("Nije pronadjen proizvod za vasu pretragu"));
-			return ok(listaProizvoda.render(products));
-			
-		}
-		
-		return ok(listaProizvoda.render(products));
-		
+		List<User>users=User.findInt.where().like("username","%" + q + "%").findList();
+//		List<FAQ>faqs=FAQ.find.where().like("name","%" + q + "%").findList();
+		return ok(listaPretrage.render(products,users));	
 	}
+		
+		
+
 
 }
