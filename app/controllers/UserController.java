@@ -387,7 +387,16 @@ public class UserController extends Controller {
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
 		
-   	  	int userID = User.finder(usernameSes).id;
+		//checks if picture exists in base, if it does deletes it then uploads new picture
+		final String deletePath = "." + File.separator 
+				+ "public" + File.separator;
+		String s = findUser.byId(u.id).imagePath;
+		if (s != null){
+			File d = new File(deletePath + s);
+			d.delete();
+		}
+			
+		int userID = User.finder(usernameSes).id;
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 
 				+ "public" + File.separator + "images" 
@@ -396,6 +405,10 @@ public class UserController extends Controller {
 		//it takes uploaded information  
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("image");
+		if (filePart == null){
+			 flash("error",  Messages.get("Niste uploadovali sliku"));
+			 return redirect("/profile");
+		}
 		File image = filePart.getFile();
 		//it takes extension from image that is uploaded
 		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
@@ -406,7 +419,7 @@ public class UserController extends Controller {
 			&& !extension.equalsIgnoreCase(".jpg")
 			&& !extension.equalsIgnoreCase(".png") ){
 			
-			flash("error",  Messages.get("Image type not valid"));
+			flash("error",  Messages.get("Slika ne smije biti veca od 2 MB"));
 			Logger.of("user").warn( usernameSes + " tried to upload an image that is not valid.");
 			return redirect("/profile");
 		}
