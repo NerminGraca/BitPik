@@ -1,20 +1,10 @@
-@(products: List[Product])(u: User)
+@(bproducts: List[Product])(u: User)
 @import helper._
 
 @main("Profile", "") {
 		
-		
+				
 <div class="wrap">
-
-		<div class="validateAndLogout">
-			@flash.get("validate")
-			@flash.get("error")
-			@flash.get("upload_img_success")
-			@flash.get("edit_user_success")
-			@flash.get("delete_product_success")
-			@flash.get("buy_product_success")
-		</div>
-		
 	<div class="main">
     	<div class="content">
     		<div class="section group">
@@ -63,7 +53,7 @@
 					      <li><a href="#">Poruke</a></li>
 					      <li><a href="#">Blokirani korisnici</a></li>
 					      <li><a href="#">Javna pitanja</a></li>
-					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
+				     	  <li><a href="/profile">Objavljeni proizvodi</a></li>
 					      
 						</ul>
 					</div>					
@@ -71,14 +61,19 @@
 				</div>
 						
 			<div id="productsOnProfile">
-				<br><br>
-				<h1 class="redHeader">Objavljeni proizvodi:</h1><br> 
-				@if(!products.isEmpty) {
-					@for(product <- products) {				
+			<br><br>
+				<h1 class="redHeader">Kupljeni proizvodi:</h1><br> 
+				
+		<div class="validateAndLogout">
+			@flash.get("no_bought_products")     
+		</div>
+					
+				@if(!bproducts.isEmpty) {
+					@for(product <- bproducts) {				
 						<div class="grid_1_of_4 images_1_of_4">
-							<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>					 		 <h2>@product.name </h2>
+							<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a><h2>@product.name </h2>
 							@form(routes.ProductController.deleteProduct(product.id)) {
-                    			<input class="btnDelete" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                    			<input class="btnDelete" type="submit" value="Izbrisi proizvod iz Arhive" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
                 			}
 							<div class="price-details">
 				       			<div class="price-number">
@@ -95,6 +90,8 @@
 				</div>
 			</div>	
  		</div>
+ 		
 	</div>
+
 </div>	
 }

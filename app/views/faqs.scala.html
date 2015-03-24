@@ -44,8 +44,31 @@
 				    </td>
 				  </tr>
 				</table>
+
+<!--  OVAJ DIO JE NOVI!!!! -->		
+					
+<section class="cd-faq">
+	<div class="cd-faq-items">
+	
+		<ul id="faqs" class="cd-faq-group">
+			<li class="cd-faq-title"><h2>FAQs Pitanja & Odgovori:</h2></li>
+			
+	 @if(faqList.size() > 0 ) {
+		@for(faq <- faqList) {
+			<li>
+				<a class="cd-faq-trigger" href="#0">@faq.question</a>
+				<div class="cd-faq-content">
+					<p>@faq.answer</p><!-- content here -->
+				</div> 
+			</li>
+			}
+		}
+		</ul>
+ 
+	</div> 
+</section>
 				
-				<p>
+<!--  OVAJ DIO JE NOVI!!!! DO OVDJE -->	
 				
 				<script language="JavaScript">
 				

@@ -25,10 +25,12 @@ create table product (
   price                     double,
   published_date            varchar(255),
   owner_id                  integer,
+  is_sold                   boolean,
   availability              varchar(255),
   sub_category_id           integer,
   sub_category_string       varchar(255),
   product_image_path        varchar(255),
+  buyer_user_id             integer,
   constraint pk_product primary key (id))
 ;
 
@@ -70,8 +72,10 @@ alter table product add constraint fk_product_owner_2 foreign key (owner_id) ref
 create index ix_product_owner_2 on product (owner_id);
 alter table product add constraint fk_product_subCategory_3 foreign key (sub_category_id) references sub_category (id) on delete restrict on update restrict;
 create index ix_product_subCategory_3 on product (sub_category_id);
-alter table sub_category add constraint fk_sub_category_mainCategory_4 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
-create index ix_sub_category_mainCategory_4 on sub_category (main_category_id);
+alter table product add constraint fk_product_buyer_user_4 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
+create index ix_product_buyer_user_4 on product (buyer_user_id);
+alter table sub_category add constraint fk_sub_category_mainCategory_5 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
+create index ix_sub_category_mainCategory_5 on sub_category (main_category_id);
 
 
 

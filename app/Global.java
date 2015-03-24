@@ -17,6 +17,16 @@ public class Global extends GlobalSettings {
 					.createAdmin("admin", "admin", "admin@admin.ba", true);
 			ad.verified = true;
 			ad.save();
+			
+			//Seller entry
+			User seller = User.create("seller", "seller", "seller@seller.com");
+			seller.verified = true;
+			seller.save();
+			
+			//Buyer entry
+			User buyer = User.create("buyer", "buyer", "buyer@buyer.com");
+			buyer.verified = true;
+			buyer.save();
 
 			//Main Categories entry
 			String[] categoryArray = {"Vozila", "Odjeca i obuca", "Kompjuteri", "Biznis i industrija",

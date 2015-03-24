@@ -9,10 +9,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.io.Files;
-import com.paypal.*;
-import com.paypal.core.rest.APIContext;
-import com.paypal.core.rest.OAuthTokenCredential;
-import com.paypal.core.rest.PayPalRESTException;
 
 import helpers.CurrentUserFilter;
 import helpers.AdminFilter;
@@ -164,10 +160,26 @@ public class UserController extends Controller {
 			Logger.of("user").warn("Not registered User tried access the profile page");
 			return redirect(routes.Application.index());
 		}
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).findList();
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).eq("isSold", false).findList();
 		User u = User.finder(usernameSes);
 		return ok(profile.render(l, u));
 	}	
+	
+	/**
+	 * This method lists all the bought items of the User logged in;
+	 * If no products where bought by the user; 
+	 * 
+	 * @return Result;
+	 */
+	public static Result find_bought_products() {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// List of products that the current logged in User has bought;
+		List <Product> l = ProductController.findProduct.where().eq("buyer_user", currentUser).findList();
+		if (l.isEmpty()) {
+			flash("no_bought_products", Messages.get("Vi jos uvijek nemate kupljenih proizvoda"));
+		}
+		return ok(boughtproducts.render(l, currentUser));
+	}
 	
 	/**
 	* Method list all users registered in database
@@ -381,7 +393,17 @@ public class UserController extends Controller {
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
 		
-   	  	int userID = User.finder(usernameSes).id;
+		//checks if picture exists in base, if it does deletes it then uploads new picture
+		final String deletePath = "." + File.separator 
+				+ "public" + File.separator;
+		String s = findUser.byId(u.id).imagePath;
+		
+		if (s != null && !s.equals("images/profileimg.png")){
+			File d = new File(deletePath + s);
+			d.delete();
+		}
+			
+		int userID = User.finder(usernameSes).id;
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 
 				+ "public" + File.separator + "images" 
@@ -390,6 +412,10 @@ public class UserController extends Controller {
 		//it takes uploaded information  
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("image");
+		if (filePart == null){
+			 flash("error",  Messages.get("Niste uploadovali sliku"));
+			 return redirect("/profile");
+		}
 		File image = filePart.getFile();
 		//it takes extension from image that is uploaded
 		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
@@ -400,7 +426,7 @@ public class UserController extends Controller {
 			&& !extension.equalsIgnoreCase(".jpg")
 			&& !extension.equalsIgnoreCase(".png") ){
 			
-			flash("error",  Messages.get("Image type not valid"));
+			flash("error",  Messages.get("Slika ne smije biti veca od 2 MB"));
 			Logger.of("user").warn( usernameSes + " tried to upload an image that is not valid.");
 			return redirect("/profile");
 		}
@@ -429,41 +455,6 @@ public class UserController extends Controller {
 		return redirect("/profile");
 	}
 	
-	public static Result paypal()
-	{
-		Map<String, String> sdkConfig = new HashMap<String, String>();
-		sdkConfig.put("mode", "sandbox");
-
-		String accessToken = "Bearer A015Jr-3qMqmlid.XDBCq.2JzoKzJ0ux5NMY-u5JiP2jzqk";
-		APIContext apiContext = new APIContext(accessToken);
-		apiContext.setConfigurationMap(sdkConfig);
-
-		Amount amount = new Amount();
-		amount.setCurrency("USD");
-		amount.setTotal("12");
-
-		Transaction transaction = new Transaction();
-		transaction.setDescription("creating a payment");
-		transaction.setAmount(amount);
-
-		List<Transaction> transactions = new ArrayList<Transaction>();
-		transactions.add(transaction);
-
-		Payer payer = new Payer();
-		payer.setPaymentMethod("paypal");
-
-		Payment payment = new Payment();
-		payment.setIntent("sale");
-		payment.setPayer(payer);
-		payment.setTransactions(transactions);
-		RedirectUrls redirectUrls = new RedirectUrls();
-		redirectUrls.setCancelUrl("https://devtools-paypal.com/guide/pay_paypal?cancel=true");
-		redirectUrls.setReturnUrl("https://devtools-paypal.com/guide/pay_paypal?success=true");
-		payment.setRedirectUrls(redirectUrls);
-
-		Payment createdPayment = payment.create(apiContext);
-		
-		return TODO;
-	}
+	
 	
 }

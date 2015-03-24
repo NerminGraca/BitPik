@@ -1,6 +1,8 @@
 package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static play.test.Helpers.HTMLUNIT;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.inMemoryDatabase;
@@ -132,7 +134,7 @@ public class SubCategoryTest extends WithApplication {
 					}
 		});
 	}
-	/*
+	
 	@Test
 	public void testDeleteSubCategory() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -145,10 +147,34 @@ public class SubCategoryTest extends WithApplication {
 						
 						browser.goTo("http://localhost:3333/listaPodKategorija/1");
 						assertThat(browser.pageSource()).contains("Automobili");
-						browser.goTo("http://localhost:3333/listaKategorija/2/delete");
-						browser.goTo("http://localhost:3333/listaPodKategorija/1");
+						browser.goTo("http://localhost:3333/listaPodKategorija/2/delete");
 						assertThat(browser.pageSource()).doesNotContain("Automobili");
 					}
 		});
-	}*/
+	}
+	
+	@Test
+	public void testSubCategoryView() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						User.createSaveUser("neko2", "12345", "neko2@gmail.com");
+						User u = User.find(4);
+						assertNotNull(u);
+						// String name, String desc, double price, User owner, MainCategory
+						// category, String availability
+						MainCategory mc = MainCategory.findMainCategoryByName("Vozila");
+						SubCategory sc = SubCategory.findSubCategoryByName("Automobili");
+						Product.create("golf", "mk2",
+								1000.00, u, mc, sc, "sarajevo");
+						
+						browser.goTo("http://localhost:3333/kategorija/1");
+						assertThat(browser.pageSource()).contains("golf");
+						browser.goTo("http://localhost:3333/podKategorija/2");
+						assertThat(browser.pageSource()).contains("golf");
+						browser.goTo("http://localhost:3333/podKategorija/1");
+						assertThat(browser.pageSource()).doesNotContain("golf");
+					}
+		});
+	}
 }

@@ -58,7 +58,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		List<Product> productList = ProductController.findProduct.all();
+		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).findList();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 
 		return ok(index.render(productList, mainCategoryList));
@@ -88,7 +88,7 @@ public class Application extends Controller {
 	 * @return redirect to index.html
 	 */
 	public static Result logout() {
-		Logger.of("login").info("User "+ session("username") +" loged out");
+		Logger.info("User "+ session("username") +" loged out");
 		session().clear();
 		flash("logout", Messages.get("Odjavili ste se."));
 		return redirect(routes.Application.index());

@@ -215,6 +215,7 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result deleteProduct(int id) {
+		deletePicture(id);
 		String toBeDeleted = Product.find.byId(id).name;
 		Product.delete(id);
 		Logger.of("product").info( session("username") + " deleted the product "+toBeDeleted);
@@ -223,16 +224,27 @@ public class ProductController extends Controller {
 		return redirect(routes.UserController.findProfileProducts());
 	}	
 	
+	public static void deletePicture(int id){
+		final String deletePath = "." + File.separator 
+				+ "public" + File.separator;
+		
+		
+		String s = findProduct.byId(id).productImagePath;
+		if (!s.equals("images/no-img.jpg")){
+			File file = new File(deletePath + s);
+			file.delete();
+		}
+	}
+	
 	/**
 	 * @param id is Product id
 	 * @return redirect to html for adding picture
 	 */
 	public static Result productPicture(int id) {
-		   	  	usernameSes = session("username");
-			   	 Product p = findProduct.byId(id);
-		
-		   	 return ok(addPictureProduct.render(usernameSes, p));
-		    }
+		usernameSes = session("username");
+		Product p = findProduct.byId(id);
+		return ok(addPictureProduct.render(usernameSes, p));
+	}
 	
 	
 	
@@ -249,6 +261,7 @@ public class ProductController extends Controller {
 		
 	   	Product p = findProduct.byId(id);
 	   	 		
+	   	 			
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 
 				+ "public" + File.separator + "images" 
@@ -257,7 +270,12 @@ public class ProductController extends Controller {
 		//it takes uploaded information  
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("image");
+		if (filePart == null){
+			 flash("error",  Messages.get("Niste uploadovali sliku"));
+			 return redirect("/addPictureProduct/" + id);
+		}
 		File image = filePart.getFile();
+		
 		//it takes extension from image that is uploaded
 		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
 		extension.trim();
@@ -267,17 +285,17 @@ public class ProductController extends Controller {
 			&& !extension.equalsIgnoreCase(".jpg")
 			&& !extension.equalsIgnoreCase(".png") ){
 		
-			flash("error",  Messages.get("Image type not valid"));
+			flash("error",  Messages.get("Niste unijeli sliku"));
 			Logger.of("product").warn( usernameSes + " tried to upload an image that is not valid.");
-			return redirect(routes.ProductController.addProduct());
+			return redirect("/addPictureProduct/" + id);
 		}
 		
 		//If file size is bigger then 2MB, redirect user on profile without uploading image.
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
-			flash("error",  Messages.get("Image size not valid"));
+			flash("error",  Messages.get("Slika ne smije biti veca od 2 MB"));
 			Logger.of("product").warn( usernameSes + " tried to upload an image that is bigger than 2MB.");
-			return redirect(routes.ProductController.addProduct());
+			return redirect("/addPictureProduct/" + id);
 		}
 		
 		//creating image name from user id, and take image extension, than move image to new location
@@ -304,7 +322,80 @@ public class ProductController extends Controller {
 	 */
 	public static Result saveNoFile(int id){
 			Product p = findProduct.byId(id);
-			flash("successAddProduct", Messages.get("Uspjesno ste objavili oglas"));
+			flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
 			return redirect("/showProduct/"+p.id);
 	}
+
+	/**
+	 * When a product is bought, the items attribute boolean isSold is set to true;
+	 * and the buyer_user is set to the user who is currently logged in, that is, set
+	 * to the user who has clicked (later gone through the procedure of the PayPal 
+	 * process);
+	 * @param product_id
+	 * @return
+	 */
+	public static Result buyProductSuccess(int product_id) {
+		User buyer_user = SessionHelper.getCurrentUser(ctx());
+		//1. No permission for unregistered user;
+		if (buyer_user == null) {
+			return redirect(routes.Application.index());
+		}
+		//2. No permission for an admin user;
+		if (buyer_user.isAdmin) {
+			return redirect(routes.Application.index());
+		}
+		Product p = findProduct.byId(product_id);
+		//3. URL Security - No Product under the given id number;
+		if (p == null) {
+			return redirect(routes.Application.index());
+		}
+		// URL Security;
+		//4. No permission for the user to buy his own product (BE Security);
+		// Although we will hide the "KUPI"/"BUY" button from the user for
+		// his own products on certain .html pages; with listing of products;
+				
+		if (buyer_user == p.owner) {
+			return redirect(routes.Application.index());
+		}
+		p.setSold(true);
+		p.setBuyer_user(buyer_user);
+		buyer_user.bought_products.add(p);
+		p.save();
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyer_user.username).eq("isSold", false).findList();
+		Logger.of("product").info("User "+ buyer_user.username +" bought the product '" + p.name + "'");
+		flash("buy_product_success", Messages.get("Cestitamo, Uspjesno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
+		return ok(profile.render(l, buyer_user));
+	}
+	
+	/**
+	 * When a paypal procedure has failed for some reason (creditcard number wrong or any kind of error occured in the
+	 * process), we redirect the user to his profile page, with the list of the products if he has any.
+	 * @param product_id
+	 * @return we render the .html page : profile.render(l, buyer_user));
+	 *//*
+	public static Result buy_product_fail(int product_id) {
+		Product p = findProduct.byId(product_id);
+		User buyer_user = SessionHelper.getCurrentUser(ctx());
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyer_user.username).eq("isSold", false).findList();
+		Logger.of("product").info("User "+ buyer_user.username +" failed to buy the product '" + p.name + "'");
+		return ok(profile.render(l, buyer_user));
+	}
+	*/
+
+	public static Result searchUsers(String q){
+		if(q.isEmpty()){
+			return redirect(routes.Application.index());
+		}
+		List<Product>products=Product.find.where().like("name","%" + q + "%").eq("isSold", false).findList();
+		
+		if(products.isEmpty()||products==null){
+			flash("error",Messages.get("Nije pronadjen proizvod za vasu pretragu"));
+			return ok(listaProizvoda.render(products));
+			
+		}
+		
+		return ok(listaProizvoda.render(products));
+		
+	}
+
 }

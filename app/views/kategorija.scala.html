@@ -10,7 +10,7 @@
 		<div class="content">
     		<div class="section group">
 				<div class="header_slide">
-					<div class="leftBox">				
+					<div class="leftBoxCat">				
 						<div class="categories">
 				  			<ul>
 				  				<h3>Kategorije</h3>
@@ -24,22 +24,22 @@
 				  			</ul>
 						</div>					
 					</div>
-					
-					<div class="categories">
-					<ul id="listOfCategory">
-				  	<h3>Podkategorije kategorije @mainCategory.name</h3>
+					<div class="subCatBox">
+						<div class="categories">
+							<ul id="listOfCategory">
+				  			<h3>Podkategorije kategorije @mainCategory.name</h3>
 				  		
-				  		@if(mainCategory.subCategories.size() > 0 ) {
-				  			@for(subCategory <- mainCategory.subCategories) {
-				  				<li>
-				  					<a href="/podKategorija/@subCategory.id">@subCategory.name</a>
-				  				</li>
+				  			@if(mainCategory.subCategories.size() > 0 ) {
+				  				@for(subCategory <- mainCategory.subCategories) {
+				  					<li>
+				  						<a href="/podKategorija/@subCategory.id">@subCategory.name</a>
+				  					</li>
+				  				}
 				  			}
-				  		}
 				  		
-					</ul>
+							</ul>
+						</div>
 					</div>
-			
 	      	      	<div class="rightBox">				
 	      	      
 						@if(productList.size() > 0){
