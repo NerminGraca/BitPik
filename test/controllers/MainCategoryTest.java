@@ -172,7 +172,7 @@ public class MainCategoryTest extends WithApplication {
 					}
 		});
 	}
-	/*
+	
 	@Test
 	public void testDeleteMainCategory() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -185,9 +185,9 @@ public class MainCategoryTest extends WithApplication {
 						
 						browser.goTo("http://localhost:3333/listaKategorija");
 						assertThat(browser.pageSource()).contains("Vozila");
-						browser.submit("Izbrisi");
+						browser.goTo("http://localhost:3333/listaKategorija/1/delete");
 						assertThat(browser.pageSource()).doesNotContain("Vozila");
 					}
 		});
-	}*/
+	}
 }

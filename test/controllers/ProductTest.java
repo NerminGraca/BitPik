@@ -31,12 +31,11 @@ public class ProductTest extends WithApplication {
 	/**
 	 * Creating two products and checking whether in database the attributes of
 	 * the second product;
-	 *//*
+	 */
 	@Test
 	public void testcheckProduct2() {
 		User.createSaveUser("neko2", "12345", "neko2@gmail.com");
 		User u = User.find(2);
-		String hashedPass = HashHelper.createPassword("12345");
 		assertNotNull(u);
 		assertEquals(u.username, "neko2");
 		// assertEquals(u.password, hashedPass);
@@ -44,15 +43,16 @@ public class ProductTest extends WithApplication {
 		// String name, String desc, double price, User owner, MainCategory
 		// category, String availability
 		MainCategory mc = MainCategory.findMainCategoryByName("Vozila");
+		SubCategory sc = SubCategory.findSubCategoryByName("Automobili");
 		Product.create("original_product2", "original_product_description",
-				10.00, u, mc, null, "sarajevo", null);
+				10.00, u, mc, sc, "sarajevo");
 		Product p = Product.find.byId(1);
 		assertNotNull(p);
 		assertEquals(p.name, "original_product2");
 		assertEquals(p.description, "original_product_description");
 		assertEquals(p.mainCategory.name, "Vozila");
 		assertEquals(p.availability, "sarajevo");
-	}*/
+	}
 
 	/**
 	 * UPDATE TEST: Test for editing/changing the name and the description of
@@ -60,7 +60,7 @@ public class ProductTest extends WithApplication {
 	 * product; 4. We edit some of the attributes of the found product; 5. We
 	 * find the product again; 6. We check whether the new given name and
 	 * descriptions are found in the product;
-	 *//*
+	 */
 	@Test
 	public void testCreateEditedProduct() {
 
@@ -70,8 +70,9 @@ public class ProductTest extends WithApplication {
 		u.save();
 		// takes the new attributes that are entered in the "form" and saves;
 		MainCategory mc = MainCategory.findMainCategoryByName("Kompjuteri");
+		SubCategory sc = SubCategory.findSubCategoryByName("Laptopi");
 		Product.create("original_product", "original_product_description",
-				10.00, u, mc, null, "sarajevo", null);
+				10.00, u, mc, sc, "sarajevo");
 		Product p = Product.find.byId(1);
 		assertNotNull(p);
 		assertEquals(p.name, "original_product");
@@ -93,7 +94,7 @@ public class ProductTest extends WithApplication {
 		// checks whether the first products desc is the new desc that we have
 		// set;
 		assertEquals(foundProduct.description, "new_product_description_2");
-	}*/
+	}
 
 	/**
 	 * Creates a user; logs in; Publishes a product; goes to editProduct.html;
@@ -122,10 +123,11 @@ public class ProductTest extends WithApplication {
 						// "form" and saves;
 						MainCategory mc = MainCategory
 								.findMainCategoryByName("Kompjuteri");
+						SubCategory sc = SubCategory.findSubCategoryByName("Laptopi");
 
 						Product.create("original_product",
-								"original_product_description", 10.00, u, mc, null,
-								"sarajevo", null);
+								"original_product_description", 10.00, u, mc, sc,
+								"sarajevo");
 						Product findProduct = Product.find.byId(1);
 
 						assertNotNull(findProduct);
@@ -185,17 +187,8 @@ public class ProductTest extends WithApplication {
 	}
 
 	/**
-	 * Test whether the 3-rd non existing product is Null;
-	 *//*
-	@Test
-	public void testFindNonExistingProduct() {
-		Product p = Product.find.byId(3);
-		assertNull(p);
-	}/*
-
-	/**
 	 * Test for deleting 2 products;
-	 *//*
+	 */
 	@Test
 	public void testDelete2Products() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -215,10 +208,10 @@ public class ProductTest extends WithApplication {
 								.findMainCategoryByName("Moj dom");
 						Product.create("original_product_no1",
 								"original_product_description_no1", 10.00, u,
-								mc, null, "sarajevo", null);
+								mc, null, "sarajevo");
 						Product.create("original_product_no2",
 								"original_product_description_no2", 20.00, u,
-								mc, null, "sarajevo", null);
+								mc, null, "sarajevo");
 
 						Product findProduct = Product.find.byId(1);
 						assertNotNull(findProduct);
@@ -233,30 +226,28 @@ public class ProductTest extends WithApplication {
 
 					}
 				});
-	}*/
+	}
 
 	/**
 	 * Creating one product and checking whether in database the attributes of
 	 * the only product;
-	 *//*
+	 */
 	@Test public void testcheckProduct() { 
 		User.createSaveUser("neko", "12345","neko@gmail.com"); 
 		User u = User.find(2); 
-		String hashedPass=HashHelper.createPassword("12345"); 
 		assertNotNull(u);
-		assertEquals(u.username, "neko");  
-		assertEquals(u.password, hashedPass); 
+		assertEquals(u.username, "neko"); 
 		assertEquals(u.email, "neko@gmail.com");
 	  
 		MainCategory mc = MainCategory.findMainCategoryByName("Nakit i satovi");
 		Product.create("original_product", "original_product_description", 10.00,
-				u, mc, null, "sarajevo", null);
+				u, mc, null, "sarajevo");
 	  
 		Product p = Product.find.byId(1); assertNotNull(p); assertEquals(p.name, "original_product"); 
 		assertEquals(p.description, "original_product_description"); 
 		assertEquals(p.mainCategory.name, "Nakit i satovi"); 
 		assertEquals(p.availability, "sarajevo"); 
-	}*/
+	}
 
 	/**
 	 * Creating one product and checking if the showProduct.html contains the
@@ -275,10 +266,11 @@ public class ProductTest extends WithApplication {
 						// takes the new attributes
 						// that are entered in the "form" and saves;
 						 MainCategory mc = MainCategory
-								.findMainCategoryByName("Ostale kategorije");
+								.findMainCategoryByName("Ostalo");
+						SubCategory sc = SubCategory.findReturnSubCategoryByNameAndMainCategory("Ostalo", mc);
 						Product.create("original_product",
-								"original_product_description", 10.00, u, mc, null,
-								"sarajevo", null);
+								"original_product_description", 10.00, u, mc, sc,
+								"sarajevo");
 
 						browser.goTo("http://localhost:3333/showProduct/1");
 						assertThat(browser.pageSource()).contains(
@@ -286,10 +278,6 @@ public class ProductTest extends WithApplication {
 						assertThat(browser.pageSource()).contains(
 								"original_product_description");
 						assertThat(browser.pageSource()).contains("sarajevo");
-						assertThat(browser.pageSource()).contains("10.0");
-						assertThat(browser.pageSource()).contains(
-								"Ostale kategorije");
-
 					}
 				});
 	}*/

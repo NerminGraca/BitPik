@@ -67,6 +67,15 @@ public class ModelsTest extends WithApplication {
 		assertNull(p);
 	}
 	
+	/**
+	 * Test whether the 3-rd non existing product is Null;
+	 *//*
+	@Test
+	public void testFindNonExistingProduct() {
+		Product p = Product.find.byId(3);
+		assertNull(p);
+	}/*
+	
 	@Test
 	public void testDeleteProduct() {
 		User.createSaveUser("neko", "12345","neko@gmail.com");
