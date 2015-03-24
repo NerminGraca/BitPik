@@ -145,4 +145,12 @@ public class FAQController extends Controller{
 		flash("delete_faq_success",  Messages.get("Uspjesno ste izbrisali FAQ"));
 		return redirect(routes.FAQController.allFaqs());
 	}
+	
+	public static Result searchFaq(String q){
+	
+		List<FAQ>faqs=FAQ.find.where().like("question","%" +" "+q +" "+"%").findList(); 
+		return ok(listaFAQs.render(faqs));
+		
+	//
+	}
 }

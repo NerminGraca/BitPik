@@ -1506,6 +1506,10 @@ max-height: 150px;
 	line-height: 1.8em;
 	padding:5px 20px;
 }
+.answer{
+	background-color:#D9D7D7;
+	style:italic;
+}
 /****** News **************************/
 .image {
 	clear: both;

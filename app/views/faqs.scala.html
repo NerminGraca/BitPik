@@ -14,8 +14,15 @@
     	<div class="content">
     		<div class="section group">
 				
-				<h1 class="redHeader">FAQs Pitanja & Odgovori:</h1><br>  	
-
+				  	
+				<div class="search_box">
+	     		<form action="/searchFaq" method="GET">
+	     			<input id="q" name="q" type="text" placeholder="Search FAQs" required/>
+	     			<!--<input id="q" name="q" type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">-->
+	     			<input type="submit" value="">
+	     		</form>
+	     	</div>
+					<h1 class="redHeader">FAQs Pitanja & Odgovori:</h1><br> 
 					<table border="0" cellspacing="0" cellpadding="0">
 				  <tr>
 				    <td width="100%"><form name="ddmessage"><table border="0" width="100%" cellspacing="0" cellpadding="0">

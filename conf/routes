@@ -32,6 +32,7 @@ POST	/editFaq/:id/change				controllers.FAQController.saveEditedFaq(id: Integer)
 GET		/faqs							controllers.FAQController.allFaqs()
 POST	/faqs							controllers.FAQController.addFaq()
 GET		/deleteFaq/:id					controllers.FAQController.deleteFaq(id: Integer)
+GET     /searchFaq                      controllers.FAQController.searchFaq(q: String)
 
 GET		/showProduct/:id				controllers.ProductController.showProduct(id: Integer)
 POST	/showProduct/:id				controllers.ProductController.showProduct(id: Integer)

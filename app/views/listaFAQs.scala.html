@@ -1,0 +1,56 @@
+@(faqList: List[FAQ])
+@import helper._
+
+@main("FAQs", "FAQs") {
+	
+<div class="wrap">
+	<div class="validateAndLogout">
+		@flash.get("add_faq_success")
+		@flash.get("add_faq_null_field")
+		@flash.get("edit_faq_success")
+		@flash.get("delete_faq_success")
+	</div>
+	 <div class="main">
+    	<div class="content">
+    		<div class="section group">
+				
+				  	
+				<div class="search_box">
+	     		<form action="/searchFaq" method="GET">
+	     			<input id="q" name="q" type="text" placeholder="Search FAQs" required/>
+	     			<!--<input id="q" name="q" type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">-->
+	     			<input type="submit" value="">
+	     		</form>
+	     	</div>
+	     			¸<h1 class="redHeader">Rezultati pretrage:</h1><br>  
+	     			@if(faqList.isEmpty()){
+						<div class="section group">
+						<h2 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za vasu pretragu</font></h2>	
+					}else{
+					<h1 class="redHeader">FAQs Pitanja & Odgovori:</h1><br>
+					</div>
+		                  <div class="single-products">
+									<div class="container">
+									 <div class="section group">
+								@if(faqList.size() > 0 ) {
+									@for(faq<-faqList){
+										 
+							       <h2 class="redHeader2"><font size="5" style:bold > @faq.question </font></h2>
+							      	<p class="answer"><font size="4" style:italic color:blue > @faq.answer</font> <p>
+							      	}
+							        }
+										</div>
+										  </div>
+							         
+				     
+				   
+				   </div>
+				   </div>
+				   
+				   </div>
+				   </div>
+				   </div>
+				   </div>
+				   
+			}
+			}	
