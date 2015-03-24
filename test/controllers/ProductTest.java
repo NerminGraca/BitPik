@@ -337,7 +337,7 @@ public class ProductTest extends WithApplication {
 	/**
 	 * URL security for showProduct(id); First create user (not admin), login,
 	 * then create product, logout, and then test can you see
-	 * localhost:9000/showproduct/1 while U ar not login
+	 * localhost:9000/showproduct/1 while U are not login
 	 *
 	 *//*
 	@Test
@@ -359,7 +359,7 @@ public class ProductTest extends WithApplication {
 								.findMainCategoryByName("Ostale kategorije");
 						Product.create("original_product",
 								"original_product_description", 10.00, u, mc,
-								null, "sarajevo", null);
+								null, "sarajevo");
 
 						browser.goTo("http://localhost:3333/logout");
 						browser.goTo("http://localhost:3333/showProduct/1");
@@ -378,7 +378,7 @@ public class ProductTest extends WithApplication {
 
 	/**
 	 * URL security for addUser when U are not login
-	 *//*
+	 */
 	@Test
 	public void tesURLaddProduct() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -392,11 +392,11 @@ public class ProductTest extends WithApplication {
 
 					}
 				});
-	}*/
+	}
 
 	/**
 	 * URL security to checkout if nonUser can change existing product
-	 *//*
+	 */
 	@Test
 	public void tesURLeditProduct() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -417,7 +417,7 @@ public class ProductTest extends WithApplication {
 								.findMainCategoryByName("Ostale kategorije");
 						Product.create("original_product",
 								"original_product_description", 10.00, u, mc,
-								null, "sarajevo", null);
+								null, "sarajevo");
 
 						browser.goTo("http://localhost:3333/logout");
 						browser.goTo("http://localhost:3333/editProduct/1");
@@ -425,11 +425,11 @@ public class ProductTest extends WithApplication {
 								"Izmijeni podatke o proizvodu");
 					}
 				});
-	}*/
+	}
 
 	/**
 	 * URL security to checkout if admin can change existing product
-	 *//*
+	 */
 	@Test
 	public void tesURLeditProductAdmin() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -441,16 +441,16 @@ public class ProductTest extends WithApplication {
 
 						User u = User.find(1);
 						MainCategory mc = MainCategory
-								.findMainCategoryByName("Ostale kategorije");
+								.findMainCategoryByName("Ostalo");
 						Product.create("original_product",
 								"original_product_description", 10.00, u, mc,
-								null, "sarajevo", null);
+								null, "sarajevo");
 
 						browser.goTo("http://localhost:3333/editProduct/1");
 						assertThat(browser.pageSource()).doesNotContain(
 								"Izmijeni podatke o proizvodu");
 					}
 				});
-	}*/
+	}
 
 }
