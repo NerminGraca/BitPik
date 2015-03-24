@@ -132,7 +132,7 @@ public class SubCategoryTest extends WithApplication {
 					}
 		});
 	}
-	/*
+	
 	@Test
 	public void testDeleteSubCategory() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -145,10 +145,9 @@ public class SubCategoryTest extends WithApplication {
 						
 						browser.goTo("http://localhost:3333/listaPodKategorija/1");
 						assertThat(browser.pageSource()).contains("Automobili");
-						browser.goTo("http://localhost:3333/listaKategorija/2/delete");
-						browser.goTo("http://localhost:3333/listaPodKategorija/1");
+						browser.goTo("http://localhost:3333/listaPodKategorija/2/delete");
 						assertThat(browser.pageSource()).doesNotContain("Automobili");
 					}
 		});
-	}*/
+	}
 }
