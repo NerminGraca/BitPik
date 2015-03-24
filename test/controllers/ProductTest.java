@@ -35,7 +35,7 @@ public class ProductTest extends WithApplication {
 	@Test
 	public void testcheckProduct2() {
 		User.createSaveUser("neko2", "12345", "neko2@gmail.com");
-		User u = User.find(2);
+		User u = User.find(4);
 		assertNotNull(u);
 		assertEquals(u.username, "neko2");
 		// assertEquals(u.password, hashedPass);
@@ -234,7 +234,7 @@ public class ProductTest extends WithApplication {
 	 */
 	@Test public void testcheckProduct() { 
 		User.createSaveUser("neko", "12345","neko@gmail.com"); 
-		User u = User.find(2); 
+		User u = User.find(4); 
 		assertNotNull(u);
 		assertEquals(u.username, "neko"); 
 		assertEquals(u.email, "neko@gmail.com");
