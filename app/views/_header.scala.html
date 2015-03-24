@@ -50,8 +50,9 @@
      			</ul>
 	     	</div>
 	     	<div class="search_box">
-	     		<form>
-	     			<input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
+	     		<form action="/search" method="GET">
+	     			<input id="q" name="q" type="text" placeholder="Search products" />
+	     			<!--<input id="q" name="q" type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">-->
 	     			<input type="submit" value="">
 	     		</form>
 	     	</div>

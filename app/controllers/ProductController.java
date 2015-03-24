@@ -306,7 +306,7 @@ public class ProductController extends Controller {
 			flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
 			return redirect("/showProduct/"+p.id);
 	}
-	
+
 	/**
 	 * When a product is bought, the items attribute boolean isSold is set to true;
 	 * and the buyer_user is set to the user who is currently logged in, that is, set
@@ -362,4 +362,21 @@ public class ProductController extends Controller {
 		return ok(profile.render(l, buyer_user));
 	}
 	*/
+
+	public static Result searchUsers(String q){
+		if(q.isEmpty()){
+			return redirect(routes.Application.index());
+		}
+		List<Product>products=Product.find.where().like("name","%" + q + "%").eq("isSold", false).findList();
+		
+		if(products.isEmpty()||products==null){
+			flash("error",Messages.get("Nije pronadjen proizvod za vasu pretragu"));
+			return ok(listaProizvoda.render(products));
+			
+		}
+		
+		return ok(listaProizvoda.render(products));
+		
+	}
+
 }

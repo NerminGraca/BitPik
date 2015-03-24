@@ -44,6 +44,7 @@ GET   	/addPictureProduct/:id         	controllers.ProductController.productPict
 POST   	/addPictureProduct/:id          controllers.ProductController.saveFile(id: Integer)
 GET   	/addNoPictureProduct/:id        controllers.ProductController.saveNoFile(id: Integer)
 GET		/buyingAProduct/:id				controllers.ProductController.buyProductSuccess(id : Integer)
+GET     /search                         controllers.ProductController.searchUsers(q: String)
 
 GET		/kategorija/:id					controllers.CategoryController.categories(id: Integer)
 GET		/listaKategorija 				controllers.CategoryController.allCategory()

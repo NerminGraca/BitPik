@@ -190,6 +190,14 @@ public class Product extends Model {
 	}
 	
 	/**
+	 * 
+	 * @return formated price with two decimals
+	 */
+	public String getPriceString() {
+		return String.format("%1.2f",price);
+	}
+	
+	/**
 	 * Method creates a new product, by calling the constructor;
 	 * @param name
 	 * @param desc
