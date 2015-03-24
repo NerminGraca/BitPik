@@ -391,7 +391,8 @@ public class UserController extends Controller {
 		final String deletePath = "." + File.separator 
 				+ "public" + File.separator;
 		String s = findUser.byId(u.id).imagePath;
-		if (s != null){
+		
+		if (s != null && !s.equals("images/profileimg.png")){
 			File d = new File(deletePath + s);
 			d.delete();
 		}

@@ -233,18 +233,18 @@ public class ProductController extends Controller {
 		if (!s.equals("images/no-img.jpg")){
 			File file = new File(deletePath + s);
 			file.delete();
-				}
-			}
+		}
+	}
 	
 	/**
 	 * @param id is Product id
 	 * @return redirect to html for adding picture
 	 */
 	public static Result productPicture(int id) {
-		   	usernameSes = session("username");
-			Product p = findProduct.byId(id);
-		 	 return ok(addPictureProduct.render(usernameSes, p));
-		    }
+		usernameSes = session("username");
+		Product p = findProduct.byId(id);
+		return ok(addPictureProduct.render(usernameSes, p));
+	}
 	
 	
 	
