@@ -136,6 +136,14 @@ body {
 	width: 25%;
 }
 
+.leftBoxCat{
+	display: inline-block;
+	float: left;
+	padding: 0px;
+	background: #FCFCFC;
+	width: 25%;
+}
+
 .listOfUsers{
 	display: inline-block;
 	float: left;
@@ -150,6 +158,13 @@ body {
 	width: 70%;
 	padding: 5px 10px;
 	margin-left:10px; 
+}
+
+.subCatBox{
+	display: inline-block;
+	float: left;
+	width: 70%;
+	padding: 0px;
 }
 
 /* this is for editProfile red and blue text*/
