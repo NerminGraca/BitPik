@@ -27,11 +27,15 @@
 								<br>
 								<input type="submit" value="Spasi promjene" />
 							}	
-						</div>									
-						<br>	
-						@if(userCurrent.equals(u)){
-							<a class="btn3" href="/changePassword/@u.id">Promijeni lozinku</a>
-						}								
+						</div>
+						<br><br>
+						<h1 class="redHeader">PROMIJENI LOZINKU</h1>								
+						<br>
+						<div>	
+							@if(userCurrent.equals(u)){
+								<a class="btn" href="/changePassword/@u.id">Promijeni lozinku</a>
+							}
+						</div>								
 					</div>
 				</div>	
 			</div>

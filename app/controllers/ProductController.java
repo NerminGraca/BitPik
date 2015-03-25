@@ -257,11 +257,8 @@ public class ProductController extends Controller {
 	 */
 	
 	public static Result saveFile(int id){
-	
-		usernameSes = session("username");
 		
-	   	Product p = findProduct.byId(id);
-	   	 		
+	   	Product p = findProduct.byId(id);	   	 		
 	   	 			
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 
@@ -311,8 +308,11 @@ public class ProductController extends Controller {
 			Logger.of("product").error( usernameSes + " failed to upload an image to the product " +p.name);
 			e.printStackTrace();
 		}
+		
 		flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
-		return redirect("/showProduct/"+p.id);
+		p = findProduct.byId(id);
+		User user = SessionHelper.getCurrentUser(ctx());
+		return ok(showProduct.render(p, user));
 	}
 	
 	/**
@@ -389,8 +389,5 @@ public class ProductController extends Controller {
 //		List<FAQ>faqs=FAQ.find.where().like("name","%" + q + "%").findList();
 		return ok(listaPretrage.render(products,users));	
 	}
-		
-		
-
 
 }

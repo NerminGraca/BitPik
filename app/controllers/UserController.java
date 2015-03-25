@@ -445,8 +445,9 @@ public class UserController extends Controller {
 			Logger.of("user").error( usernameSes + " failed to upload an image to his profile page.");
 			e.printStackTrace();
 		}
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).eq("isSold", false).findList();
 		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
-		return redirect("/profile");
+		return ok(profile.render(l, u));
 	}
 	
 }

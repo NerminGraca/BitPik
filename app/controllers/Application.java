@@ -25,9 +25,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class Application extends Controller {
 
 	public static class Contact {
+		
 		@Required
 		@Email
 		public String email;
+		
 		@Required
 		public String message;
 		
@@ -36,8 +38,8 @@ public class Application extends Controller {
 		 */
 		public Contact() {
 			super();
-			this.email = "";
-			this.message = "";
+			this.email = "Unknown";
+			this.message = "Unknown";
 		}
 		/**
 		 * Constructor
