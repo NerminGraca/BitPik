@@ -14,45 +14,36 @@
     	<div class="content">
     		<div class="section group">
 				
-				  	
-				<div class="search_box">
-	     		<form action="/searchFaq" method="GET">
-	     			<input id="q" name="q" type="text" placeholder="Search FAQs" required/>
-	     			<!--<input id="q" name="q" type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">-->
-	     			<input type="submit" value="">
-	     		</form>
-	     	</div>
-					<h1 class="redHeader">FAQs Pitanja & Odgovori:</h1><br> 
-					<table border="0" cellspacing="0" cellpadding="0">
-				  <tr>
-				    <td width="100%"><form name="ddmessage"><table border="0" width="100%" cellspacing="0" cellpadding="0">
-				        <tr>
-				          <td width="100%">
-				          <select id="selectbox" name="selectbox" size="1" onChange="changecontent(this)">
-							<!-- PITANJA - OPCIJE U NIZU! -->			          
-				          	  @if(faqList.size() > 0 ) {
-							         <option selected value="0">Pitanja</option>
-									@for(faq <- faqList) {
-							            <option selected value="@faq.id">@faq.question</option>
-							            }
-							         }
-				          </select><br>
-				          </td>
-				        </tr>
-				        <tr>
-				        <style type="text/css">
-    						textarea { border: none; resize: none; }
-    					</style>
-				          <td width="100%"><textarea rows="5" name="contentbox" cols="100" wrap="virtual" readonly></textarea><br></td>
-				        </tr>
-				       
-				      </table>
-				    </form>
-				    </td>
-				  </tr>
-				</table>
+<!--  OVAJ DIO JE NOVI!!!! -->		
+					
+<section class="cd-faq">
+	<div class="cd-faq-items">
+	
+		<ul id="faqs" class="cd-faq-group">
+			<li class="cd-faq-title"><h2>FAQs Pitanja & Odgovori:</h2></li>
+			
+	 @if(faqList.size() > 0 ) {
+		@for(faq <- faqList) {
+			<li>
+				<a class="cd-faq-trigger" href="#0">@faq.question</a>
+				<div class="cd-faq-content">
+					<p>@faq.answer</p><!-- content here -->
+					@if(user != null) {	
+						@if(user.isAdmin) {
+							<button id="link"><a href="/editFaq/@faq.id">Edituj</button>
+							<button id="link1"><a href="/deleteFaq/@faq.id">Izbriši</button>
+						}
+					}
+				</div> 
+			</li>
+			}
+		}
+		</ul>
+ 
+	</div> 
+</section>
 				
-				<p>
+<!--  OVAJ DIO JE NOVI!!!! DO OVDJE -->	
 				
 				<script language="JavaScript">
 				
@@ -90,10 +81,7 @@
 	
 				</script>
 	@if(user != null) {	
-				 @if(user.isAdmin) {
-					<button id="link" onclick="editFaq()">Edituj</button>
-					<button id="link1" onclick="deleteFaq()" >Izbriši</button>
-				}
+				 
 				 
  		 @if(user.isAdmin) {
 			 				<br><br>
@@ -116,7 +104,4 @@
 			 </div>
  		</div>
  </div>
-		}
- 
- 
-	
+}

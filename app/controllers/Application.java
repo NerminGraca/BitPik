@@ -90,7 +90,7 @@ public class Application extends Controller {
 	 * @return redirect to index.html
 	 */
 	public static Result logout() {
-		Logger.of("login").info("User "+ session("username") +" loged out");
+		Logger.info("User "+ session("username") +" loged out");
 		session().clear();
 		flash("logout", Messages.get("Odjavili ste se."));
 		return redirect(routes.Application.index());

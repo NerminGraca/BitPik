@@ -2,7 +2,10 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.io.Files;
@@ -23,10 +26,12 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import views.html.*;
 
 public class UserController extends Controller {
+	
 
 	static Form<User> newUser = new Form<User>(User.class);
 	static String usernameSes;	
 	private static final String SESSION_USERNAME = "username";
+	
 	
 	//Finders
 	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
@@ -40,6 +45,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result addUser() {
+		
 		
 		String username;
 		String password;
@@ -449,5 +455,7 @@ public class UserController extends Controller {
 		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
 		return ok(profile.render(l, u));
 	}
+	
+	
 	
 }
