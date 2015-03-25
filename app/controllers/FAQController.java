@@ -4,6 +4,7 @@ import helpers.SessionHelper;
 
 import java.util.List;
 
+import ch.qos.logback.classic.db.SQLBuilder;
 import models.*;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
@@ -12,6 +13,7 @@ import play.i18n.Messages;
 import play.mvc.Result;
 import play.*;
 import views.html.*;
+import views.html.helper.select;
 
 public class FAQController extends Controller{
 
@@ -148,9 +150,8 @@ public class FAQController extends Controller{
 	
 	public static Result searchFaq(String q){
 	
-		List<FAQ>faqs=FAQ.find.where().like("question","%" +" "+q +" "+"%").findList(); 
+		List<FAQ>faqs=FAQ.find.where().like("question","%"+q +" "+"%").findList();
 		return ok(listaFAQs.render(faqs));
 		
-	//
 	}
 }
