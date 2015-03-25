@@ -8,7 +8,7 @@
 	<div class="validateAndLogout">
 		@flash.get("add_product_success")
 		@flash.get("edit_product_success")
-				
+		@flash.get("buy_fail")
 	</div>
 	
 	<div class="main">
@@ -61,15 +61,17 @@
 							<h2 id="redText">Objavio korisnik:</h2>
 							<p class="blueText">@p.owner.username</p>							
 						</div>
-						<a href="/creditpurchase" data-paypal-button="true">
- 	 						<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" />
-						</a>
+						
 							<div>
-							    <!-- Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
+							    <!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
 							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {
-							    	<a href="/buyingAProduct/@p.id" class="btn" onclick="return confirm('Da li zelite da vas redirectamo na PayPal stranicu da izvrsite placanje?');">Kupi</a>
+							    <a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true"  text-align="center" class="btn">KUPI</a>
+						
+						<!--  ZA KOMENTARISANO DUGME KUPI KOJE PRESKACE CITAV PAYPAL PROCES I PREBACUJE PROIZVOD U boughtproducts -->
+						<!--    <a href="/buyingAProduct/@p.id" class="btn" onclick="return confirm('Da li zelite da vas redirectamo na PayPal stranicu da izvrsite placanje?');">Kupi</a>  -->
+						<!--  ZA KOMENTARISANO IMAGE OD PAYPAL-a 		<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" /> -->
 								}
-								<!--  Vidljivost "EDIT "samo za vlasnika proizvoda -->	    
+								<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->	    
 								@if(user.username.equals(p.owner.username)) {
 									<a href="/editProduct/@p.id" class="btn">Izmijeni proizvod</a>
 									<a href="/addPictureProduct/@p.id" class="btn">Promijeni sliku</a>

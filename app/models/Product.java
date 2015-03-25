@@ -198,6 +198,17 @@ public class Product extends Model {
 	}
 	
 	/**
+	 * Converts the price entered in BAM currency
+	 * and converts the amount to USD and formats 
+	 * it into a string with two decimals;
+	 * @return formated price with two decimals in Dollars
+	 */
+	public String getPriceinStringinUSD() {
+		double priceInUSD = price * 0.56;
+		return String.format("%1.2f",priceInUSD);
+	}
+	
+	/**
 	 * Method creates a new product, by calling the constructor;
 	 * @param name
 	 * @param desc

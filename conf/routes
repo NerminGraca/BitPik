@@ -59,10 +59,11 @@ GET		/editSubCategory/:id			controllers.CategoryController.editSubCategory(id: I
 POST	/editSubCategory/:id/change		controllers.CategoryController.saveEditSubCategory(id: Integer)
 POST	/addSubCategory/:id				controllers.CategoryController.addSubCategory(id: Integer)
 GET		/podKategorija/:id				controllers.CategoryController.subCategoriesView(id: Integer)
-GET		/creditpurchase					controllers.UserController.showPurchase()
-POST	/creditpurchase					controllers.UserController.purchaseProcessing()
-GET		/purchasesuccess				controllers.UserController.purchaseSuccess()
-GET		/purchasefail					controllers.UserController.purchaseFail()
+
+GET		/thepurchase/:id				controllers.UserController.showPurchase(id: Integer)
+POST	/thepurchase/:id				controllers.UserController.purchaseProcessing(id: Integer)
+GET		/purchasesuccess/:id			controllers.UserController.purchaseSuccess(id: Integer)
+
 
 
 
