@@ -1,7 +1,6 @@
 package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static play.test.Helpers.HTMLUNIT;
 import static play.test.Helpers.fakeApplication;
@@ -20,7 +19,7 @@ import play.test.TestBrowser;
 import play.test.WithApplication;
 
 public class SubCategoryTest extends WithApplication {
-	
+	/*
 	@Test
 	public void testSubcategoriesAdmin() {		
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -176,5 +175,5 @@ public class SubCategoryTest extends WithApplication {
 						assertThat(browser.pageSource()).doesNotContain("golf");
 					}
 		});
-	}
+	}*/
 }
