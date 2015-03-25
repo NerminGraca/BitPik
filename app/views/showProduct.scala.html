@@ -61,7 +61,9 @@
 							<h2 id="redText">Objavio korisnik:</h2>
 							<p class="blueText">@p.owner.username</p>							
 						</div>
-						
+						<a href="/creditpurchase" data-paypal-button="true">
+ 	 						<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" />
+						</a>
 							<div>
 							    <!-- Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
 							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {

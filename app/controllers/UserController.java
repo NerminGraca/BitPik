@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,12 +19,18 @@ import helpers.SessionHelper;
 import models.*;
 import play.i18n.Messages;
 import play.*;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import views.html.*;
+
+import com.paypal.api.payments.*;
+import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.OAuthTokenCredential;
+import com.paypal.base.rest.PayPalRESTException;
 
 public class UserController extends Controller {
 	
@@ -456,6 +463,96 @@ public class UserController extends Controller {
 		return ok(profile.render(l, u));
 	}
 	
+	public static Result showPurchase()
+	{
+		return ok(purchase.render());
+	}
 	
+	public static Result purchaseProcessing()
+	{
+		
+		Map<String, String> sdkConfig = new HashMap<String, String>();
+		sdkConfig.put("mode", "sandbox");
+		try{
+			String accessToken = new OAuthTokenCredential("AcCUC51Cjy0j7u9MbkRQOoIN2IKAD-1yR-CiZ_AA4ckI0ZFGj7yFrHxiQNfk2glPx4Z4wZGouw-pJKQz", 
+					"EGgZaNtfZHSO8aXF9vt8guH-Q6ZFbuTa89WxTX3pjusJJMe9zdH-0iy2i6QivPVmZcypllanQ8Rugagx", sdkConfig).getAccessToken();
+			
+			APIContext apiContext = new APIContext(accessToken);
+			apiContext.setConfigurationMap(sdkConfig);
+			Amount amount = new Amount();
+			amount.setTotal("7.47");
+			amount.setCurrency("USD");
+			Transaction transaction = new Transaction();
+			transaction.setDescription("Description");
+			transaction.setAmount(amount);
+			
+			List<Transaction> transactions = new ArrayList<Transaction>();
+			transactions.add(transaction);
+			
+			Payer payer = new Payer();
+			payer.setPaymentMethod("paypal");
+			
+			Payment payment = new Payment();
+			payment.setIntent("sale");
+			payment.setPayer(payer);
+			payment.setTransactions(transactions);
+			RedirectUrls redirectUrls = new RedirectUrls();
+			redirectUrls.setCancelUrl("http://localhost:9000/purchaseFail");
+			redirectUrls.setReturnUrl("http://localhost:9000/purchaseSuccess");
+			payment.setRedirectUrls(redirectUrls);
+			Payment createdPayment = payment.create(apiContext);
+			Logger.debug(createdPayment.toJSON());
+			List<Links> links = createdPayment.getLinks();
+			Iterator<Links> itr = links.iterator();
+			while(itr.hasNext()){
+				Links link = itr.next();
+				if(link.getRel().equals("approval_url"))
+				{
+					return redirect(link.getHref());
+				}
+			}
+			
+		} catch(PayPalRESTException e)
+		{
+			Logger.warn(e.getMessage());
+		}
+		
+		
+		return TODO;
+	}
+	
+	public static Result purchaseSuccess()
+	{
+		DynamicForm paypalReturn = Form.form().bindFromRequest();
+		String paymentId = paypalReturn.get("paymentId");
+		String payerId = paypalReturn.get("PayerID");
+		String token = paypalReturn.get("token");
+		
+		Map<String, String> sdkConfig = new HashMap<String, String>();
+		sdkConfig.put("mode", "sandbox");
+		try {
+			String accessToken = new OAuthTokenCredential("AcCUC51Cjy0j7u9MbkRQOoIN2IKAD-1yR-CiZ_AA4ckI0ZFGj7yFrHxiQNfk2glPx4Z4wZGouw-pJKQz", 
+					"EGgZaNtfZHSO8aXF9vt8guH-Q6ZFbuTa89WxTX3pjusJJMe9zdH-0iy2i6QivPVmZcypllanQ8Rugagx", sdkConfig).getAccessToken();
+			APIContext apiContext = new APIContext(accessToken);
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			Payment payment = Payment.get(accessToken, paymentId);
+			
+			PaymentExecution paymentExecution = new PaymentExecution();
+			paymentExecution.setPayerId(payerId);
+			
+			payment.execute(apiContext, paymentExecution);
+		} catch (PayPalRESTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ok(purchaseResult.render("Prošlo"));
+	}
+	
+	public static Result purchaseFail()
+	{
+		return ok(purchaseResult.render("Nije prošlo"));
+	}
+		
 	
 }
