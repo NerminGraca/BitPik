@@ -149,9 +149,12 @@ public class FAQController extends Controller{
 	}
 	
 	public static Result searchFaq(String q){
-	
-		List<FAQ>faqs=FAQ.find.where().like("question","%"+q +" "+"%").findList();
-		return ok(listaFAQs.render(faqs));
+		Logger.debug("seacrh");
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		List<FAQ>faqs=FAQ.find.where("UPPER(question) LIKE UPPER('%"+q+"%')").findList();
+		Logger.debug(""+faqs.size());
+		
+		return ok(listaFAQs.render(faqs,currentUser));
 		
 	}
 }
