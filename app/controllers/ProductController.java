@@ -41,7 +41,7 @@ public class ProductController extends Controller {
 	public static Result showProduct(int id) {
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
 		Product p = ProductController.findProduct.byId(id);
-		
+		List<ImgPath> imgPathList = p.imgPathList;
 		return ok(showProduct.render(p, u));
 	}
 	
@@ -238,11 +238,18 @@ public class ProductController extends Controller {
 				+ "public" + File.separator;
 		
 		
-		String s = findProduct.byId(id).productImagePath;
-		if (!s.equals("images/no-img.jpg")){
-			File file = new File(deletePath + s);
-			file.delete();
+		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
+		
+		for (int i = 0; i< imgList.size() ; i++){
+			String s = imgList.get(i).imgPath;
+			
+			if (!s.equals("images/no-img.jpg")){
+				File file = new File(deletePath + s);
+				file.delete();
+			}
+						
 		}
+			
 	}
 	
 	/**
