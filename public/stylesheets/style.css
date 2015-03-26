@@ -1763,6 +1763,33 @@ max-height: 150px;
 	margin-bottom: 15px;
 }
 /**** Responsive Layout ****/
+@media only screen and (max-width: 1540px) {
+	.wrap {
+		width: 90%;
+	}
+}
+@media only screen and (max-width: 1370px) {
+	.wrap {
+		width: 100%;
+	}
+}
+@media only screen and (max-width: 1230px) {
+	.wrap {
+		width: 90%;
+	}
+	div#wowslider-container1 {
+		width: 75%;		
+	}			
+	img#wows1_0 {
+		width: 95%;		
+	}
+	img#wows1_1 {
+		width: 95%;		
+	}
+	img#wows1_2 {
+		width: 95%;		
+	}
+}
 @media only screen and (max-width: 1024px) {
 	.wrap {
 		width: 90%;
