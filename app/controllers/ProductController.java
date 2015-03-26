@@ -1,3 +1,4 @@
+
 package controllers;
 
 import helpers.SessionHelper;
@@ -384,9 +385,8 @@ public class ProductController extends Controller {
 	*/
 
 	public static Result searchUsers(String q){
-		List<Product>products=Product.find.where().like("name","%" + q + "%").eq("isSold", false).findList();
-		List<User>users=User.findInt.where().like("username","%" + q + "%").findList();
-//		List<FAQ>faqs=FAQ.find.where().like("name","%" + q + "%").findList();
+		List<Product>products=Product.find.where("UPPER(name) LIKE UPPER('%"+q+"%')AND(isSold) LIKE (false)").findList();
+		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
 		return ok(listaPretrage.render(products,users));	
 	}
 

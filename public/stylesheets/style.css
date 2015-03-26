@@ -523,6 +523,17 @@ body {
 	text-transform:uppercase;
 		
 }
+.categories1 li a{
+	display:block;
+	font-size:0.8em;
+	padding:8px 15px;
+    color: #9C9C9C;
+   
+    margin:0 20px;
+    background:url(../images/drop_arrow.png) no-repeat 0;
+    border-bottom: 1px solid #EEE;
+    	
+}
 .categories li a{
 	display:block;
 	font-size:0.8em;
