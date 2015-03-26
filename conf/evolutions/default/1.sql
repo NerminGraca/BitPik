@@ -10,6 +10,13 @@ create table faq (
   constraint pk_faq primary key (id))
 ;
 
+create table img_path (
+  id                        integer not null,
+  img_path                  varchar(255),
+  product_id                integer,
+  constraint pk_img_path primary key (id))
+;
+
 create table main_category (
   id                        integer not null,
   name                      varchar(255),
@@ -58,6 +65,8 @@ create table user (
 
 create sequence faq_seq;
 
+create sequence img_path_seq;
+
 create sequence main_category_seq;
 
 create sequence product_seq;
@@ -66,16 +75,18 @@ create sequence sub_category_seq;
 
 create sequence user_seq;
 
-alter table product add constraint fk_product_mainCategory_1 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
-create index ix_product_mainCategory_1 on product (main_category_id);
-alter table product add constraint fk_product_owner_2 foreign key (owner_id) references user (id) on delete restrict on update restrict;
-create index ix_product_owner_2 on product (owner_id);
-alter table product add constraint fk_product_subCategory_3 foreign key (sub_category_id) references sub_category (id) on delete restrict on update restrict;
-create index ix_product_subCategory_3 on product (sub_category_id);
-alter table product add constraint fk_product_buyer_user_4 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
-create index ix_product_buyer_user_4 on product (buyer_user_id);
-alter table sub_category add constraint fk_sub_category_mainCategory_5 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
-create index ix_sub_category_mainCategory_5 on sub_category (main_category_id);
+alter table img_path add constraint fk_img_path_product_1 foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_img_path_product_1 on img_path (product_id);
+alter table product add constraint fk_product_mainCategory_2 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
+create index ix_product_mainCategory_2 on product (main_category_id);
+alter table product add constraint fk_product_owner_3 foreign key (owner_id) references user (id) on delete restrict on update restrict;
+create index ix_product_owner_3 on product (owner_id);
+alter table product add constraint fk_product_subCategory_4 foreign key (sub_category_id) references sub_category (id) on delete restrict on update restrict;
+create index ix_product_subCategory_4 on product (sub_category_id);
+alter table product add constraint fk_product_buyer_user_5 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
+create index ix_product_buyer_user_5 on product (buyer_user_id);
+alter table sub_category add constraint fk_sub_category_mainCategory_6 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
+create index ix_sub_category_mainCategory_6 on sub_category (main_category_id);
 
 
 
@@ -84,6 +95,8 @@ create index ix_sub_category_mainCategory_5 on sub_category (main_category_id);
 SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists faq;
+
+drop table if exists img_path;
 
 drop table if exists main_category;
 
@@ -96,6 +109,8 @@ drop table if exists user;
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists faq_seq;
+
+drop sequence if exists img_path_seq;
 
 drop sequence if exists main_category_seq;
 

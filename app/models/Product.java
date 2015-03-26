@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -49,6 +50,8 @@ public class Product extends Model {
 	
 	@ManyToOne
 	public User buyer_user;
+	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
+	public List<ImgPath> imgPathList;
 	
 	
 	/**
