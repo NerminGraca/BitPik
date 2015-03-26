@@ -468,7 +468,7 @@ public class UserController extends Controller {
 		return ok(purchase.render());
 	}
 	
-	public static Result purchaseProcessing()
+	public static Result purchaseProcessing(Product p)
 	{
 		
 		Map<String, String> sdkConfig = new HashMap<String, String>();
@@ -480,12 +480,12 @@ public class UserController extends Controller {
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			Amount amount = new Amount();
-			amount.setTotal("7.47");
-			amount.setCurrency("USD");
-			Transaction transaction = new Transaction();
-			transaction.setDescription("Description");
-			transaction.setAmount(amount);
+			amount.setTotal("" + p.price);
+			amount.setCurrency("EUR");
 			
+			Transaction transaction = new Transaction();
+			transaction.setDescription(p.description);
+			transaction.setAmount(amount);
 			List<Transaction> transactions = new ArrayList<Transaction>();
 			transactions.add(transaction);
 			
@@ -495,7 +495,9 @@ public class UserController extends Controller {
 			Payment payment = new Payment();
 			payment.setIntent("sale");
 			payment.setPayer(payer);
+			payment.setState("Bosnia and Herzegovina");
 			payment.setTransactions(transactions);
+			
 			RedirectUrls redirectUrls = new RedirectUrls();
 			redirectUrls.setCancelUrl("http://localhost:9000/purchaseFail");
 			redirectUrls.setReturnUrl("http://localhost:9000/purchaseSuccess");
@@ -537,7 +539,6 @@ public class UserController extends Controller {
 			apiContext.setConfigurationMap(sdkConfig);
 			
 			Payment payment = Payment.get(accessToken, paymentId);
-			
 			PaymentExecution paymentExecution = new PaymentExecution();
 			paymentExecution.setPayerId(payerId);
 			
