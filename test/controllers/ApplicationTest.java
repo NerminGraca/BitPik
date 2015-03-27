@@ -123,7 +123,7 @@ public class ApplicationTest {
 		});
 						
 	}
-	
+*/
 	@Test
 	public void testSearchExistingUser(){
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -134,7 +134,7 @@ public class ApplicationTest {
 						browser.submit("#nameForm");
 						browser.goTo("http://localhost:3333/search?q=admin");
 						assertThat(browser.pageSource().contains("Korisnici:"));
-						assertThat(browser.pageSource().contains("ADMIN"));
+						assertThat(browser.pageSource().contains("admin"));
 						
 					}
 					
@@ -163,7 +163,7 @@ public class ApplicationTest {
 					}
 		});					
 	}
-	
+
 	@Test
 	public void testSearchNonExistingUser(){
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -172,6 +172,7 @@ public class ApplicationTest {
 						browser.goTo("http://localhost:3333");
 						browser.fill("#q").with("Selma");
 						browser.submit("#nameForm");
+						browser.goTo("http://localhost:3333/search?q=Selma");
 						assertThat(browser.pageSource().contains("Korisnici:"));
 						assertThat(browser.pageSource().contains("Nema rezultata za vasu pretragu"));
 					}
@@ -188,13 +189,14 @@ public class ApplicationTest {
 						browser.goTo("http://localhost:3333");
 						browser.fill("#q").with("Kuca");
 						browser.submit("#nameForm");
+						browser.goTo("http://localhost:3333/search?q=Kuca");
 						assertThat(browser.pageSource().contains("Proizvodi:"));
 						assertThat(browser.pageSource().contains("Nema rezultata za vasu pretragu"));
 						
 					}
 		});	
 	}
-	
+	//Ovaj test pada zbog ispisa u javaScriptu!
 	@Test
 	public void testSearchExistingFAQ(){
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -206,6 +208,7 @@ public class ApplicationTest {
 						browser.goTo("http://localhost:3333/faqs");
 						browser.fill("#q").with("pitanje");
 						browser.submit("#nameForm");
+						browser.goTo("http://localhost:3333/search?q=pitanje");
 						assertThat(browser.pageSource().contains("Rezultati pretrage:"));
 						assertThat(browser.pageSource().contains("pitanje"));
 						
@@ -221,10 +224,12 @@ public class ApplicationTest {
 						browser.goTo("http://localhost:3333/faqs");
 						browser.fill("#q").with("pitanje");
 						browser.submit("#nameForm");
+						browser.goTo("http://localhost:3333/search?q=pitanje");
 						assertThat(browser.pageSource().contains("Rezultati pretrage:"));
-						assertThat(browser.pageSource().contains("Nema rezultata za vasu pretragu"));
+						assertThat(browser.pageSource().contains("NEMA REZULTATA ZA VASU PRETRAGU"));
 					}
 		});
 	}
-	*/
+	
+
 }

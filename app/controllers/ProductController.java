@@ -1,3 +1,4 @@
+
 package controllers;
 
 import helpers.SessionHelper;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import models.FAQ;
+import models.ImgPath;
 import models.MainCategory;
 import models.Product;
 import models.SubCategory;
@@ -40,8 +42,15 @@ public class ProductController extends Controller {
 	public static Result showProduct(int id) {
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
 		Product p = ProductController.findProduct.byId(id);
+		List<ImgPath> imgPathList = p.imgPathList;
 		return ok(showProduct.render(p, u));
 	}
+	
+//	public static Result galleryView(int id){
+//		Product p = Product.find.byId(id);
+//		List<ImgPath> imgPathList = p.imgPathList;
+//		return ok(sh)
+//	}
 
 	/**
 	 * Method takes the usernameSes from the session variable and sends it to
@@ -230,11 +239,18 @@ public class ProductController extends Controller {
 				+ "public" + File.separator;
 		
 		
-		String s = findProduct.byId(id).productImagePath;
-		if (!s.equals("images/no-img.jpg")){
-			File file = new File(deletePath + s);
-			file.delete();
+		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
+		
+		for (int i = 0; i< imgList.size() ; i++){
+			String s = imgList.get(i).imgPath;
+			
+			if (!s.equals("images/no-img.jpg")){
+				File file = new File(deletePath + s);
+				file.delete();
+			}
+						
 		}
+			
 	}
 	
 	/**
@@ -303,6 +319,8 @@ public class ProductController extends Controller {
 			String assetsPath = "images" 
 					+ File.separator + "productPicture" + File.separator + profile.getName();
 			p.productImagePath = assetsPath;
+			ImgPath imp= new ImgPath(assetsPath,p);
+			p.imgPathList.add(imp);
 			p.save();
 		} catch (IOException e) {
 			Logger.of("product").error( usernameSes + " failed to upload an image to the product " +p.name);
@@ -384,9 +402,8 @@ public class ProductController extends Controller {
 	*/
 
 	public static Result searchUsers(String q){
-		List<Product>products=Product.find.where().like("name","%" + q + "%").eq("isSold", false).findList();
-		List<User>users=User.findInt.where().like("username","%" + q + "%").findList();
-//		List<FAQ>faqs=FAQ.find.where().like("name","%" + q + "%").findList();
+		List<Product>products=Product.find.where("UPPER(name) LIKE UPPER('%"+q+"%')AND(isSold) LIKE (false)").findList();
+		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
 		return ok(listaPretrage.render(products,users));	
 	}
 

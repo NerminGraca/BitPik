@@ -13,15 +13,36 @@
 	
 	<div class="main">
     	<div class="content">
+  
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".fancybox").fancybox();
+	});
+</script>
     						  				  	
 				  	<div class="categories">
 				  	<h3>Oglas</h3>
 				  		
+				  	<div id="boxForEditingProduct" >
+				  	<div class="section group" >	
 				  	
-				  	<div id="boxForEditingProduct">
-				  	
-				  	<div><a class="profilePicture" ><img src="@routes.Assets.at(p.productImagePath)" alt="" /></a></div>				
-				  	
+				  	<div><a class="profilePicture" ><img src="@routes.Assets.at(p.productImagePath)" alt="" /></a></div>
+									
+				  	@if(p.imgPathList.size() > 0 ) {
+				  			@for(imgPath <- p.imgPathList) {
+				  			<div class="grid_1_of_4 images_1_of_4">
+				  			<a class="fancybox" rel="gallery1" href= "@routes.Assets.at(imgPath.imgPath)">
+				  			<img class="col-md-3" src="@routes.Assets.at(imgPath.imgPath)" alt="" width = "300" height="200" />
+				  			</a>
+				  			</div>
+
+				  			
+				  			
+				  		}
+				  }
+				  
+				</div>
+				  <div id="boxForEditingProduct">
 						<div class="bottomLine">
 							<h2 id="redText"><p>ID oglasa:</p></h2>
 							<h6 class="blueText">@p.id</h6>
@@ -83,7 +104,7 @@
                 					}
 								}	
 							</div><br><br>	
-						
+						</div>
 					</div>					
 				</div>
 			</div>
