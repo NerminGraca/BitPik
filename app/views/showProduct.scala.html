@@ -87,6 +87,7 @@
 						</div>
 						
 							<div>
+							@if(user != null) {
 							    <!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
 							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {
 							    <a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true"  text-align="center" class="btn">KUPI</a>
@@ -106,6 +107,8 @@
                    					<input class="btnRed" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
                 					}
 								}	
+								
+							}
 							</div><br><br>	
 						</div>
 					</div>					
