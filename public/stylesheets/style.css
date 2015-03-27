@@ -278,6 +278,17 @@ body {
  	max-width:200px;
 	max-height: 200px;
  }
+ .profilePictureGallery{
+	margin: 0 auto;
+	position: relative;
+	display: block;
+	text-align: center;	 	
+}
+ .profilePictureGallery img{
+ 	max-width:50%;
+ 	
+ 
+ }
 
 .redHeader{
 	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif, bold;

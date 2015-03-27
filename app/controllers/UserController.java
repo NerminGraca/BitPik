@@ -461,7 +461,7 @@ public class UserController extends Controller {
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).eq("isSold", false).findList();
 		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
-		return ok(profile.render(l, u));
+		return redirect("/profile");
 	}
 	
 	public static Result showPurchase(int id)
