@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -49,6 +50,8 @@ public class Product extends Model {
 	
 	@ManyToOne
 	public User buyer_user;
+	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
+	public List<ImgPath> imgPathList;
 	
 	
 	/**
@@ -195,6 +198,17 @@ public class Product extends Model {
 	 */
 	public String getPriceString() {
 		return String.format("%1.2f",price);
+	}
+	
+	/**
+	 * Converts the price entered in BAM currency
+	 * and converts the amount to USD and formats 
+	 * it into a string with two decimals;
+	 * @return formated price with two decimals in Dollars
+	 */
+	public String getPriceinStringinUSD() {
+		double priceInUSD = price * 0.56;
+		return String.format("%1.2f",priceInUSD);
 	}
 	
 	/**

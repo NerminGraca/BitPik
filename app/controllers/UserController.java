@@ -1,5 +1,6 @@
 package controllers;
 
+import java.awt.image.renderable.RenderableImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -463,28 +464,40 @@ public class UserController extends Controller {
 		return ok(profile.render(l, u));
 	}
 	
-	public static Result showPurchase()
+	public static Result showPurchase(int id)
 	{
-		return ok(purchase.render());
+		Product p = Product.find.byId(id);
+		return ok(purchase.render(p));
 	}
 	
-	public static Result purchaseProcessing(Product p)
+
+
+	public static Result purchaseProcessing(int id)
+
 	{
-		
+		Product p = Product.find.byId(id);
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
 		try{
-			String accessToken = new OAuthTokenCredential("AcCUC51Cjy0j7u9MbkRQOoIN2IKAD-1yR-CiZ_AA4ckI0ZFGj7yFrHxiQNfk2glPx4Z4wZGouw-pJKQz", 
-					"EGgZaNtfZHSO8aXF9vt8guH-Q6ZFbuTa89WxTX3pjusJJMe9zdH-0iy2i6QivPVmZcypllanQ8Rugagx", sdkConfig).getAccessToken();
+			String accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
 			
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			Amount amount = new Amount();
+
 			amount.setTotal("" + p.price);
 			amount.setCurrency("EUR");
 			
+			
+
+			// We put the amount in USD and convert it to a String;
+			amount.setTotal(p.getPriceinStringinUSD());
+			amount.setCurrency("USD");
 			Transaction transaction = new Transaction();
-			transaction.setDescription(p.description);
+			transaction.setDescription("Cestitamo, jos ste samo nekoliko koraka od kupovine proizvoda '" + p.name +
+										"' sa slijedecim opisom : '" + p.description + "'");
+
 			transaction.setAmount(amount);
 			List<Transaction> transactions = new ArrayList<Transaction>();
 			transactions.add(transaction);
@@ -499,8 +512,9 @@ public class UserController extends Controller {
 			payment.setTransactions(transactions);
 			
 			RedirectUrls redirectUrls = new RedirectUrls();
-			redirectUrls.setCancelUrl("http://localhost:9000/purchaseFail");
-			redirectUrls.setReturnUrl("http://localhost:9000/purchaseSuccess");
+			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela"));
+			redirectUrls.setCancelUrl("http://localhost:9000/showProduct/"+ id);
+			redirectUrls.setReturnUrl("http://localhost:9000/purchasesuccess/"+id);
 			payment.setRedirectUrls(redirectUrls);
 			Payment createdPayment = payment.create(apiContext);
 			Logger.debug(createdPayment.toJSON());
@@ -523,7 +537,8 @@ public class UserController extends Controller {
 		return TODO;
 	}
 	
-	public static Result purchaseSuccess()
+	
+	public static Result purchaseSuccess(int id)
 	{
 		DynamicForm paypalReturn = Form.form().bindFromRequest();
 		String paymentId = paypalReturn.get("paymentId");
@@ -533,8 +548,8 @@ public class UserController extends Controller {
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
 		try {
-			String accessToken = new OAuthTokenCredential("AcCUC51Cjy0j7u9MbkRQOoIN2IKAD-1yR-CiZ_AA4ckI0ZFGj7yFrHxiQNfk2glPx4Z4wZGouw-pJKQz", 
-					"EGgZaNtfZHSO8aXF9vt8guH-Q6ZFbuTa89WxTX3pjusJJMe9zdH-0iy2i6QivPVmZcypllanQ8Rugagx", sdkConfig).getAccessToken();
+			String accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			
@@ -547,13 +562,8 @@ public class UserController extends Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return ok(purchaseResult.render("Prošlo"));
+		return redirect("http://localhost:9000/buyingAProduct/" +id);
 	}
 	
-	public static Result purchaseFail()
-	{
-		return ok(purchaseResult.render("Nije prošlo"));
-	}
-		
 	
 }

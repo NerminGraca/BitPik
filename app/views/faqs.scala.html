@@ -15,9 +15,14 @@
     		<div class="section group">
 				
 <!--  OVAJ DIO JE NOVI!!!! -->		
-					
-<section class="cd-faq">
-	<div class="cd-faq-items">
+<div class="search_box">
+	     		<form action="/searchFaq" method="GET">
+	     			<input id="q" name="q" type="text" placeholder="Search FAQs" required/>
+	     			<input type="submit" value="">
+	     		</form>
+	     	</div>	
+	     					
+
 	
 		<ul id="faqs" class="cd-faq-group">
 			<li class="cd-faq-title"><h2>FAQs Pitanja & Odgovori:</h2></li>
@@ -30,8 +35,8 @@
 					<p>@faq.answer</p><!-- content here -->
 					@if(user != null) {	
 						@if(user.isAdmin) {
-							<button id="link"><a href="/editFaq/@faq.id">Edituj</button>
-							<button id="link1"><a href="/deleteFaq/@faq.id">Izbriši</button>
+							<button id="link"><a href="/editFaq/@faq.id">Edituj</a></button>
+							<button id="link1"><a href="/deleteFaq/@faq.id">Izbriši</a></button>
 						}
 					}
 				</div> 
@@ -40,8 +45,7 @@
 		}
 		</ul>
  
-	</div> 
-</section>
+
 				
 <!--  OVAJ DIO JE NOVI!!!! DO OVDJE -->	
 				

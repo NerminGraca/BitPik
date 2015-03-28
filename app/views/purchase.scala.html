@@ -1,14 +1,28 @@
+@(p: Product)
+
 @main("purchase", ""){
 	
 	<div class="main">
     	<div class="content">
-			<form method="post" action="/creditpurchase">
-
-				<button type="submit">	
-  					<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" />
-				</button>
-		
-			</form>
+    	
+	   		<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="contact-form">
+				  		<h1 class="redHeader">Kliknite na slijedeci link za PayPal Transkaciju</h1><br>
+    	
+    	
+    	
+    	<!-- Dugme broj 2. koje kada korinik klikne - redirecta ga stvarno na Paypal ovu stranicu!  -->
+							<form method="post" action="@routes.UserController.purchaseProcessing(p.id)">
+								<button type="submit">	
+				  					<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" />
+								</button>
+						
+							</form>
+				
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 		

@@ -523,6 +523,17 @@ body {
 	text-transform:uppercase;
 		
 }
+.categories1 li a{
+	display:block;
+	font-size:0.8em;
+	padding:8px 15px;
+    color: #9C9C9C;
+   
+    margin:0 20px;
+    background:url(../images/drop_arrow.png) no-repeat 0;
+    border-bottom: 1px solid #EEE;
+    	
+}
 .categories li a{
 	display:block;
 	font-size:0.8em;
@@ -717,8 +728,9 @@ box-sizing: border-box;
 }
 
 .images_1_of_4  img {
-max-height: 150px;
-	max-width: 150px;
+max-height: 200px;
+	max-width: 280px;
+	position: center;
 	 
 }
 .images_1_of_4  h2 {
@@ -810,7 +822,8 @@ max-height: 150px;
 .section {
 	clear: both;
 	padding: 0px;
-	margin: 0px;
+	margin: 0px auto;
+	position: center;
 }
 .group:before, .group:after {
 	content: "";
@@ -1763,6 +1776,33 @@ max-height: 150px;
 	margin-bottom: 15px;
 }
 /**** Responsive Layout ****/
+@media only screen and (max-width: 1540px) {
+	.wrap {
+		width: 90%;
+	}
+}
+@media only screen and (max-width: 1370px) {
+	.wrap {
+		width: 100%;
+	}
+}
+@media only screen and (max-width: 1230px) {
+	.wrap {
+		width: 90%;
+	}
+	div#wowslider-container1 {
+		width: 75%;		
+	}			
+	img#wows1_0 {
+		width: 95%;		
+	}
+	img#wows1_1 {
+		width: 95%;		
+	}
+	img#wows1_2 {
+		width: 95%;		
+	}
+}
 @media only screen and (max-width: 1024px) {
 	.wrap {
 		width: 90%;
@@ -2056,5 +2096,8 @@ max-height: 150px;
 		padding: 20px;
 		color: #7db9e8;
 	}
-}
+	#boxForCenter{
+	margin:0 auto;
+	}
+	
 
