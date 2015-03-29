@@ -485,12 +485,12 @@ public class UserController extends Controller {
 			// We put the amount in USD and convert it to a String;
 			amount.setTotal(p.getPriceinStringinUSD());
 			amount.setCurrency("USD");
-			Transaction transaction = new Transaction();
+			TransactionP transaction = new TransactionP();
 			transaction.setDescription("Cestitamo, jos ste samo nekoliko koraka od kupovine proizvoda '" + p.name +
 										"' sa slijedecim opisom : '" + p.description + "'");
 			transaction.setAmount(amount);
 			
-			List<Transaction> transactions = new ArrayList<Transaction>();
+			List<TransactionP> transactions = new ArrayList<TransactionP>();
 			transactions.add(transaction);
 			
 			Payer payer = new Payer();
@@ -534,6 +534,7 @@ public class UserController extends Controller {
 		String payerId = paypalReturn.get("PayerID");
 		String token = paypalReturn.get("token");
 		
+		
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
 		try {
@@ -552,6 +553,17 @@ public class UserController extends Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// We create a transaction;
+		// After all has been finished with the paypal paying process;
+		////TransactionP temp = new TransactionP(token);
+		// TODO To be done :
+		//	redirect him to a new page with a form... please comment/review the transaction; (set buyer_comment);
+		//	later.. the seller has the form as well in soldProducts; to comment.. if seller_comment == null - prikazi mu formular
+		// onda opet set seller_comment;
+		
+		//LATER DODATI NA USER slijedeca dva atributa!!!:
+		// User ima List<Transaction> myTransactionsSold; @Mappedby owner (Product);
+		// User ima List<Transaction> myTransactionsBought; @Mappedby buyer_id (Product);
 		return redirect("http://localhost:9000/buyingAProduct/" +id);
 	}
 	
