@@ -41,7 +41,8 @@ public class ProductController extends Controller {
 	public static Result showProduct(int id) {
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
 		Product p = ProductController.findProduct.byId(id);
-		return ok(showProduct.render(p, u));
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
+		return ok(showProduct.render(p, u, mainCategoryList));
 	}
 
 	/**

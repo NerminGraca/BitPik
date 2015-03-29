@@ -1,4 +1,4 @@
-@(p: Product)(user: User)
+@(p: Product)(user: User)(mainCategoryList: List[MainCategory])
 
 @import helper._
 
@@ -10,74 +10,191 @@
 		@flash.get("edit_product_success")
 		@flash.get("buy_fail")
 	</div>
+	<script>
+	$(function(){
+		$('#products').slides({
+			preload: true,
+			preloadImage: 'img/loading.gif',
+			effect: 'slide, fade',
+			crossfade: true,
+			slideSpeed: 350,
+			fadeSpeed: 500,
+			generateNextPrev: true,
+			generatePagination: false
+		});
+	});
+	</script>
 	
 	<div class="main">
     	<div class="content">
+    		<div class="content_top">
+	    		<div class="back-links">
+	    		<p><a href="/kategorija/@p.mainCategory.id">@p.mainCategory.name</a> >>>> <a href="/podKategorija/@p.subCategory.id">@p.subCategory.name</a></p>
+	    	    </div>
+	    		<div class="clear"></div>
+	    	</div>
+	    	<div class="section group">
+	    		<div class="cont-desc span_1_of_2">
+	    			<div class="product-details">
+	    				<div class="grid images_3_of_2">
+	    					<div id="container">
+	    						<div id="products_example">
+	    							<div id="products">
+	    								<div class="slides_container">
+	    									
+	    									@if(p.imgPathList.size() > 0  ) {
+									  			@for(imgPath <- p.imgPathList) {
+									  				<a class="fancybox" rel="gallery1" href="@routes.Assets.at(imgPath.imgPath)">
+									  					<img class="col-md-3" src="@routes.Assets.at(imgPath.imgPath)" alt="" width = "300" height="200" />  		
+									  				</a>			  			
+									  			}
+									  		}
+	    									
+										</div>
+										<ul class="pagination">
+										
+											@if(p.imgPathList.size() > 0  ) {
+									  			@for(imgPath <- p.imgPathList) {
+									  				<li><a href=""@routes.Assets.at(imgPath.imgPath)""><img src="@routes.Assets.at(imgPath.imgPath)" alt=" " /></a></li>
+									  			}
+									  		}
+											
+											
+										</ul>
+	    							
+	    							</div>
+	    						</div>
+	    					</div>
+	    				</div>
+	    				<div class="desc span_3_of_2">
+							<h2>@p.name</h2>
+							<p>@p.description</p>					
+							<div class="price">
+								<p>Cijena: <span>@p.getPriceString() KM</span></p>
+							</div>
+							<div class="available">
+								<p>Objavio korisnik :</p>
+									<ul>
+										@p.owner.username
+									</ul>
+							</div>
+							<div class="share-desc">
+								<div class="share">
+									<p>Podijeli Artikal :</p>
+										<ul>
+											<li><a href="#"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
+											<li><a href="#"><img src="@routes.Assets.at("images/twitter.png")" alt="" /></a></li>					    
+										</ul>
+								</div>
+								<div class="button"><span><a href="#">Kupi Artikal</a></span></div>					
+								<div class="clear"></div>
+							</div>
+							<div class="wish-list">
+								<ul>
+									<li class="wish"><a href="#">Dodaj u listu zelja</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="clear"></div>
+	    			</div>
+	    			<div class="product_desc">	
+						<div id="horizontalTab">
+							<ul class="resp-tabs-list">
+								<li>Detaljni opis</li>
+								<li>Review</li>
+								<div class="clear"></div>
+							</ul>
+							<div class="resp-tabs-container">
+								<div class="product-desc">
+									<p>Lorem Ipsum is simply dummy text of the <span>printing and typesetting industry</span>. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, <span>when an unknown printer took a galley of type and scrambled</span> it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.<span> It has survived not only five centuries</span>, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>					
+								</div>
+								<div class="review">
+									<h4>Lorem ipsum Review by <a href="#">Finibus Bonorum</a></h4>
+									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+									<div class="your-review">
+										<h3>How Do You Rate This Product?</h3>
+										<p>Write Your Own Review?</p>
+										<form>
+											<div>
+												<span><label>Nickname<span class="red">*</span></label></span>
+												<span><input type="text" value=""></span>
+											</div>
+											<div><span><label>Summary of Your Review<span class="red">*</span></label></span>
+												<span><input type="text" value=""></span>
+											</div>						
+											<div>
+												<span><label>Review<span class="red">*</span></label></span>
+												<span><textarea> </textarea></span>
+											</div>
+											<div>
+												<span><input type="submit" value="SUBMIT REVIEW"></span>
+											</div>
+										</form>
+									</div>				
+								</div>
+							</div>
+						</div>
+					</div>
+					<script type="text/javascript">
+						$(document).ready(function () {
+							$('#horizontalTab').easyResponsiveTabs({
+            					type: 'default', //Types: default, vertical, accordion           
+            					width: 'auto', //auto or any width like 600px
+            					fit: true   // 100% fit in a container
+        					});
+						});
+					</script>
+					<script type="text/javascript">
+					$(document).ready(function() {
+						$(".fancybox").fancybox();
+					});
+					</script>
+					<div class="content_bottom">
+						<div class="heading">
+							<h3>Slicni Artikli</h3>
+						</div>
+						<div class="see">
+							<p><a href="#">Pogledaj ostale</a></p>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="section group">
+						
+					</div>
+	    		</div>
+	    		<div class="rightsidebar span_3_of_1">
+	    			<h2>KATEGORIJE</h2>
+	    			<ul>
+	    				@if(mainCategoryList.size() > 0 ) {
+				  			@for(mainCategory <- mainCategoryList) {
+				  				<li><a href="/kategorija/@mainCategory.id">@mainCategory.name</a></li>
+				  			}
+				  		}
+	    			</ul>
+	    		</div>
+	    		
+	    		
+	    	</div>
   
-<script type="text/javascript">
-	$(document).ready(function() {
-		$(".fancybox").fancybox();
-	});
-</script>
+
     						  				  	
 				  	<div class="categories">
-				  	<h3>Oglas</h3>
+				  	
 				  		
 				  	<div id="boxForEditingProduct" >
-				  	<div class="section group" >	
-				  	
-				  	<div><a class="profilePictureGallery" ><img src="@routes.Assets.at(p.productImagePath)" alt=""width = "400" height = "300" /></a></div>
-									
-				  	@if(p.imgPathList.size() > 0  ) {
-				  			@for(imgPath <- p.imgPathList) {
-				  			<div class="grid_1_of_4 images_1_of_4">
-				  				<a class="fancybox" rel="gallery1" href= "@routes.Assets.at(imgPath.imgPath)">
-				  					<img class="col-md-3" src="@routes.Assets.at(imgPath.imgPath)" alt="" width = "300" height="200" />  		
-				  				</a>
-				  			</div>			  			
-				  		}
-				  }
-				  
-				</div>
 				  <div id="boxForEditingProduct">
 						<div class="bottomLine">
 							<h2 id="redText"><p>ID oglasa:</p></h2>
 							<h6 class="blueText">@p.id</h6>
 						</div>
 		
-						<div class="bottomLine">	
-							<h2 id="redText">Naziv proizvoda:</h2>
-							<p class="blueText">@p.name</p>
-						</div>	
-			
-						<div class="bottomLine">
-							<h2 id="redText">Opis:</h2>
-							<p class="blueText">@p.description</p>
-						</div>
-				
-						<div class="bottomLine">
-							<h2 id="redText">Cijena:</h2>
-							<p class="blueText">@p.getPriceString() KM</p>
-						</div>
-		
-						<div class="bottomLine">		
-							<h2 id="redText">Kategorija:</h2>
-							<p class="blueText">@p.mainCategory.name</p>
-						</div>
 						
-						<div class="bottomLine">		
-							<h2 id="redText">Podkategorija:</h2>
-							<p class="blueText">@p.subCategory.name</p>
-						</div>
 		
 						<div class="bottomLine">
 							<h2  id="redText">Dostupnost:</h2>
 							<p class="blueText">@p.availability</p>
-						</div>	
-		
-						<div class="bottomLine">
-							<h2 id="redText">Objavio korisnik:</h2>
-							<p class="blueText">@p.owner.username</p>							
 						</div>
 						
 							<div>
