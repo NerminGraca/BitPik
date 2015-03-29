@@ -26,13 +26,16 @@
 				  	<div id="boxForEditingProduct" >
 				  	<div class="section group" >	
 				  	
-				  	<div><a class="profilePicture" ><img src="@routes.Assets.at(p.productImagePath)" alt="" /></a></div>
+				  	<div><a class="profilePictureGallery" ><img src="@routes.Assets.at(p.productImagePath)" alt=""width = "400" height = "300" /></a></div>
 									
-				  	@if(p.imgPathList.size() > 0 ) {
+				  	@if(p.imgPathList.size() > 0  ) {
 				  			@for(imgPath <- p.imgPathList) {
 				  			<div class="grid_1_of_4 images_1_of_4">
 				  			<a class="fancybox" rel="gallery1" href= "@routes.Assets.at(imgPath.imgPath)">
 				  			<img class="col-md-3" src="@routes.Assets.at(imgPath.imgPath)" alt="" width = "300" height="200" />
+				  			
+                    			<input class="btnDelete" type="submit" value="Izbrisi sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                		
 				  			</a>
 				  			</div>
 
@@ -84,6 +87,7 @@
 						</div>
 						
 							<div>
+							@if(user != null) {
 							    <!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
 							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {
 							    <a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true"  text-align="center" class="btn">KUPI</a>
@@ -95,7 +99,7 @@
 								<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->	    
 								@if(user.username.equals(p.owner.username)) {
 									<a href="/editProduct/@p.id" class="btn">Izmijeni proizvod</a>
-									<a href="/addPictureProduct/@p.id" class="btn">Promijeni sliku</a>
+									<a href="/addPictureProduct/@p.id" class="btn">Dodaj sliku</a>
 								}
 								<!--  Vidljivost "DELETE "samo za vlasnika proizvoda -->	
 								@if(user.username.equals(p.owner.username) || user.isAdmin) {
@@ -103,6 +107,8 @@
                    					<input class="btnRed" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
                 					}
 								}	
+								
+							}
 							</div><br><br>	
 						</div>
 					</div>					

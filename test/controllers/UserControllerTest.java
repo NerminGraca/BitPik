@@ -531,5 +531,21 @@ public class UserControllerTest extends WithApplication {
 
 				});
 	}*/
+	
+	public void saveFileTest(){
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						// Register a user;
+						User.createSaveUser("necko", "password",
+								"necko@test.com");
+						User u = User.find(4);
+						u.verified = true;
+						u.save();
+						UserController.saveFile();
+						
+					}
+		});
 
+	}
 }
