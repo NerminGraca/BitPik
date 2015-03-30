@@ -2,6 +2,7 @@ package controllers;
 
 import helpers.HashHelper;
 
+import java.io.File;
 import java.util.List;
 
 import models.*;
@@ -9,6 +10,8 @@ import models.*;
 import org.junit.*;
 
 import play.mvc.*;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 import controllers.UserController;
 import play.test.TestBrowser;
 import play.test.WithApplication;
@@ -16,6 +19,7 @@ import static org.junit.Assert.*;
 import static play.test.Helpers.*;
 import models.User;
 import play.test.*;
+import play.i18n.Messages;
 import play.libs.F.*;
 import static org.fest.assertions.Assertions.*;
 import static org.fluentlenium.core.filter.FilterConstructor.*;
@@ -532,7 +536,7 @@ public class UserControllerTest extends WithApplication {
 				});
 	}*/
 	
-	public void saveFileTest(){
+	public void saveDefaultFileTest(){
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
@@ -543,7 +547,26 @@ public class UserControllerTest extends WithApplication {
 						u.verified = true;
 						u.save();
 						UserController.saveFile();
-						
+						assertNotNull(u.imagePath);
+						assertEquals(u.imagePath, "profileimg.png");
+					}
+		});
+
+	}
+	
+	public void saveFileTest(){
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						// Register a user;
+						User.createSaveUser("necko", "password",
+								"necko@test.com");
+						User u = User.find(4);
+						u.verified = true;
+						u.save();
+						u.imagePath = "slika.jpg";
+						assertNotNull(u.imagePath);
+						assertEquals(u.imagePath, "slika.jpg");
 					}
 		});
 

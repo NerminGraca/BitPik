@@ -3,6 +3,7 @@
 @main("BitPik", "index") {
 
 <div class="wrap">
+<div class="header">
 		<div class="validateAndLogout">
 			@flash.get("validate")
 			@flash.get("logout")    
@@ -46,8 +47,8 @@
 			<div class="ws_shadow"></div>
 		</div>	
 		
-		<script type="text/javascript" src="javascripts/wowslider.js"></script>
-		<script type="text/javascript" src="javascripts/script1.js"></script>
+		<script src="@routes.Assets.at("javascripts/wowslider.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.at("javascripts/script1.js")" type="text/javascript"></script>
 		
 		<!-- End WOWSlider.com BODY section -->
 		 
@@ -55,27 +56,41 @@
 		 
 
 
-
+	</div>
+	</div>
+	<div class="clear"></div>
 	<div class="main">
 		<div class="content">
-    		<div class="clear"></div>
-				
-			<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
+		<div class="clear"></div>
+    		    	<div class="content_top">
+			    		<div class="heading">
+			    		<h3>Artikli</h3>
+			    		</div>
+			    		<div class="see">
+			    			<p><a href="#">Pogledaj</a></p>
+			    		</div>
+			    		<div class="clear"></div>
+			    	</div>
 				
 				<div class="section group">	      	      
 	      
 					@if(products.size() > 0 ) {
 						@for(product <- products) {						
 							<div class="grid_1_of_4 images_1_of_4">
-					 			<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
-					 			<h2>@product.name </h2>
+					 			<a href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
+					 			<h2>@product.name</h2>
 									<div class="price-details">
 				       					<div class="price-number">
+<<<<<<< HEAD
 											<div><span class="rupees">@product.getPriceString() KM</span></div>
 					   					 </div>
+=======
+											<p><span class="rupees">@product.getPriceString() KM</span></p>
+					   					</div>
+>>>>>>> 0335d2006b03787c389b8acc53c1d1fbd7f5fed4
 					       					<div class="add-cart">								
 												<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
-							    			 </div>
+							    			</div>
 							    		
 							    			 
 											 <div class="clear"></div>
@@ -84,12 +99,10 @@
 						}
 					}
 				</div>
-
-		<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
 			
     	</div>
 	</div>
-</div>
+
 </div>
    
 }

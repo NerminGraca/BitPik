@@ -31,6 +31,7 @@
 				  	@if(p.imgPathList.size() > 0  ) {
 				  			@for(imgPath <- p.imgPathList) {
 				  			<div class="grid_1_of_4 images_1_of_4">
+
 				  			<a class="fancybox" rel="gallery1" href= "@routes.Assets.at(imgPath.imgPath)">
 				  			<img class="col-md-3" src="@routes.Assets.at(imgPath.imgPath)" alt="" width = "300" height="200" />
 				  			
@@ -41,6 +42,12 @@
 
 				  			
 				  			
+
+				  				<a class="fancybox" rel="gallery1" href= "@routes.Assets.at(imgPath.imgPath)">
+				  					<img class="col-md-3" src="@routes.Assets.at(imgPath.imgPath)" alt="" width = "300" height="200" />  		
+				  				</a>
+				  			</div>			  			
+
 				  		}
 				  }
 				  

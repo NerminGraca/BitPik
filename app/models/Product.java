@@ -69,7 +69,7 @@ public class Product extends Model {
 		this.availability = "Unknown";
 		this.subCategory = null;
 		this.subCategoryString = "Unknown";
-		this.productImagePath = "images/no-img.jpg";
+		this.productImagePath = "images/productPicture/no-img.jpg";
 		this.buyer_user = null;
 	}
 
@@ -89,7 +89,7 @@ public class Product extends Model {
 		this.subCategory = subCategory;
 		this.availability = availability;
 		publishedDate = getDate();
-		this.productImagePath = "images/no-img.jpg";
+		this.productImagePath = "images/productPicture/no-img.jpg";
 		this.buyer_user = null;
 	}
 	

@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import models.FAQ;
 import models.ImgPath;
 import models.MainCategory;
 import models.Product;
@@ -42,15 +41,8 @@ public class ProductController extends Controller {
 	public static Result showProduct(int id) {
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
 		Product p = ProductController.findProduct.byId(id);
-		List<ImgPath> imgPathList = p.imgPathList;
 		return ok(showProduct.render(p, u));
 	}
-	
-//	public static Result galleryView(int id){
-//		Product p = Product.find.byId(id);
-//		List<ImgPath> imgPathList = p.imgPathList;
-//		return ok(sh)
-//	}
 
 	/**
 	 * Method takes the usernameSes from the session variable and sends it to
@@ -142,7 +134,7 @@ public class ProductController extends Controller {
 	   	 //  Ako nije registrovan da mu onemogucimo prikaz editProduct.html;
 	   	 if (currentUser == null) {
 	   		Logger.of("product").warn("Not registered user tried to update a product");
-	   		return redirect("/");
+	   		return redirect(routes.Application.index());
 		}
 	   			 
 	   	if(!currentUser.username.equals(p.owner.username)) {
@@ -228,23 +220,27 @@ public class ProductController extends Controller {
 		deletePicture(id);
 		String toBeDeleted = Product.find.byId(id).name;
 		Product.delete(id);
-		Logger.of("product").info( session("username") + " deleted the product "+toBeDeleted);
+		Logger.of("product").info( session("username") + " deleted the product " + toBeDeleted);
 		toBeDeleted = null;
 		flash("delete_product_success",  Messages.get("Uspjesno ste izbrisali oglas"));
 		return redirect(routes.UserController.findProfileProducts());
 	}	
 	
+	/**
+	 * 
+	 * @param id
+	 */
 	public static void deletePicture(int id){
 		final String deletePath = "." + File.separator 
 				+ "public" + File.separator;
-		
-		
+		String defaultPic = "images" + File.separator + "productPicture" + File.separator + "no-img.jpg";
+				
 		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
 		
 		for (int i = 0; i< imgList.size() ; i++){
 			String s = imgList.get(i).imgPath;
 			
-			if (!s.equals("images/no-img.jpg")){
+			if (!s.equals(defaultPic)){
 				File file = new File(deletePath + s);
 				file.delete();
 			}
@@ -252,6 +248,24 @@ public class ProductController extends Controller {
 		}
 			
 	}
+//	public static void deleteOnePicture(int id, String imgPath){
+//		final String deletePath = "." + File.separator 
+//				+ "public" + File.separator;
+//		
+//		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
+//		
+//		
+//		for (int i = 0; i< imgList.size() ; i++){
+//			String s = imgList.get(i).imgPath;
+//			
+//			if (!s.equals("images/no-img.jpg") && imgPath.equals(s)){
+//				File file = new File(deletePath + s);
+//				file.delete();
+//			}
+//						
+//		}
+//	}
+	
 //	public static void deleteOnePicture(int id, String imgPath){
 //		final String deletePath = "." + File.separator 
 //				+ "public" + File.separator;
@@ -336,7 +350,7 @@ public class ProductController extends Controller {
 			String assetsPath = "images" 
 					+ File.separator + "productPicture" + File.separator + profile.getName();
 			p.productImagePath = assetsPath;
-			ImgPath imp= new ImgPath(assetsPath,p);
+			ImgPath imp = new ImgPath(assetsPath, p);
 			p.imgPathList.add(imp);
 			p.save();
 		} catch (IOException e) {
@@ -345,8 +359,10 @@ public class ProductController extends Controller {
 		}
 		
 		flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
+
 		p = findProduct.byId(id);
 		User user = SessionHelper.getCurrentUser(ctx());
+
 		return redirect("/showProduct/"+p.id);
 	}
 	
@@ -418,6 +434,11 @@ public class ProductController extends Controller {
 	}
 	*/
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	public static Result searchUsers(String q){
 		List<Product>products=Product.find.where("UPPER(name) LIKE UPPER('%"+q+"%')AND(isSold) LIKE (false)").findList();
 		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
