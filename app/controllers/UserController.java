@@ -38,7 +38,7 @@ public class UserController extends Controller {
 	static Form<User> newUser = new Form<User>(User.class);
 	static String usernameSes;	
 	private static final String SESSION_USERNAME = "username";
-	
+	public static final String OURHOST = "http://localhost:9000";
 	
 	//Finders
 	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
@@ -278,7 +278,7 @@ public class UserController extends Controller {
 			user.emailVerified = false;
 			String confirmation = UUID.randomUUID().toString();
 			user.emailConfirmation = confirmation;
-			MailHelper.sendEmailVerification(email,"http://localhost:9000/validateEmail/" + confirmation);
+			MailHelper.sendEmailVerification(email, UserController.OURHOST + "/validateEmail/" + confirmation);
 			flash("validate", Messages.get("Primili ste email validaciju."));
 		}
 		user.save();
@@ -485,12 +485,12 @@ public class UserController extends Controller {
 			// We put the amount in USD and convert it to a String;
 			amount.setTotal(p.getPriceinStringinUSD());
 			amount.setCurrency("USD");
-			TransactionP transaction = new TransactionP();
+			Transaction transaction = new Transaction();
 			transaction.setDescription("Cestitamo, jos ste samo nekoliko koraka od kupovine proizvoda '" + p.name +
 										"' sa slijedecim opisom : '" + p.description + "'");
 			transaction.setAmount(amount);
 			
-			List<TransactionP> transactions = new ArrayList<TransactionP>();
+			List<Transaction> transactions = new ArrayList<Transaction>();
 			transactions.add(transaction);
 			
 			Payer payer = new Payer();
@@ -502,8 +502,8 @@ public class UserController extends Controller {
 			payment.setTransactions(transactions);
 			RedirectUrls redirectUrls = new RedirectUrls();
 			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela"));
-			redirectUrls.setCancelUrl("http://localhost:9000/showProduct/"+ id);
-			redirectUrls.setReturnUrl("http://localhost:9000/purchasesuccess/"+id);
+			redirectUrls.setCancelUrl(OURHOST + "/showProduct/"+ id);
+			redirectUrls.setReturnUrl(OURHOST + "/purchasesuccess/"+id);
 			payment.setRedirectUrls(redirectUrls);
 			Payment createdPayment = payment.create(apiContext);
 			Logger.debug(createdPayment.toJSON());
@@ -564,7 +564,7 @@ public class UserController extends Controller {
 		//LATER DODATI NA USER slijedeca dva atributa!!!:
 		// User ima List<Transaction> myTransactionsSold; @Mappedby owner (Product);
 		// User ima List<Transaction> myTransactionsBought; @Mappedby buyer_id (Product);
-		return redirect("http://localhost:9000/buyingAProduct/" +id);
+		return redirect(OURHOST + "/buyingAProduct/" +id);
 	}
 	
 	

@@ -54,8 +54,8 @@ public class Product extends Model {
 	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
 	public List<ImgPath> imgPathList;
 	
-	@OneToOne(mappedBy="id", cascade=CascadeType.ALL)
-	public TransactionP purchase_transaction;
+	//@OneToOne(mappedBy="id", cascade=CascadeType.ALL)
+	//public TransactionP purchaseTransaction;
 	
 	
 	/**

@@ -48,6 +48,14 @@ create table sub_category (
   constraint pk_sub_category primary key (id))
 ;
 
+create table transaction_p (
+  id                        integer not null,
+  token                     varchar(255),
+  seller_comment            varchar(255),
+  buyer_comment             varchar(255),
+  constraint pk_transaction_p primary key (id))
+;
+
 create table user (
   id                        integer not null,
   username                  varchar(255),
@@ -72,6 +80,8 @@ create sequence main_category_seq;
 create sequence product_seq;
 
 create sequence sub_category_seq;
+
+create sequence transaction_p_seq;
 
 create sequence user_seq;
 
@@ -104,6 +114,8 @@ drop table if exists product;
 
 drop table if exists sub_category;
 
+drop table if exists transaction_p;
+
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
@@ -117,6 +129,8 @@ drop sequence if exists main_category_seq;
 drop sequence if exists product_seq;
 
 drop sequence if exists sub_category_seq;
+
+drop sequence if exists transaction_p_seq;
 
 drop sequence if exists user_seq;
 
