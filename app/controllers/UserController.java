@@ -36,6 +36,7 @@ public class UserController extends Controller {
 	
 
 	static Form<User> newUser = new Form<User>(User.class);
+	static Form<PrivateMessage> sendMessage = new Form<PrivateMessage>(PrivateMessage.class);
 	static String usernameSes;	
 	private static final String SESSION_USERNAME = "username";
 	
@@ -563,6 +564,24 @@ public class UserController extends Controller {
 			e.printStackTrace();
 		}
 		return redirect("http://localhost:9000/buyingAProduct/" +id);
+	}
+	
+	public static Result sendMessage(int id)
+	{
+   	  	User receiver = User.find(id);
+   	  	String content;
+		User sender;
+		try {
+			content = sendMessage.bindFromRequest().get().content;
+			sender = sendMessage.bindFromRequest().get().user;
+		} catch (Exception e) {
+			flash("message_failed", Messages.get("Poruka nije poslana"));
+			return redirect(routes.UserController.singleUser(id));
+		}
+   	  	PrivateMessage message = PrivateMessage.create(content, sender);
+   	  	receiver.privateMessage.add(message);
+   	  	flash("message_success", Messages.get("Poruka je poslana"));
+   	  	return redirect(routes.UserController.singleUser(id));
 	}
 	
 	

@@ -53,6 +53,9 @@ public class User extends Model {
 	public List<Product> bought_products;
 
 	
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	public List<PrivateMessage> privateMessage;
+	
 	/**
 	 * @author Gordan Sajevic
 	 * Constructor with default values
