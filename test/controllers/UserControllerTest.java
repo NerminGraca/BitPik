@@ -9,6 +9,9 @@ import models.*;
 
 import org.junit.*;
 
+import com.google.common.io.Files;
+
+import play.Logger;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
@@ -536,24 +539,6 @@ public class UserControllerTest extends WithApplication {
 				});
 	}*/
 	
-	public void saveDefaultFileTest(){
-		running(testServer(3333, fakeApplication(inMemoryDatabase())),
-				HTMLUNIT, new Callback<TestBrowser>() {
-					public void invoke(TestBrowser browser) {
-						// Register a user;
-						User.createSaveUser("necko", "password",
-								"necko@test.com");
-						User u = User.find(4);
-						u.verified = true;
-						u.save();
-						UserController.saveFile();
-						assertNotNull(u.imagePath);
-						assertEquals(u.imagePath, "profileimg.png");
-					}
-		});
-
-	}
-	
 	public void saveFileTest(){
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
@@ -564,11 +549,30 @@ public class UserControllerTest extends WithApplication {
 						User u = User.find(4);
 						u.verified = true;
 						u.save();
-						u.imagePath = "slika.jpg";
-						assertNotNull(u.imagePath);
-						assertEquals(u.imagePath, "slika.jpg");
+						browser.goTo("http://localhost:3333/profile");
+						browser.fill("#image").with("image.png");
+						browser.submit("#imgs");
+						MultipartFormData body = UserController.request().body().asMultipartFormData();
+						FilePart filePart = body.getFile("image");
+						assertNotNull(filePart);
+						File image = filePart.getFile();
+						String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
+						extension.trim();
+						assertEquals(extension, ".png");
+						int userID = User.finder(u.username).id;
+				   	  	//creating path where we are going to save image
+						final String savePath = "." + File.separator 
+								+ "public" + File.separator + "images" 
+								+ File.separator + "profilePicture" + File.separator;
+						File profile = new File(savePath + userID + extension);
+						String assetsPath = "images" 
+								+ File.separator + "profilePicture" + File.separator + profile.getName();
+						u.imagePath = assetsPath;
+						u.save();
+						assertEquals(u.imagePath, "image.png");
 					}
 		});
 
 	}
+	
 }
