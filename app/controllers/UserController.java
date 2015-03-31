@@ -181,7 +181,7 @@ public class UserController extends Controller {
 	public static Result find_bought_products() {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// List of products that the current logged in User has bought;
-		List <Product> l = ProductController.findProduct.where().eq("buyer_user", currentUser).findList();
+		List <Product> l = ProductController.findProduct.where().eq("buyerUser", currentUser).findList();
 		if (l.isEmpty()) {
 			flash("no_bought_products", Messages.get("Vi jos uvijek nemate kupljenih proizvoda"));
 		}
@@ -553,18 +553,7 @@ public class UserController extends Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// We create a transaction;
-		// After all has been finished with the paypal paying process;
-		////TransactionP temp = new TransactionP(token);
-		// TODO To be done :
-		//	redirect him to a new page with a form... please comment/review the transaction; (set buyer_comment);
-		//	later.. the seller has the form as well in soldProducts; to comment.. if seller_comment == null - prikazi mu formular
-		// onda opet set seller_comment;
-		
-		//LATER DODATI NA USER slijedeca dva atributa!!!:
-		// User ima List<Transaction> myTransactionsSold; @Mappedby owner (Product);
-		// User ima List<Transaction> myTransactionsBought; @Mappedby buyer_id (Product);
-		return redirect(OURHOST + "/buyingAProduct/" +id);
+		return redirect(OURHOST + "/buyingAProduct/"+id+"/"+token);
 	}
 	
 	

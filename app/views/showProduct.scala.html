@@ -78,6 +78,44 @@
 										@p.owner.username
 									</ul>
 							</div>
+				@if(user != null && p.buyerUser != null) {		
+						@if(user.username.equals(p.buyerUser.username) && user.bought_products.contains(p)) {
+							<div class="available">
+								<p>Sifra Transakcije :</p>
+									<ul>
+										@p.purchaseTransaction.id
+									</ul>
+							</div>
+							
+							<div class="available">
+								<p>Datum Transakcije :</p>
+									<ul>
+										@p.purchaseTransaction.dateTransaction
+									</ul>
+							</div>
+							
+							<div class="available">
+								<p>Komentar/utisak prodavaca :</p>
+									<ul>
+										@p.purchaseTransaction.seller_comment
+									</ul>
+							</div>
+							
+							<div class="available">
+								<p>Vas komentar/utisak :</p>
+									<ul>
+										@p.purchaseTransaction.buyer_comment
+									</ul>
+									
+									<!--  Ubaciti dugme Ostavite utisak kupovine 
+									vodi ovog Usera(kupca) na formu neku... gdje popunjava jedan string...
+									i taj String se prima iz bindRequesta i setuje kao p.purchaseTransaction.buyer_comment)
+									i redirectamo ga ponovo na ovu stranicu;-->
+									
+							</div>
+						}
+				}	
+							
 							<div class="share-desc">
 								<div class="share">
 									<p>Podijeli Artikal :</p>

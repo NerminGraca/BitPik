@@ -1,7 +1,13 @@
 package models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.persistence.*;
 
+import controllers.ProductController;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
@@ -17,14 +23,21 @@ public class TransactionP extends Model {
 	
 	public String buyer_comment;
 	
+	public String dateTransaction;
+	
+	@OneToOne
+	public Product product;
+	
 	
 	/**
 	 * The default Constructor;
 	 */
 	public TransactionP () {
 		this.token = "this is not a transaction";
-		this.seller_comment = null;
-		this.buyer_comment = null;
+		this.seller_comment = "Jos uvijek nema komentara na transakciju od prodavaca";
+		this.buyer_comment = "Jos uvijek nema komentara na transakciju od kupca";
+		this.dateTransaction = getDate();
+		this.product = null;
 	}
 	
 	/**
@@ -32,12 +45,15 @@ public class TransactionP extends Model {
 	 * After the Paypal transaction of the purchase;
 	 * @param token
 	 */
-	public TransactionP(String token) {
+	public TransactionP(String token, Product product) {
 		this.token = token;
-		this.seller_comment = null;
-		this.buyer_comment = null;
+		this.seller_comment = "Jos uvijek nema komentara na transakciju od prodavaca";
+		this.buyer_comment = "Jos uvijek nema komentara na transakciju od kupca";
+		this.dateTransaction = getDate();
+		this.product = product;
 	}
 	
+
 	/**
 	 * The finder for the Transactions;
 	 * Searches by the id (Integer); and 
@@ -100,9 +116,25 @@ public class TransactionP extends Model {
 	public void setBuyer_comment(String buyer_comment) {
 		this.buyer_comment = buyer_comment;
 	}
-
-
 	
-	
+	/**
+	 * After the item has been sold/bought we create the transaction and 
+	 * put the date into that transaction when has the transaction taken
+	 * efect.
+	 * @return dateOfTransaction;
+	 */
+	public static String getDate() {
+		Date date = Calendar.getInstance().getTime();
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		return formatter.format(date);
+	}
+
+	/**
+	 * Gets the productId of the transaction;
+	 * @return
+	 */
+	public Product getProductId() {
+		return product;
+	}
 	
 }

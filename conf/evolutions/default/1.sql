@@ -53,6 +53,8 @@ create table transaction_p (
   token                     varchar(255),
   seller_comment            varchar(255),
   buyer_comment             varchar(255),
+  date_transaction          varchar(255),
+  product_id                integer,
   constraint pk_transaction_p primary key (id))
 ;
 
@@ -93,10 +95,12 @@ alter table product add constraint fk_product_owner_3 foreign key (owner_id) ref
 create index ix_product_owner_3 on product (owner_id);
 alter table product add constraint fk_product_subCategory_4 foreign key (sub_category_id) references sub_category (id) on delete restrict on update restrict;
 create index ix_product_subCategory_4 on product (sub_category_id);
-alter table product add constraint fk_product_buyer_user_5 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
-create index ix_product_buyer_user_5 on product (buyer_user_id);
+alter table product add constraint fk_product_buyerUser_5 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
+create index ix_product_buyerUser_5 on product (buyer_user_id);
 alter table sub_category add constraint fk_sub_category_mainCategory_6 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
 create index ix_sub_category_mainCategory_6 on sub_category (main_category_id);
+alter table transaction_p add constraint fk_transaction_p_product_7 foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_transaction_p_product_7 on transaction_p (product_id);
 
 
 

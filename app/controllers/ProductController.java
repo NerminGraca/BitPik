@@ -13,6 +13,7 @@ import models.ImgPath;
 import models.MainCategory;
 import models.Product;
 import models.SubCategory;
+import models.TransactionP;
 import models.User;
 import views.html.*;
 import play.Logger;
@@ -360,20 +361,20 @@ public class ProductController extends Controller {
 
 	/**
 	 * When a product is bought, the items attribute boolean isSold is set to true;
-	 * and the buyer_user is set to the user who is currently logged in, that is, set
+	 * and the buyerUser is set to the user who is currently logged in, that is, set
 	 * to the user who has clicked (later gone through the procedure of the PayPal 
 	 * process);
 	 * @param product_id
 	 * @return
 	 */
-	public static Result buyProductSuccess(int product_id) {
-		User buyer_user = SessionHelper.getCurrentUser(ctx());
+	public static Result buyProductSuccess(int product_id, String token) {
+		User buyerUser = SessionHelper.getCurrentUser(ctx());
 		//1. No permission for unregistered user;
-		if (buyer_user == null) {
+		if (buyerUser == null) {
 			return redirect(routes.Application.index());
 		}
 		//2. No permission for an admin user;
-		if (buyer_user.isAdmin) {
+		if (buyerUser.isAdmin) {
 			return redirect(routes.Application.index());
 		}
 		Product p = findProduct.byId(product_id);
@@ -386,31 +387,33 @@ public class ProductController extends Controller {
 		// Although we will hide the "KUPI"/"BUY" button from the user for
 		// his own products on certain .html pages; with listing of products;
 				
-		if (buyer_user == p.owner) {
+		if (buyerUser == p.owner) {
 			return redirect(routes.Application.index());
 		}
+		TransactionP temp = new TransactionP(token, p);
+		p.setPurchaseTransaction(temp);
 		p.setSold(true);
-		p.setBuyer_user(buyer_user);
-		buyer_user.bought_products.add(p);
+		p.setBuyerUser(buyerUser);
+		buyerUser.bought_products.add(p);
 		p.save();
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyer_user.username).eq("isSold", false).findList();
-		Logger.of("product").info("User "+ buyer_user.username +" bought the product '" + p.name + "'");
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyerUser.username).eq("isSold", false).findList();
+		Logger.of("product").info("User "+ buyerUser.username +" bought the product '" + p.name + "'");
 		flash("buy_product_success", Messages.get("Cestitamo, Uspjesno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
-		return ok(profile.render(l, buyer_user));
+		return ok(profile.render(l, buyerUser));
 	}
 	
 	/**
 	 * When a paypal procedure has failed for some reason (creditcard number wrong or any kind of error occured in the
 	 * process), we redirect the user to his profile page, with the list of the products if he has any.
 	 * @param product_id
-	 * @return we render the .html page : profile.render(l, buyer_user));
+	 * @return we render the .html page : profile.render(l, buyerUser));
 	 *//*
 	public static Result buy_product_fail(int product_id) {
 		Product p = findProduct.byId(product_id);
-		User buyer_user = SessionHelper.getCurrentUser(ctx());
+		User buyerUser = SessionHelper.getCurrentUser(ctx());
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyer_user.username).eq("isSold", false).findList();
-		Logger.of("product").info("User "+ buyer_user.username +" failed to buy the product '" + p.name + "'");
-		return ok(profile.render(l, buyer_user));
+		Logger.of("product").info("User "+ buyerUser.username +" failed to buy the product '" + p.name + "'");
+		return ok(profile.render(l, buyerUser));
 	}
 	*/
 
