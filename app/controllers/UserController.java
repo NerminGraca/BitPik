@@ -568,6 +568,8 @@ public class UserController extends Controller {
 	
 	public static Result sendMessage(int id)
 	{
+		User u = SessionHelper.getCurrentUser(ctx());
+		usernameSes = session(SESSION_USERNAME);
    	  	User receiver = User.find(id);
    	  	String content;
 		User sender;
@@ -578,10 +580,18 @@ public class UserController extends Controller {
 			flash("message_failed", Messages.get("Poruka nije poslana"));
 			return redirect(routes.UserController.singleUser(id));
 		}
-   	  	PrivateMessage message = PrivateMessage.create(content, sender);
-   	  	receiver.privateMessage.add(message);
+   	  	PrivateMessage privateMessage = PrivateMessage.create(content, sender);
+   	  	receiver.privateMessage.add(privateMessage);
    	  	flash("message_success", Messages.get("Poruka je poslana"));
-   	  	return redirect(routes.UserController.singleUser(id));
+   	  	return ok(message.render(u, receiver));
+	}
+	
+	public static Result allMessages()
+	{
+		User u = SessionHelper.getCurrentUser(ctx());
+		usernameSes = session(SESSION_USERNAME);
+		List<PrivateMessage> messages = u.privateMessage;
+		return ok(allMessages.render(u, u.privateMessage));
 	}
 	
 	

@@ -1,0 +1,38 @@
+@(u: User)(messages: List[PrivateMessage])
+
+@import helper._
+
+@main("Inbox", "inbox"){
+	
+<div class="wrap">
+	<div class="validateAndLogout">
+		@flash.get("success")
+		@flash.get("fail")
+  	</div>
+
+<div class="wrap">	
+	<div class="main">
+		<div class="content">
+			<div class="section group">
+				<div class="col span_2_of_3">
+				  <div class="contact-form">
+				  	
+				  	
+	<!--
+		NAŠ HELPER
+		-->
+	<ul>
+	@for(message <- messages){
+		<li><h5>@message.user.username</h5>	
+			<p>@message.content</p></li>	
+	
+	}
+						
+				 </div>
+			  </div>		
+			</div> 
+		</div>
+	</div>
+	</div>
+</div>  
+	}

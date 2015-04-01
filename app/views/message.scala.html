@@ -1,0 +1,51 @@
+@(userSes: User)(user: User)
+
+@import helper._
+
+@main("message", "message"){
+	
+<div class="wrap">
+	<div class="validateAndLogout">
+		@flash.get("success")
+		@flash.get("fail")
+  	</div>
+
+<div class="wrap">	
+	<div class="main">
+		<div class="content">
+			<div class="section group">
+				<div class="col span_2_of_3">
+				  <div class="contact-form">
+				  	
+				  	
+	<!--
+		NAŠ HELPER
+		-->
+	@helper.form(routes.UserController.sendMessage(user.id), 'class->"form-horizontal", 'id->"sendMessage"){
+	
+					<h5>Message:</h5>
+					<textarea maxlength="250" form-control' 
+      				name="message" id="message" placeholder="Write something nice" required> </textarea>
+					<br><br>
+					
+						
+					 <input type="submit" value="Pošalji" class="btn btn-success" />
+					<a href="/" class="btn btn-danger"> Odustajem </a>
+					<input type="reset" value="Reset" class="btn btn-warning" />
+					
+					
+				  </div>
+  				</div>
+
+				<div class="col span_1_of_3">
+					<div class="contact_info">
+						
+				 </div>
+			  </div>		
+			</div> 
+		</div>
+	</div>
+	</div>
+</div>  
+	}
+}
