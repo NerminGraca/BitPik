@@ -22,13 +22,11 @@
 		NAŠ HELPER
 		-->
 	<ul>
-	@for(message <- messages){
-		<li><h5>@message.user.username</h5>	
-			<p>@message.content</p>
-			<p>@u.username</p></li>	
-	
-	}
-						
+		@for(message <- messages){
+			<li><h5><a href="/korisnik/@message.user.id">@message.user.username</h5>	
+				<p>@message.content</p></li>	
+		}
+	</ul>				
 				 </div>
 			  </div>		
 			</div> 

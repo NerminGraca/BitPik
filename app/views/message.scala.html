@@ -21,17 +21,16 @@
 	<!--
 		NAŠ HELPER
 		-->
-	@helper.form(routes.UserController.sendMessage(user.id), 'class->"form-horizontal", 'id->"sendMessage"){
+	@helper.form(routes.UserController.saveMessage(user.id), 'id->"nameForm"){
 	
 					<h5>Message:</h5>
-					<textarea maxlength="250" form-control' 
+					<textarea maxlength="250" nameForm' 
       				name="message" id="message" placeholder="Write something nice" required> </textarea>
 					<br><br>
-					
 						
 					 <input type="submit" value="Pošalji" class="btn btn-success" />
-					<a href="/" class="btn btn-danger"> Odustajem </a>
-					<input type="reset" value="Reset" class="btn btn-warning" />
+					 <a href="/" class="btn btn-danger"> Odustajem </a>
+					 <input type="reset" value="Reset" class="btn btn-warning" />
 					
 					
 				  </div>
