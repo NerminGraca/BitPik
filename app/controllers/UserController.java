@@ -577,11 +577,12 @@ public class UserController extends Controller {
 			content = sendMessage.bindFromRequest().get().content;
 			sender = sendMessage.bindFromRequest().get().user;
 		} catch (Exception e) {
-			flash("message_failed", Messages.get("Poruka nije poslana"));
+			flash("message_fail", Messages.get("Poruka nije poslana"));
 			return redirect(routes.UserController.singleUser(id));
 		}
    	  	PrivateMessage privateMessage = PrivateMessage.create(content, sender);
    	  	receiver.privateMessage.add(privateMessage);
+   	  	receiver.save();
    	  	flash("message_success", Messages.get("Poruka je poslana"));
    	  	return ok(message.render(u, receiver));
 	}
