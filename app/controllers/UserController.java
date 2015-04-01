@@ -1,6 +1,5 @@
 package controllers;
 
-import java.awt.image.renderable.RenderableImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -392,11 +391,11 @@ public class UserController extends Controller {
     }
 	
 	/**
-	 * Upload image for User profile, and show picture on user /profile.html. 
-	 * If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
-	 * If file size is bigger then 2MB, redirect user on profile without uploading image.
-	 * @return
-	 */
+	* Upload image for User profile, and show picture on user /profile.html. 
+	* If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
+	* If file size is bigger then 2MB, redirect user on profile without uploading image.
+	* @return
+	*/
 	public static Result saveFile(){
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
@@ -405,8 +404,9 @@ public class UserController extends Controller {
 		final String deletePath = "." + File.separator 
 				+ "public" + File.separator;
 		String s = findUser.byId(u.id).imagePath;
+		String defaultPic = "images" + File.separator + "profilePicture" + File.separator + "profileimg.png";
 		
-		if (s != null && !s.equals("images/profileimg.png")){
+		if (s != null && !s.equals(defaultPic)){
 			File d = new File(deletePath + s);
 			d.delete();
 		}

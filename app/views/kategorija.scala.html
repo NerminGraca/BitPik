@@ -40,23 +40,23 @@
 							</ul>
 						</div>
 					</div>
-	      	      	<div class="rightBox">				
+	      	      	<div class="section group">				
 	      	      
 						@if(productList.size() > 0){
 							@for(product <- productList){
-							<div class="grid_1_of_4 images_1_of_4">
-								<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
-								<h2 id="oneLineText">@product.name </h2>
-								<div class="price-details">
-									<div class="price-number2">
-										<span class="price-number2">@product.price KM</span>
-									</div>
-									<div class="add-cart2">								
-										<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
-							     	</div>
-							 		<div class="clear"></div>
-								</div>					 
-							</div>
+								<div class="grid_1_of_4 images_1_of_4">
+									<a href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
+									<h2>@product.name</h2>
+									<div class="price-details">
+										<div class="price-number">
+											<p><span class="rupees">@product.getPriceString() KM</span></p>
+										</div>
+										<div class="add-cart">								
+											<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+								     	</div>
+								 		<div class="clear"></div>
+									</div>					 
+								</div>
 				
 							}
 						}

@@ -531,5 +531,22 @@ public class UserControllerTest extends WithApplication {
 
 				});
 	}*/
+	
+	@Test
+	public void testSaveFile() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					@Override
+					public void invoke(TestBrowser browser) throws Throwable {
+						User.createSaveUser("neko", "pass", "neko@test.ba");
+						User u = User.find(4);
+						u.verified = true;
+						u.save();
+						UserController.saveFile();
+						assertNotNull(u.imagePath);
+						assertEquals(u.imagePath, "profileimg.png");
+				}
+		});
+	}
 
 }

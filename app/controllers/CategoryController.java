@@ -28,7 +28,7 @@ public class CategoryController extends Controller {
 	public static Result categories(int id) {
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		MainCategory mc = MainCategory.findMainCategory(id);
-		List<Product> productList = ProductController.findProduct.where().eq("mainCategory", mc).findList();
+		List<Product> productList = ProductController.findProduct.where().eq("mainCategory", mc).eq("isSold", false).findList();
 		return ok(kategorija.render(productList, mainCategoryList, mc));
 	}
 	
@@ -41,7 +41,7 @@ public class CategoryController extends Controller {
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		SubCategory sc = SubCategory.findSubCategory(id);
 		MainCategory mc = sc.mainCategory;
-		List<Product> productList = ProductController.findProduct.where().eq("subCategory", sc).findList();
+		List<Product> productList = ProductController.findProduct.where().eq("subCategory", sc).eq("isSold", false).findList();
 		return ok(podKategorija.render(productList, mainCategoryList, mc));
 	}
 	

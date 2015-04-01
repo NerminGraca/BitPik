@@ -7,13 +7,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.*;
-
-import oauth.signpost.OAuth;
 
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
@@ -69,7 +66,7 @@ public class User extends Model {
 		createdDate = getDate();
 		this.verified = false;
 		this.emailVerified = false;
-		this.imagePath = "images/profileimg.png";
+		this.imagePath = "images/profilePicture/profileimg.png";
 	}
 
 	/**
@@ -89,7 +86,7 @@ public class User extends Model {
 		this.confirmation = UUID.randomUUID().toString();
 		this.emailVerified = false;
 		this.emailConfirmation = UUID.randomUUID().toString();
-		this.imagePath = "images/profileimg.png";
+		this.imagePath = "images/profilePicture/profileimg.png";
 	}
 	
 	/**
@@ -108,7 +105,7 @@ public class User extends Model {
 		this.verified = true;
 		this.confirmation = null;
 		this.emailVerified = true;
-		this.imagePath = "images/profileimg.png";
+		this.imagePath = "images/profilePicture/profileimg.png";
 
 	}
 	
