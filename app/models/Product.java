@@ -38,6 +38,10 @@ public class Product extends Model {
 	
 	public boolean isSold;
 	
+	public boolean isRefunding;
+	
+	public String refundReason;
+	
 	@Required
 	public String availability;
 	
@@ -70,6 +74,8 @@ public class Product extends Model {
 		publishedDate = getDate();
 		this.owner = null;
 		this.isSold = false;
+		this.isRefunding = false;
+		this.refundReason = "None";
 		this.availability = "Unknown";
 		this.subCategory = null;
 		this.subCategoryString = "Unknown";
@@ -89,6 +95,8 @@ public class Product extends Model {
 		this.price = price;
 		this.owner = owner;
 		this.isSold = false;
+		this.isRefunding = false;
+		this.refundReason = "None";
 		this.mainCategory = mainCategory;
 		this.subCategory = subCategory;
 		this.availability = availability;

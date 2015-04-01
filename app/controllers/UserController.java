@@ -385,9 +385,10 @@ public class UserController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
     public static Result adminPanel() {
+		List<Product> products = ProductController.findProduct.where().eq("isRefunding", true).findList();
    	  	usernameSes = session(SESSION_USERNAME);
    	  	User u = User.finder(usernameSes);
-   	 return ok(adminPanel.render(usernameSes, u));
+   	 return ok(adminPanel.render(u, products));
     }
 	
 	/**

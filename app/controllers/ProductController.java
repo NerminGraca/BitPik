@@ -427,5 +427,30 @@ public class ProductController extends Controller {
 		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
 		return ok(listaPretrage.render(products,users));	
 	}
+	
+	/**
+	 * Method refundProduct allows User to send product he purchased to the
+	 * administration in order they can review it and refund the buyer
+	 * @param id
+	 * @return
+	 */
+	public static Result refundProduct(int id) {
+		String refundReason;
+		try {
+			refundReason = newProduct.bindFromRequest().get().refundReason;
+		} catch(IllegalStateException e) {
+			return redirect("/showProduct/" + id);
+		}
+		
+		if (refundReason == null) {
+			return redirect("/");
+		}
+		
+		Product p = Product.find.byId(id);
+		p.isRefunding = true;
+		p.refundReason = refundReason;
+		p.save();
+		return redirect("/showProduct/" + id);
+	}
 
 }

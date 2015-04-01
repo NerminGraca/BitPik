@@ -33,6 +33,8 @@ create table product (
   published_date            varchar(255),
   owner_id                  integer,
   is_sold                   boolean,
+  is_refunding              boolean,
+  refund_reason             varchar(255),
   availability              varchar(255),
   sub_category_id           integer,
   sub_category_string       varchar(255),
