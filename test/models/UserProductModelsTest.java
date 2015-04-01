@@ -11,7 +11,7 @@ public class UserProductModelsTest extends WithApplication {
 	public void setUp() {
 		fakeApplication(inMemoryDatabase());
 	}
-	
+	/*
 	@Test
 	public void testCreateUser() {
 		User.createSaveUser("neko", "12345","neko@gmail.com");
@@ -120,4 +120,5 @@ public class UserProductModelsTest extends WithApplication {
 		u.setPassword("password");
 		assertEquals(u.password, "password");
 	}
+	*/
 }

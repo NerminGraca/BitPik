@@ -36,6 +36,7 @@ public class UserController extends Controller {
 	
 
 	static Form<User> newUser = new Form<User>(User.class);
+	static Form<PrivateMessage> sendMessage = new Form<PrivateMessage>(PrivateMessage.class);
 	static String usernameSes;	
 	private static final String SESSION_USERNAME = "username";
 	
@@ -470,7 +471,10 @@ public class UserController extends Controller {
 		return ok(purchase.render(p));
 	}
 	
+
+
 	public static Result purchaseProcessing(int id)
+
 	{
 		Product p = Product.find.byId(id);
 		Map<String, String> sdkConfig = new HashMap<String, String>();
@@ -482,14 +486,20 @@ public class UserController extends Controller {
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			Amount amount = new Amount();
+
+			amount.setTotal("" + p.price);
+			amount.setCurrency("EUR");
+			
+			
+
 			// We put the amount in USD and convert it to a String;
 			amount.setTotal(p.getPriceinStringinUSD());
 			amount.setCurrency("USD");
 			Transaction transaction = new Transaction();
 			transaction.setDescription("Cestitamo, jos ste samo nekoliko koraka od kupovine proizvoda '" + p.name +
 										"' sa slijedecim opisom : '" + p.description + "'");
+
 			transaction.setAmount(amount);
-			
 			List<Transaction> transactions = new ArrayList<Transaction>();
 			transactions.add(transaction);
 			
@@ -499,7 +509,9 @@ public class UserController extends Controller {
 			Payment payment = new Payment();
 			payment.setIntent("sale");
 			payment.setPayer(payer);
+			payment.setState("Bosnia and Herzegovina");
 			payment.setTransactions(transactions);
+			
 			RedirectUrls redirectUrls = new RedirectUrls();
 			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela"));
 			redirectUrls.setCancelUrl("http://localhost:9000/showProduct/"+ id);
@@ -543,7 +555,6 @@ public class UserController extends Controller {
 			apiContext.setConfigurationMap(sdkConfig);
 			
 			Payment payment = Payment.get(accessToken, paymentId);
-			
 			PaymentExecution paymentExecution = new PaymentExecution();
 			paymentExecution.setPayerId(payerId);
 			
@@ -553,6 +564,24 @@ public class UserController extends Controller {
 			e.printStackTrace();
 		}
 		return redirect("http://localhost:9000/buyingAProduct/" +id);
+	}
+	
+	public static Result sendMessage(int id)
+	{
+   	  	User receiver = User.find(id);
+   	  	String content;
+		User sender;
+		try {
+			content = sendMessage.bindFromRequest().get().content;
+			sender = sendMessage.bindFromRequest().get().user;
+		} catch (Exception e) {
+			flash("message_failed", Messages.get("Poruka nije poslana"));
+			return redirect(routes.UserController.singleUser(id));
+		}
+   	  	PrivateMessage message = PrivateMessage.create(content, sender);
+   	  	receiver.privateMessage.add(message);
+   	  	flash("message_success", Messages.get("Poruka je poslana"));
+   	  	return redirect(routes.UserController.singleUser(id));
 	}
 	
 	

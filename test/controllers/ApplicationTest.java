@@ -123,7 +123,7 @@ public class ApplicationTest {
 		});
 						
 	}
-*/
+
 	@Test
 	public void testSearchExistingUser(){
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -230,6 +230,6 @@ public class ApplicationTest {
 					}
 		});
 	}
-	
+	*/
 
 }

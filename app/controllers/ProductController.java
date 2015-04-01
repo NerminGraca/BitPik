@@ -249,6 +249,23 @@ public class ProductController extends Controller {
 		}
 			
 	}
+//	public static void deleteOnePicture(int id, String imgPath){
+//		final String deletePath = "." + File.separator 
+//				+ "public" + File.separator;
+//		
+//		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
+//		
+//		
+//		for (int i = 0; i< imgList.size() ; i++){
+//			String s = imgList.get(i).imgPath;
+//			
+//			if (!s.equals("images/no-img.jpg") && imgPath.equals(s)){
+//				File file = new File(deletePath + s);
+//				file.delete();
+//			}
+//						
+//		}
+//	}
 	
 //	public static void deleteOnePicture(int id, String imgPath){
 //		final String deletePath = "." + File.separator 
@@ -343,6 +360,10 @@ public class ProductController extends Controller {
 		}
 		
 		flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
+
+		p = findProduct.byId(id);
+		User user = SessionHelper.getCurrentUser(ctx());
+
 		return redirect("/showProduct/"+p.id);
 	}
 	
