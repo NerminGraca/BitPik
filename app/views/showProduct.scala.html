@@ -78,8 +78,8 @@
 										@p.owner.username
 									</ul>
 							</div>
-				@if(user != null && p.buyerUser != null) {		
-						@if(user.username.equals(p.buyerUser.username) && user.bought_products.contains(p)) {
+	@if(user != null && p.buyerUser != null) {		
+		@if((user == p.buyerUser || user == p.owner) ) {
 							<div class="available">
 								<p>Sifra Transakcije :</p>
 									<ul>
@@ -99,35 +99,49 @@
 									<ul>
 										@p.purchaseTransaction.seller_comment
 									</ul>
+				<!--  Ovaj formular za ostavljanje komentara vidi samo prodavac, i ako nije vec ostavio komentar -->					
+				 @if(user == p.owner) {				
+					@if(p.purchaseTransaction.seller_comment.equals("Ne postoji")) {
+							 	<p>Upisite Vas komentar na transakciju</p>
+										@form(routes.ProductController.leaveSCommentTransaction(p.id),'id->"transactionForm") {
+											
+											<input class="ourInputTextField" pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="seller_comment" name="seller_comment" required/>
+											<div class="button">
+												<textfield>
+												
+													<input type="submit" value="Ostavi Komentar"/>
+												
+											</div>
+										}	
+					}
+				} 
+									
 							</div>
 							
 							<div class="available">
-								<p>Vas komentar/utisak :</p>
+								<p>Komentar/utisak kupca :</p>
 									<ul>
 										@p.purchaseTransaction.buyer_comment
 									</ul>
-						@if(p.purchaseTransaction.buyer_comment.equals("Jos uvijek nema komentara na transakciju od kupca")) {
+				<!--  Ovaj formular za ostavljanje komentara vidi samo kupac, i ako nije vec ostavio komentar -->
+					@if(user == p.buyerUser) {				
+						@if(p.purchaseTransaction.buyer_comment.equals("Ne postoji")) {
 							 	<p>Upisite Vas komentar na transakciju</p>
-										@form(routes.ProductController.leaveCommentTransaction(p.id),'id->"productForm") {
+										@form(routes.ProductController.leaveBCommentTransaction(p.id),'id->"transactionForm") {
 											
 											<input class="ourInputTextField" pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="buyer_comment" name="buyer_comment" required/>
 											<div class="button">
 												<textfield>
-												<span>
-													<input type="submit" value="Ostavi Komentar" onclick="return confirm("Ostavi ovaj komentar?");">
-												</span>
+												
+													<input type="submit" value="Ostavi Komentar"/>
+												
 											</div>
-										}	
-						}
-									
-									<!--  Ubaciti dugme Ostavite utisak kupovine 
-									vodi ovog Usera(kupca) na formu neku... gdje popunjava jedan string...
-									i taj String se prima iz bindRequesta i setuje kao p.purchaseTransaction.buyer_comment)
-									i redirectamo ga ponovo na ovu stranicu;-->
-									
+										}
+						}	
+					}
 							</div>
-						}
-				}	
+			}
+		}	
 							
 							<div class="share-desc">
 								<div class="share">

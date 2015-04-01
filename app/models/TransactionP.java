@@ -34,8 +34,8 @@ public class TransactionP extends Model {
 	 */
 	public TransactionP () {
 		this.token = "this is not a transaction";
-		this.seller_comment = "Jos uvijek nema komentara na transakciju od prodavaca";
-		this.buyer_comment = "Jos uvijek nema komentara na transakciju od kupca";
+		this.seller_comment = "Ne postoji";
+		this.buyer_comment = "Ne postoji";
 		this.dateTransaction = getDate();
 		this.product = null;
 	}
@@ -47,8 +47,8 @@ public class TransactionP extends Model {
 	 */
 	public TransactionP(String token, Product product) {
 		this.token = token;
-		this.seller_comment = "Jos uvijek nema komentara na transakciju od prodavaca";
-		this.buyer_comment = "Jos uvijek nema komentara na transakciju od kupca";
+		this.seller_comment = "Ne postoji";
+		this.buyer_comment = "Ne postoji";
 		this.dateTransaction = getDate();
 		this.product = product;
 	}

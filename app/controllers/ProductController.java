@@ -455,27 +455,66 @@ public class ProductController extends Controller {
 	}
 	
 	/**
-	 * Method refundProduct allows User to send product he purchased to the
-	 * administration in order they can review it and refund the buyer
+	 * This method leaveCommentTransaction, checks which user is currently logged in,
+	 * As if the buyer is logged in, the method takes the comment from the form and sets it 
+	 * as the comment of the buyer to the transaction of the product that he has
+	 * bought.
 	 * @param id
 	 * @return
 	 */
-	public static Result leaveCommentTransaction(int id) {
-		String comment;
-		try {
-			comment = newTransaction.bindFromRequest().get().buyer_comment;
-		} catch(IllegalStateException e) {
-			return redirect("/showProduct/" + id);
-		}
-		//2. Druga provjera;
-		if (comment == null) {
+	public static Result leaveBCommentTransaction(int id) {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// If no User is logged in;
+		if (currentUser == null) {
 			return redirect("/");
 		}
-		
-		Product p = Product.find.byId(id);
-		p.purchaseTransaction.setBuyer_comment(comment);
-		p.save();
-		return redirect("/showProduct/" + id);
+	
+		String comment;
+		// In the case, when the Buyer, leaves a comment to the transaction;
+				try {
+					comment = newTransaction.bindFromRequest().get().buyer_comment;
+				} catch(IllegalStateException e) {
+					return redirect("/showProduct/" + id);
+				}
+				//2. Second check;
+				if (comment == null) {
+					return redirect("/");
+					}
+				Product p = Product.find.byId(id);
+				p.purchaseTransaction.setBuyer_comment(comment);
+				p.save();
+				return redirect("/showProduct/" + id);
 	}
-
+	
+	/**
+	 * This method leaveCommentTransaction, checks which user is currently logged in,
+	 * As if the seller is logged in, the method takes the comment from the form and sets it
+	 * as the comment of the seller (x-owner) to the transaction of the products that he 
+	 * has sold.
+	 * @param id
+	 * @return
+	 */
+	public static Result leaveSCommentTransaction(int id) {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// If no User is logged in;
+		if (currentUser == null) {
+			return redirect("/");
+		}
+	
+		String comment;
+		// In the case, when the Seller, leaves a comment to the transaction;
+				try {
+					comment = newTransaction.bindFromRequest().get().seller_comment;
+				} catch(IllegalStateException e) {
+					return redirect("/showProduct/" + id);
+				}
+				//2. Second check;
+				if (comment == null) {
+					return redirect("/");
+					}
+				Product p = Product.find.byId(id);
+				p.purchaseTransaction.setSeller_comment(comment);
+				p.save();
+				return redirect("/showProduct/" + id);
+	}
 }

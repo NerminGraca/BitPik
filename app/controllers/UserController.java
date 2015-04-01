@@ -174,7 +174,7 @@ public class UserController extends Controller {
 	
 	/**
 	 * This method lists all the bought items of the User logged in;
-	 * If no products where bought by the user; 
+	 * If no products where bought by the user we inform him about it; 
 	 * 
 	 * @return Result;
 	 */
@@ -187,6 +187,23 @@ public class UserController extends Controller {
 		}
 		return ok(boughtproducts.render(l, currentUser));
 	}
+	
+	/**
+	 * This method lists all the items of the User logged in that he has sold;
+	 * If no products where sold by the user we inform him about it; 
+	 * 
+	 * @return Result;
+	 */
+	public static Result findSoldProducts() {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// List of products that the current logged in User has sold;
+		List <Product> l = ProductController.findProduct.where().eq("owner", currentUser).eq("isSold", true).findList();
+		if (l.isEmpty()) {
+			flash("no_sold_products", Messages.get("Vi jos uvijek nemate prodatih proizvoda"));
+		}
+		return ok(soldproducts.render(l, currentUser));
+	}
+	
 	
 	/**
 	* Method list all users registered in database
