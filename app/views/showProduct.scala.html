@@ -106,6 +106,19 @@
 									<ul>
 										@p.purchaseTransaction.buyer_comment
 									</ul>
+						@if(p.purchaseTransaction.buyer_comment.equals("Jos uvijek nema komentara na transakciju od kupca")) {
+							 	<p>Upisite Vas komentar na transakciju</p>
+										@form(routes.ProductController.leaveCommentTransaction(p.id),'id->"productForm") {
+											
+											<input class="ourInputTextField" pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="buyer_comment" name="buyer_comment" required/>
+											<div class="button">
+												<textfield>
+												<span>
+													<input type="submit" value="Ostavi Komentar" onclick="return confirm("Ostavi ovaj komentar?");">
+												</span>
+											</div>
+										}	
+						}
 									
 									<!--  Ubaciti dugme Ostavite utisak kupovine 
 									vodi ovog Usera(kupca) na formu neku... gdje popunjava jedan string...

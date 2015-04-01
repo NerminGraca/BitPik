@@ -31,6 +31,7 @@ import com.google.common.io.Files;
 public class ProductController extends Controller {
 
 	static Form<Product> newProduct = new Form<Product>(Product.class);
+	static Form<TransactionP> newTransaction = new Form<TransactionP>(TransactionP.class);
 	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
 	static String usernameSes;
 
@@ -449,6 +450,30 @@ public class ProductController extends Controller {
 		Product p = Product.find.byId(id);
 		p.isRefunding = true;
 		p.refundReason = refundReason;
+		p.save();
+		return redirect("/showProduct/" + id);
+	}
+	
+	/**
+	 * Method refundProduct allows User to send product he purchased to the
+	 * administration in order they can review it and refund the buyer
+	 * @param id
+	 * @return
+	 */
+	public static Result leaveCommentTransaction(int id) {
+		String comment;
+		try {
+			comment = newTransaction.bindFromRequest().get().buyer_comment;
+		} catch(IllegalStateException e) {
+			return redirect("/showProduct/" + id);
+		}
+		//2. Druga provjera;
+		if (comment == null) {
+			return redirect("/");
+		}
+		
+		Product p = Product.find.byId(id);
+		p.purchaseTransaction.setBuyer_comment(comment);
 		p.save();
 		return redirect("/showProduct/" + id);
 	}

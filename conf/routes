@@ -48,6 +48,7 @@ GET   	/addNoPictureProduct/:id        controllers.ProductController.saveNoFile(
 GET		/buyingAProduct/:id/:s			controllers.ProductController.buyProductSuccess(id : Integer, s: String)
 GET     /search                         controllers.ProductController.searchUsers(q: String)
 POST	/refund							controllers.ProductController.refundProduct(id: Int)
+POST 	/leavecommentbuyer/:id			controllers.ProductController.leaveCommentTransaction(id : Integer)
 
 GET		/kategorija/:id					controllers.CategoryController.categories(id: Integer)
 GET		/listaKategorija 				controllers.CategoryController.allCategory()
