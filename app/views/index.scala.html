@@ -71,6 +71,121 @@
 			    		</div>
 			    		<div class="clear"></div>
 			    	</div>
+			    	
+			    	<div >
+					  	<h1 class="redHeader">Trazi proizvode</h1><br>
+						<!--  NAŠ HELPER 
+						MINIMUM of three characters is here!! 
+						-->
+							<!--@helper.form(routes.ProductController.filteredSearch(),'id->"filteredSearch") {-->
+									
+									<form action="/filteredSearch" method="GET">
+									<h5 id="editProfileText">Cijena od-do</h5
+									<div style="margin-top:10px;">			
+									<input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin" required/> 
+										<input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax" required/>
+										</div>					
+						  			<!-- This is css for Kategorija and availability dropdown meni -->
+					
+						  			<style>
+						    			fieldset {
+							    			border: 0;
+						    	  			font-style: bold;
+						    	  			}
+						    			
+							    		label {
+							      			display: block;
+							      			margin: 0 0 0 0;
+							      			}
+							    		
+							    		select {
+							  		    	width: 53%;
+							  		    	height: 40px;
+							  		    	font-weight: bold;
+							  		    	color: #464646;
+											font-size: 1em;
+											font-family: Arial, Helvetica, sans-serif;
+											padding: 8px;
+											margin: 5px;
+											}
+							   			
+							    		.overflow {
+							      			height: 400px;
+							      			}
+						 			</style>
+						 			
+						  							
+						  						
+ 											
+ 											
+ 											<script language="JavaScript">
+
+												var e = document.getElementById("categoryString");
+												function showHideCategoryFields() {
+													var selected = e.value;
+
+													var hiddenDivs = document.querySelectorAll('.fieldsetToHide');
+
+													for (var i = 0; i < hiddenDivs.length; i++) {
+														hiddenDivs[i].style.display = 'none';
+													}
+
+													var actives = document.querySelectorAll("#subCategoryString");
+
+													for (var i = 0; i < actives.length; i++) {
+														actives[i].id = "inactive";
+														actives[i].name = "inactive";
+													}
+
+
+													var shown = document.getElementById(selected);
+													shown.style.display = 'block';
+											
+													var children = shown.childNodes;
+													var node = children[1];
+													var children2 = node.childNodes;
+													var selectNode = children2[3];
+													
+													selectNode.id = "subCategoryString";
+													selectNode.name = "subCategoryString";
+													
+													
+														
+												};
+												
+												e.onchange = showHideCategoryFields;
+												
+												showHideCategoryFields();
+		
+						 					</script>
+	
+											<fieldset>
+			   									<label id="editProfileText" for="availability" width=30px>Dostupnost:</label>
+			    								<select name="availability" id="availability">
+			     									<option selected="selected">Svugdje</option>
+									     			<option>Unutar BiH</option>
+									      			<option>Sarajevo</option>
+									    			<option>Unsko sanski</option>
+									    			<option>Posavski</option>
+									     			<option>Tuzlanski</option>
+									     			<option>Zenicko-dobojski</option>
+											    	<option>Bosansko-Podrinjski</option>
+									   				<option>Srednjo-bosanski</option>
+									    			<option>Zapadno-hercegovacki</option>
+									    			<option>Livanjski</option>
+									     			<option>Hercegovacko-neretvanski</option>
+									   		   		<option>Distrikt Brcko</option>
+									  		    	<option>Banjalucka</option>
+									  		    	<option>Dobojsko-bijeljinska</option>
+									   		   		<option>Sarajevsko-zvornicka</option>
+									   		 		<option>Focansko-trebinjska</option>
+									   		 	</select>
+									   		 </fieldset> 
+										
+									<a href="/filteredSearch" class="btn">Trazi</a>
+									</form>
+						</div>
+					</div>
 				
 				<div class="section group">	      	      
 	      
@@ -98,6 +213,7 @@
     	</div>
 	</div>
 
-</div>
+
    
+}
 }

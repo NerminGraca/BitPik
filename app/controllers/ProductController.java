@@ -3,12 +3,15 @@ package controllers;
 
 import helpers.SessionHelper;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Iterator;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import javassist.runtime.Inner;
 import models.ImgPath;
 import models.MainCategory;
 import models.Product;
@@ -28,8 +31,26 @@ import com.google.common.io.Files;
 
 
 public class ProductController extends Controller {
+	
+	public static class FilteredSearch{
+		public double priceMin;
+		public double priceMax;
+		public String availabilityS;
+		
+		public FilteredSearch(){
+			this.priceMin=-1;
+			this.priceMax=999999;
+			this.availabilityS="svugdje";
+		}
+		public FilteredSearch(double priceMin,double priceMax,String availability){
+			this.priceMin=priceMin;
+			this.priceMax=priceMax;
+			this.availabilityS=availability;
+		}
+	}
 
 	static Form<Product> newProduct = new Form<Product>(Product.class);
+	static Form<FilteredSearch> filteredSearch=new Form<FilteredSearch>(FilteredSearch.class);
 	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
 	static String usernameSes;
 
@@ -424,5 +445,36 @@ public class ProductController extends Controller {
 		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
 		return ok(listaPretrage.render(products,users));	
 	}
-
+	
+	public static Result filteredSearch(){
+		Double priceMin;
+		Double priceMax;
+		String availabilityS;
+		
+		
+//		if(form.hasErrors()){
+//			System.out.println("Nije ok");
+//		}
+		priceMin=filteredSearch.bindFromRequest().get().priceMin;
+		priceMax=filteredSearch.bindFromRequest().get().priceMax;
+		availabilityS=filteredSearch.bindFromRequest().get().availabilityS;
+//		String nesto = filteredSearch.bindFromRequest().name();
+//		int nestodr = filteredSearch.bindFromRequest().
+//		priceMax=filteredSearch.bindFromRequest().get().priceMax;
+//		availabilityS=filteredSearch.bindFromRequest().get().availabilityS;
+		FilteredSearch newF = new FilteredSearch(priceMin, priceMax, availabilityS);
+		List<Product>filteredProducts=new ArrayList<Product>();
+		
+		List<Product>products=Product.find.where("PRICE >20 AND PRICE<30").findList();
+		if(products.size()>0){
+		for(Product product:products){
+			if(product.availability.equals(newF.availabilityS)){
+				filteredProducts.add(product);
+			}
+		}
+	}else{
+		return ok(newViewForFilter.render(products));
+	}
+		return ok(newViewForFilter.render(filteredProducts));
+}
 }

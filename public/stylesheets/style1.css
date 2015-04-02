@@ -981,4 +981,10 @@ header h1 {
   .no-js .cd-faq-content {
     display: block;
   }
+  .od{
+  width:20px;
+  }
+  .do{
+  width:20px;float:right;
+  }
 }

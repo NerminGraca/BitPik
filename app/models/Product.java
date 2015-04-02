@@ -30,7 +30,7 @@ public class Product extends Model {
 	
 	@Required
 	public double price;
-	
+
 	public String publishedDate;
 	
 	@ManyToOne
