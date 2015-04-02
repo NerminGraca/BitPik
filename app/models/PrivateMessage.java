@@ -1,11 +1,21 @@
 package models;
 
+
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import com.avaje.ebeaninternal.server.core.Message;
 
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
+
+@Entity
 
 public class PrivateMessage extends Model{
 	
@@ -17,8 +27,11 @@ public class PrivateMessage extends Model{
 	
 	@ManyToOne
 	public User user;
+
 	
 	public static Finder<Integer, PrivateMessage> find = new Finder<Integer, PrivateMessage>(Integer.class, PrivateMessage.class);
+
+	
 
 	public PrivateMessage(String content, User user) {
 		this.content = content;
@@ -26,8 +39,10 @@ public class PrivateMessage extends Model{
 	}
 
 	public PrivateMessage() {
+
 		this.content = "no content";
 		this.user = null;
+
 	}
 
 	public String getContent() {
@@ -55,6 +70,9 @@ public class PrivateMessage extends Model{
 	public static void delete(int id) {
 		  find.ref(id).delete();
 	}
+
 	
 
 }
+
+

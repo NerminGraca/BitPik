@@ -25,7 +25,9 @@ GET 	/changePassword/:id				controllers.UserController.changePassword(id: Intege
 POST	/changeAdmin/:id				controllers.UserController.changeAdmin(id: Int)
 GET		/adminPanel						controllers.UserController.adminPanel()
 POST   	/fileupload          			controllers.UserController.saveFile()
-
+GET		/message/:id					controllers.UserController.sendMessage(id: Integer)
+POST	/message/:id/save				controllers.UserController.saveMessage(id: Integer)
+GET		/allMessages					controllers.UserController.allMessages()
 
 GET		/editFaq/:id					controllers.FAQController.editFaq(id: Integer)
 POST	/editFaq/:id/change				controllers.FAQController.saveEditedFaq(id: Integer)
@@ -44,7 +46,7 @@ POST    /products/:id/delete       		controllers.ProductController.deleteProduct
 GET   	/addPictureProduct/:id         	controllers.ProductController.productPicture(id: Integer)
 POST   	/addPictureProduct/:id          controllers.ProductController.saveFile(id: Integer)
 GET   	/addNoPictureProduct/:id        controllers.ProductController.saveNoFile(id: Integer)
-#GET     /deleteOnePicture/:id/:imgPath				controllers.ProductController.deleteOnePicture(id: Integer, imgPath: String)
+#GET     /deleteOnePicture/:id/:imgPath	controllers.ProductController.deleteOnePicture(id: Integer, imgPath: String)
 GET		/buyingAProduct/:id				controllers.ProductController.buyProductSuccess(id : Integer)
 GET     /search                         controllers.ProductController.searchUsers(q: String)
 

@@ -568,20 +568,45 @@ public class UserController extends Controller {
 	
 	public static Result sendMessage(int id)
 	{
+		User u = SessionHelper.getCurrentUser(ctx());
+		usernameSes = session(SESSION_USERNAME);
+		if(u.equals(null))
+		{
+			return redirect(routes.Application.index());
+		}
+		User receiver = User.find(id);
+		return ok(message.render(u, receiver));
+	}
+	
+	public static Result saveMessage(int id)
+	{
+		User u = SessionHelper.getCurrentUser(ctx());
+		usernameSes = session(SESSION_USERNAME);
    	  	User receiver = User.find(id);
    	  	String content;
 		User sender;
 		try {
 			content = sendMessage.bindFromRequest().get().content;
-			sender = sendMessage.bindFromRequest().get().user;
 		} catch (Exception e) {
-			flash("message_failed", Messages.get("Poruka nije poslana"));
+			flash("message_fail", Messages.get("Greška. Niste poslali poruku"));
 			return redirect(routes.UserController.singleUser(id));
 		}
-   	  	PrivateMessage message = PrivateMessage.create(content, sender);
-   	  	receiver.privateMessage.add(message);
-   	  	flash("message_success", Messages.get("Poruka je poslana"));
-   	  	return redirect(routes.UserController.singleUser(id));
+   	  	PrivateMessage privMessage = PrivateMessage.create(content, u);
+   	  	receiver.privateMessage.add(privMessage);
+   	  	receiver.save();
+   	  	if(receiver.privateMessage.contains(privMessage))
+   	  	{
+   	  		flash("message_success", Messages.get("Poslali ste poruku"));
+   	  	}
+   	  	return redirect("/message/" + u.id);
+	}
+	
+	public static Result allMessages()
+	{
+		User u = SessionHelper.getCurrentUser(ctx());
+		usernameSes = session(SESSION_USERNAME);
+		
+		return ok(allMessages.render(u, u.privateMessage));
 	}
 	
 	
