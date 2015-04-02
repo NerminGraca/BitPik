@@ -604,8 +604,9 @@ public class UserController extends Controller {
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
-		List<PrivateMessage> privateMessages = PrivateMessage.find.where().eq("receiver.id", u.id).findList();
-		return ok(allMessages.render(u, privateMessages));
+		List<PrivateMessage> messagesReceived = PrivateMessage.find.where().eq("receiver.id", u.id).findList();
+		List<PrivateMessage> messagesSent = PrivateMessage.find.where().eq("sender.id", u.id).findList();
+		return ok(allMessages.render(u, messagesReceived, messagesSent));
 	}
 	
 	

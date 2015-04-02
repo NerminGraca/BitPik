@@ -1,4 +1,4 @@
-@(u: User)(messages: List[PrivateMessage])
+@(u: User)(messagesReceived: List[PrivateMessage])(messagesSent: List[PrivateMessage])
 
 @import helper._
 
@@ -21,9 +21,21 @@
 	<!--
 		NAŠ HELPER
 		-->
+		<h3>Primljene poruke</h3>
 	<ul>
-		@for(message <- messages){
-			<li><h5><a href="/korisnik/@message.sender.id">@message.sender.username</a></h5>	
+		
+		@for(message <- messagesReceived){
+			<li><h5>Poruka od korisnika: <a href="/korisnik/@message.sender.id">@message.sender.username</a></h5>
+				<p>Poruka:</p>
+				<p>@message.content</p></li>
+				<h5><a href="/message/@message.sender.id">Odgovori</a></h5></li>		
+		}
+	</ul>
+	<br></br>
+	<ul>
+		<h3>Poslane poruke</h3>
+		@for(message <- messagesSent){
+			<li>
 				<p>@message.content</p></li>	
 		}
 	</ul>				
