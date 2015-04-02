@@ -8,6 +8,7 @@ import java.util.List;
 import models.*;
 
 import org.junit.*;
+import org.mockito.internal.matchers.Find;
 
 import com.google.common.io.Files;
 
@@ -538,26 +539,10 @@ public class UserControllerTest extends WithApplication {
 
 				});
 	}*/
-	
+	/*
 
 	@Test
-	public void testSaveFile() {
-		running(testServer(3333, fakeApplication(inMemoryDatabase())),
-				HTMLUNIT, new Callback<TestBrowser>() {
-					@Override
-					public void invoke(TestBrowser browser) throws Throwable {
-						User.createSaveUser("neko", "pass", "neko@test.ba");
-						User u = User.find(4);
-						u.verified = true;
-						u.save();
-						UserController.saveFile();
-						assertNotNull(u.imagePath);
-						assertEquals(u.imagePath, "profileimg.png");
-				}
-		});
-	}
-
-	public void saveFileTest(){
+	public void testSaveFile(){
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
@@ -567,9 +552,7 @@ public class UserControllerTest extends WithApplication {
 						User u = User.find(4);
 						u.verified = true;
 						u.save();
-						browser.goTo("http://localhost:3333/profile");
-						browser.fill("#image").with("image.png");
-						browser.submit("#imgs");
+						u.imagePath="image.png";
 						MultipartFormData body = UserController.request().body().asMultipartFormData();
 						FilePart filePart = body.getFile("image");
 						assertNotNull(filePart);
@@ -591,6 +574,39 @@ public class UserControllerTest extends WithApplication {
 					}
 		});
 
+	}
+	*/
+	public void test(){
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						// Register a user;
+						User.createSaveUser("necko", "password",
+								"necko@test.com");
+						User u1 = User.find(4);
+						u1.verified = true;
+						u1.save();
+						User.createSaveUser("gordan", "lozinka",
+								"gordan@test.com");
+						User u2 = User.find(5);
+						u2.verified = true;
+						u2.save();
+						
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("necko");
+						browser.fill("#password").with("password");
+						browser.submit("#nameForm");
+						
+						browser.goTo("http://localhost:3333/message/5");
+						browser.fill("#content").with("vozdra");
+						browser.submit("#nameForm");
+						PrivateMessage pm = PrivateMessage.find.byId(1);
+						assertNotNull(pm);
+						assertEquals(pm.content, "vozdra");
+						assertEquals(pm.sender.username, "necko");
+						assertEquals(pm.receiver, "gordan");
+					}
+		});
 	}
 	
 }
