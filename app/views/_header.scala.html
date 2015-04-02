@@ -38,6 +38,7 @@
 			    	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">FAQs</a></li>
 			    	<li class='@("active".when(location == "Kontakt"))'><a href="/contact">Kontakt</a></li>
 			    	@if(user != null) {
+			    		<li class='@("active".when(location == "Poruke"))'><a href="/allMessages">Poruke</a></li>
 			    		@if(user.isAdmin == true){
 				    		<li class='@("active".when(location == "Admin Panel"))'><a href="/adminPanel">Admin Panel</a></li>
 			    		}

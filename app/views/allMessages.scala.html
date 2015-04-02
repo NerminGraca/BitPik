@@ -37,7 +37,7 @@
 		@for(message <- messagesSent){
 			<li>
 				<p>@message.content</p>
-				<h5>@message.receiver</h5></li>	
+				<h5><a href="/korisnik/@message.receiver.id">@message.receiver.username</a></h5></li>	
 		}
 	</ul>				
 				 </div>

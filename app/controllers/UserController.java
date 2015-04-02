@@ -570,7 +570,7 @@ public class UserController extends Controller {
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
-		if(u.equals(null))
+		if(u == null)
 		{
 			return redirect(routes.Application.index());
 		}
@@ -597,15 +597,24 @@ public class UserController extends Controller {
 	  	{
 	  		flash("message_success", Messages.get("Poslali ste poruku"));
 	  	}
-   	  	return redirect("/message/" + sender.id);
+	  	if(sender == null)
+	  	{
+	  		return redirect(routes.Application.index());
+	  	}
+   	  	return redirect("/allMessages");
 	}
 	
 	public static Result allMessages()
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
+		if(u == null)
+	  	{
+	  		return redirect(routes.Application.index());
+	  	}
 		List<PrivateMessage> messagesReceived = PrivateMessage.find.where().eq("receiver.id", u.id).findList();
 		List<PrivateMessage> messagesSent = PrivateMessage.find.where().eq("sender.id", u.id).findList();
+		
 		return ok(allMessages.render(u, messagesReceived, messagesSent));
 	}
 	
