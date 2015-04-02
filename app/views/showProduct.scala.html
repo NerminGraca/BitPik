@@ -44,9 +44,19 @@
 	    									
 	    									@if(p.imgPathList.size() > 0  ) {
 									  			@for(imgPath <- p.imgPathList) {
+									  			<div class="wrap">	
 									  				<a class="fancybox" rel="gallery1" href="@routes.Assets.at(imgPath.imgPath)">
-									  					<img class="col-md-3" src="@routes.Assets.at(imgPath.imgPath)" alt="" width = "300" height="200" />  		
-									  				</a>			  			
+									  					<img src="@routes.Assets.at(imgPath.imgPath)" alt="" />	
+									  				</a>
+									  				@if(user != null) {
+									  					@if(user.username.equals(p.owner.username)) {
+									  						@form(routes.ProductController.deleteOnePicture(p.id, imgPath.imgPath)) {
+									  						<input class="btnDelete" type="submit" value="Izbrisi sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati sliku?');"> 
+									  						}
+									  					}
+									  				}
+									  				
+									  			</div>				  			
 									  			}
 									  		}
 	    									
@@ -65,7 +75,20 @@
 	    							</div>
 	    						</div>
 	    					</div>
+	    					@if(user != null) {
+	    						@if(user.username.equals(p.owner.username)) {
+	    							<form id="imgs" action="@routes.ProductController.saveFile(p.id)" method="post" enctype="multipart/form-data" >
+										<input class="sendFile" type="file" name="image" id="image" />
+										<input class="sendFileBtn" type="submit" value="Send file" />
+									</form>
+	    						}
+	    					}
+	    					
+	    					
+						</div>
 	    				</div>
+						<div class="addImage" >
+
 	    				<div class="desc span_3_of_2">
 							<h2>@p.name</h2>
 							<p>@p.description</p>					
@@ -154,8 +177,13 @@
 								<div class="clear"></div>
 								
 								@if(user != null) {
+									<!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
 									@if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p) && !user.isAdmin) {
-										<div class="button"><span><a href="#">Kupi Artikal</a></span></div>
+										<div class="button"><span><a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true">Kupi Artikal</a></span></div>
+									}
+									<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->
+									@if(user.username.equals(p.owner.username) && !user.isAdmin) {
+										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni Artikal</a></span></div>
 									}
 									@if(user.bought_products.contains(p) && !p.isRefunding) {
 										<br>
@@ -258,6 +286,30 @@
 						$(".fancybox").fancybox();
 					});
 					</script>
+									  <div id="boxForEditingProduct">
+						
+							<div>
+							@if(user != null) {
+							    <!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
+							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {
+							    
+						
+						<!--  ZA KOMENTARISANO DUGME KUPI KOJE PRESKACE CITAV PAYPAL PROCES I PREBACUJE PROIZVOD U boughtproducts -->
+						<!--    <a href="/buyingAProduct/@p.id" class="btn" onclick="return confirm('Da li zelite da vas redirectamo na PayPal stranicu da izvrsite placanje?');">Kupi</a>  -->
+						<!--  ZA KOMENTARISANO IMAGE OD PAYPAL-a 		<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" /> -->
+								}
+									    
+								
+								<!--  Vidljivost "DELETE "samo za vlasnika proizvoda -->	
+								@if(user.username.equals(p.owner.username) || user.isAdmin) {
+									@form(routes.ProductController.deleteProduct(p.id)) {
+                   					<input class="btnRed" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                					}
+								}	
+								
+							}
+							</div><br><br>	
+						</div>
 					<div class="content_bottom">
 						<div class="heading">
 							<h3>Slicni Artikli</h3>
@@ -287,50 +339,13 @@
   
 
     						  				  	
-				  	<div class="categories">
+				  	
 				  	
 				  		
-				  	<div id="boxForEditingProduct" >
-				  <div id="boxForEditingProduct">
-						<div class="bottomLine">
-							<h2 id="redText"><p>ID oglasa:</p></h2>
-							<h6 class="blueText">@p.id</h6>
-						</div>
-		
-						
-		
-						<div class="bottomLine">
-							<h2  id="redText">Dostupnost:</h2>
-							<p class="blueText">@p.availability</p>
-						</div>
-						
-							<div>
-							@if(user != null) {
-							    <!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
-							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {
-							    <a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true"  text-align="center" class="btn">KUPI</a>
-						
-						<!--  ZA KOMENTARISANO DUGME KUPI KOJE PRESKACE CITAV PAYPAL PROCES I PREBACUJE PROIZVOD U boughtproducts -->
-						<!--    <a href="/buyingAProduct/@p.id" class="btn" onclick="return confirm('Da li zelite da vas redirectamo na PayPal stranicu da izvrsite placanje?');">Kupi</a>  -->
-						<!--  ZA KOMENTARISANO IMAGE OD PAYPAL-a 		<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" /> -->
-								}
-								<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->	    
-								@if(user.username.equals(p.owner.username)) {
-									<a href="/editProduct/@p.id" class="btn">Izmijeni proizvod</a>
-									<a href="/addPictureProduct/@p.id" class="btn">Dodaj sliku</a>
-								}
-								<!--  Vidljivost "DELETE "samo za vlasnika proizvoda -->	
-								@if(user.username.equals(p.owner.username) || user.isAdmin) {
-									@form(routes.ProductController.deleteProduct(p.id)) {
-                   					<input class="btnRed" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
-                					}
-								}	
-								
-							}
-							</div><br><br>	
-						</div>
-					</div>					
-				</div>
+				  	
+
+							
+				
 			</div>
 	</div>
 </div>
