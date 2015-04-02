@@ -23,7 +23,7 @@
 		-->
 	<ul>
 		@for(message <- messages){
-			<li><h5><a href="/korisnik/@message.user.id">@message.user.username</h5>	
+			<li><h5><a href="/korisnik/@message.sender.id">@message.sender.username</a></h5>	
 				<p>@message.content</p></li>	
 		}
 	</ul>				

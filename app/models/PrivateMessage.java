@@ -26,22 +26,26 @@ public class PrivateMessage extends Model{
 	public String content;
 	
 	@ManyToOne
-	public User user;
+	public User sender;
 
+	@ManyToOne
+	public User receiver;
 	
 	public static Finder<Integer, PrivateMessage> find = new Finder<Integer, PrivateMessage>(Integer.class, PrivateMessage.class);
 
 	
 
-	public PrivateMessage(String content, User user) {
+	public PrivateMessage(String content, User sender, User receiver) {
 		this.content = content;
-		this.user = user;
+		this.sender = sender;
+		this.receiver = receiver;
 	}
 
 	public PrivateMessage() {
 
 		this.content = "no content";
-		this.user = null;
+		this.sender = null;
+		this.receiver = null;
 
 	}
 
@@ -53,16 +57,25 @@ public class PrivateMessage extends Model{
 		this.content = content;
 	}
 
-	public User getUser() {
-		return user;
+	public User getSender() {
+		return sender;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setSender(User sender) {
+		this.sender = sender;
 	}
 	
-	public static PrivateMessage create(String content, User user) {
-		PrivateMessage newMessage = new PrivateMessage(content, user);
+	public User getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(User receiver) {
+		this.receiver = receiver;
+	}
+	
+	
+	public static PrivateMessage create(String content, User sender, User receiver) {
+		PrivateMessage newMessage = new PrivateMessage(content, sender, receiver);
 		newMessage.save();
 		return newMessage;
 	}

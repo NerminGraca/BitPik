@@ -53,7 +53,7 @@ public class User extends Model {
 	public List<Product> bought_products;
 
 	
-	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="sender", cascade=CascadeType.ALL)
 	public List<PrivateMessage> privateMessage;
 	
 	/**

@@ -1,4 +1,4 @@
-@(userSes: User)(user: User)
+@(userSes: User)(receiver: User)
 
 @import helper._
 
@@ -21,7 +21,7 @@
 	<!--
 		NAŠ HELPER
 		-->
-	@helper.form(routes.UserController.saveMessage(user.id), 'id->"nameForm"){
+	@helper.form(routes.UserController.saveMessage(receiver.id), 'id->"nameForm"){
 	
 					<h5>Message:</h5>
 					<textarea maxlength="250" nameForm' 

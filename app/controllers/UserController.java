@@ -580,33 +580,32 @@ public class UserController extends Controller {
 	
 	public static Result saveMessage(int id)
 	{
-		User u = SessionHelper.getCurrentUser(ctx());
+		User sender = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
    	  	User receiver = User.find(id);
    	  	String content;
-		User sender;
 		try {
 			content = sendMessage.bindFromRequest().get().content;
 		} catch (Exception e) {
 			flash("message_fail", Messages.get("Greška. Niste poslali poruku"));
 			return redirect(routes.UserController.singleUser(id));
 		}
-   	  	PrivateMessage privMessage = PrivateMessage.create(content, u);
+   	  	PrivateMessage privMessage = PrivateMessage.create(content, sender, receiver);
    	  	receiver.privateMessage.add(privMessage);
-   	  	receiver.save();
-   	  	if(receiver.privateMessage.contains(privMessage))
-   	  	{
-   	  		flash("message_success", Messages.get("Poslali ste poruku"));
-   	  	}
-   	  	return redirect("/message/" + u.id);
+	  	receiver.save();
+	  	if(receiver.privateMessage.contains(privMessage))
+	  	{
+	  		flash("message_success", Messages.get("Poslali ste poruku"));
+	  	}
+   	  	return redirect("/message/" + sender.id);
 	}
 	
 	public static Result allMessages()
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
-		
-		return ok(allMessages.render(u, u.privateMessage));
+		List<PrivateMessage> privateMessages = PrivateMessage.find.where().eq("receiver.id", u.id).findList();
+		return ok(allMessages.render(u, privateMessages));
 	}
 	
 	
