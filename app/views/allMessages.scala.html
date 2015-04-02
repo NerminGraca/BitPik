@@ -36,7 +36,8 @@
 		<h3>Poslane poruke</h3>
 		@for(message <- messagesSent){
 			<li>
-				<p>@message.content</p></li>	
+				<p>@message.content</p>
+				<h5>@message.receiver</h5></li>	
 		}
 	</ul>				
 				 </div>
