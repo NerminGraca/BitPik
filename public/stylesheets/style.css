@@ -35,7 +35,10 @@ img{max-width:100%;
 h6 {
 	color: #FF0000;
 }
-
+.ourInputTextField {
+	height: 200px;
+	width: 100%;
+}
 #oneLineText{
 	overflow: hidden;
 	word-wrap: break-word;

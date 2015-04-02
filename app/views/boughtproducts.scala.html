@@ -1,7 +1,7 @@
 @(bproducts: List[Product])(u: User)
 @import helper._
 
-@main("Profile", "") {
+@main("BoughtProducts", "") {
 		
 				
 <div class="wrap">
@@ -54,6 +54,7 @@
 					      <li><a href="#">Blokirani korisnici</a></li>
 					      <li><a href="#">Javna pitanja</a></li>
 				     	  <li><a href="/profile">Objavljeni proizvodi</a></li>
+				     	  <li><a href="@routes.UserController.findSoldProducts()">Prodati proizvodi</a></li>
 					      
 						</ul>
 					</div>					
