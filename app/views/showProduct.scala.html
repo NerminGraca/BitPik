@@ -103,6 +103,7 @@
 										<a href="/korisnik/@p.owner.id">@p.owner.username</a>
 									</ul>
 							</div>
+							
 	@if(user != null && p.buyerUser != null) {		
 		@if((user == p.buyerUser || user == p.owner) ) {
 							<div class="available">
@@ -205,15 +206,22 @@
 										
 											@if(user.isAdmin){
 												<div class="available">
-													<p>Token za refund :</p>
+													<p>Transakcijski ID :</p>
 													<ul>
-														@p.purchaseTransaction.token
+														@p.purchaseTransaction.id
 													</ul>
+													<br>
+													<p>Poslao zahtjev za refund :</p>
+													<ul>
+														<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
+													</ul>
+													<br>
 													<p>Razlozi za refund :</p>
 													<ul>
 														@p.refundReason
 													</ul>
 												</div>
+												<div class="button"><span><a href="#">Odbij Refundaciju</a></span></div>
 												<div class="button"><span><a href="#">Refundiraj Artikal</a></span></div>
 											} else {
 												<br>

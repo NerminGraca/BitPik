@@ -669,7 +669,7 @@ public class UserController extends Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return redirect("http://localhost:9000/buyingAProduct/" +id);
+		return redirect("http://localhost:9000/buyingAProduct/" +id +"/"+ token);
 
 	}	
 		
