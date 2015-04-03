@@ -35,17 +35,20 @@ public class ProductController extends Controller {
 	public static class FilteredSearch{
 		public double priceMin;
 		public double priceMax;
-		public String availabilityS;
+		public String desc;
+		public String mainCategory;
+		public String subCategory;
+	public String availabilityS;
 		
 		public FilteredSearch(){
 			this.priceMin=-1;
 			this.priceMax=999999;
-			this.availabilityS="svugdje";
+		
 		}
 		public FilteredSearch(double priceMin,double priceMax,String availability){
 			this.priceMin=priceMin;
 			this.priceMax=priceMax;
-			this.availabilityS=availability;
+			
 		}
 	}
 
@@ -446,35 +449,20 @@ public class ProductController extends Controller {
 		return ok(listaPretrage.render(products,users));	
 	}
 	
-	public static Result filteredSearch(){
-		Double priceMin;
-		Double priceMax;
-		String availabilityS;
+public static Result filteredSearch(){
 		
-		
-//		if(form.hasErrors()){
-//			System.out.println("Nije ok");
-//		}
-		priceMin=filteredSearch.bindFromRequest().get().priceMin;
-		priceMax=filteredSearch.bindFromRequest().get().priceMax;
-		availabilityS=filteredSearch.bindFromRequest().get().availabilityS;
-//		String nesto = filteredSearch.bindFromRequest().name();
-//		int nestodr = filteredSearch.bindFromRequest().
-//		priceMax=filteredSearch.bindFromRequest().get().priceMax;
-//		availabilityS=filteredSearch.bindFromRequest().get().availabilityS;
-		FilteredSearch newF = new FilteredSearch(priceMin, priceMax, availabilityS);
-		List<Product>filteredProducts=new ArrayList<Product>();
-		
-		List<Product>products=Product.find.where("PRICE >20 AND PRICE<30").findList();
-		if(products.size()>0){
-		for(Product product:products){
-			if(product.availability.equals(newF.availabilityS)){
-				filteredProducts.add(product);
+		String availability;
+		if(filteredSearch.hasErrors()){
+			Logger.info("Error in form");
+			return redirect(routes.Application.index());
 			}
-		}
-	}else{
+
+		double priceMin=filteredSearch.bindFromRequest().get().priceMin;
+		double priceMax=filteredSearch.bindFromRequest().get().priceMax;
+		availability= filteredSearch.bindFromRequest().get().availabilityS;
+	
+		List<Product>products=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+"))").findList();
+		
 		return ok(newViewForFilter.render(products));
-	}
-		return ok(newViewForFilter.render(filteredProducts));
 }
 }
