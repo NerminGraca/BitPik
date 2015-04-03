@@ -478,7 +478,6 @@ public class UserController extends Controller {
 			Logger.of("user").error( usernameSes + " failed to upload an image to his profile page.");
 			e.printStackTrace();
 		}
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).eq("isSold", false).findList();
 		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
 		return redirect("/profile");
 	}
@@ -562,11 +561,10 @@ public class UserController extends Controller {
 	public static Result purchaseSuccess(int id ) {
 		User u = SessionHelper.getCurrentUser(ctx());
 		Product p = Product.find.byId(id);
-		String paymentId=null;
-		String payerId=null;
-		String token=null;
-		String accessToken=null;
-		
+		String paymentId = null;
+		String payerId = null;
+		String token = null;
+		String accessToken = null;
 		
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
@@ -584,12 +582,16 @@ public class UserController extends Controller {
 			
 			//payment.execute(apiContext, paymentExecution);
 		} catch (PayPalRESTException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return ok(payPalValidation.render(p, u,payerId,paymentId,token,accessToken));
+		return ok(payPalValidation.render(p, u, payerId, paymentId, token, accessToken));
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static Result sendMessage(int id)
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -602,6 +604,11 @@ public class UserController extends Controller {
 		return ok(message.render(u, receiver));
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static Result saveMessage(int id)
 	{
 		User sender = SessionHelper.getCurrentUser(ctx());
@@ -628,6 +635,10 @@ public class UserController extends Controller {
    	  	return redirect("/allMessages");
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static Result allMessages()
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -642,35 +653,37 @@ public class UserController extends Controller {
 		return ok(allMessages.render(u, messagesReceived, messagesSent));
 
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param payerId
+	 * @param paymentId
+	 * @param token
+	 * @param accessToken
+	 * @return
+	 */
 	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
 		
-		User u = SessionHelper.getCurrentUser(ctx());
-		Product p = Product.find.byId(id);
-		
 		try {
-			String payerID=payerId;
-			String paymentID=paymentId;
-			String tokken= token;
 			DynamicForm paypalReturn = Form.form().bindFromRequest();
-			 accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+			accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
 					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
-			 Map<String, String> sdkConfig = new HashMap<String, String>();
-				sdkConfig.put("mode", "sandbox");
+			Map<String, String> sdkConfig = new HashMap<String, String>();
+			sdkConfig.put("mode", "sandbox");
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			
-			Payment payment = Payment.get(accessToken, paymentID);
+			Payment payment = Payment.get(accessToken, paymentId);
 			
 			PaymentExecution paymentExecution = new PaymentExecution();
 			paymentExecution.setPayerId(payerId);
 			
 			payment.execute(apiContext, paymentExecution);
 		} catch (PayPalRESTException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return redirect("http://localhost:9000/buyingAProduct/" +id +"/"+ token);
-
 	}	
 		
 }

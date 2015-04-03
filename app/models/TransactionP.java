@@ -7,9 +7,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-import controllers.ProductController;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 public class TransactionP extends Model {
@@ -135,6 +133,5 @@ public class TransactionP extends Model {
 	 */
 	public Product getProductId() {
 		return product;
-	}
-	
+	}	
 }

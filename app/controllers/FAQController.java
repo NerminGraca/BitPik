@@ -4,7 +4,6 @@ import helpers.SessionHelper;
 
 import java.util.List;
 
-import ch.qos.logback.classic.db.SQLBuilder;
 import models.*;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
@@ -13,7 +12,6 @@ import play.i18n.Messages;
 import play.mvc.Result;
 import play.*;
 import views.html.*;
-import views.html.helper.select;
 
 public class FAQController extends Controller{
 
@@ -44,7 +42,7 @@ public class FAQController extends Controller{
 			return redirect(routes.FAQController.allFaqs());
 		}
 		
-		FAQ faq = FAQ.create(question, answer);
+		FAQ.create(question, answer);
 		Logger.of("faq").info("Admin added a new FAQ");
 		List <FAQ> faqList = findFaq.all();
 		flash("add_faq_success", Messages.get("Uspjesno ste dodali novi FAQ."));

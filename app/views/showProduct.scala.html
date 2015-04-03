@@ -104,8 +104,8 @@
 									</ul>
 							</div>
 							
-	@if(user != null && p.buyerUser != null) {		
-		@if((user == p.buyerUser || user == p.owner) ) {
+					@if(user != null && p.buyerUser != null) {		
+						@if((user == p.buyerUser || user == p.owner) ) {
 							<div class="available">
 								<p>Sifra Transakcije :</p>
 									<ul>
@@ -125,22 +125,18 @@
 									<ul>
 										@p.purchaseTransaction.seller_comment
 									</ul>
-				<!--  Ovaj formular za ostavljanje komentara vidi samo prodavac, i ako nije vec ostavio komentar -->					
-				 @if(user == p.owner) {				
-					@if(p.purchaseTransaction.seller_comment.equals("Ne postoji")) {
-							 	<p>Upisite Vas komentar na transakciju</p>
-										@form(routes.ProductController.leaveSCommentTransaction(p.id),'id->"transactionForm") {
-											
-											<input class="ourInputTextField" pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="seller_comment" name="seller_comment" required/>
-											<div class="button">
-												<textfield>
-												
-													<input type="submit" value="Ostavi Komentar"/>
-												
-											</div>
-										}	
-					}
-				} 
+									<!--  Ovaj formular za ostavljanje komentara vidi samo prodavac, i ako nije vec ostavio komentar -->					
+									 @if(user == p.owner) {				
+										@if(p.purchaseTransaction.seller_comment.equals("Ne postoji")) {
+											<p>Upisite Vas komentar na transakciju</p>
+											@form(routes.ProductController.leaveSCommentTransaction(p.id),'id->"transactionForm") {					
+												<input class="ourInputTextField" pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="seller_comment" name="seller_comment" required/>
+												<div class="button">
+													<input type="submit" value="Ostavi Komentar"/>				
+												</div>
+											}	
+										}
+									} 
 									
 							</div>
 							
@@ -149,25 +145,24 @@
 									<ul>
 										@p.purchaseTransaction.buyer_comment
 									</ul>
-				<!--  Ovaj formular za ostavljanje komentara vidi samo kupac, i ako nije vec ostavio komentar -->
-					@if(user == p.buyerUser) {				
-						@if(p.purchaseTransaction.buyer_comment.equals("Ne postoji")) {
-							 	<p>Upisite Vas komentar na transakciju</p>
-										@form(routes.ProductController.leaveBCommentTransaction(p.id),'id->"transactionForm") {
-											
-											<input class="ourInputTextField" pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="buyer_comment" name="buyer_comment" required/>
-											<div class="button">
-												<textfield>
-												
-													<input type="submit" value="Ostavi Komentar"/>
-												
-											</div>
+									<!--  Ovaj formular za ostavljanje komentara vidi samo kupac, i ako nije vec ostavio komentar -->
+										@if(user == p.buyerUser) {				
+											@if(p.purchaseTransaction.buyer_comment.equals("Ne postoji")) {
+												<br>
+											 	<p>Upisite Vas komentar na transakciju</p>
+													@form(routes.ProductController.leaveBCommentTransaction(p.id),'id->"transactionForm") {
+														<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required title="Od 3 do 250 karaktera" id="buyer_comment" name="buyer_comment"></textarea>
+														<div class="button">
+															<span>
+																<input type="submit" value="Ostavi Komentar"/>
+															</span>
+														</div>
+													}
+											}	
 										}
-						}	
-					}
 							</div>
-			}
-		}	
+						}
+					}	
 							
 							<div class="share-desc">
 								<div class="share">
@@ -185,19 +180,17 @@
 										<div class="button"><span><a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true">Kupi Artikal</a></span></div>
 									}
 									<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->
-									@if(user.username.equals(p.owner.username) && !user.isAdmin) {
+									@if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {
 										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni Artikal</a></span></div>
 									}
-									@if(user.bought_products.contains(p) && !p.isRefunding) {
+									@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {
 										<br>
 										<p>Navedite razlog za refundaciju</p>
 										@form(routes.ProductController.refundProduct(p.id),'id->"productForm") {
-											
-											<input class="ourInputTextField" pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="refundReason" name="refundReason" required/>
+											<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required title="Od 3 do 250 karaktera" id="refundReason" name="refundReason"></textarea>
 											<div class="button">
-												<textfield>
 												<span>
-													<input type="submit" value="Refundiraj Artikal" onclick="return confirm('Da li ste sigurni da zelite refundirati proizvod?');">
+													<input type="submit" value="Zatrazi refundaciju" onclick="return confirm('Da li ste sigurni da zelite refundirati proizvod?');">
 												</span>
 											</div>
 										}			
@@ -221,7 +214,7 @@
 														@p.refundReason
 													</ul>
 												</div>
-												<div class="button"><span><a href="#">Odbij Refundaciju</a></span></div>
+												<div class="button"><span><a href="@routes.ProductController.denyRefund(p.id)" onclick="return confirm('Da li ste sigurni da zelite uskratiti refundaciju?');">Odbij Refundaciju</a></span></div>
 												<div class="button"><span><a href="#">Refundiraj Artikal</a></span></div>
 											} else {
 												<br>
@@ -234,11 +227,17 @@
 								
 								<div class="clear"></div>
 							</div>
+							
+							
+							<!--- Zakomentarisani div za listu zelja, mozda poslije ga implementirati??!!
+							
 							<div class="wish-list">
 								<ul>
 									<li class="wish"><a href="#">Dodaj u listu zelja</a></li>
 								</ul>
 							</div>
+							-->
+							
 						</div>
 						<div class="clear"></div>
 	    			</div>
@@ -246,7 +245,7 @@
 						<div id="horizontalTab">
 							<ul class="resp-tabs-list">
 								<li>Detaljni opis</li>
-								<li>Review</li>
+								<!--- <li>Review</li> -->
 								<div class="clear"></div>
 							</ul>
 							<div class="resp-tabs-container">
@@ -255,6 +254,8 @@
 									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, <span>when an unknown printer took a galley of type and scrambled</span> it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.<span> It has survived not only five centuries</span>, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
 									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>					
 								</div>
+								
+								<!--- Zakomentarisani tab za review, mozda poslije ga implementirati ili ga iskoristiti negdje drugo??!!
 								<div class="review">
 									<h4>Lorem ipsum Review by <a href="#">Finibus Bonorum</a></h4>
 									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
@@ -279,6 +280,8 @@
 										</form>
 									</div>				
 								</div>
+								-->
+								
 							</div>
 						</div>
 					</div>

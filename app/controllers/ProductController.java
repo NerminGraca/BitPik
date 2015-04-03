@@ -1,6 +1,7 @@
 
 package controllers;
 
+import helpers.MailHelper;
 import helpers.SessionHelper;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class ProductController extends Controller {
 	static Form<TransactionP> newTransaction = new Form<TransactionP>(TransactionP.class);
 	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
 	static String usernameSes;
+	public static final String OURHOST = "http://localhost:9000";
 
 	/**
 	 * 
@@ -372,9 +374,6 @@ public class ProductController extends Controller {
 		
 		flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
 
-		p = findProduct.byId(id);
-		User user = SessionHelper.getCurrentUser(ctx());
-
 		return redirect("/showProduct/"+p.id);
 	}
 	
@@ -481,7 +480,36 @@ public class ProductController extends Controller {
 		p.isRefunding = true;
 		p.refundReason = refundReason;
 		p.save();
+		
+		//Email sending
+		User seller = p.owner;
+		User buyer = p.buyerUser;
+		
+		MailHelper.sendRefundEmail(buyer.email, seller.email, "http://" + OURHOST + "/showProduct/" + id);
+		
 		return redirect("/showProduct/" + id);
+	}
+	
+	/**
+	 * Method denyRefund allows Administrator to deny refund asked by buyer and
+	 * sets it refunding fields to false
+	 * @param id
+	 * @return
+	 */
+	public static Result denyRefund(int id) {
+		Product p = Product.find.byId(id);
+		p.isRefunding = false;
+		p.refundable = false;
+		p.save();
+		
+		//Email sending
+		User seller = p.owner;
+		User buyer = p.buyerUser;
+		
+		MailHelper.sendRefundEmailDenial(buyer.email, seller.email, "http://" + OURHOST + "/showProduct/" + id);
+		
+		return redirect("/showProduct/" + id);
+		
 	}
 	
 	/**
