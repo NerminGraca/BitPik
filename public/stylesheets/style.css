@@ -1998,4 +1998,10 @@ body {
 	margin:0 auto;
 	}
 	
-
+	h4 .poruke{
+	display: block;
+	font-size: 0.8125em;
+	color: #007575;
+	padding-bottom: 5px;
+	font-family: verdana, arial, helvetica, helve, sans-serif;
+	}
