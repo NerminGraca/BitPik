@@ -29,6 +29,8 @@ POST   	/fileupload          			controllers.UserController.saveFile()
 GET		/message/:id					controllers.UserController.sendMessage(id: Integer)
 POST	/message/:id/save				controllers.UserController.saveMessage(id: Integer)
 GET		/allMessages					controllers.UserController.allMessages()
+GET     /payPalValidation/:id/:payerId/:paymentId/:token/:accessToken           controllers.UserController.showSellingProduct(id: Integer, payerId: String, paymentId: String, token: String, accessToken: String)
+
 
 GET		/editFaq/:id					controllers.FAQController.editFaq(id: Integer)
 POST	/editFaq/:id/change				controllers.FAQController.saveEditedFaq(id: Integer)
@@ -36,6 +38,7 @@ GET		/faqs							controllers.FAQController.allFaqs()
 POST	/faqs							controllers.FAQController.addFaq()
 GET		/deleteFaq/:id					controllers.FAQController.deleteFaq(id: Integer)
 GET     /searchFaq                 		controllers.FAQController.searchFaq(q: String)
+
 
 GET		/showProduct/:id					controllers.ProductController.showProduct(id: Integer)
 POST	/showProduct/:id					controllers.ProductController.showProduct(id: Integer)

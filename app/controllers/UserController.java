@@ -532,8 +532,10 @@ public class UserController extends Controller {
 			
 			RedirectUrls redirectUrls = new RedirectUrls();
 			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela"));
+
 			redirectUrls.setCancelUrl(OURHOST + "/showProduct/"+ id);
 			redirectUrls.setReturnUrl(OURHOST + "/purchasesuccess/"+id);
+
 			payment.setRedirectUrls(redirectUrls);
 			Payment createdPayment = payment.create(apiContext);
 			Logger.debug(createdPayment.toJSON());
@@ -557,32 +559,35 @@ public class UserController extends Controller {
 	}
 	
 	
-	public static Result purchaseSuccess(int id)
-	{
-		DynamicForm paypalReturn = Form.form().bindFromRequest();
-		String paymentId = paypalReturn.get("paymentId");
-		String payerId = paypalReturn.get("PayerID");
-		String token = paypalReturn.get("token");
+	public static Result purchaseSuccess(int id ) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		Product p = Product.find.byId(id);
+		String paymentId=null;
+		String payerId=null;
+		String token=null;
+		String accessToken=null;
 		
 		
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
 		try {
-			String accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+			DynamicForm paypalReturn = Form.form().bindFromRequest();
+		    paymentId = paypalReturn.get("paymentId");
+			payerId = paypalReturn.get("PayerID");
+			token = paypalReturn.get("token");
+			 accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
 					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			
 			Payment payment = Payment.get(accessToken, paymentId);
-			PaymentExecution paymentExecution = new PaymentExecution();
-			paymentExecution.setPayerId(payerId);
 			
-			payment.execute(apiContext, paymentExecution);
+			//payment.execute(apiContext, paymentExecution);
 		} catch (PayPalRESTException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return redirect(OURHOST + "/buyingAProduct/"+id+"/"+token);
+		return ok(payPalValidation.render(p, u,payerId,paymentId,token,accessToken));
 	}
 	
 	public static Result sendMessage(int id)
@@ -635,7 +640,37 @@ public class UserController extends Controller {
 		List<PrivateMessage> messagesSent = PrivateMessage.find.where().eq("sender.id", u.id).findList();
 		
 		return ok(allMessages.render(u, messagesReceived, messagesSent));
+
 	}
-	
-	
+	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
+		
+		User u = SessionHelper.getCurrentUser(ctx());
+		Product p = Product.find.byId(id);
+		
+		try {
+			String payerID=payerId;
+			String paymentID=paymentId;
+			String tokken= token;
+			DynamicForm paypalReturn = Form.form().bindFromRequest();
+			 accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
+			 Map<String, String> sdkConfig = new HashMap<String, String>();
+				sdkConfig.put("mode", "sandbox");
+			APIContext apiContext = new APIContext(accessToken);
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			Payment payment = Payment.get(accessToken, paymentID);
+			
+			PaymentExecution paymentExecution = new PaymentExecution();
+			paymentExecution.setPayerId(payerId);
+			
+			payment.execute(apiContext, paymentExecution);
+		} catch (PayPalRESTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return redirect("http://localhost:9000/buyingAProduct/" +id);
+
+	}	
+		
 }
