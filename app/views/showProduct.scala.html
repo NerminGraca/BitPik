@@ -44,10 +44,22 @@
 	    									
 	    									@if(p.imgPathList.size() > 0  ) {
 									  			@for(imgPath <- p.imgPathList) {
+									  			<div class="wrap">	
 									  				<a class="fancybox" rel="gallery1" href="@routes.Assets.at(imgPath.imgPath)">
-									  					<img class="col-md-3" src="@routes.Assets.at(imgPath.imgPath)" alt="" width = "300" height="200" />  		
-									  				</a>			  			
+									  					<img src="@routes.Assets.at(imgPath.imgPath)" alt="" />	
+									  				</a>
+									  				@if(user != null) {
+									  					@if(user.username.equals(p.owner.username)) {
+									  						@form(routes.ProductController.deleteOnePicture(p.id, imgPath.imgPath)) {
+									  						<input class="btnDelete" type="submit" value="Izbrisi sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati sliku?');"> 
+									  						}
+									  					}
+									  				}
+									  				
+									  			</div>				  			
 									  			}
+									  		} else {
+									  			<img src="@routes.Assets.at(p.productImagePath)" alt="" />
 									  		}
 	    									
 										</div>
@@ -65,7 +77,20 @@
 	    							</div>
 	    						</div>
 	    					</div>
+	    					@if(user != null) {
+	    						@if(user.username.equals(p.owner.username)) {
+	    							<form id="imgs" action="@routes.ProductController.saveFile(p.id)" method="post" enctype="multipart/form-data" >
+										<input class="sendFile" type="file" name="image" id="image" />
+										<input class="sendFileBtn" type="submit" value="Send file" />
+									</form>
+	    						}
+	    					}
+	    					
+	    					
+						</div>
 	    				</div>
+						<div class="addImage" >
+
 	    				<div class="desc span_3_of_2">
 							<h2>@p.name</h2>
 							<p>@p.description</p>					
@@ -78,15 +103,127 @@
 										<a href="/korisnik/@p.owner.id">@p.owner.username</a>
 									</ul>
 							</div>
+	@if(user != null && p.buyerUser != null) {		
+		@if((user == p.buyerUser || user == p.owner) ) {
+							<div class="available">
+								<p>Sifra Transakcije :</p>
+									<ul>
+										@p.purchaseTransaction.id
+									</ul>
+							</div>
+							
+							<div class="available">
+								<p>Datum Transakcije :</p>
+									<ul>
+										@p.purchaseTransaction.dateTransaction
+									</ul>
+							</div>
+							
+							<div class="available">
+								<p>Komentar/utisak prodavaca :</p>
+									<ul>
+										@p.purchaseTransaction.seller_comment
+									</ul>
+				<!--  Ovaj formular za ostavljanje komentara vidi samo prodavac, i ako nije vec ostavio komentar -->					
+				 @if(user == p.owner) {				
+					@if(p.purchaseTransaction.seller_comment.equals("Ne postoji")) {
+							 	<p>Upisite Vas komentar na transakciju</p>
+										@form(routes.ProductController.leaveSCommentTransaction(p.id),'id->"transactionForm") {
+											
+											<input class="ourInputTextField" pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="seller_comment" name="seller_comment" required/>
+											<div class="button">
+												<textfield>
+												
+													<input type="submit" value="Ostavi Komentar"/>
+												
+											</div>
+										}	
+					}
+				} 
+									
+							</div>
+							
+							<div class="available">
+								<p>Komentar/utisak kupca :</p>
+									<ul>
+										@p.purchaseTransaction.buyer_comment
+									</ul>
+				<!--  Ovaj formular za ostavljanje komentara vidi samo kupac, i ako nije vec ostavio komentar -->
+					@if(user == p.buyerUser) {				
+						@if(p.purchaseTransaction.buyer_comment.equals("Ne postoji")) {
+							 	<p>Upisite Vas komentar na transakciju</p>
+										@form(routes.ProductController.leaveBCommentTransaction(p.id),'id->"transactionForm") {
+											
+											<input class="ourInputTextField" pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="buyer_comment" name="buyer_comment" required/>
+											<div class="button">
+												<textfield>
+												
+													<input type="submit" value="Ostavi Komentar"/>
+												
+											</div>
+										}
+						}	
+					}
+							</div>
+			}
+		}	
+							
 							<div class="share-desc">
 								<div class="share">
 									<p>Podijeli Artikal :</p>
-										<ul>
-											<li><a href="#"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
-											<li><a href="#"><img src="@routes.Assets.at("images/twitter.png")" alt="" /></a></li>					    
-										</ul>
+									<ul>
+										<li><a href="#"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
+										<li><a href="#"><img src="@routes.Assets.at("images/twitter.png")" alt="" /></a></li>					    
+									</ul>
 								</div>
-								<div class="button"><span><a href="#">Kupi Artikal</a></span></div>					
+								<div class="clear"></div>
+								
+								@if(user != null) {
+									<!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
+									@if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p) && !user.isAdmin) {
+										<div class="button"><span><a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true">Kupi Artikal</a></span></div>
+									}
+									<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->
+									@if(user.username.equals(p.owner.username) && !user.isAdmin) {
+										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni Artikal</a></span></div>
+									}
+									@if(user.bought_products.contains(p) && !p.isRefunding) {
+										<br>
+										<p>Navedite razlog za refundaciju</p>
+										@form(routes.ProductController.refundProduct(p.id),'id->"productForm") {
+											
+											<input class="ourInputTextField" pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="refundReason" name="refundReason" required/>
+											<div class="button">
+												<textfield>
+												<span>
+													<input type="submit" value="Refundiraj Artikal" onclick="return confirm('Da li ste sigurni da zelite refundirati proizvod?');">
+												</span>
+											</div>
+										}			
+									} 
+									@if(p.isRefunding) {
+										
+											@if(user.isAdmin){
+												<div class="available">
+													<p>Token za refund :</p>
+													<ul>
+														@p.purchaseTransaction.token
+													</ul>
+													<p>Razlozi za refund :</p>
+													<ul>
+														@p.refundReason
+													</ul>
+												</div>
+												<div class="button"><span><a href="#">Refundiraj Artikal</a></span></div>
+											} else {
+												<br>
+												<span color="red">Artikal poslan na refundiranje!</span>
+											}
+										
+									}
+									
+								}
+								
 								<div class="clear"></div>
 							</div>
 							<div class="wish-list">
@@ -151,6 +288,30 @@
 						$(".fancybox").fancybox();
 					});
 					</script>
+									  <div id="boxForEditingProduct">
+						
+							<div>
+							@if(user != null) {
+							    <!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
+							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {
+							    
+						
+						<!--  ZA KOMENTARISANO DUGME KUPI KOJE PRESKACE CITAV PAYPAL PROCES I PREBACUJE PROIZVOD U boughtproducts -->
+						<!--    <a href="/buyingAProduct/@p.id" class="btn" onclick="return confirm('Da li zelite da vas redirectamo na PayPal stranicu da izvrsite placanje?');">Kupi</a>  -->
+						<!--  ZA KOMENTARISANO IMAGE OD PAYPAL-a 		<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" /> -->
+								}
+									    
+								
+								<!--  Vidljivost "DELETE "samo za vlasnika proizvoda -->	
+								@if(user.username.equals(p.owner.username) || user.isAdmin) {
+									@form(routes.ProductController.deleteProduct(p.id)) {
+                   					<input class="btnRed" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                					}
+								}	
+								
+							}
+							</div><br><br>	
+						</div>
 					<div class="content_bottom">
 						<div class="heading">
 							<h3>Slicni Artikli</h3>
@@ -177,86 +338,8 @@
 	    		
 	    		
 	    	</div>
-  
-
-    						  				  	
-				  	<div class="categories">
-				  	
-				  		
-				  	<div id="boxForEditingProduct" >
-
-				  	<div class="section group" >	
-				  	
-				  	<div><a class="profilePictureGallery" ><img src="@routes.Assets.at(p.productImagePath)" alt=""width = "400" height = "300" /></a></div>
-									
-				  	@if(p.imgPathList.size() > 0  ) {
-				  			@for(imgPath <- p.imgPathList) {
-				  			<div class="grid_1_of_4 images_1_of_4">
-
-				  			<a class="fancybox" rel="gallery1" href= "@routes.Assets.at(imgPath.imgPath)">
-				  			<img class="col-md-3" src="@routes.Assets.at(imgPath.imgPath)" alt="" width = "300" height="200" />
-				  			
-                    			<input class="btnDelete" type="submit" value="Izbrisi sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
-                		
-				  			</a>
-				  			</div>
-
-				  			
-				  			
-
-				  				<a class="fancybox" rel="gallery1" href= "@routes.Assets.at(imgPath.imgPath)">
-				  					<img class="col-md-3" src="@routes.Assets.at(imgPath.imgPath)" alt="" width = "300" height="200" />  		
-				  				</a>
-				  			</div>			  			
-
-				  		}
-				  }
-				  
-				</div>
-
-				  <div id="boxForEditingProduct">
-						<div class="bottomLine">
-							<h2 id="redText"><p>ID oglasa:</p></h2>
-							<h6 class="blueText">@p.id</h6>
-						</div>
-		
-						
-		
-						<div class="bottomLine">
-							<h2  id="redText">Dostupnost:</h2>
-							<p class="blueText">@p.availability</p>
-						</div>
-						
-							<div>
-							@if(user != null) {
-							    <!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
-							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {
-							    <a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true"  text-align="center" class="btn">KUPI</a>
-						
-						<!--  ZA KOMENTARISANO DUGME KUPI KOJE PRESKACE CITAV PAYPAL PROCES I PREBACUJE PROIZVOD U boughtproducts -->
-						<!--    <a href="/buyingAProduct/@p.id" class="btn" onclick="return confirm('Da li zelite da vas redirectamo na PayPal stranicu da izvrsite placanje?');">Kupi</a>  -->
-						<!--  ZA KOMENTARISANO IMAGE OD PAYPAL-a 		<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" /> -->
-								}
-								<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->	    
-								@if(user.username.equals(p.owner.username)) {
-									<a href="/editProduct/@p.id" class="btn">Izmijeni proizvod</a>
-									<a href="/addPictureProduct/@p.id" class="btn">Dodaj sliku</a>
-								}
-								<!--  Vidljivost "DELETE "samo za vlasnika proizvoda -->	
-								@if(user.username.equals(p.owner.username) || user.isAdmin) {
-									@form(routes.ProductController.deleteProduct(p.id)) {
-                   					<input class="btnRed" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
-                					}
-								}	
-								
-							}
-							</div><br><br>	
-						</div>
-					</div>					
-				</div>
 			</div>
 	</div>
 </div>
 }
-
 

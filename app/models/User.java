@@ -48,12 +48,11 @@ public class User extends Model {
 	
 	public String imagePath;
 	
-
-	@OneToMany(mappedBy="buyer_user", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="buyerUser", cascade=CascadeType.ALL)
 	public List<Product> bought_products;
 
 	
-	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="sender", cascade=CascadeType.ALL)
 	public List<PrivateMessage> privateMessage;
 	
 	/**

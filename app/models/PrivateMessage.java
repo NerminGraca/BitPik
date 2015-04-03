@@ -1,5 +1,10 @@
 package models;
 
+
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -11,6 +16,7 @@ import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
 @Entity
+
 public class PrivateMessage extends Model{
 	
 	@Id
@@ -20,18 +26,27 @@ public class PrivateMessage extends Model{
 	public String content;
 	
 	@ManyToOne
-	public User user;
+	public User sender;
 
-	public static Finder<Integer, PrivateMessage> find = new Finder<Integer, PrivateMessage>(Integer.class, PrivateMessage.class);
+	@ManyToOne
+	public User receiver;
 	
-	public PrivateMessage(String content, User user) {
+	public static Finder<Integer, PrivateMessage> find = new Finder<Integer, PrivateMessage>(Integer.class, PrivateMessage.class);
+
+	
+
+	public PrivateMessage(String content, User sender, User receiver) {
 		this.content = content;
-		this.user = user;
+		this.sender = sender;
+		this.receiver = receiver;
 	}
 
 	public PrivateMessage() {
-		this.user = null;
-		this.content = "No content";
+
+		this.content = "no content";
+		this.sender = null;
+		this.receiver = null;
+
 	}
 
 	public String getContent() {
@@ -42,16 +57,25 @@ public class PrivateMessage extends Model{
 		this.content = content;
 	}
 
-	public User getUser() {
-		return user;
+	public User getSender() {
+		return sender;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setSender(User sender) {
+		this.sender = sender;
 	}
 	
-	public static PrivateMessage create(String content, User user) {
-		PrivateMessage newMessage = new PrivateMessage(content, user);
+	public User getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(User receiver) {
+		this.receiver = receiver;
+	}
+	
+	
+	public static PrivateMessage create(String content, User sender, User receiver) {
+		PrivateMessage newMessage = new PrivateMessage(content, sender, receiver);
 		newMessage.save();
 		return newMessage;
 	}
@@ -60,4 +84,8 @@ public class PrivateMessage extends Model{
 		  find.ref(id).delete();
 	}
 
+	
+
 }
+
+

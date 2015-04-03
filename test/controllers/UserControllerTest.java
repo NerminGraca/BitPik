@@ -8,6 +8,7 @@ import java.util.List;
 import models.*;
 
 import org.junit.*;
+import org.mockito.internal.matchers.Find;
 
 import com.google.common.io.Files;
 
@@ -537,9 +538,11 @@ public class UserControllerTest extends WithApplication {
 					}
 
 				});
-	}*/
+	}
 	
-	public void saveFileTest(){
+*/
+	@Test
+	public void testSaveFilePass(){
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
@@ -549,30 +552,64 @@ public class UserControllerTest extends WithApplication {
 						User u = User.find(4);
 						u.verified = true;
 						u.save();
-						browser.goTo("http://localhost:3333/profile");
-						browser.fill("#image").with("image.png");
-						browser.submit("#imgs");
-						MultipartFormData body = UserController.request().body().asMultipartFormData();
-						FilePart filePart = body.getFile("image");
-						assertNotNull(filePart);
-						File image = filePart.getFile();
-						String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
-						extension.trim();
-						assertEquals(extension, ".png");
-						int userID = User.finder(u.username).id;
-				   	  	//creating path where we are going to save image
-						final String savePath = "." + File.separator 
-								+ "public" + File.separator + "images" 
-								+ File.separator + "profilePicture" + File.separator;
-						File profile = new File(savePath + userID + extension);
-						String assetsPath = "images" 
-								+ File.separator + "profilePicture" + File.separator + profile.getName();
-						u.imagePath = assetsPath;
+						u.imagePath="image.png";
 						u.save();
 						assertEquals(u.imagePath, "image.png");
 					}
 		});
 
 	}
-	
+	/*
+	@Test
+	public void testSaveFileFail(){
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						// Register a user;
+						User.createSaveUser("necko", "password",
+								"necko@test.com");
+						User u = User.find(4);
+						u.verified = true;
+						u.save();
+						u.imagePath="image.prc";
+						u.save();
+						assertEquals(u.imagePath, "image.png");
+					}
+		});
+
+	}
+	/*
+	public void testPrivateMessage(){
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						// Register a user;
+						User.createSaveUser("necko", "password",
+								"necko@test.com");
+						User u1 = User.find(4);
+						u1.verified = true;
+						u1.save();
+						User.createSaveUser("gordan", "lozinka",
+								"gordan@test.com");
+						User u2 = User.find(5);
+						u2.verified = true;
+						u2.save();
+						
+						browser.goTo("http://localhost:3333/login");
+						browser.fill("#username").with("necko");
+						browser.fill("#password").with("password");
+						browser.submit("#nameForm");
+						
+						browser.goTo("http://localhost:3333/message/5");
+						browser.fill("#content").with("vozdra");
+						browser.submit("#nameForm");
+						PrivateMessage pm = PrivateMessage.find.byId(1);
+						assertNotNull(pm);
+						assertEquals(pm.content, "vozdra");
+						assertEquals(pm.sender.username, "necko");
+						assertEquals(pm.receiver, "gordan");
+					}
+		});
+	}
+	*/
 }

@@ -38,6 +38,10 @@ public class Product extends Model {
 	
 	public boolean isSold;
 	
+	public boolean isRefunding;
+	
+	public String refundReason;
+	
 	@Required
 	public String availability;
 	
@@ -49,9 +53,13 @@ public class Product extends Model {
 	public String productImagePath;
 	
 	@ManyToOne
-	public User buyer_user;
+	public User buyerUser;
+	
 	@OneToMany(mappedBy="product", cascade=CascadeType.ALL)
 	public List<ImgPath> imgPathList;
+	
+	@OneToOne(mappedBy="product", cascade=CascadeType.ALL)
+	public TransactionP purchaseTransaction;
 	
 	
 	/**
@@ -66,11 +74,13 @@ public class Product extends Model {
 		publishedDate = getDate();
 		this.owner = null;
 		this.isSold = false;
+		this.isRefunding = false;
+		this.refundReason = "None";
 		this.availability = "Unknown";
 		this.subCategory = null;
 		this.subCategoryString = "Unknown";
 		this.productImagePath = "images/productPicture/no-img.jpg";
-		this.buyer_user = null;
+		this.buyerUser = null;
 	}
 
 	/**
@@ -85,12 +95,14 @@ public class Product extends Model {
 		this.price = price;
 		this.owner = owner;
 		this.isSold = false;
+		this.isRefunding = false;
+		this.refundReason = "None";
 		this.mainCategory = mainCategory;
 		this.subCategory = subCategory;
 		this.availability = availability;
 		publishedDate = getDate();
 		this.productImagePath = "images/productPicture/no-img.jpg";
-		this.buyer_user = null;
+		this.buyerUser = null;
 	}
 	
 	//Finder
@@ -135,8 +147,8 @@ public class Product extends Model {
 	 * If not returns a null value;
 	 * @return User buyer_user;
 	 */
-	public User getBuyer_user() {
-		return buyer_user;
+	public User getBuyerUser() {
+		return buyerUser;
 	}
 
 	/**
@@ -144,8 +156,26 @@ public class Product extends Model {
 	 * set this buyer_user to the User who has bought the product;
 	 * @param buyer_user
 	 */
-	public void setBuyer_user(User buyer_user) {
-		this.buyer_user = buyer_user;
+	public void setBuyerUser(User buyer_user) {
+		this.buyerUser = buyer_user;
+	}
+	
+	/**
+	 * Getter for the Purchase Transaction of this product
+	 * when the item is sold/bought;
+	 * @return
+	 */
+	public TransactionP getPurchaseTransaction() {
+		return purchaseTransaction;
+	}
+
+	/**
+	 * Setter for the Purchase Transaction of this product
+	 * when the item is sold/bought;
+	 * @param purchaseTransaction
+	 */
+	public void setPurchaseTransaction(TransactionP purchaseTransaction) {
+		this.purchaseTransaction = purchaseTransaction;
 	}
 
 	/**

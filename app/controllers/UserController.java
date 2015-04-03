@@ -39,7 +39,7 @@ public class UserController extends Controller {
 	static Form<PrivateMessage> sendMessage = new Form<PrivateMessage>(PrivateMessage.class);
 	static String usernameSes;	
 	private static final String SESSION_USERNAME = "username";
-	
+	public static final String OURHOST = "http://localhost:9000";
 	
 	//Finders
 	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
@@ -175,19 +175,36 @@ public class UserController extends Controller {
 	
 	/**
 	 * This method lists all the bought items of the User logged in;
-	 * If no products where bought by the user; 
+	 * If no products where bought by the user we inform him about it; 
 	 * 
 	 * @return Result;
 	 */
 	public static Result find_bought_products() {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// List of products that the current logged in User has bought;
-		List <Product> l = ProductController.findProduct.where().eq("buyer_user", currentUser).findList();
+		List <Product> l = ProductController.findProduct.where().eq("buyerUser", currentUser).findList();
 		if (l.isEmpty()) {
 			flash("no_bought_products", Messages.get("Vi jos uvijek nemate kupljenih proizvoda"));
 		}
 		return ok(boughtproducts.render(l, currentUser));
 	}
+	
+	/**
+	 * This method lists all the items of the User logged in that he has sold;
+	 * If no products where sold by the user we inform him about it; 
+	 * 
+	 * @return Result;
+	 */
+	public static Result findSoldProducts() {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// List of products that the current logged in User has sold;
+		List <Product> l = ProductController.findProduct.where().eq("owner", currentUser).eq("isSold", true).findList();
+		if (l.isEmpty()) {
+			flash("no_sold_products", Messages.get("Vi jos uvijek nemate prodatih proizvoda"));
+		}
+		return ok(soldproducts.render(l, currentUser));
+	}
+	
 	
 	/**
 	* Method list all users registered in database
@@ -279,7 +296,7 @@ public class UserController extends Controller {
 			user.emailVerified = false;
 			String confirmation = UUID.randomUUID().toString();
 			user.emailConfirmation = confirmation;
-			MailHelper.sendEmailVerification(email,"http://localhost:9000/validateEmail/" + confirmation);
+			MailHelper.sendEmailVerification(email, UserController.OURHOST + "/validateEmail/" + confirmation);
 			flash("validate", Messages.get("Primili ste email validaciju."));
 		}
 		user.save();
@@ -386,9 +403,10 @@ public class UserController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
     public static Result adminPanel() {
+		List<Product> products = ProductController.findProduct.where().eq("isRefunding", true).findList();
    	  	usernameSes = session(SESSION_USERNAME);
    	  	User u = User.finder(usernameSes);
-   	 return ok(adminPanel.render(usernameSes, u));
+   	 return ok(adminPanel.render(u, products));
     }
 	
 	/**
@@ -514,8 +532,8 @@ public class UserController extends Controller {
 			
 			RedirectUrls redirectUrls = new RedirectUrls();
 			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela"));
-			redirectUrls.setCancelUrl("http://localhost:9000/showProduct/"+ id);
-			redirectUrls.setReturnUrl("http://localhost:9000/purchasesuccess/"+id);
+			redirectUrls.setCancelUrl(OURHOST + "/showProduct/"+ id);
+			redirectUrls.setReturnUrl(OURHOST + "/purchasesuccess/"+id);
 			payment.setRedirectUrls(redirectUrls);
 			Payment createdPayment = payment.create(apiContext);
 			Logger.debug(createdPayment.toJSON());
@@ -546,6 +564,7 @@ public class UserController extends Controller {
 		String payerId = paypalReturn.get("PayerID");
 		String token = paypalReturn.get("token");
 		
+		
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
 		try {
@@ -563,14 +582,14 @@ public class UserController extends Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return redirect("http://localhost:9000/buyingAProduct/" +id);
+		return redirect(OURHOST + "/buyingAProduct/"+id+"/"+token);
 	}
 	
 	public static Result sendMessage(int id)
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
-		if(u.equals(null))
+		if(u == null)
 		{
 			return redirect(routes.Application.index());
 		}
@@ -580,34 +599,42 @@ public class UserController extends Controller {
 	
 	public static Result saveMessage(int id)
 	{
-		User u = SessionHelper.getCurrentUser(ctx());
+		User sender = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
    	  	User receiver = findUser.byId(id);
    	  	String content;
-		User sender;
 		try {
 			content = sendMessage.bindFromRequest().get().content;
-			sender = sendMessage.bindFromRequest().get().user;
 		} catch (Exception e) {
-			flash("message_fail", Messages.get("Poruka nije poslana"));
+			flash("message_fail", Messages.get("Greška. Niste poslali poruku"));
 			return redirect(routes.UserController.singleUser(id));
 		}
-   	  	PrivateMessage privMessage = PrivateMessage.create(content, sender);
+   	  	PrivateMessage privMessage = PrivateMessage.create(content, sender, receiver);
    	  	receiver.privateMessage.add(privMessage);
-   	  	receiver.save();
-   	  	if(receiver.privateMessage.contains(privMessage))
-   	  	{
-   	  		flash("message_success", Messages.get("Poruka je poslana"));
-   	  	}
-   	  	return redirect("/message/" + u.id);
+	  	receiver.save();
+	  	if(receiver.privateMessage.contains(privMessage))
+	  	{
+	  		flash("message_success", Messages.get("Poslali ste poruku"));
+	  	}
+	  	if(sender == null)
+	  	{
+	  		return redirect(routes.Application.index());
+	  	}
+   	  	return redirect("/allMessages");
 	}
 	
 	public static Result allMessages()
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
-		List<PrivateMessage> messages = u.privateMessage;
-		return ok(allMessages.render(u, u.privateMessage));
+		if(u == null)
+	  	{
+	  		return redirect(routes.Application.index());
+	  	}
+		List<PrivateMessage> messagesReceived = PrivateMessage.find.where().eq("receiver.id", u.id).findList();
+		List<PrivateMessage> messagesSent = PrivateMessage.find.where().eq("sender.id", u.id).findList();
+		
+		return ok(allMessages.render(u, messagesReceived, messagesSent));
 	}
 	
 	
