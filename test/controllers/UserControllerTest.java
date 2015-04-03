@@ -538,6 +538,7 @@ public class UserControllerTest extends WithApplication {
 					}
 
 				});
+
 	}
 	
 */
@@ -557,9 +558,10 @@ public class UserControllerTest extends WithApplication {
 						assertEquals(u.imagePath, "image.png");
 					}
 		});
-
 	}
-	/*
+	
+
+	
 	@Test
 	public void testSaveFileFail(){
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -578,8 +580,9 @@ public class UserControllerTest extends WithApplication {
 		});
 
 	}
-	/*
+	
 	public void testPrivateMessage(){
+
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
@@ -611,5 +614,9 @@ public class UserControllerTest extends WithApplication {
 					}
 		});
 	}
-	*/
+
+	
+
+	
+
 }

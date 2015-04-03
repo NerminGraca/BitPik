@@ -21,23 +21,34 @@
 	<!--
 		NAŠ HELPER
 		-->
-		<h3>Primljene poruke</h3>
+
+		
+		<h4 style="	font-size: 0.7em; color: #fa3953;">PRIMLJENE PORUKE</style></h4>
+		<hr style="margin-top: 5px; margin-bottom: 5px;">		
 	<ul>
 		
 		@for(message <- messagesReceived){
-			<li><h5>Poruka od korisnika: <a href="/korisnik/@message.sender.id">@message.sender.username</a></h5>
-				<p>Poruka:</p>
-				<p>@message.content</p></li>
-				<h5><a href="/message/@message.sender.id">Odgovori</a></h5></li>		
+			<li><h5><span style="padding-bottom: 0px;">Pošiljalac 
+					<a href="/korisnik/@message.sender.id">@message.sender.username</a>:</span></h5>
+				<p><mark style="font-size: 0.9em;font-family: verdana, arial, helvetica, helve, sans-serif;">@message.content
+				   </mark></p></li>
+				<h5><span><a href="/message/@message.sender.id">Napiši odgovor na ovu poruku</a></span></h5></li>
+				<hr style="margin-top: 5px; margin-bottom: 5px;">		
 		}
 	</ul>
 	<br></br>
+
 	<ul>
-		<h3>Poslane poruke</h3>
+		<h4 style="	font-size: 0.7em; color: #fa3953;">POSLATE PORUKE</style></h4>
+		<hr style="margin-top: 5px; margin-bottom: 5px;">		
+
 		@for(message <- messagesSent){
-			<li>
-				<p>@message.content</p>
-				<h5><a href="/korisnik/@message.receiver.id">@message.receiver.username</a></h5></li>	
+			<li><h5><span style="padding-bottom: 0px;">Primalac 
+					<a href="/korisnik/@message.receiver.id">@message.receiver.username</a>:</span></h5>
+				<p><mark style="font-size: 0.9em;font-family: verdana, arial, helvetica, helve, sans-serif;">@message.content
+				   </mark></p></li>
+				<hr style="margin-top: 5px; margin-bottom: 5px;">		
+
 		}
 	</ul>				
 				 </div>
@@ -47,4 +58,5 @@
 	</div>
 	</div>
 </div>  
-	}
+	
+}
