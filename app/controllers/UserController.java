@@ -601,7 +601,7 @@ public class UserController extends Controller {
 	{
 		User sender = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
-   	  	User receiver = User.find(id);
+   	  	User receiver = findUser.byId(id);
    	  	String content;
 		try {
 			content = sendMessage.bindFromRequest().get().content;
