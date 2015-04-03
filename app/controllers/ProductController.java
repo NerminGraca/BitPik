@@ -44,6 +44,12 @@ public class ProductController extends Controller {
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		return ok(showProduct.render(p, u, mainCategoryList));
 	}
+//	public static Result showSoldProducti(int id){
+//		User u = helpers.SessionHelper.getCurrentUser(ctx());
+//		Product p = ProductController.findProduct.byId(id);
+//		return ok(payPalValidation.render(arg0, arg1, arg2, arg3, arg4))
+//	}
+	
 
 	/**
 	 * Method takes the usernameSes from the session variable and sends it to
@@ -228,7 +234,7 @@ public class ProductController extends Controller {
 	}	
 	
 	/**
-	 * 
+	 * used when deleting product
 	 * @param id
 	 */
 	public static void deletePicture(int id){
