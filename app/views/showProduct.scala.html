@@ -347,6 +347,21 @@
 	    			</ul>
 	    		</div>
 	    		
+	    		@if(user!=null){
+	    			@helper.form(routes.CommentController.addComment(p.id), 'id->"postComment"){
+	    				<h5>Postavi komentar:</h5>
+						<textarea maxlength="250" postComment' name="content" id="content" placeholder="Write something nice" required> </textarea>
+						<br><br>
+	
+						<input type="submit" value="Potvrdi" class="btn btn-success" />
+						<a href="/" class="btn btn-danger"> Odustajem </a>
+						<input type="reset" value="Reset" class="btn btn-warning" />
+						<br><br>
+						
+						}
+	    		}
+	    		
+	    		
 	    		
 	    	</div>
 			</div>

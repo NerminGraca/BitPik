@@ -65,6 +65,7 @@ public class CommentController extends Controller{
 		comment.setContent(content);
 		comment.setCreatedAt(date);
 		flash("update_comment_success", Messages.get("Uspješno ste izmijenili komentar."));
+		
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}
 	
@@ -81,5 +82,6 @@ public class CommentController extends Controller{
 		flash("delete_comment", Messages.get("Uspješno ste obrisali komentar."));
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}
+	
 
 }
