@@ -688,20 +688,4 @@ public class UserController extends Controller {
 		return redirect("http://localhost:9000/buyingAProduct/" +id +"/"+ token);
 	}	
 		
-	public static Result createComment(int id)
-	{
-		User u = SessionHelper.getCurrentUser(ctx());
-		usernameSes = session(SESSION_USERNAME);
-		String content;
-		Date date;
-		try {
-			content = postComment.bindFromRequest().get().content;
-			date = postComment.bindFromRequest().get().createdAt;
-		} catch (Exception e) {
-			flash("comment_fail", Messages.get("Greška. Niste postavili komentar."));
-			return redirect(routes.ProductController.showProduct(id));
-		}
-		Comment newComment = Comment.create(content, date, u);
-		return redirect(routes.ProductController.showProduct(id));
-	}
 }
