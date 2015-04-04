@@ -3,6 +3,7 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,7 @@ public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
 	static Form<PrivateMessage> sendMessage = new Form<PrivateMessage>(PrivateMessage.class);
+	static Form<Comment> postComment = new Form<Comment>(Comment.class);
 	static String usernameSes;	
 	private static final String SESSION_USERNAME = "username";
 	public static final String OURHOST = "http://localhost:9000";
@@ -665,7 +667,7 @@ public class UserController extends Controller {
 	 */
 	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
 		
-		try {
+		try {;
 			DynamicForm paypalReturn = Form.form().bindFromRequest();
 			accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
 					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
@@ -686,4 +688,20 @@ public class UserController extends Controller {
 		return redirect("http://localhost:9000/buyingAProduct/" +id +"/"+ token);
 	}	
 		
+	public static Result createComment(int id)
+	{
+		User u = SessionHelper.getCurrentUser(ctx());
+		usernameSes = session(SESSION_USERNAME);
+		String content;
+		Date date;
+		try {
+			content = postComment.bindFromRequest().get().content;
+			date = postComment.bindFromRequest().get().createdAt;
+		} catch (Exception e) {
+			flash("comment_fail", Messages.get("Greška. Niste postavili komentar."));
+			return redirect(routes.ProductController.showProduct(id));
+		}
+		Comment newComment = Comment.create(content, date, u);
+		return redirect(routes.ProductController.showProduct(id));
+	}
 }
