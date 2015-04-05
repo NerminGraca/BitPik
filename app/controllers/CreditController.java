@@ -88,6 +88,12 @@ public class CreditController extends Controller{
 		return (double)(credit*0.5);
 	}
 	
+	/**
+	 * Transfers the double amount from KM to 
+	 * USD first then puts them in a String format;
+	 * @param costKM
+	 * @return
+	 */
 	public static String converterToStringUSD(double costKM) {
 		double priceInUSD = costKM * 0.56;
 		return String.format("%1.2f",priceInUSD);
@@ -248,8 +254,9 @@ public class CreditController extends Controller{
 		int newNumCredits = numCredits + currentCredits;
 		
 		BPCredit newBPCredit = new BPCredit(newNumCredits, buyerUser);
+		newBPCredit.setCredit(newNumCredits);
+		newBPCredit.setCreditOwner(buyerUser);
 		buyerUser.setCredits(newBPCredit);
-		buyerUser.bpcredit.setCredit(newNumCredits);
 		buyerUser.save();
 		
 	//	TransactionP temp = new TransactionP(token, p);

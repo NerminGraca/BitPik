@@ -242,6 +242,7 @@ public class User extends Model {
 	 */
 	public void setCredits(BPCredit credits) {
 		this.bpcredit = credits;
+		save();
 	}
 
 	/**
