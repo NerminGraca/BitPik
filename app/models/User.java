@@ -46,7 +46,8 @@ public class User extends Model {
 	
 	public String emailConfirmation;
 	
-	public int credits;
+	@OneToOne(mappedBy="creditOwner", cascade=CascadeType.ALL)
+	public BPCredit bpcredit;
 	
 	public String imagePath;
 	
@@ -70,7 +71,6 @@ public class User extends Model {
 		createdDate = getDate();
 		this.verified = false;
 		this.emailVerified = false;
-		this.credits = 0;
 		this.imagePath = "images/profilePicture/profileimg.png";
 	}
 
@@ -91,7 +91,6 @@ public class User extends Model {
 		this.confirmation = UUID.randomUUID().toString();
 		this.emailVerified = false;
 		this.emailConfirmation = UUID.randomUUID().toString();
-		this.credits = 0;
 		this.imagePath = "images/profilePicture/profileimg.png";
 	}
 	
@@ -111,7 +110,6 @@ public class User extends Model {
 		this.verified = true;
 		this.confirmation = null;
 		this.emailVerified = true;
-		this.credits = 0;
 		this.imagePath = "images/profilePicture/profileimg.png";
 
 	}
@@ -134,6 +132,7 @@ public class User extends Model {
 	 */
 	public static User create(String username, String password, String email) {
 		User user = new User(username, password, email);
+		user.setCredits(new BPCredit(user));
 		user.save();
 		return user;
 	}
@@ -147,6 +146,7 @@ public class User extends Model {
 	 */
 	public static User createSaveUser(String username, String password,String email) {
 		User newUser = new User(username, password,email);
+		newUser.setCredits(new BPCredit(newUser));
 		newUser.save();
 		
 		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
@@ -222,23 +222,21 @@ public class User extends Model {
 	}
 	
 	/**
-	 * Gets the number of credits a certain User has;
+	 * Gets the BPCredits of the User;
 	 * @return
 	 */
-	public int getCredits() {
-		return credits;
+	public BPCredit getCredits() {
+		return bpcredit;
 	}
 
 	/**
-	 * Sets the number of Credits a certain User will have;
-	 * After we have processed the Paypal transaction where
-	 * he has bought the credits we set for the User;
+	 * Sets the BPCredits of the User;
 	 * @param credits
 	 */
-	public void setCredits(int credits) {
-		this.credits = credits;
+	public void setCredits(BPCredit credits) {
+		this.bpcredit = credits;
 	}
-	
+
 	/**
 	 * Setter for username
 	 * @param username

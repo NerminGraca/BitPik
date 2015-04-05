@@ -75,7 +75,9 @@ POST	/thepurchase/:id					controllers.UserController.purchaseProcessing(id: Inte
 GET		/purchasesuccess/:id				controllers.UserController.purchaseSuccess(id: Integer)
 
 GET		/credits							controllers.CreditController.showCredits()
-
+GET		/addcredits							controllers.CreditController.addCredits()
+POST	/addcredits							controllers.CreditController.addCreditsProcess()
+POST	/purchasecredit						controllers.CreditController.purchaseCredit(amount: String)
 
 
 

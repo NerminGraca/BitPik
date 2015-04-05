@@ -39,17 +39,15 @@
 					<br>
 					<h1 class="redHeader">BITPIK KREDITI:</h1><br> 
 			
-						<h2>Trenutno imate : @u.credits kredita </h2>
-						
-						<form action="/addcredits/@u.id">
-    						<a class="btn btn-primary btn-fontNovi" href="/addcredits/@u.id" class="btn">Kupite jos Kredita</a>
-						</form>
+						<h2>Trenutno imate : @u.bpcredit.credit kredita </h2>
+					  	
+						<form action="@routes.CreditController.addCredits()"> 
+    						<a class="btn btn-primary btn-fontNovi" href="@routes.CreditController.addCredits()" class="btn">Kupite jos Kredita</a>  
+						</form> 
 						<br>
-						<form action="/editUser/@u.id">
+						<form action="#">
     						<a class="btn btn-primary btn-fontNovi" href="#" class="btn">Iskoristite Vas Kredit</a>
 						</form>
-	
-					
 					
 				</div>
 				
@@ -69,7 +67,6 @@
 					  	<ul>
 					  	  <li><a href="#">Izbrisi sliku</a></li>
 					      <li><a href="#">Poruke</a></li>
-					      <li><a href="@routes.CreditController.showCredits()">Krediti</a></li>
 					      <li><a href="#">Blokirani korisnici</a></li>
 					      <li><a href="#">Javna pitanja</a></li>
 					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>

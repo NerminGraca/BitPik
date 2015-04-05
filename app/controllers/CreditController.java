@@ -42,6 +42,8 @@ import com.paypal.base.rest.PayPalRESTException;
  */
 public class CreditController extends Controller{
 
+	public static Form<BPCredit> creditForm = new Form<BPCredit>(BPCredit.class);
+	
 	/**
 	 * Main page for the BitPikCredits of the User;
 	 * On which we give the amount of the BitPikcredits the User has;
@@ -61,8 +63,64 @@ public class CreditController extends Controller{
 		
 	}
 	
-	/*
-	public static Result purchaseProcessingCredits(int id) {
+	/**
+	 * This method shows the User the page, where he should enter
+	 * in the form the amount of Credits that he wants to buy;
+	 * @return
+	 */
+	public static Result addCredits() {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// 1.1 If the User is not Logged in;
+		// 1.2 or if the User is an Admin; 
+		// we redirect these kind of Users to the index.html page;
+		if (currentUser == null || currentUser.isAdmin==true) {
+			return redirect(routes.Application.index());
+		}
+		return ok(addcredits.render(currentUser));
+	}
+	
+	/**
+	 * Transfers from the Credits to the amount in KM
+	 * @param credit
+	 * @return
+	 */
+	public static double creditToCost(int credit) {
+		return (double)(credit*0.5);
+	}
+	
+	/**
+	 * Cost in Strings for printing;
+	 * @return formated price with two decimals
+	 */
+	public static String getPriceString(double creditD) {
+		return String.format("%1.2f",creditD);
+	}
+	
+	/**
+	 * Method should take the amount entered in the form
+	 * as the amount of Credit that the User wants to buy' 
+	 * @return
+	 */
+	public static Result addCreditsProcess() {
+		int credit;
+		try {
+			credit = creditForm.bindFromRequest().get().credit;
+			} catch(IllegalStateException e) {
+			return redirect(routes.CreditController.showCredits());
+			}
+		double creditD = creditToCost(credit);
+		String creditString = getPriceString(creditD);
+		return ok(purchasecredit.render(creditString));
+	
+	}
+	
+	
+	public static Result purchaseCredit(String amount) {
+		// ovdje je vec PAyPal redirectanje dole sto se ispod ove metode nalazi... ne zaboravi conertovati u USD;
+		return TODO;
+	}
+		/*
+	public static Result purchaseProcessingCredits(int amount) {
 		Product p = Product.find.byId(id);
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
