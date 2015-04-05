@@ -431,6 +431,41 @@ public class ProductController extends Controller {
 		flash("buy_product_success", Messages.get("Cestitamo, Uspjesno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
 		return ok(profile.render(l, buyerUser));
 	}
+	/*
+	public static Result buyCreditSuccess(int amountCredit, String token) {
+		User buyerUser = SessionHelper.getCurrentUser(ctx());
+		//1. No permission for unregistered user;
+		if (buyerUser == null) {
+			return redirect(routes.Application.index());
+		}
+		//2. No permission for an admin user;
+		if (buyerUser.isAdmin) {
+			return redirect(routes.Application.index());
+		}
+		Product p = findProduct.byId(product_id);
+		//3. URL Security - No Product under the given id number;
+		if (p == null) {
+			return redirect(routes.Application.index());
+		}
+		// URL Security;
+		//4. No permission for the user to buy his own product (BE Security);
+		// Although we will hide the "KUPI"/"BUY" button from the user for
+		// his own products on certain .html pages; with listing of products;
+				
+		if (buyerUser == p.owner) {
+			return redirect(routes.Application.index());
+		}
+		TransactionP temp = new TransactionP(token, p);
+		p.setPurchaseTransaction(temp);
+		p.setSold(true);
+		p.setBuyerUser(buyerUser);
+		buyerUser.bought_products.add(p);
+		p.save();
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyerUser.username).eq("isSold", false).findList();
+		Logger.of("product").info("User "+ buyerUser.username +" bought the product '" + p.name + "'");
+		flash("buy_product_success", Messages.get("Cestitamo, Uspjesno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
+		return ok(profile.render(l, buyerUser));
+	}*/
 	
 	/**
 	 * When a paypal procedure has failed for some reason (creditcard number wrong or any kind of error occured in the

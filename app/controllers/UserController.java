@@ -685,5 +685,91 @@ public class UserController extends Controller {
 		}
 		return redirect("http://localhost:9000/buyingAProduct/" +id +"/"+ token);
 	}	
+	
+	
+	/*
+	public static Result purchaseProcessingCredits(int id) {
+		Product p = Product.find.byId(id);
+		Map<String, String> sdkConfig = new HashMap<String, String>();
+		sdkConfig.put("mode", "sandbox");
+		try{
+			String accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
+			
+			APIContext apiContext = new APIContext(accessToken);
+			apiContext.setConfigurationMap(sdkConfig);
+			Amount amount = new Amount();
+			// We put the amount in USD and convert it to a String;
+			amount.setTotal(p.getPriceinStringinUSD());
+			amount.setCurrency("USD");
+			Transaction transaction = new Transaction();
+			transaction.setDescription("Cestitamo, jos ste samo nekoliko koraka od kupovine proizvoda '" + p.name +
+										"' sa slijedecim opisom : '" + p.description + "'");
+			transaction.setAmount(amount);
+			
+			List<Transaction> transactions = new ArrayList<Transaction>();
+			transactions.add(transaction);
+			
+			Payer payer = new Payer();
+			payer.setPaymentMethod("paypal");
+			
+			Payment payment = new Payment();
+			payment.setIntent("sale");
+			payment.setPayer(payer);
+			payment.setTransactions(transactions);
+			RedirectUrls redirectUrls = new RedirectUrls();
+			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela"));
+			redirectUrls.setCancelUrl(OURHOST + "/showProduct/"+ id);
+			redirectUrls.setReturnUrl(OURHOST + "/purchasesuccess/"+id);
+			payment.setRedirectUrls(redirectUrls);
+			Payment createdPayment = payment.create(apiContext);
+			Logger.debug(createdPayment.toJSON());
+			List<Links> links = createdPayment.getLinks();
+			Iterator<Links> itr = links.iterator();
+			while(itr.hasNext()){
+				Links link = itr.next();
+				if(link.getRel().equals("approval_url"))
+				{
+					return redirect(link.getHref());
+				}
+			}
+			
+		} catch(PayPalRESTException e)
+		{
+			Logger.warn(e.getMessage());
+		}
 		
+		
+		return TODO;
+	}
+	*/
+	/*
+	public static Result purchaseSuccessCredits(int id) {
+		DynamicForm paypalReturn = Form.form().bindFromRequest();
+		String paymentId = paypalReturn.get("paymentId");
+		String payerId = paypalReturn.get("PayerID");
+		String token = paypalReturn.get("token");
+		
+		
+		Map<String, String> sdkConfig = new HashMap<String, String>();
+		sdkConfig.put("mode", "sandbox");
+		try {
+			String accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
+			APIContext apiContext = new APIContext(accessToken);
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			Payment payment = Payment.get(accessToken, paymentId);
+			
+			PaymentExecution paymentExecution = new PaymentExecution();
+			paymentExecution.setPayerId(payerId);
+			
+			payment.execute(apiContext, paymentExecution);
+		} catch (PayPalRESTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return redirect(OURHOST + "/buyingAProduct/"+id+"/"+token);
+	}
+		*/
 }
