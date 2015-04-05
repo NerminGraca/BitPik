@@ -484,8 +484,7 @@ public class UserController extends Controller {
 	
 	public static Result showPurchase(int id)
 	{
-		Product p = Product.find.byId(id);
-		return ok(purchase.render(p));
+		return ok(purchase.render(id));
 	}
 	
 
