@@ -46,6 +46,8 @@ public class User extends Model {
 	
 	public String emailConfirmation;
 	
+	public int credits;
+	
 	public String imagePath;
 	
 	@OneToMany(mappedBy="buyerUser", cascade=CascadeType.ALL)
@@ -68,6 +70,7 @@ public class User extends Model {
 		createdDate = getDate();
 		this.verified = false;
 		this.emailVerified = false;
+		this.credits = 0;
 		this.imagePath = "images/profilePicture/profileimg.png";
 	}
 
@@ -88,6 +91,7 @@ public class User extends Model {
 		this.confirmation = UUID.randomUUID().toString();
 		this.emailVerified = false;
 		this.emailConfirmation = UUID.randomUUID().toString();
+		this.credits = 0;
 		this.imagePath = "images/profilePicture/profileimg.png";
 	}
 	
@@ -107,10 +111,11 @@ public class User extends Model {
 		this.verified = true;
 		this.confirmation = null;
 		this.emailVerified = true;
+		this.credits = 0;
 		this.imagePath = "images/profilePicture/profileimg.png";
 
 	}
-	
+
 	/**
 	 * Method creates simple date as string which will be represented on users profile
 	 * It will be set once the profile has been created
@@ -214,6 +219,24 @@ public class User extends Model {
 		this.isAdmin = isAdmin;
 		save();
 			
+	}
+	
+	/**
+	 * Gets the number of credits a certain User has;
+	 * @return
+	 */
+	public int getCredits() {
+		return credits;
+	}
+
+	/**
+	 * Sets the number of Credits a certain User will have;
+	 * After we have processed the Paypal transaction where
+	 * he has bought the credits we set for the User;
+	 * @param credits
+	 */
+	public void setCredits(int credits) {
+		this.credits = credits;
 	}
 	
 	/**

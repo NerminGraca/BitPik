@@ -74,6 +74,8 @@ GET		/thepurchase/:id					controllers.UserController.showPurchase(id: Integer)
 POST	/thepurchase/:id					controllers.UserController.purchaseProcessing(id: Integer)
 GET		/purchasesuccess/:id				controllers.UserController.purchaseSuccess(id: Integer)
 
+GET		/credits							controllers.CreditController.showCredits()
+
 
 
 
