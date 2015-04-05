@@ -78,7 +78,8 @@ GET		/credits							controllers.CreditController.showCredits()
 GET		/addcredits							controllers.CreditController.addCredits()
 POST	/addcredits							controllers.CreditController.addCreditsProcess()
 POST	/purchasecredit						controllers.CreditController.purchaseCredit(amount: String)
-
+GET		/purchaseSuccessCredits/:r			controllers.CreditController.purchaseSuccessCredits(r: String)
+GET 	/buycreditsuccess/:r				controllers.CreditController.buyCreditSuccess(r: String)
 
 
 

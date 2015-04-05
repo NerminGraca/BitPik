@@ -175,7 +175,14 @@ public class User extends Model {
 	 * @return
 	 */
 	public static User finder(String username) {
-		return find.where().eq("username", username).findUnique();
+		// promjena mala jer je nesto zeznuto radi i ovako!
+		List u = find.where().eq("username", username).findList();
+		if (u.size()==0) {
+			return null;
+		}
+		return (User)(u.get(0));
+		
+		//return find.where().eq("username", username).findUnique();
 	}
 	
 	/**

@@ -88,6 +88,11 @@ public class CreditController extends Controller{
 		return (double)(credit*0.5);
 	}
 	
+	public static String converterToStringUSD(double costKM) {
+		double priceInUSD = costKM * 0.56;
+		return String.format("%1.2f",priceInUSD);
+	}
+	
 	/**
 	 * Cost in Strings for printing;
 	 * @return formated price with two decimals
@@ -95,6 +100,7 @@ public class CreditController extends Controller{
 	public static String getPriceString(double creditD) {
 		return String.format("%1.2f",creditD);
 	}
+	
 	
 	/**
 	 * Method should take the amount entered in the form
@@ -114,14 +120,18 @@ public class CreditController extends Controller{
 	
 	}
 	
-	
-	public static Result purchaseCredit(String amount) {
+	/**
+	 * Starting of the paypal process for the purchase of the bitpik credits;
+	 * In case that the User presses Cancel he is redirected to the page addcredits.html
+	 * and in the case that the User goes through, he is redirected to the next page
+	 * "/purchaseSuccessCredits/"html page with the cost of the credits in USD;
+	 * @param priceKMString
+	 * @return
+	 */
+	public static Result purchaseCredit(String priceKMString) {
+		double priceCostKM = Double.parseDouble(priceKMString);
+		String priceInUSD = converterToStringUSD(priceCostKM);
 		// ovdje je vec PAyPal redirectanje dole sto se ispod ove metode nalazi... ne zaboravi conertovati u USD;
-		return TODO;
-	}
-		/*
-	public static Result purchaseProcessingCredits(int amount) {
-		Product p = Product.find.byId(id);
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
 		try{
@@ -132,11 +142,11 @@ public class CreditController extends Controller{
 			apiContext.setConfigurationMap(sdkConfig);
 			Amount amount = new Amount();
 			// We put the amount in USD and convert it to a String;
-			amount.setTotal(p.getPriceinStringinUSD());
+			amount.setTotal(priceInUSD);
 			amount.setCurrency("USD");
 			Transaction transaction = new Transaction();
-			transaction.setDescription("Cestitamo, jos ste samo nekoliko koraka od kupovine proizvoda '" + p.name +
-										"' sa slijedecim opisom : '" + p.description + "'");
+			transaction.setDescription("Cestitamo, jos ste samo nekoliko koraka od kupovine  ' " + priceInUSD +
+										" ' u dolarima iznosa kredita");
 			transaction.setAmount(amount);
 			
 			List<Transaction> transactions = new ArrayList<Transaction>();
@@ -151,8 +161,8 @@ public class CreditController extends Controller{
 			payment.setTransactions(transactions);
 			RedirectUrls redirectUrls = new RedirectUrls();
 			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela"));
-			redirectUrls.setCancelUrl(OURHOST + "/showProduct/"+ id);
-			redirectUrls.setReturnUrl(OURHOST + "/purchasesuccess/"+id);
+			redirectUrls.setCancelUrl(UserController.OURHOST + "/addcredits");
+			redirectUrls.setReturnUrl(UserController.OURHOST + "/purchaseSuccessCredits/"+priceInUSD);
 			payment.setRedirectUrls(redirectUrls);
 			Payment createdPayment = payment.create(apiContext);
 			Logger.debug(createdPayment.toJSON());
@@ -173,17 +183,21 @@ public class CreditController extends Controller{
 		
 		
 		return TODO;
+
+
 	}
-	*/
 	
-	/*
-	public static Result purchaseSuccessCredits(int id) {
+	/**
+	 * Successfull paypal process for the purchase of the bitpik credits;
+	 * @param priceInUSD
+	 * @return
+	 */
+	public static Result purchaseSuccessCredits(String priceInUSD) {
 		DynamicForm paypalReturn = Form.form().bindFromRequest();
 		String paymentId = paypalReturn.get("paymentId");
 		String payerId = paypalReturn.get("PayerID");
 		String token = paypalReturn.get("token");
-		
-		
+				
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
 		try {
@@ -202,12 +216,18 @@ public class CreditController extends Controller{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return redirect(OURHOST + "/buyingAProduct/"+id+"/"+token);
+		return redirect(UserController.OURHOST + "/buycreditsuccess/"+priceInUSD);
 	}
-		*/
+		
 	
-	/*
-	public static Result buyCreditSuccess(int amountCredit, String token) {
+	/**
+	 * After the paypal process of buying the bitpik credits;
+	 * We set the value of the bitpik credits to the user
+	 * adding them to the bitpik credits he has already had;
+	 * @param priceInUSD
+	 * @return
+	 */
+	public static Result buyCreditSuccess(String priceInUSD) {
 		User buyerUser = SessionHelper.getCurrentUser(ctx());
 		//1. No permission for unregistered user;
 		if (buyerUser == null) {
@@ -217,28 +237,28 @@ public class CreditController extends Controller{
 		if (buyerUser.isAdmin) {
 			return redirect(routes.Application.index());
 		}
-		Product p = findProduct.byId(product_id);
-		//3. URL Security - No Product under the given id number;
-		if (p == null) {
-			return redirect(routes.Application.index());
-		}
-		// URL Security;
-		//4. No permission for the user to buy his own product (BE Security);
-		// Although we will hide the "KUPI"/"BUY" button from the user for
-		// his own products on certain .html pages; with listing of products;
-				
-		if (buyerUser == p.owner) {
-			return redirect(routes.Application.index());
-		}
-		TransactionP temp = new TransactionP(token, p);
-		p.setPurchaseTransaction(temp);
-		p.setSold(true);
-		p.setBuyerUser(buyerUser);
-		buyerUser.bought_products.add(p);
-		p.save();
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyerUser.username).eq("isSold", false).findList();
-		Logger.of("product").info("User "+ buyerUser.username +" bought the product '" + p.name + "'");
-		flash("buy_product_success", Messages.get("Cestitamo, Uspjesno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
-		return ok(profile.render(l, buyerUser));
-	}*/
+		double priceinDB = Double.parseDouble(priceInUSD);
+		double priceinKM = priceinDB / 0.56;
+		double numCreditsinD = priceinKM * 2;
+		//New amount of credits bought; (so that the rounding to the int works)
+		int numCredits = (int)Math.floor(numCreditsinD + 0.5);
+		// The amount of credits that the User already has; 
+		int currentCredits = buyerUser.getCredits().getCredit();
+		// New overall updated amount of credits for the new user;
+		int newNumCredits = numCredits + currentCredits;
+		
+		BPCredit newBPCredit = new BPCredit(newNumCredits, buyerUser);
+		buyerUser.setCredits(newBPCredit);
+		buyerUser.bpcredit.setCredit(newNumCredits);
+		buyerUser.save();
+		
+	//	TransactionP temp = new TransactionP(token, p);
+	//	p.setPurchaseTransaction(temp);
+	//	p.setSold(true);
+	//	p.setBuyerUser(buyerUser);
+	//	buyerUser.bought_products.add(p);
+	//	p.save();
+		flash("buy_credit_success", Messages.get("Cestitamo, Uspjesno ste kupili BitPik Kredite"));
+		return ok(credits.render(buyerUser));
+	}
 }

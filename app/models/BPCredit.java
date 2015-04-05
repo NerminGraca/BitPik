@@ -3,7 +3,13 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-
+/**
+ * BPCredit is a OneToOne relation to the User;
+ * Meaning every User has his own BPCredit which contains
+ * the number of credit he has bought;
+ * @author Necko
+ *
+ */
 @Entity
 public class BPCredit {
 	@Id
@@ -23,12 +29,23 @@ public class BPCredit {
 	}
 	
 	/**
-	 * Constructor with two parameters;
+	 * Constructor with one parameter;
+	 * Autmatic 0 to his credit;
 	 * @param credit
 	 * @param creditOwner
 	 */
 	public BPCredit(User creditOwner) {
 		this.credit = 0;
+		this.creditOwner = creditOwner;
+	}
+	
+	/**
+	 * Constructor with two parameters;
+	 * @param credit
+	 * @param creditOwner
+	 */
+	public BPCredit(int credit, User creditOwner) {
+		this.credit = credit;
 		this.creditOwner = creditOwner;
 	}
 
