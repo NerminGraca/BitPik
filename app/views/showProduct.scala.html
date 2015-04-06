@@ -1,4 +1,4 @@
-@(p: Product)(user: User)(mainCategoryList: List[MainCategory])
+@(p: Product)(user: User)(mainCategoryList: List[MainCategory])(commentList: List[Comment])
 
 @import helper._
 
@@ -227,7 +227,24 @@
 								
 								<div class="clear"></div>
 							</div>
-							
+				@if(user!=null){
+	    			@helper.form(routes.CommentController.addComment(p.id), 'id->"postComment"){
+	    				<h5>Postavi komentar:</h5>
+						<textarea maxlength="250" postComment' name="content" id="content" placeholder="Write something nice" required> </textarea>
+						<br><br>
+	
+						<input type="submit" value="Potvrdi" class="btn btn-success" />
+						<a href="/" class="btn btn-danger"> Odustajem </a>
+						<input type="reset" value="Reset" class="btn btn-warning" />
+						<br><br>
+						
+					}
+					
+					@for(comment <- commentList){
+						<h5><a href="/korisnik/@comment.author.id">@comment.author.username</a></h5>
+						<p>@comment.content</p>
+					}
+	    		}
 							
 							<!--- Zakomentarisani div za listu zelja, mozda poslije ga implementirati??!!
 							
@@ -346,21 +363,6 @@
 				  		}
 	    			</ul>
 	    		</div>
-	    		
-	    		@if(user!=null){
-	    			@helper.form(routes.CommentController.addComment(p.id), 'id->"postComment"){
-	    				<h5>Postavi komentar:</h5>
-						<textarea maxlength="250" postComment' name="content" id="content" placeholder="Write something nice" required> </textarea>
-						<br><br>
-	
-						<input type="submit" value="Potvrdi" class="btn btn-success" />
-						<a href="/" class="btn btn-danger"> Odustajem </a>
-						<input type="reset" value="Reset" class="btn btn-warning" />
-						<br><br>
-						
-						}
-	    		}
-	    		
 	    		
 	    		
 	    	</div>

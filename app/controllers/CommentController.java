@@ -3,6 +3,7 @@ package controllers;
 import helpers.SessionHelper;
 
 import java.util.Date;
+import java.util.List;
 
 import models.Comment;
 import models.User;
@@ -20,7 +21,7 @@ public class CommentController extends Controller{
 	/**
 	 * @param args
 	 */
-	public static Result addComment(int id)
+	public static Result addComment(int idProduct)
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
@@ -35,12 +36,13 @@ public class CommentController extends Controller{
 			date = postComment.bindFromRequest().get().createdAt;
 		} catch (Exception e) {
 			flash("add_comment_fail", Messages.get("Greška. Niste postavili komentar."));
-			return redirect(routes.ProductController.showProduct(id));
+			return redirect(routes.ProductController.showProduct(idProduct));
 		}
 		Comment newComment = Comment.create(content, date, u);
 		newComment.save();
+		List<Comment> commentList = Comment.find.all();
 		flash("add_comment_success", Messages.get("Uspješno ste dodali komentar."));
-		return redirect(routes.ProductController.showProduct(id));
+		return redirect(routes.ProductController.showProduct(idProduct));
 	}
 	
 	public static Result editComment(int idComment, int idProduct)
@@ -64,6 +66,7 @@ public class CommentController extends Controller{
 		}
 		comment.setContent(content);
 		comment.setCreatedAt(date);
+		List<Comment> commentList = Comment.find.all();
 		flash("update_comment_success", Messages.get("Uspješno ste izmijenili komentar."));
 		
 		return redirect(routes.ProductController.showProduct(idProduct));
@@ -80,6 +83,7 @@ public class CommentController extends Controller{
 		}
 		Comment.delete(idComment);
 		flash("delete_comment", Messages.get("Uspješno ste obrisali komentar."));
+		List<Comment> commentList = Comment.find.all();
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}
 	

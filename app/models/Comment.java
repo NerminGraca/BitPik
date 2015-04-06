@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -11,6 +12,7 @@ import com.avaje.ebean.annotation.UpdatedTimestamp;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
+@Entity
 public class Comment extends Model{
 
 	@Id
@@ -28,7 +30,7 @@ public class Comment extends Model{
 	@ManyToOne
 	public User author;
 
-	static Finder<Integer, Comment> find = new Finder<Integer, Comment>(Integer.class, Comment.class);
+	public static Finder<Integer, Comment> find = new Finder<Integer, Comment>(Integer.class, Comment.class);
 	
 	public Comment(String content, Date createdAt, User author) {
 		this.content = content;
