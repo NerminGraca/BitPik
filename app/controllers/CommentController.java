@@ -12,6 +12,7 @@ import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+
 public class CommentController extends Controller{
 
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);
@@ -19,8 +20,12 @@ public class CommentController extends Controller{
 	private static final String SESSION_USERNAME = "username";
 	
 	/**
-	 * @param args
+	 * Method binds values from postoComment form and
+	 * creates new comment using create method from 
+	 * Comment model.
+	 * @param idProduct
 	 */
+	
 	public static Result addComment(int idProduct)
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -44,6 +49,14 @@ public class CommentController extends Controller{
 		flash("add_comment_success", Messages.get("Uspješno ste dodali komentar."));
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}
+	
+	/**
+	 * Method binds values from postComment form and
+	 * sets the new values for existing comments 
+	 * using setters from Comment model.
+	 * @param idComment
+	 * @param idProduct
+	 */
 	
 	public static Result editComment(int idComment, int idProduct)
 	{
@@ -72,6 +85,13 @@ public class CommentController extends Controller{
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}
 	
+	/**
+	 * Method deletes comment using delete method
+	 * from Comment model.
+	 * @param idComment
+	 * @param idProduct
+	 */
+	
 	public static Result deleteComment(int idComment, int idProduct)
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -83,7 +103,6 @@ public class CommentController extends Controller{
 		}
 		Comment.delete(idComment);
 		flash("delete_comment", Messages.get("Uspješno ste obrisali komentar."));
-		List<Comment> commentList = Comment.find.all();
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}
 	

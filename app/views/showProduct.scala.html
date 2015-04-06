@@ -227,7 +227,7 @@
 								
 								<div class="clear"></div>
 							</div>
-				@if(user!=null){
+				 @if(user!=null){
 	    			@helper.form(routes.CommentController.addComment(p.id), 'id->"postComment"){
 	    				<h5>Postavi komentar:</h5>
 						<textarea maxlength="250" postComment' name="content" id="content" placeholder="Write something nice" required> </textarea>
@@ -242,7 +242,9 @@
 					
 					@for(comment <- commentList){
 						<h5><a href="/korisnik/@comment.author.id">@comment.author.username</a></h5>
+						<p>@comment.createdAt</p>
 						<p>@comment.content</p>
+						<button class="btn btn-warning"><a href="/deleteComment/@comment.id/@p.id">Obriši</a></button>
 					}
 	    		}
 							

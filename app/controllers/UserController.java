@@ -484,13 +484,25 @@ public class UserController extends Controller {
 		return redirect("/profile");
 	}
 	
+	/**
+	 * Method finds one product and sends
+	 * it to view.
+	 * @param id
+	 */
+	
 	public static Result showPurchase(int id)
 	{
 		Product p = Product.find.byId(id);
 		return ok(purchase.render(p));
 	}
 	
-
+	/**
+	 * Method integrates PayPal with application, using access token.
+	 * It adds amount, currency, payer, description, intent and state
+	 * for payment. 
+	 * @param id
+	 * @return
+	 */
 
 	public static Result purchaseProcessing(int id)
 
@@ -559,6 +571,12 @@ public class UserController extends Controller {
 		return TODO;
 	}
 	
+	/**
+	 * Method validates payment with existing user.
+	 * After binding from dynamic form it uses access token
+	 * to transact payment.
+	 * @param id
+	 */
 	
 	public static Result purchaseSuccess(int id ) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -590,9 +608,9 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * 
+	 * Method checks if user exists, and if does
+	 * it calls saveMessage method with same id for message
 	 * @param id
-	 * @return
 	 */
 	public static Result sendMessage(int id)
 	{
@@ -607,9 +625,10 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * 
+	 * Method that binds values from sendMessage form
+	 * and creates new message using create method
+	 * in PrivateMessage model.
 	 * @param id
-	 * @return
 	 */
 	public static Result saveMessage(int id)
 	{
@@ -638,8 +657,8 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Method sends two lists to view, list of received messages
+	 * and list of sent messages for one user.
 	 */
 	public static Result allMessages()
 	{

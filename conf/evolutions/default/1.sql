@@ -8,7 +8,6 @@ create table comment (
   content                   varchar(255),
   author_id                 integer,
   created_at                timestamp not null,
-  updated_at                timestamp not null,
   constraint pk_comment primary key (id))
 ;
 
