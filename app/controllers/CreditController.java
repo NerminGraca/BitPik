@@ -254,7 +254,8 @@ public class CreditController extends Controller{
 		int newNumCredits = numCredits + currentCredits;
 		buyerUser.bpcredit.setCredit(newNumCredits);
 		buyerUser.save();
-	//	TransactionP temp = new TransactionP(token, p);
+	//	if later we choose to archive everytransaction for every bitpik bought
+	//  TransactionP temp = new TransactionP(token, p); *(+token to be sent here; product attribute?)
 		flash("buy_credit_success", Messages.get("Cestitamo, Uspjesno ste kupili BitPik Kredite"));
 		return ok(credits.render(buyerUser));
 	}
@@ -298,6 +299,7 @@ public class CreditController extends Controller{
 		int oldAmount = currentUser.bpcredit.getCredit();
 		// If the User wants to use more credits than he actually has we redirect him;
 		if (credit > oldAmount) {
+			flash("use_credit_poor", Messages.get("Zao nam je, Nemate dovoljno kredita. Molim vas da kupite jos kredita"));
 			return redirect(routes.CreditController.showCredits());
 		}
 		
@@ -309,8 +311,8 @@ public class CreditController extends Controller{
 		p.setCredit(credit);
 		p.setSpecial(true);
 		p.save();
+	
 		flash("use_credit_success", Messages.get("Cestitamo, Uspjesno ste izdvojili oglas i iskoristili BitPik Kredite"));
-		
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		return ok(profile.render(l, currentUser));
 		
@@ -355,6 +357,7 @@ public class CreditController extends Controller{
 		int oldAmount = currentUser.bpcredit.getCredit();
 		// If the User wants to update more credits than he actually has we redirect him;
 		if (credit > oldAmount) {
+			flash("update_credit_poor", Messages.get("Zao nam je, Nemate dovoljno kredita. Molim vas da kupite jos kredita"));
 			return redirect(routes.CreditController.showCredits());
 		}
 		
@@ -367,7 +370,7 @@ public class CreditController extends Controller{
 		int newAmountProduct = previousAmountP + credit;
 		p.setCredit(newAmountProduct);
 		p.save();
-		flash("update_credit_success", Messages.get("Cestitamo, Uspjesno ste dopuniili BitPik Kredite na oglasu"));
+		flash("update_credit_success", Messages.get("Cestitamo, Uspjesno ste dopunili BitPik Kredite na oglasu"));
 		
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		return ok(profile.render(l, currentUser));
