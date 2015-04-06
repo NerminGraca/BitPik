@@ -252,11 +252,11 @@ public class CreditController extends Controller{
 		int currentCredits = buyerUser.getCredits().getCredit();
 		// New overall updated amount of credits for the new user;
 		int newNumCredits = numCredits + currentCredits;
-		
-		BPCredit newBPCredit = new BPCredit(newNumCredits, buyerUser);
-		newBPCredit.setCredit(newNumCredits);
-		newBPCredit.setCreditOwner(buyerUser);
-		buyerUser.setCredits(newBPCredit);
+		buyerUser.bpcredit.setCredit(newNumCredits);
+//		BPCredit newBPCredit = new BPCredit(newNumCredits, buyerUser);
+//		newBPCredit.setCredit(newNumCredits);
+//		newBPCredit.setCreditOwner(buyerUser);
+//		buyerUser.setCredits(newBPCredit);
 		buyerUser.save();
 		
 	//	TransactionP temp = new TransactionP(token, p);
