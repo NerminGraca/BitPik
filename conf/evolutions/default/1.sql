@@ -56,6 +56,8 @@ create table product (
   sub_category_string       varchar(255),
   product_image_path        varchar(255),
   buyer_user_id             integer,
+  credit                    integer,
+  is_special                boolean,
   constraint pk_product primary key (id))
 ;
 

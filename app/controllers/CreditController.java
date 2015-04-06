@@ -253,19 +253,123 @@ public class CreditController extends Controller{
 		// New overall updated amount of credits for the new user;
 		int newNumCredits = numCredits + currentCredits;
 		buyerUser.bpcredit.setCredit(newNumCredits);
-//		BPCredit newBPCredit = new BPCredit(newNumCredits, buyerUser);
-//		newBPCredit.setCredit(newNumCredits);
-//		newBPCredit.setCreditOwner(buyerUser);
-//		buyerUser.setCredits(newBPCredit);
 		buyerUser.save();
-		
 	//	TransactionP temp = new TransactionP(token, p);
-	//	p.setPurchaseTransaction(temp);
-	//	p.setSold(true);
-	//	p.setBuyerUser(buyerUser);
-	//	buyerUser.bought_products.add(p);
-	//	p.save();
 		flash("buy_credit_success", Messages.get("Cestitamo, Uspjesno ste kupili BitPik Kredite"));
 		return ok(credits.render(buyerUser));
+	}
+	
+	// Halftime - now the using of the credits;
+	
+	/**
+	 * The GET redirection for the page where the user enters the amount
+	 * of bitpik credits he wants to use;
+	 * @param id
+	 * @return
+	 */
+	public static Result useCredits( int id) {
+		Product p = Product.find.byId(id);
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// 1.1 If the User is not Logged in;
+		// 1.2 or if the User is an Admin; 
+		// we redirect these kind of Users to the index.html page;
+		if (currentUser == null || currentUser.isAdmin==true) {
+			return redirect(routes.Application.index());
+		}
+		return ok(makespecialproduct.render(p));
+	}
+	
+	/**
+	 * After entering the amount of credits to be used by the user
+	 * we take the amounts entered here with the POST method;
+	 * And add them to the product the User has choosen,
+	 * And as well make the product special ("izdvojen oglas");
+	 * @param id
+	 * @return
+	 */
+	public static Result useCreditsProcess(int id) {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		int credit;
+		try {
+			credit = creditForm.bindFromRequest().get().credit;
+		} catch(IllegalStateException e) {
+			return redirect(routes.CreditController.showCredits());
+		}
+		int oldAmount = currentUser.bpcredit.getCredit();
+		// If the User wants to use more credits than he actually has we redirect him;
+		if (credit > oldAmount) {
+			return redirect(routes.CreditController.showCredits());
+		}
+		
+		int newAmount = oldAmount - credit;
+		// We set the amount of credit to the new amount, after subtracting the used credits from the old amount
+		currentUser.bpcredit.setCredit(newAmount);
+		currentUser.save();
+		Product p = Product.find.byId(id);
+		p.setCredit(credit);
+		p.setSpecial(true);
+		p.save();
+		flash("use_credit_success", Messages.get("Cestitamo, Uspjesno ste izdvojili oglas i iskoristili BitPik Kredite"));
+		
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
+		return ok(profile.render(l, currentUser));
+		
+	}
+	
+	/**
+	 * Redirecting to the page where the user enters the amount of Credits 
+	 * he wants to update to the artical that is already made special (izdvojen);
+	 * @return
+	 */
+	public static Result updateCredits(int id) {
+		Product p = Product.find.byId(id);
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// 1.1 If the User is not Logged in;
+		// 1.2 or if the User is an Admin; 
+		// we redirect these kind of Users to the index.html page;
+		if (currentUser == null || currentUser.isAdmin==true) {
+			return redirect(routes.Application.index());
+		}
+		return ok(updatecredits.render(p));
+	
+	}
+	
+	/**
+	 * Updating the amount of the credits that we add to the product;
+	 * As the method of using the credits on a product for the first time
+	 * this method as well sets the users bpcredits to the new amount 
+	 * subtracting the used amount from the old amount;
+	 * And now we set the products credit to the new amount which is the previous
+	 * amount of credits that the product had plus the new amount we had just updated for; 
+	 * @param id
+	 * @return
+	 */
+	public static Result updateCreditsProcess(int id) {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		int credit;
+		try {
+			credit = creditForm.bindFromRequest().get().credit;
+		} catch(IllegalStateException e) {
+			return redirect(routes.CreditController.showCredits());
+		}
+		int oldAmount = currentUser.bpcredit.getCredit();
+		// If the User wants to update more credits than he actually has we redirect him;
+		if (credit > oldAmount) {
+			return redirect(routes.CreditController.showCredits());
+		}
+		
+		int newAmount = oldAmount - credit;
+		// We set the amount of credit to the new amount, after subtracting the used credits from the old amount
+		currentUser.bpcredit.setCredit(newAmount);
+		currentUser.save();
+		Product p = Product.find.byId(id);
+		int previousAmountP = p.getCredit();
+		int newAmountProduct = previousAmountP + credit;
+		p.setCredit(newAmountProduct);
+		p.save();
+		flash("update_credit_success", Messages.get("Cestitamo, Uspjesno ste dopuniili BitPik Kredite na oglasu"));
+		
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
+		return ok(profile.render(l, currentUser));
 	}
 }

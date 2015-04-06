@@ -81,7 +81,10 @@ POST	/purchasecredit						controllers.CreditController.purchaseCredit(amount: St
 GET		/purchaseSuccessCredits/:r			controllers.CreditController.purchaseSuccessCredits(r: String)
 GET 	/buycreditsuccess/:r				controllers.CreditController.buyCreditSuccess(r: String)
 
-
+GET		/makespecialproduct/:id				controllers.CreditController.useCredits(id: Integer)
+POST	/makespecialproduct/:id				controllers.CreditController.useCreditsProcess(id: Integer)
+GET		/updatecredits/:id					controllers.CreditController.updateCredits(id: Integer)
+POST	/updatecredits/:id					controllers.CreditController.updateCreditsProcess(id: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               	controllers.Assets.at(path="/public", file)

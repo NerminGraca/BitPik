@@ -63,6 +63,10 @@ public class Product extends Model {
 	@OneToOne(mappedBy="product", cascade=CascadeType.ALL)
 	public TransactionP purchaseTransaction;
 	
+	public int credit;
+	
+	public boolean isSpecial;
+	
 	
 	/**
 	 * Constructor with default values
@@ -84,6 +88,8 @@ public class Product extends Model {
 		this.subCategoryString = "Unknown";
 		this.productImagePath = "images/productPicture/no-img.jpg";
 		this.buyerUser = null;
+		this.credit = 0;
+		this.isSpecial = false;
 	}
 
 	/**
@@ -107,6 +113,8 @@ public class Product extends Model {
 		publishedDate = getDate();
 		this.productImagePath = "images/productPicture/no-img.jpg";
 		this.buyerUser = null;
+		this.credit = 0;
+		this.isSpecial = false;
 	}
 	
 	//Finder
@@ -224,6 +232,46 @@ public class Product extends Model {
 		Date date = Calendar.getInstance().getTime();
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		return formatter.format(date);
+	}
+	
+	/**
+	 * Gets us the amount of bitpik credit used on this product;
+	 * If not returns the 0;
+	 * @return
+	 */
+	public int getCredit() {
+		return credit;
+	}
+
+	/**
+	 * Sets the amount of credit by the owner User;
+	 * Used in the process of using the Credits 
+	 * check CreditController.useCreditProcess();
+	 * @param credit
+	 */
+	public void setCredit(int credit) {
+		this.credit = credit;
+	}
+
+	/**
+	 * Return the value, true or false depending on
+	 * whether the product has been set to be special or not;
+	 * Meaning, The product is special if someone has spent/used their credits
+	 * on the products;
+	 * @return
+	 */
+	public boolean isSpecial() {
+		return isSpecial;
+	}
+
+	/**
+	 * We set the true boolean for the isSpecial only when the
+	 * owner User as spent and used their credits to use them
+	 * on the product;
+	 * @param isSpecial
+	 */
+	public void setSpecial(boolean isSpecial) {
+		this.isSpecial = isSpecial;
 	}
 	
 	/**
