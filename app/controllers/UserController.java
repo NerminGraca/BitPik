@@ -37,6 +37,7 @@ public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
 	static Form<PrivateMessage> sendMessage = new Form<PrivateMessage>(PrivateMessage.class);
+	static Form<Comment> postComment = new Form<Comment>(Comment.class);
 	static String usernameSes;	
 	private static final String SESSION_USERNAME = "username";
 	public static final String OURHOST = "http://localhost:9000";
@@ -53,8 +54,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result addUser() {
-		
-		
+				
 		String username;
 		String password;
 		String confirmPassword;
@@ -482,13 +482,25 @@ public class UserController extends Controller {
 		return redirect("/profile");
 	}
 	
+	/**
+	 * Method finds one product and sends
+	 * it to view.
+	 * @param id
+	 */
+	
 	public static Result showPurchase(int id)
 	{
 		Product p = Product.find.byId(id);
 		return ok(purchase.render(p));
 	}
 	
-
+	/**
+	 * Method integrates PayPal with application, using access token.
+	 * It adds amount, currency, payer, description, intent and state
+	 * for payment. 
+	 * @param id
+	 * @return
+	 */
 
 	public static Result purchaseProcessing(int id)
 
@@ -557,6 +569,12 @@ public class UserController extends Controller {
 		return TODO;
 	}
 	
+	/**
+	 * Method validates payment with existing user.
+	 * After binding from dynamic form it uses access token
+	 * to transact payment.
+	 * @param id
+	 */
 	
 	public static Result purchaseSuccess(int id ) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -578,8 +596,7 @@ public class UserController extends Controller {
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			
-			Payment payment = Payment.get(accessToken, paymentId);
-			
+			//Payment payment = Payment.get(accessToken, paymentId);			
 			//payment.execute(apiContext, paymentExecution);
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
@@ -588,9 +605,9 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * 
+	 * Method checks if user exists, and if does
+	 * it calls saveMessage method with same id for message
 	 * @param id
-	 * @return
 	 */
 	public static Result sendMessage(int id)
 	{
@@ -605,9 +622,10 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * 
+	 * Method that binds values from sendMessage form
+	 * and creates new message using create method
+	 * in PrivateMessage model.
 	 * @param id
-	 * @return
 	 */
 	public static Result saveMessage(int id)
 	{
@@ -636,8 +654,8 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Method sends two lists to view, list of received messages
+	 * and list of sent messages for one user.
 	 */
 	public static Result allMessages()
 	{
@@ -666,7 +684,9 @@ public class UserController extends Controller {
 	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
 		
 		try {
-			DynamicForm paypalReturn = Form.form().bindFromRequest();
+			
+			//DynamicForm paypalReturn = Form.form().bindFromRequest();
+			
 			accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
 					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
 			Map<String, String> sdkConfig = new HashMap<String, String>();

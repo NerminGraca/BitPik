@@ -55,7 +55,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Method index renders the index.hmtl page
+	 * Method index renders the index.html page
 	 * 
 	 * @return
 	 */
@@ -67,7 +67,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Renders the registration.html page;
+	 * Method registration renders the registration.html page;
 	 * 
 	 * @return
 	 */
@@ -76,7 +76,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Renders the login.html page;
+	 * Method login renders the login.html page;
 	 * 
 	 * @return
 	 */
@@ -97,7 +97,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	* Renders(gets) the contact.html page;
+	* Method contact renders the contact.html page;
 	* 
 	* @return
 	*/

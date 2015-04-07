@@ -4,12 +4,14 @@ package controllers;
 import helpers.MailHelper;
 import helpers.SessionHelper;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import models.Comment;
 import models.ImgPath;
 import models.MainCategory;
 import models.Product;
@@ -34,6 +36,7 @@ public class ProductController extends Controller {
 	static Form<Product> newProduct = new Form<Product>(Product.class);
 	static Form<TransactionP> newTransaction = new Form<TransactionP>(TransactionP.class);
 	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
+	static Form<Comment> postComment = new Form<Comment>(Comment.class);
 	static String usernameSes;
 	public static final String OURHOST = "http://localhost:9000";
 
@@ -46,7 +49,8 @@ public class ProductController extends Controller {
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
 		Product p = ProductController.findProduct.byId(id);
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		return ok(showProduct.render(p, u, mainCategoryList));
+		List<Comment> commentList = Comment.find.all();
+		return ok(showProduct.render(p, u, mainCategoryList, commentList));
 	}
 //	public static Result showSoldProducti(int id){
 //		User u = helpers.SessionHelper.getCurrentUser(ctx());
@@ -88,6 +92,7 @@ public class ProductController extends Controller {
 		
 		String name;
 		String desc;
+		String longDesc;
 		Double price;
 		String mainCategory;
 		String subCategory;
@@ -96,6 +101,7 @@ public class ProductController extends Controller {
 		try {
 			name = newProduct.bindFromRequest().get().name;
 			desc = newProduct.bindFromRequest().get().description;
+			longDesc = newProduct.bindFromRequest().get().longDescription;
 			price = newProduct.bindFromRequest().get().price;
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
@@ -117,7 +123,7 @@ public class ProductController extends Controller {
 			}
 		}
 		User u = SessionHelper.getCurrentUser(ctx());
-		Product p = Product.create(name, desc, price, u, mc, sc, availability);
+		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, availability);
 		Logger.of("product").info("User "+ usernameSes +" added a new product '" + p.name + "'");
 		return redirect("/addPictureProduct/" + p.id);
 	}
@@ -174,6 +180,7 @@ public class ProductController extends Controller {
 		
 		String name;
 		String desc;
+		String longDesc;
 		Double price;
 		String mainCategory;
 		String subCategory;
@@ -182,6 +189,7 @@ public class ProductController extends Controller {
 		try {
 			name = newProduct.bindFromRequest().get().name;
 			desc = newProduct.bindFromRequest().get().description;
+			longDesc = newProduct.bindFromRequest().get().longDescription;
 			price = newProduct.bindFromRequest().get().price;
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
@@ -210,6 +218,7 @@ public class ProductController extends Controller {
 		String oldname = p.name;
 		p.setName(name);
 		p.setDesc(desc);
+		p.setLongDescription(longDesc);
 		p.setPrice(price);
 		p.setCategory(mc);
 		p.setSubCategory(sc);
@@ -575,4 +584,8 @@ public class ProductController extends Controller {
 				p.save();
 				return redirect("/showProduct/" + id);
 	}
+	
+	
+	
+	
 }

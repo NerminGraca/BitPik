@@ -1,4 +1,4 @@
-@(productList: List[Product])(mainCategoryList: List[MainCategory])(mainCategory: MainCategory)
+@(productList: List[Product])(mainCategoryList: List[MainCategory])(mainCategory: MainCategory)(subCatName: String)
 
 @import helper._
 
@@ -40,6 +40,16 @@
 						</ul>
 						</div>
 					</div>
+					<div class="clear"></div>
+    		    	<div class="content_top">
+			    		<div class="heading">
+			    		<h3>Artikli PodKategorije - @subCatName</h3>
+			    		</div>
+			    		<div class="see">
+			    			<p><a href="#">Pogledaj</a></p>
+			    		</div>
+			    		<div class="clear"></div>
+			    	</div>
 	      	      	<div class="section group">				
 	      	      
 						@if(productList.size() > 0){
@@ -48,9 +58,6 @@
 								<a href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
 								<h2>@product.name</h2>
 								<div class="price-details">
-
-									<div class="price-number2">
-										<span class="price-number2">@product.getPriceString() KM</span>
 
 									<div class="price-number">
 										<p><span class="rupees">@product.getPriceString() KM</span></p>

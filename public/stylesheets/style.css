@@ -515,6 +515,10 @@ body {
 	width:80%;
 	margin: 0 auto;
 }
+.imageWrap {
+	width:100%;
+	margin: 0 auto;
+}
 .header {
 	background: #FFF;
 }
@@ -551,7 +555,7 @@ body {
 	border:none;
 }
 .account_desc li a{
-	font-size:0.999em;
+	font-size:1.25em;
 	color:#9C9C9C;
 	padding:0 10px;
 	font-family: 'ambleregular';
@@ -582,7 +586,7 @@ body {
 }
 .menu li a {
 	font-family: 'ambleregular';
-	font-size:0.823em;
+	font-size:0.9em;
 	text-transform:uppercase;
 	color: #fff;
 	display:block;
@@ -614,7 +618,7 @@ body {
 	position: relative;
 	margin-top:8px;
 	margin-right: 15px;
-	width:25%;
+	width:28%;
 }
 .search_box form input[type="text"] {
 	border: none;
@@ -655,7 +659,7 @@ body {
 }
 .categories li a{
 	display:block;
-	font-size:0.8em;
+	font-size:0.9em;
 	padding:8px 15px;
     color: #9C9C9C;
 	font-family: 'ambleregular';
@@ -1720,33 +1724,7 @@ body {
 	margin-bottom: 15px;
 }
 /**** Responsive Layout ****/
-@media only screen and (max-width: 1540px) {
-	.wrap {
-		width: 90%;
-	}
-}
-@media only screen and (max-width: 1370px) {
-	.wrap {
-		width: 100%;
-	}
-}
-@media only screen and (max-width: 1230px) {
-	.wrap {
-		width: 90%;
-	}
-	div#wowslider-container1 {
-		width: 75%;		
-	}			
-	img#wows1_0 {
-		width: 95%;		
-	}
-	img#wows1_1 {
-		width: 95%;		
-	}
-	img#wows1_2 {
-		width: 95%;		
-	}
-}
+
 @media only screen and (max-width: 1024px) {
 	.wrap {
 		width: 90%;
