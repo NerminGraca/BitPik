@@ -84,6 +84,7 @@ create table user (
   password                  varchar(255),
   email                     varchar(255),
   is_admin                  boolean,
+  is_protected_admin        boolean,
   created_date              varchar(255),
   verified                  boolean,
   confirmation              varchar(255),

@@ -42,7 +42,7 @@ public class CategoryController extends Controller {
 		SubCategory sc = SubCategory.findSubCategory(id);
 		MainCategory mc = sc.mainCategory;
 		List<Product> productList = ProductController.findProduct.where().eq("subCategory", sc).eq("isSold", false).findList();
-		return ok(podKategorija.render(productList, mainCategoryList, mc));
+		return ok(podKategorija.render(productList, mainCategoryList, mc, sc.name));
 	}
 	
 	/**

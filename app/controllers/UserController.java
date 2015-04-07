@@ -3,7 +3,6 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -55,8 +54,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result addUser() {
-		
-		
+				
 		String username;
 		String password;
 		String confirmPassword;
@@ -598,8 +596,7 @@ public class UserController extends Controller {
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			
-			Payment payment = Payment.get(accessToken, paymentId);
-			
+			//Payment payment = Payment.get(accessToken, paymentId);			
 			//payment.execute(apiContext, paymentExecution);
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
@@ -686,8 +683,10 @@ public class UserController extends Controller {
 	 */
 	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
 		
-		try {;
-			DynamicForm paypalReturn = Form.form().bindFromRequest();
+		try {
+			
+			//DynamicForm paypalReturn = Form.form().bindFromRequest();
+			
 			accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
 					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
 			Map<String, String> sdkConfig = new HashMap<String, String>();

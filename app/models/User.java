@@ -32,6 +32,8 @@ public class User extends Model {
 	public String email;
 	
 	public boolean isAdmin;
+	
+	public boolean isProtectedAdmin;
 
 	public String createdDate;
 	
@@ -64,7 +66,8 @@ public class User extends Model {
 		this.password = "johndoe";
 		this.password = HashHelper.createPassword(password);
 		this.email = "johndoe@example.com";
-		isAdmin = false;		
+		isAdmin = false;
+		isProtectedAdmin = false;
 		createdDate = getDate();
 		this.verified = false;
 		this.emailVerified = false;
@@ -82,7 +85,8 @@ public class User extends Model {
 		this.username = username;
 		this.password = HashHelper.createPassword(password);
 		this.email = email;
-		isAdmin = false;		
+		isAdmin = false;
+		isProtectedAdmin = false;
 		createdDate = getDate();
 		this.verified = false;
 		this.confirmation = UUID.randomUUID().toString();
@@ -102,7 +106,8 @@ public class User extends Model {
 		this.username = username;
 		this.password = HashHelper.createPassword(password);
 		this.email = email;
-		this.isAdmin = isAdmin;		
+		this.isAdmin = isAdmin;
+		isProtectedAdmin = isAdmin;
 		createdDate = getDate();
 		this.verified = true;
 		this.confirmation = null;
