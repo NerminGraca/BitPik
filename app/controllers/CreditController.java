@@ -130,6 +130,22 @@ public class CreditController extends Controller{
 	}
 	
 	/**
+	 * Method that the admin can only use to delete the speciality of
+	 * a product;
+	 * Sets the attribute isSpecial of a product clicked on, to false;   
+	 * @param id
+	 * @return 
+	 */
+	@Security.Authenticated(AdminFilter.class)
+	public static Result makeProductNotSpecial(int id) {
+		Product p = Product.find.byId(id);
+		p.setSpecial(false);
+		p.setExpirySpecial(null);
+		p.save();
+		return redirect(routes.ProductController.showProduct(id));
+	}
+	
+	/**
 	 * Starting of the paypal process for the purchase of the bitpik credits;
 	 * In case that the User presses Cancel he is redirected to the page addcredits.html
 	 * and in the case that the User goes through, he is redirected to the next page

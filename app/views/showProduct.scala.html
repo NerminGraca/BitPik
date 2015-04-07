@@ -105,8 +105,8 @@
 							</div>
 							
 				@if(user != null) {			
-					@if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {			
-						@if(p.isSpecial) {
+					@if(user.username.equals(p.owner.username) || user.isAdmin) {			
+						@if(p.isSpecial && !p.isSold) {
 							<div class="available">
 									<p>Izdvojen oglas :</p>
 										<ul>
@@ -206,6 +206,11 @@
 										}
 										
 									}
+									
+									@if(user.isAdmin && !p.isSold && p.isSpecial) {
+										<div class="button"><span><a href="@routes.CreditController.makeProductNotSpecial(p.id)">Skini izdvojen oglas</a></span></div>
+									}
+									
 									@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {
 										<br>
 										<p>Navedite razlog za refundaciju</p>

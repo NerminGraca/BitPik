@@ -60,7 +60,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).findList();
+		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", false).findList();
 		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 

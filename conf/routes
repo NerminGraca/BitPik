@@ -86,5 +86,7 @@ POST	/makespecialproduct/:id				controllers.CreditController.useCreditsProcess(i
 GET		/updatecredits/:id					controllers.CreditController.updateCredits(id: Integer)
 POST	/updatecredits/:id					controllers.CreditController.updateCreditsProcess(id: Integer)
 
+GET		/makeproductnotspecial/:id			controllers.CreditController.makeProductNotSpecial(id: Integer)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               	controllers.Assets.at(path="/public", file)
