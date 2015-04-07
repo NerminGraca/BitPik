@@ -43,6 +43,7 @@ create table product (
   id                        integer not null,
   name                      varchar(255),
   description               varchar(255),
+  long_description          varchar(255),
   category_string           varchar(255),
   main_category_id          integer,
   price                     double,

@@ -92,6 +92,7 @@ public class ProductController extends Controller {
 		
 		String name;
 		String desc;
+		String longDesc;
 		Double price;
 		String mainCategory;
 		String subCategory;
@@ -100,6 +101,7 @@ public class ProductController extends Controller {
 		try {
 			name = newProduct.bindFromRequest().get().name;
 			desc = newProduct.bindFromRequest().get().description;
+			longDesc = newProduct.bindFromRequest().get().longDescription;
 			price = newProduct.bindFromRequest().get().price;
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
@@ -121,7 +123,7 @@ public class ProductController extends Controller {
 			}
 		}
 		User u = SessionHelper.getCurrentUser(ctx());
-		Product p = Product.create(name, desc, price, u, mc, sc, availability);
+		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, availability);
 		Logger.of("product").info("User "+ usernameSes +" added a new product '" + p.name + "'");
 		return redirect("/addPictureProduct/" + p.id);
 	}
@@ -178,6 +180,7 @@ public class ProductController extends Controller {
 		
 		String name;
 		String desc;
+		String longDesc;
 		Double price;
 		String mainCategory;
 		String subCategory;
@@ -186,6 +189,7 @@ public class ProductController extends Controller {
 		try {
 			name = newProduct.bindFromRequest().get().name;
 			desc = newProduct.bindFromRequest().get().description;
+			longDesc = newProduct.bindFromRequest().get().longDescription;
 			price = newProduct.bindFromRequest().get().price;
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
@@ -214,6 +218,7 @@ public class ProductController extends Controller {
 		String oldname = p.name;
 		p.setName(name);
 		p.setDesc(desc);
+		p.setLongDescription(longDesc);
 		p.setPrice(price);
 		p.setCategory(mc);
 		p.setSubCategory(sc);

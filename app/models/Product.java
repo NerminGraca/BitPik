@@ -22,6 +22,8 @@ public class Product extends Model {
 	
 	public String description;
 	
+	public String longDescription;
+	
 	@Required
 	public String categoryString;
 	
@@ -70,6 +72,7 @@ public class Product extends Model {
 	public Product() {
 		this.name = "Unknown";
 		this.description = "Unknown";
+		this.longDescription = "Unknown";
 		this.categoryString = "Unknown";
 		this.mainCategory = null;
 		this.price = -1;
@@ -92,9 +95,10 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability) {
+	public Product(String name, String desc, String longDesc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability) {
 		this.name = name;
 		this.description = desc;
+		this.longDescription = longDesc;
 		this.price = price;
 		this.owner = owner;
 		this.isSold = false;
@@ -251,12 +255,20 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static Product create(String name, String desc, double price, User owner, MainCategory category, SubCategory subCategory, String availability) {
-		Product newProduct = new Product(name, desc, price, owner, category, subCategory, availability);
+	public static Product create(String name, String desc, String longDesc, double price, User owner, MainCategory category, SubCategory subCategory, String availability) {
+		Product newProduct = new Product(name, desc, longDesc,price, owner, category, subCategory, availability);
 		newProduct.save();
 		return newProduct;
 	}
 	
+	public String getLongDescription() {
+		return longDescription;
+	}
+
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
+	}
+
 	/**
 	 * Method deletes Product which has id given to the method
 	 * @param id = id of object Product which will be deleted from database
