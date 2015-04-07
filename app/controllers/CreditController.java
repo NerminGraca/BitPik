@@ -2,7 +2,10 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -310,6 +313,13 @@ public class CreditController extends Controller{
 		Product p = Product.find.byId(id);
 		p.setCredit(credit);
 		p.setSpecial(true);
+				
+		//Setting the expiryDate;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date()); // We use todays date.
+		c.add(Calendar.DATE, credit); // We add the number of credits - as the number of days (1 credit - 1 day); 
+		p.setExpirySpecial(c.getTime()); // We set the Date/Time as the expiry Date for the speciality of the prodcut;
 		p.save();
 	
 		flash("use_credit_success", Messages.get("Cestitamo, Uspjesno ste izdvojili oglas i iskoristili BitPik Kredite"));
@@ -369,7 +379,17 @@ public class CreditController extends Controller{
 		int previousAmountP = p.getCredit();
 		int newAmountProduct = previousAmountP + credit;
 		p.setCredit(newAmountProduct);
+		
+		//Setting the expiryDate;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		//kasnije 
+		//String output = sdf.format(c.getTime());
+		Calendar c = Calendar.getInstance();
+		c.setTime(p.getExpirySpecial()); // We use the date of the expiry that has already been set;
+		c.add(Calendar.DATE, credit); // We add the number of credits - as the number of days (1 credit - 1 day); 
+		p.setExpirySpecial(c.getTime()); // We set the Date/Time as the expiry Date for the speciality of the prodcut;
 		p.save();
+				
 		flash("update_credit_success", Messages.get("Cestitamo, Uspjesno ste dopunili BitPik Kredite na oglasu"));
 		
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();

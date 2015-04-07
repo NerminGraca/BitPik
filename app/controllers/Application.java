@@ -61,9 +61,10 @@ public class Application extends Controller {
 	 */
 	public static Result index() {
 		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).findList();
+		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 
-		return ok(index.render(productList, mainCategoryList));
+		return ok(index.render(specialProductList, productList, mainCategoryList));
 	}
 
 	/**

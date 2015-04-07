@@ -67,7 +67,11 @@ public class Product extends Model {
 	
 	public boolean isSpecial;
 	
+//	public Date madeSpecial;
 	
+	public Date expirySpecial;
+
+
 	/**
 	 * Constructor with default values
 	 */
@@ -291,6 +295,51 @@ public class Product extends Model {
 	public String getPriceinStringinUSD() {
 		double priceInUSD = price * 0.56;
 		return String.format("%1.2f",priceInUSD);
+	}
+//	
+//	/**
+//	 * Gets us the date that the Product has been set as Special product;
+//	 * @return
+//	 */
+//	public Date getMadeSpecial() {
+//		return madeSpecial;
+//	}
+//
+//	/**
+//	 * We use this method to set the date when the product has been
+//	 * made one of the special products;
+//	 * @param madeSpecial
+//	 */
+//	public void setMadeSpecial(Date madeSpecial) {
+//		this.madeSpecial = madeSpecial;
+//	}
+	
+	/**
+	 * This method gets us the date of the date when the product
+	 * should expire;
+	 * @return
+	 */
+	public Date getExpirySpecial() {
+		return expirySpecial;
+	}
+
+	/**
+	 * We use this method to set the expiry Date of the product,
+	 * till which it will be looked as a special product;
+	 * @param expirySpecial
+	 */
+	public void setExpirySpecial(Date expirySpecial) {
+		this.expirySpecial = expirySpecial;
+	}
+	
+	/**
+	 * Puts the ExpiryDate in the Format;
+	 * @param c
+	 * @return
+	 */
+	public String getExpiryDateInFormat() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(this.expirySpecial.getTime());
 	}
 	
 	/**

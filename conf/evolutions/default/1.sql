@@ -58,6 +58,7 @@ create table product (
   buyer_user_id             integer,
   credit                    integer,
   is_special                boolean,
+  expiry_special            timestamp,
   constraint pk_product primary key (id))
 ;
 
