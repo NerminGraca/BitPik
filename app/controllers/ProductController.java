@@ -4,7 +4,6 @@ package controllers;
 import helpers.MailHelper;
 import helpers.SessionHelper;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
 import java.io.File;
@@ -20,6 +19,7 @@ import models.TransactionP;
 import models.User;
 import views.html.*;
 import play.Logger;
+import play.Play;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
@@ -38,7 +38,7 @@ public class ProductController extends Controller {
 	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);
 	static String usernameSes;
-	public static final String OURHOST = "http://localhost:9000";
+	public static final String OURHOST = Play.application().configuration().getString("OURHOST");
 
 	/**
 	 * 
@@ -268,23 +268,6 @@ public class ProductController extends Controller {
 		}
 			
 	}
-//	public static void deleteOnePicture(int id, String imgPath){
-//		final String deletePath = "." + File.separator 
-//				+ "public" + File.separator;
-//		
-//		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
-//		
-//		
-//		for (int i = 0; i< imgList.size() ; i++){
-//			String s = imgList.get(i).imgPath;
-//			
-//			if (!s.equals("images/no-img.jpg") && imgPath.equals(s)){
-//				File file = new File(deletePath + s);
-//				file.delete();
-//			}
-//						
-//		}
-//	}
 	
 	public static Result deleteOnePicture(int id, String imgPath){
 		/*
@@ -316,11 +299,9 @@ public class ProductController extends Controller {
 		Product p = findProduct.byId(id);
 		return ok(addPictureProduct.render(usernameSes, p));
 	}
-	
-	
-	
+		
 	/**
-	 * Uplade image for User profile, and show picture on user /profile.html. 
+	 * Upload image for User profile, and show picture on user /profile.html. 
 	 * If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
 	 * If file size is bigger then 2MB, redirect user on profile without uploading image.
 	 * @return
@@ -585,8 +566,5 @@ public class ProductController extends Controller {
 				p.save();
 				return redirect("/showProduct/" + id);
 	}
-	
-	
-	
 	
 }
