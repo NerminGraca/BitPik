@@ -48,7 +48,7 @@ GET   	/addNoPictureProduct/:id        controllers.ProductController.saveNoFile(
 #GET     /deleteOnePicture/:id/:imgPath				controllers.ProductController.deleteOnePicture(id: Integer, imgPath: String)
 GET		/buyingAProduct/:id				controllers.ProductController.buyProductSuccess(id : Integer)
 GET     /search                         controllers.ProductController.searchUsers(q: String)
-GET     /filteredSearch                 controllers.ProductController.filteredSearch()
+POST    /filteredSearch                 controllers.ProductController.filteredSearch(ids: String)
 
 GET		/kategorija/:id					controllers.CategoryController.categories(id: Integer)
 GET		/listaKategorija 				controllers.CategoryController.allCategory()

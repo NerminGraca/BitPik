@@ -11,9 +11,8 @@
 		</div>
 		<div >
 					  	
-							<!--@helper.form(routes.ProductController.filteredSearch(),'id->"filteredSearch") {-->
-									
-									<form action="/filteredSearch" method="GET">
+							
+									<form action="@routes.ProductController.filteredSearch(Product.getIds(products))" method="POST"">
 									<h5 id="editProfileText1">Cijena od-do</h5
 									<div style="margin-top:10px;">			
 									<input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin" required/> 
@@ -217,4 +216,4 @@
 
    
 }
-}
+

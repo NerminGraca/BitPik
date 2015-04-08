@@ -449,23 +449,37 @@ public class ProductController extends Controller {
 		return ok(listaPretrage.render(products,users));	
 	}
 	
-public static Result filteredSearch(){
-	    double priceMin=0;
-	    double priceMax=999999999;
-		String availability;
-		String descr;
-		if(filteredSearch.hasErrors()){
-			Logger.info("Error in form");
-			return redirect(routes.Application.index());
-			}
-
-		priceMin=filteredSearch.bindFromRequest().get().priceMin;
-		priceMax=filteredSearch.bindFromRequest().get().priceMax;
-		descr=filteredSearch.bindFromRequest().get().desc;
-		availability= filteredSearch.bindFromRequest().get().availabilityS;
+public static Result filteredSearch(String ids){
 	
-		List<Product>products=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"')").findList();
-		
+	String[] productsIDs = ids.split(",");		
+	List<Product>products= new ArrayList<Product>();
+	for(String id: productsIDs){
+		int currentID = Long.valueOf(id);
+		Product currentProduct = Product.find.byId(currentID);			
+		products.add(currentProduct);
+	}
+	double priceMin=0;
+    double priceMax=999999999;
+	String availability;
+	String descr;
+	if(filteredSearch.hasErrors()){
+		Logger.info("Error in form");
+		return redirect(routes.Application.index());
+		}
+
+	priceMin=filteredSearch.bindFromRequest().get().priceMin;
+	priceMax=filteredSearch.bindFromRequest().get().priceMax;
+	descr=filteredSearch.bindFromRequest().get().desc;
+	availability= filteredSearch.bindFromRequest().get().availabilityS;
+	
+	products.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"')").findList();
+	if(list.isEmpty()){
+	return ok(index.render(Product.find.all(), MainCategory.allMainCategories()));
+	}
+	
+	return ok(index.render(list, Category.all()));
+	
+	    
 //		return ok(newViewForFilter.render(products));
 		return ok(index.render(products, MainCategory.allMainCategories()));
 }
