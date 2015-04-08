@@ -28,7 +28,7 @@
 					<p class="blueText">@user.createdDate</p>
 					
 					@helper.form(routes.UserController.changeAdmin(user.id),'id->"adminForm") {
-						@if(userSes.isAdmin){
+						@if(userSes.isAdmin && !user.isProtectedAdmin){
 						<fieldset>
 						   	<label for="isAdmin">Admin:</label>
 						    <select id="isAdmin" name="isAdmin" id="isAdmin">
@@ -50,7 +50,7 @@
 		
 					<!-- delete user -->
 						@if(!userSes.username.equals(user.username)){
-							@if(userSes.isAdmin && !user.isAdmin){
+							@if(userSes.isAdmin && !user.isAdmin && !user.isProtectedAdmin){
 								@form(routes.UserController.deleteUser(user.id)) {
 									<input class="btnRed" type="submit" value="Izbrisi korisnika"  onclick="return confirm('Da li ste sigurni da zelite izbrisati korisnika?');">
 	                    		}
@@ -102,6 +102,9 @@
 					
 						</div>
 						}
+					}
+					@if(userSes != null) {
+						<a href="/message/@user.id" class="btn">Pošalji privatnu poruku</a>
 					}
 				</div>
 	

@@ -21,13 +21,9 @@
 					}
 				</ul>
 			</div>
-						
-			<!-- OBRISATI? -->
 			<div class="clear"></div>
-
 		</div>
 
-		<!-- OBRISATI? -->
 		<div class="header_top">
 	 		<div class="clear"></div>
 		</div>
@@ -39,6 +35,7 @@
 			    	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">FAQs</a></li>
 			    	<li class='@("active".when(location == "Kontakt"))'><a href="/contact">Kontakt</a></li>
 			    	@if(user != null) {
+			    		<li class='@("active".when(location == "Poruke"))'><a href="/allMessages">Poruke</a></li>
 			    		@if(user.isAdmin == true){
 				    		<li class='@("active".when(location == "Admin Panel"))'><a href="/adminPanel">Admin Panel</a></li>
 			    		}
@@ -51,7 +48,7 @@
 	     	</div>
 	     	<div class="search_box">
 	     		<form action="/search" method="GET">
-	     			<input id="q" name="q" type="text" placeholder="Search products" />
+	     			<input id="q" name="q" type="text" placeholder="Trazi proizvode ili korisnike..." required/>
 	     			<!--<input id="q" name="q" type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">-->
 	     			<input type="submit" value="">
 	     		</form>

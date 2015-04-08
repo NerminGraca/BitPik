@@ -42,7 +42,7 @@ public class FAQController extends Controller{
 			return redirect(routes.FAQController.allFaqs());
 		}
 		
-		FAQ faq = FAQ.create(question, answer);
+		FAQ.create(question, answer);
 		Logger.of("faq").info("Admin added a new FAQ");
 		List <FAQ> faqList = findFaq.all();
 		flash("add_faq_success", Messages.get("Uspjesno ste dodali novi FAQ."));
@@ -144,5 +144,15 @@ public class FAQController extends Controller{
 		Logger.of("faq").info("Admin deleted a FAQ");
 		flash("delete_faq_success",  Messages.get("Uspjesno ste izbrisali FAQ"));
 		return redirect(routes.FAQController.allFaqs());
+	}
+	
+	public static Result searchFaq(String q){
+		Logger.debug("seacrh");
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		List<FAQ>faqs=FAQ.find.where("UPPER(question) LIKE UPPER('%"+q+"%')").findList();
+		Logger.debug(""+faqs.size());
+		
+		return ok(listaFAQs.render(faqs,currentUser));
+		
 	}
 }

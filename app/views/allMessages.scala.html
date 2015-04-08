@@ -1,0 +1,62 @@
+@(u: User)(messagesReceived: List[PrivateMessage])(messagesSent: List[PrivateMessage])
+
+@import helper._
+
+@main("Inbox", "inbox"){
+	
+<div class="wrap">
+	<div class="validateAndLogout">
+		@flash.get("success")
+		@flash.get("fail")
+  	</div>
+
+<div class="wrap">	
+	<div class="main">
+		<div class="content">
+			<div class="section group">
+				<div class="col span_2_of_3">
+				  <div class="contact-form">
+				  	
+				  	
+	<!--
+		NAŠ HELPER
+		-->
+
+		
+		<h4 style="	font-size: 0.7em; color: #fa3953;">PRIMLJENE PORUKE</style></h4>
+		<hr style="margin-top: 5px; margin-bottom: 5px;">		
+	<ul>
+		
+		@for(message <- messagesReceived){
+			<li><h5><span style="padding-bottom: 0px;">Pošiljalac 
+					<a href="/korisnik/@message.sender.id">@message.sender.username</a>:</span></h5>
+				<p><mark style="font-size: 0.9em;font-family: verdana, arial, helvetica, helve, sans-serif;">@message.content
+				   </mark></p></li>
+				<h5><span><a href="/message/@message.sender.id">Napiši odgovor na ovu poruku</a></span></h5></li>
+				<hr style="margin-top: 5px; margin-bottom: 5px;">		
+		}
+	</ul>
+	<br></br>
+
+	<ul>
+		<h4 style="	font-size: 0.7em; color: #fa3953;">POSLATE PORUKE</style></h4>
+		<hr style="margin-top: 5px; margin-bottom: 5px;">		
+
+		@for(message <- messagesSent){
+			<li><h5><span style="padding-bottom: 0px;">Primalac 
+					<a href="/korisnik/@message.receiver.id">@message.receiver.username</a>:</span></h5>
+				<p><mark style="font-size: 0.9em;font-family: verdana, arial, helvetica, helve, sans-serif;">@message.content
+				   </mark></p></li>
+				<hr style="margin-top: 5px; margin-bottom: 5px;">		
+
+		}
+	</ul>				
+				 </div>
+			  </div>		
+			</div> 
+		</div>
+	</div>
+	</div>
+</div>  
+	
+}

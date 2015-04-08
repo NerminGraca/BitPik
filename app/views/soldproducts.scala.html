@@ -1,0 +1,100 @@
+@(sproducts: List[Product])(u: User)
+@import helper._
+
+@main("SoldProducts", "") {
+		
+				
+<div class="wrap">
+	<div class="main">
+    	<div class="content">
+    		<div class="section group">
+				<div class="rightBox">
+					<h2 id="redText"><p>Korisnicko ime:</p></h2>
+					<p class="blueText">@u.username</p>
+					
+					<h2 id="redText"><p>Email: </p></h2>		
+					<p class="blueText">@u.email</p>
+		
+					<h2 id="redText"><ep>Admin: </p></h2>
+		
+						@if(u.isAdmin){
+							<p class="blueText">Da</p>
+						}else{
+							<p class="blueText">Ne</p>			
+						}
+					
+					<h2 id="redText"><p>Datum registracije:</p></h2>
+					<p class="blueText">@u.createdDate</p><br>	
+		
+		
+						<form action="/editUser/@u.id">
+    						<a class="btn" href="/editUser/@u.id" class="btn">Izmijeni profil</a>
+						</form>
+		
+				
+				</div>
+				
+				<div class="leftBox">
+					<div>
+						<img class="profilePicture" src="@routes.Assets.at(u.imagePath)" alt="" />
+					</div>				
+					
+					<div class="addImage" >
+						  		<form id="imgs"  action="@routes.UserController.saveFile()" method="post" enctype="multipart/form-data" >
+									<input class="sendFile" type="file" name="image" id="image" />
+									<input class="sendFileBtn" type="submit" value="Send file" />
+								</form>
+					</div>
+					
+					
+					<div class="categories">
+					  	<ul>
+					  		
+					      <li><a href="#">Poruke</a></li>
+					      <li><a href="@routes.CreditController.showCredits()">Krediti</a></li>
+					      <li><a href="#">Blokirani korisnici</a></li>
+					      <li><a href="#">Javna pitanja</a></li>
+				     	  <li><a href="/profile">Objavljeni proizvodi</a></li>
+				     	  <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
+					     
+					      
+						</ul>
+					</div>					
+	  	    
+				</div>
+						
+			<div id="productsOnProfile">
+			<br><br>
+				<h1 class="redHeader">Prodati proizvodi:</h1><br> 
+				
+		<div class="validateAndLogout">
+			@flash.get("no_sold_products")     
+		</div>
+					
+				@if(!sproducts.isEmpty) {
+					@for(product <- sproducts) {				
+						<div class="grid_1_of_4 images_1_of_4">
+							<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a><h2>@product.name </h2>
+							@form(routes.ProductController.deleteProduct(product.id)) {
+                    			<input class="btnDelete" type="submit" value="Izbrisi proizvod iz Arhive" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                			}
+							<div class="price-details">
+				       			<div class="price-number">
+									<p><span class="rupees">@product.getPriceString() KM</span></p>
+					    		</div>
+					       		<div class="add-cart">								
+									<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					}
+				}
+				</div>
+			</div>	
+ 		</div>
+ 		
+	</div>
+
+</div>	
+}

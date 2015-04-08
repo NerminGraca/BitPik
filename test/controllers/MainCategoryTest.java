@@ -12,7 +12,7 @@ import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
 public class MainCategoryTest extends WithApplication {
-	
+	/*
 	@Test
 	public void testMainCategories() {
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -189,5 +189,5 @@ public class MainCategoryTest extends WithApplication {
 						assertThat(browser.pageSource()).doesNotContain("Vozila");
 					}
 		});
-	}
+	}*/
 }

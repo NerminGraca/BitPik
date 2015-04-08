@@ -15,5 +15,7 @@ libraryDependencies ++= Seq(
   "org.webjars" %% "webjars-play" % "2.3.0-2",
   "org.webjars" % "bootstrap" % "3.1.1-2",
   "com.typesafe.play" %% "play-mailer" % "2.4.0",
-  "log4j" % "log4j" % "1.2.17"
+  "log4j" % "log4j" % "1.2.17",
+  "com.paypal.sdk" % "rest-api-sdk" % "1.2.0"
 )
+

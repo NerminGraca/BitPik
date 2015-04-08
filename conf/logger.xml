@@ -5,59 +5,22 @@
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
      <file>${application.home}/logs/application.log</file>
      <encoder>
-       <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
+       <pattern>%date - [%level] - from %logger in %thread %n%message%n%xException%n</pattern>
      </encoder>
    </appender>
 
-  <appender name="LOGIN" class="ch.qos.logback.core.FileAppender">
-  	<file>${application.home}/logs/login.log</file>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%date - [%level] - from %logger in %thread %n%message%n%xException%n</pattern>
-    </encoder>
-  </appender>
-  
-  <appender name="USER" class="ch.qos.logback.core.FileAppender">
-  	<file>${application.home}/logs/user.log</file>
-    <encoder>
-      <pattern>%date - [%level] - from %logger in %thread %n%message%n%xException%n</pattern>
-    </encoder>
-  </appender>
-  
-  <appender name="PRODUCT" class="ch.qos.logback.core.FileAppender">
-  	<file>${application.home}/logs/product.log</file>
-    <encoder>
-      <pattern>%date - [%level] - from %logger in %thread %n%message%n%xException%n</pattern>
-    </encoder>
-  </appender>
-  
-  <appender name="FAQ" class="ch.qos.logback.core.FileAppender">
-  	<file>${application.home}/logs/faq.log</file>
-    <encoder>
-      <pattern>%date - [%level] - from %logger in %thread %n%message%n%xException%n</pattern>
-    </encoder>
-  </appender>
-  
-  <appender name="CATEGORY" class="ch.qos.logback.core.FileAppender">
-  	<file>${application.home}/logs/category.log</file>
-    <encoder>
-      <pattern>%date - [%level] - from %logger in %thread %n%message%n%xException%n</pattern>
+      <pattern>%coloredLevel %logger{15} - %message%n%xException{5}</pattern>
     </encoder>
   </appender>
   
   <logger name="play" level="INFO" />
-  <logger name="login" level="INFO" additivity="true">
-  		<appender-ref ref="LOGIN" />
-  </logger>
-  <logger name="user" level="INFO" additivity="true">
-  		<appender-ref ref="USER" />
-  </logger>
-  <logger name="product" level="INFO" additivity="true">
-  		<appender-ref ref="PRODUCT" />
-  </logger>
-  <logger name="faq" level="INFO" additivity="true">
-  		<appender-ref ref="FAQ" />
-  </logger>
-  <logger name="category" level="INFO" additivity="true">
-  		<appender-ref ref="CATEGORY" />
-  </logger>
+  <logger name="application" level="INFO" />
+
+  <root level="ERROR">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>
+  
 </configuration>

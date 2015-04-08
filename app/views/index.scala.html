@@ -1,13 +1,16 @@
-@(products: List[Product])(mainCategoryList: List[MainCategory])
+@(sproducts: List[Product])(products: List[Product])(mainCategoryList: List[MainCategory])
 
 @main("BitPik", "index") {
+	
+	<link rel="stylesheet" media="all" href="@routes.Assets.at("stylesheets/slider.css")">
 
 <div class="wrap">
-		<div class="validateAndLogout">
-			@flash.get("validate")
-			@flash.get("logout")    
-			@flash.get("login_success ")
-		</div>
+<div class="header">
+	<div class="validateAndLogout">
+		@flash.get("validate")
+		@flash.get("logout")    
+		@flash.get("login_success ")
+	</div>
 	<div class="header_slide">
 		<div class="header_bottom_left">				
 			<div class="categories">
@@ -23,45 +26,112 @@
 				</ul>
 			</div>					
 		</div>
-		
-		 
-		 <!-- Start WOWSlider.com BODY section -->
-		 
-		<div id="wowslider-container1">
-			<div class="ws_images">
-				<ul>
-					<li><a href=""><img src="@routes.Assets.at("images/af.jpg")" alt="stripovi" title="stripovi" id="wows1_0"/></a></li>
-					<li><a href=""><img src="@routes.Assets.at("images/gs.jpg")" alt="programer" title="programer" id="wows1_1"/></a></li>
-					<li><a href=""><img src="@routes.Assets.at("images/gk.jpg")" alt="prstenovi" title="prstenovi" id="wows1_2"/></a></li>
-				</ul>
-			</div>
-			
-			<div class="ws_bullets">
-				<div>
-					<a href="#" title="stripovi"><span><img src="@routes.Assets.at("images/tooltip_af.jpg")" alt="af"/>1</span></a>
-					<a href="#" title="programer"><span><img src="@routes.Assets.at("images/tooltip_gs.jpg")" alt="gs"/>2</span></a>
-					<a href="#" title="prstenovi"><span><img src="@routes.Assets.at("images/tooltip_gk.jpg")" alt="gk"/>3</span></a>
-				</div>
-			</div>
-			<div class="ws_shadow"></div>
-		</div>	
-		
-		<script type="text/javascript" src="javascripts/wowslider.js"></script>
-		<script type="text/javascript" src="javascripts/script1.js"></script>
-		
-		<!-- End WOWSlider.com BODY section -->
-		 
-		 
-		 
-
-
-
+		<div class="header_bottom_right">					 
+			<div class="slider">					     
+				<div id="slider">
+			    	<div id="mover">
+			        	<div id="slide-1" class="slide">			                    
+							<div class="slider-img">
+								<a href="#"><img src="@routes.Assets.at("images/slide-1-image.png")" alt="learn more" /></a>									    
+							</div>
+						    <div class="slider-text">
+		                    	<h1>Reklama<br><span>VASA</span></h1>
+		                   		<h2>Popust 20%</h2>
+								<div class="features_list">
+									<h4>Da saznate vise kontaktirajte nasu marketing sluzbu na linku ispod</h4>						               
+							    </div>
+							    <a href="#" class="button">Kontaktirajte odmah!</a>
+					       </div>			               
+							<div class="clear"></div>				
+				        </div>	
+						<div class="slide">
+							<div class="slider-text">
+		                    	<h1>Reklama<br><span>VASA</span></h1>
+		                    	<h2>Popust 40%</h2>
+								<div class="features_list">
+									<h4>Da saznate vise kontaktirajte nasu marketing sluzbu na linku ispod</h4>							               
+								</div>
+							    <a href="#" class="button">Kontaktirajte odmah!</a>
+					    	</div>		
+						    <div class="slider-img">
+								<a href="#"><img src="@routes.Assets.at("images/slide-3-image.jpg")" alt="learn more" /></a>
+							</div>						             					                 
+							<div class="clear"></div>				
+				        </div>
+				        <div class="slide">						             	
+					    	<div class="slider-img">
+								<a href="#"><img src="@routes.Assets.at("images/slide-2-image.jpg")" alt="learn more" /></a>
+							</div>
+							<div class="slider-text">
+		                    	<h1>Reklama<br><span>VASA</span></h1>
+		                    	<h2>Popust 10%</h2>
+								<div class="features_list">
+									<h4>Da saznate vise kontaktirajte nasu marketing sluzbu na linku ispod</h4>							               
+								</div>
+							    <a href="#" class="button">Kontaktirajte odmah!</a>
+					   		</div>	
+							<div class="clear"></div>				
+				        </div>												
+			        </div>		
+		        </div>
+			<div class="clear"></div>					       
+	  		</div>
+		</div>
+		<div class="clear"></div>	
+	</div>
+</div>
+	<div class="clear"></div>
 	<div class="main">
 		<div class="content">
-    		<div class="clear"></div>
+		<div class="clear"></div>
+			<div class="section group">	      	      
+	      
+    		@if(sproducts.size() > 0 ) {
+    		<div class="content_top">
+				<div class="heading">
+			    	<h3>Izdvojeni Artikli</h3>
+			    </div>
+			    <div class="see">
+			    	<p><a href="#">Pogledaj</a></p>
+			    </div>
+			    <div class="clear"></div>
+			</div>
+				<div class="section group">	      	      
+	      
+				
+						@for(sproduct <- sproducts) {						
+							<div class="grid_1_of_4 images_1_of_4">
+					 			<a class="productImg" href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" /></a>
+					 			<h2>@sproduct.name </h2>
+									<div class="price-details">
+				       					<div class="price-number">
+											<div><span class="rupees">@sproduct.price KM</span></div>
+					   					 </div>
+					       					<div class="add-cart">								
+												<h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
+							    			 </div>
+							    		
+							    			 
+											 <div class="clear"></div>
+									</div>				 
+							</div>				
+						}
+					
+				</div>
+				}
+				
+		<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
 				
 			<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
-				
+			<div class="content_top">
+				<div class="heading">
+			    	<h3>Artikli</h3>
+			    </div>
+			    <div class="see">
+			    	<p><a href="#">Pogledaj</a></p>
+			    </div>
+			    <div class="clear"></div>
+			</div>
 				<div class="section group">	      	      
 	      
 					@if(products.size() > 0 ) {

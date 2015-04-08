@@ -1,5 +1,7 @@
+
 package controllers;
 
+import helpers.MailHelper;
 import helpers.SessionHelper;
 
 import java.util.List;
@@ -8,12 +10,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import models.Comment;
+import models.ImgPath;
 import models.MainCategory;
 import models.Product;
 import models.SubCategory;
+import models.TransactionP;
 import models.User;
 import views.html.*;
 import play.Logger;
+import play.Play;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
@@ -28,8 +34,11 @@ import com.google.common.io.Files;
 public class ProductController extends Controller {
 
 	static Form<Product> newProduct = new Form<Product>(Product.class);
+	static Form<TransactionP> newTransaction = new Form<TransactionP>(TransactionP.class);
 	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
+	static Form<Comment> postComment = new Form<Comment>(Comment.class);
 	static String usernameSes;
+	public static final String OURHOST = Play.application().configuration().getString("OURHOST");
 
 	/**
 	 * 
@@ -39,8 +48,16 @@ public class ProductController extends Controller {
 	public static Result showProduct(int id) {
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
 		Product p = ProductController.findProduct.byId(id);
-		return ok(showProduct.render(p, u));
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
+		List<Comment> commentList = Comment.find.all();
+		return ok(showProduct.render(p, u, mainCategoryList, commentList));
 	}
+//	public static Result showSoldProducti(int id){
+//		User u = helpers.SessionHelper.getCurrentUser(ctx());
+//		Product p = ProductController.findProduct.byId(id);
+//		return ok(payPalValidation.render(arg0, arg1, arg2, arg3, arg4))
+//	}
+	
 
 	/**
 	 * Method takes the usernameSes from the session variable and sends it to
@@ -75,6 +92,7 @@ public class ProductController extends Controller {
 		
 		String name;
 		String desc;
+		String longDesc;
 		Double price;
 		String mainCategory;
 		String subCategory;
@@ -83,6 +101,7 @@ public class ProductController extends Controller {
 		try {
 			name = newProduct.bindFromRequest().get().name;
 			desc = newProduct.bindFromRequest().get().description;
+			longDesc = newProduct.bindFromRequest().get().longDescription;
 			price = newProduct.bindFromRequest().get().price;
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
@@ -104,7 +123,7 @@ public class ProductController extends Controller {
 			}
 		}
 		User u = SessionHelper.getCurrentUser(ctx());
-		Product p = Product.create(name, desc, price, u, mc, sc, availability);
+		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, availability);
 		Logger.of("product").info("User "+ usernameSes +" added a new product '" + p.name + "'");
 		return redirect("/addPictureProduct/" + p.id);
 	}
@@ -132,7 +151,7 @@ public class ProductController extends Controller {
 	   	 //  Ako nije registrovan da mu onemogucimo prikaz editProduct.html;
 	   	 if (currentUser == null) {
 	   		Logger.of("product").warn("Not registered user tried to update a product");
-	   		return redirect("/");
+	   		return redirect(routes.Application.index());
 		}
 	   			 
 	   	if(!currentUser.username.equals(p.owner.username)) {
@@ -161,6 +180,7 @@ public class ProductController extends Controller {
 		
 		String name;
 		String desc;
+		String longDesc;
 		Double price;
 		String mainCategory;
 		String subCategory;
@@ -169,6 +189,7 @@ public class ProductController extends Controller {
 		try {
 			name = newProduct.bindFromRequest().get().name;
 			desc = newProduct.bindFromRequest().get().description;
+			longDesc = newProduct.bindFromRequest().get().longDescription;
 			price = newProduct.bindFromRequest().get().price;
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
@@ -197,6 +218,7 @@ public class ProductController extends Controller {
 		String oldname = p.name;
 		p.setName(name);
 		p.setDesc(desc);
+		p.setLongDescription(longDesc);
 		p.setPrice(price);
 		p.setCategory(mc);
 		p.setSubCategory(sc);
@@ -218,22 +240,54 @@ public class ProductController extends Controller {
 		deletePicture(id);
 		String toBeDeleted = Product.find.byId(id).name;
 		Product.delete(id);
-		Logger.of("product").info( session("username") + " deleted the product "+toBeDeleted);
+		Logger.of("product").info( session("username") + " deleted the product " + toBeDeleted);
 		toBeDeleted = null;
 		flash("delete_product_success",  Messages.get("Uspjesno ste izbrisali oglas"));
 		return redirect(routes.UserController.findProfileProducts());
 	}	
 	
+	/**
+	 * used when deleting product
+	 * @param id
+	 */
 	public static void deletePicture(int id){
 		final String deletePath = "." + File.separator 
 				+ "public" + File.separator;
+		String defaultPic = "images" + File.separator + "productPicture" + File.separator + "no-img.jpg";
+				
+		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
 		
-		
-		String s = findProduct.byId(id).productImagePath;
-		if (!s.equals("images/no-img.jpg")){
-			File file = new File(deletePath + s);
-			file.delete();
+		for (int i = 0; i< imgList.size() ; i++){
+			String s = imgList.get(i).imgPath;
+			
+			if (!s.equals(defaultPic)){
+				File file = new File(deletePath + s);
+				file.delete();
+			}
+						
 		}
+			
+	}
+	
+	public static Result deleteOnePicture(int id, String imgPath){
+		/*
+		final String deletePath = "." + File.separator 
+				+ "public" + File.separator;
+		
+		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
+		
+		
+		for (int i = 0; i< imgList.size() ; i++){
+			String s = imgList.get(i).imgPath;
+			
+			if (!s.equals("images/no-img.jpg") && imgPath.equals(s)){
+				File file = new File(deletePath + s);
+				file.delete();
+			}
+						
+		}
+		*/
+		return TODO;
 	}
 	
 	/**
@@ -245,22 +299,17 @@ public class ProductController extends Controller {
 		Product p = findProduct.byId(id);
 		return ok(addPictureProduct.render(usernameSes, p));
 	}
-	
-	
-	
+		
 	/**
-	 * Uplade image for User profile, and show picture on user /profile.html. 
+	 * Upload image for User profile, and show picture on user /profile.html. 
 	 * If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
 	 * If file size is bigger then 2MB, redirect user on profile without uploading image.
 	 * @return
 	 */
 	
 	public static Result saveFile(int id){
-	
-		usernameSes = session("username");
 		
-	   	Product p = findProduct.byId(id);
-	   	 		
+	   	Product p = findProduct.byId(id);	   	 		
 	   	 			
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 
@@ -305,12 +354,16 @@ public class ProductController extends Controller {
 			String assetsPath = "images" 
 					+ File.separator + "productPicture" + File.separator + profile.getName();
 			p.productImagePath = assetsPath;
+			ImgPath imp = new ImgPath(assetsPath, p);
+			p.imgPathList.add(imp);
 			p.save();
 		} catch (IOException e) {
 			Logger.of("product").error( usernameSes + " failed to upload an image to the product " +p.name);
 			e.printStackTrace();
 		}
+		
 		flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
+
 		return redirect("/showProduct/"+p.id);
 	}
 	
@@ -328,20 +381,20 @@ public class ProductController extends Controller {
 
 	/**
 	 * When a product is bought, the items attribute boolean isSold is set to true;
-	 * and the buyer_user is set to the user who is currently logged in, that is, set
+	 * and the buyerUser is set to the user who is currently logged in, that is, set
 	 * to the user who has clicked (later gone through the procedure of the PayPal 
 	 * process);
 	 * @param product_id
 	 * @return
 	 */
-	public static Result buyProductSuccess(int product_id) {
-		User buyer_user = SessionHelper.getCurrentUser(ctx());
+	public static Result buyProductSuccess(int product_id, String token) {
+		User buyerUser = SessionHelper.getCurrentUser(ctx());
 		//1. No permission for unregistered user;
-		if (buyer_user == null) {
+		if (buyerUser == null) {
 			return redirect(routes.Application.index());
 		}
 		//2. No permission for an admin user;
-		if (buyer_user.isAdmin) {
+		if (buyerUser.isAdmin) {
 			return redirect(routes.Application.index());
 		}
 		Product p = findProduct.byId(product_id);
@@ -354,48 +407,164 @@ public class ProductController extends Controller {
 		// Although we will hide the "KUPI"/"BUY" button from the user for
 		// his own products on certain .html pages; with listing of products;
 				
-		if (buyer_user == p.owner) {
+		if (buyerUser == p.owner) {
 			return redirect(routes.Application.index());
 		}
+		TransactionP temp = new TransactionP(token, p);
+		p.setPurchaseTransaction(temp);
 		p.setSold(true);
-		p.setBuyer_user(buyer_user);
-		buyer_user.bought_products.add(p);
+		p.setBuyerUser(buyerUser);
+		buyerUser.bought_products.add(p);
 		p.save();
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyer_user.username).eq("isSold", false).findList();
-		Logger.of("product").info("User "+ buyer_user.username +" bought the product '" + p.name + "'");
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyerUser.username).eq("isSold", false).findList();
+		Logger.of("product").info("User "+ buyerUser.username +" bought the product '" + p.name + "'");
 		flash("buy_product_success", Messages.get("Cestitamo, Uspjesno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
-		return ok(profile.render(l, buyer_user));
+		return ok(profile.render(l, buyerUser));
 	}
+
 	
 	/**
 	 * When a paypal procedure has failed for some reason (creditcard number wrong or any kind of error occured in the
 	 * process), we redirect the user to his profile page, with the list of the products if he has any.
 	 * @param product_id
-	 * @return we render the .html page : profile.render(l, buyer_user));
+	 * @return we render the .html page : profile.render(l, buyerUser));
 	 *//*
 	public static Result buy_product_fail(int product_id) {
 		Product p = findProduct.byId(product_id);
-		User buyer_user = SessionHelper.getCurrentUser(ctx());
+		User buyerUser = SessionHelper.getCurrentUser(ctx());
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyer_user.username).eq("isSold", false).findList();
-		Logger.of("product").info("User "+ buyer_user.username +" failed to buy the product '" + p.name + "'");
-		return ok(profile.render(l, buyer_user));
+		Logger.of("product").info("User "+ buyerUser.username +" failed to buy the product '" + p.name + "'");
+		return ok(profile.render(l, buyerUser));
 	}
 	*/
 
+	/**
+	 * 
+	 * @param q
+	 * @return
+	 */
 	public static Result searchUsers(String q){
-		if(q.isEmpty()){
-			return redirect(routes.Application.index());
+		List<Product>products=Product.find.where("UPPER(name) LIKE UPPER('%"+q+"%')AND(isSold) LIKE (false)").findList();
+		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
+		return ok(listaPretrage.render(products,users));	
+	}
+	
+	/**
+	 * Method refundProduct allows User to send product he purchased to the
+	 * administration in order they can review it and refund the buyer
+	 * @param id
+	 * @return
+	 */
+	public static Result refundProduct(int id) {
+		String refundReason;
+		try {
+			refundReason = newProduct.bindFromRequest().get().refundReason;
+		} catch(IllegalStateException e) {
+			return redirect("/showProduct/" + id);
 		}
-		List<Product>products=Product.find.where().like("name","%" + q + "%").eq("isSold", false).findList();
 		
-		if(products.isEmpty()||products==null){
-			flash("error",Messages.get("Nije pronadjen proizvod za vasu pretragu"));
-			return ok(listaProizvoda.render(products));
-			
+		if (refundReason == null) {
+			return redirect("/");
 		}
 		
-		return ok(listaProizvoda.render(products));
+		Product p = Product.find.byId(id);
+		p.isRefunding = true;
+		p.refundReason = refundReason;
+		p.save();
+		
+		//Email sending
+		User seller = p.owner;
+		User buyer = p.buyerUser;
+		
+		MailHelper.sendRefundEmail(buyer.email, seller.email, "http://" + OURHOST + "/showProduct/" + id);
+		
+		return redirect("/showProduct/" + id);
+	}
+	
+	/**
+	 * Method denyRefund allows Administrator to deny refund asked by buyer and
+	 * sets it refunding fields to false
+	 * @param id
+	 * @return
+	 */
+	public static Result denyRefund(int id) {
+		Product p = Product.find.byId(id);
+		p.isRefunding = false;
+		p.refundable = false;
+		p.save();
+		
+		//Email sending
+		User seller = p.owner;
+		User buyer = p.buyerUser;
+		
+		MailHelper.sendRefundEmailDenial(buyer.email, seller.email, "http://" + OURHOST + "/showProduct/" + id);
+		
+		return redirect("/showProduct/" + id);
 		
 	}
-
+	
+	/**
+	 * This method leaveCommentTransaction, checks which user is currently logged in,
+	 * As if the buyer is logged in, the method takes the comment from the form and sets it 
+	 * as the comment of the buyer to the transaction of the product that he has
+	 * bought.
+	 * @param id
+	 * @return
+	 */
+	public static Result leaveBCommentTransaction(int id) {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// If no User is logged in;
+		if (currentUser == null) {
+			return redirect("/");
+		}
+	
+		String comment;
+		// In the case, when the Buyer, leaves a comment to the transaction;
+				try {
+					comment = newTransaction.bindFromRequest().get().buyer_comment;
+				} catch(IllegalStateException e) {
+					return redirect("/showProduct/" + id);
+				}
+				//2. Second check;
+				if (comment == null) {
+					return redirect("/");
+					}
+				Product p = Product.find.byId(id);
+				p.purchaseTransaction.setBuyer_comment(comment);
+				p.save();
+				return redirect("/showProduct/" + id);
+	}
+	
+	/**
+	 * This method leaveCommentTransaction, checks which user is currently logged in,
+	 * As if the seller is logged in, the method takes the comment from the form and sets it
+	 * as the comment of the seller (x-owner) to the transaction of the products that he 
+	 * has sold.
+	 * @param id
+	 * @return
+	 */
+	public static Result leaveSCommentTransaction(int id) {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		// If no User is logged in;
+		if (currentUser == null) {
+			return redirect("/");
+		}
+	
+		String comment;
+		// In the case, when the Seller, leaves a comment to the transaction;
+				try {
+					comment = newTransaction.bindFromRequest().get().seller_comment;
+				} catch(IllegalStateException e) {
+					return redirect("/showProduct/" + id);
+				}
+				//2. Second check;
+				if (comment == null) {
+					return redirect("/");
+					}
+				Product p = Product.find.byId(id);
+				p.purchaseTransaction.setSeller_comment(comment);
+				p.save();
+				return redirect("/showProduct/" + id);
+	}
+	
 }
