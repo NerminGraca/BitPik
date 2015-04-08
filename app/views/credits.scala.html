@@ -1,7 +1,6 @@
-@(products: List[Product])(u: User)
-@import helper._
+@(u: User)(ac: Integer)
 
-@main("Profile", "") {
+@main("MainCredits", "") {
 		
 		
 <div class="wrap">
@@ -13,8 +12,9 @@
 			@flash.get("edit_user_success")
 			@flash.get("delete_product_success")
 			@flash.get("buy_product_success")
-			@flash.get("update_credit_success")
-			@flash.get("use_credit_success")
+			@flash.get("buy_credit_success")
+			@flash.get("use_credit_poor")
+			@flash.get("update_credit_poor")
 		</div>
 		
 	<div class="main">
@@ -37,13 +37,19 @@
 					
 					<h2 id="redText"><p>Datum registracije:</p></h2>
 					<p class="blueText">@u.createdDate</p><br>	
-		
-		
-						<form action="/editUser/@u.id">
-    						<a class="btn btn-primary btn-fontNovi" href="/editUser/@u.id" class="btn">Izmijeni profil</a>
-						</form>
-		
-				
+					
+					<br>
+					<br>
+					<h1 class="redHeader">BITPIK KREDITI:</h1><br> 
+						
+						<h2>Vas BitPik kredit ID je : @u.bpcredit.id </h2>
+						<h2>Trenutno imate : @ac kredita </h2>
+					  	
+						<form action="@routes.CreditController.addCredits()"> 
+    						<a class="btn btn-primary btn-fontNovi" href="@routes.CreditController.addCredits()" class="btn">Kupite jos Kredita</a>  
+						</form> 
+						<br>
+					
 				</div>
 				
 				<div class="leftBox">
@@ -60,38 +66,17 @@
 					
 					<div class="categories">
 					  	<ul>
-					      <li><a href="/allMessages">Poruke</a></li>
-					      <li><a href="@routes.CreditController.showCredits()">Krediti</a></li>
+					  	  <li><a href="#">Izbrisi sliku</a></li>
+					      <li><a href="#">Poruke</a></li>
+					      <li><a href="#">Blokirani korisnici</a></li>
+					      <li><a href="#">Javna pitanja</a></li>
+					      <li><a href="/profile">Objavljeni proizvodi</a></li>
 					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
 					      <li><a href="@routes.UserController.findSoldProducts()">Prodati proizvodi</a></li>
 					      
 						</ul>
 					</div>					
 	  	    
-				</div>
-						
-			<div id="productsOnProfile">
-				<br><br>
-				<h1 class="redHeader">Objavljeni proizvodi:</h1><br> 
-				@if(!products.isEmpty) {
-					@for(product <- products) {				
-						<div class="grid_1_of_4 images_1_of_4">
-							<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>					 		 <h2>@product.name </h2>
-							@form(routes.ProductController.deleteProduct(product.id)) {
-                    			<input class="btnDelete" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
-                			}
-							<div class="price-details">
-				       			<div class="price-number">
-									<p><span class="rupees">@product.getPriceString() KM</span></p>
-					    		</div>
-					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
-								</div>
-								<div class="clear"></div>
-							</div>
-						</div>
-					}
-				}
 				</div>
 			</div>	
  		</div>

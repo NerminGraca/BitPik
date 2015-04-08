@@ -65,7 +65,15 @@ public class Product extends Model {
 	@OneToOne(mappedBy="product", cascade=CascadeType.ALL)
 	public TransactionP purchaseTransaction;
 	
+	public int credit;
 	
+	public boolean isSpecial;
+	
+//	public Date madeSpecial;
+	
+	public Date expirySpecial;
+
+
 	/**
 	 * Constructor with default values
 	 */
@@ -87,6 +95,8 @@ public class Product extends Model {
 		this.subCategoryString = "Unknown";
 		this.productImagePath = "images/productPicture/no-img.jpg";
 		this.buyerUser = null;
+		this.credit = 0;
+		this.isSpecial = false;
 	}
 
 	/**
@@ -111,6 +121,8 @@ public class Product extends Model {
 		publishedDate = getDate();
 		this.productImagePath = "images/productPicture/no-img.jpg";
 		this.buyerUser = null;
+		this.credit = 0;
+		this.isSpecial = false;
 	}
 	
 	//Finder
@@ -231,6 +243,46 @@ public class Product extends Model {
 	}
 	
 	/**
+	 * Gets us the amount of bitpik credit used on this product;
+	 * If not returns the 0;
+	 * @return
+	 */
+	public int getCredit() {
+		return credit;
+	}
+
+	/**
+	 * Sets the amount of credit by the owner User;
+	 * Used in the process of using the Credits 
+	 * check CreditController.useCreditProcess();
+	 * @param credit
+	 */
+	public void setCredit(int credit) {
+		this.credit = credit;
+	}
+
+	/**
+	 * Return the value, true or false depending on
+	 * whether the product has been set to be special or not;
+	 * Meaning, The product is special if someone has spent/used their credits
+	 * on the products;
+	 * @return
+	 */
+	public boolean isSpecial() {
+		return isSpecial;
+	}
+
+	/**
+	 * We set the true boolean for the isSpecial only when the
+	 * owner User as spent and used their credits to use them
+	 * on the product;
+	 * @param isSpecial
+	 */
+	public void setSpecial(boolean isSpecial) {
+		this.isSpecial = isSpecial;
+	}
+	
+	/**
 	 * 
 	 * @return formated price with two decimals
 	 */
@@ -247,6 +299,51 @@ public class Product extends Model {
 	public String getPriceinStringinUSD() {
 		double priceInUSD = price * 0.56;
 		return String.format("%1.2f",priceInUSD);
+	}
+//	
+//	/**
+//	 * Gets us the date that the Product has been set as Special product;
+//	 * @return
+//	 */
+//	public Date getMadeSpecial() {
+//		return madeSpecial;
+//	}
+//
+//	/**
+//	 * We use this method to set the date when the product has been
+//	 * made one of the special products;
+//	 * @param madeSpecial
+//	 */
+//	public void setMadeSpecial(Date madeSpecial) {
+//		this.madeSpecial = madeSpecial;
+//	}
+	
+	/**
+	 * This method gets us the date of the date when the product
+	 * should expire;
+	 * @return
+	 */
+	public Date getExpirySpecial() {
+		return expirySpecial;
+	}
+
+	/**
+	 * We use this method to set the expiry Date of the product,
+	 * till which it will be looked as a special product;
+	 * @param expirySpecial
+	 */
+	public void setExpirySpecial(Date expirySpecial) {
+		this.expirySpecial = expirySpecial;
+	}
+	
+	/**
+	 * Puts the ExpiryDate in the Format;
+	 * @param c
+	 * @return
+	 */
+	public String getExpiryDateInFormat() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(this.expirySpecial.getTime());
 	}
 	
 	/**

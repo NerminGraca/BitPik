@@ -1,4 +1,4 @@
-@(products: List[Product])(mainCategoryList: List[MainCategory])
+@(sproducts: List[Product])(products: List[Product])(mainCategoryList: List[MainCategory])
 
 @main("BitPik", "index") {
 	
@@ -84,7 +84,46 @@
 	<div class="main">
 		<div class="content">
 		<div class="clear"></div>
+			<div class="section group">	      	      
+	      
+    		@if(sproducts.size() > 0 ) {
     		<div class="content_top">
+				<div class="heading">
+			    	<h3>Izdvojeni Artikli</h3>
+			    </div>
+			    <div class="see">
+			    	<p><a href="#">Pogledaj</a></p>
+			    </div>
+			    <div class="clear"></div>
+			</div>
+				<div class="section group">	      	      
+	      
+				
+						@for(sproduct <- sproducts) {						
+							<div class="grid_1_of_4 images_1_of_4">
+					 			<a class="productImg" href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" /></a>
+					 			<h2>@sproduct.name </h2>
+									<div class="price-details">
+				       					<div class="price-number">
+											<div><span class="rupees">@sproduct.price KM</span></div>
+					   					 </div>
+					       					<div class="add-cart">								
+												<h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
+							    			 </div>
+							    		
+							    			 
+											 <div class="clear"></div>
+									</div>				 
+							</div>				
+						}
+					
+				</div>
+				}
+				
+		<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
+				
+			<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
+			<div class="content_top">
 				<div class="heading">
 			    	<h3>Artikli</h3>
 			    </div>
@@ -93,30 +132,34 @@
 			    </div>
 			    <div class="clear"></div>
 			</div>
-			<div class="section group">	      	      
+				<div class="section group">	      	      
 	      
 					@if(products.size() > 0 ) {
 						@for(product <- products) {						
-								<div class="grid_1_of_4 images_1_of_4">
-									<a href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
-									<h2>@product.name</h2>
+							<div class="grid_1_of_4 images_1_of_4">
+					 			<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
+					 			<h2>@product.name </h2>
 									<div class="price-details">
-										<div class="price-number">
-											<p><span class="rupees">@product.getPriceString() KM</span></p>
-										</div>
-										<div class="add-cart">								
-											<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
-								     	</div>
-								 		<div class="clear"></div>
-									</div>					 
-								</div>				
+				       					<div class="price-number">
+											<div><span class="rupees">@product.price KM</span></div>
+					   					 </div>
+					       					<div class="add-cart">								
+												<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+							    			 </div>
+							    		
+							    			 
+											 <div class="clear"></div>
+									</div>				 
+							</div>				
 						}
 					}
-			</div>
+				</div>
+
+		<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
 			
     	</div>
 	</div>
-
+</div>
 </div>
    
 }

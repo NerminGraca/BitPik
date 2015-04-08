@@ -3,6 +3,7 @@
 	background:#FFF;
 	border:1px solid #EEE;
 	height: 100%;
+	max-width: 900px;
     overflow: hidden;
 	position: relative; 
     margin:0px 0; 

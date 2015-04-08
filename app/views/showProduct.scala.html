@@ -104,6 +104,20 @@
 									</ul>
 							</div>
 							
+				@if(user != null) {			
+					@if(user.username.equals(p.owner.username) || user.isAdmin) {			
+						@if(p.isSpecial && !p.isSold) {
+							<div class="available">
+									<p>Izdvojen oglas :</p>
+										<ul>
+											<h2>Oglas izdvojen do @p.getExpiryDateInFormat()</h2>
+											<h2>Iskoristeno kredita za ovaj oglas je @p.credit</h2>
+										</ul>
+								</div>
+							}
+					}
+				}
+							
 					@if(user != null && p.buyerUser != null) {		
 						@if((user == p.buyerUser || user == p.owner) ) {
 							<div class="available">
@@ -181,8 +195,22 @@
 									}
 									<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->
 									@if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {
+										
 										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni Artikal</a></span></div>
+										<br> <br> <br>
+										@if(!p.isSpecial) {
+										<div class="button"><span><a href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></span></div>
+										}
+										@if(p.isSpecial) {
+										<div class="button"><span><a href="@routes.CreditController.updateCredits(p.id)">Dopuni Kredite</a></span></div>
+										}
+										
 									}
+									
+									@if(user.isAdmin && !p.isSold && p.isSpecial) {
+										<div class="button"><span><a href="@routes.CreditController.makeProductNotSpecial(p.id)">Skini izdvojen oglas</a></span></div>
+									}
+									
 									@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {
 										<br>
 										<p>Navedite razlog za refundaciju</p>

@@ -3,6 +3,13 @@
 
 # --- !Ups
 
+create table bpcredit (
+  id                        integer not null,
+  credit                    integer,
+  credit_owner_id           integer,
+  constraint pk_bpcredit primary key (id))
+;
+
 create table comment (
   id                        integer not null,
   content                   varchar(255),
@@ -58,6 +65,9 @@ create table product (
   sub_category_string       varchar(255),
   product_image_path        varchar(255),
   buyer_user_id             integer,
+  credit                    integer,
+  is_special                boolean,
+  expiry_special            timestamp,
   constraint pk_product primary key (id))
 ;
 
@@ -94,6 +104,8 @@ create table user (
   constraint pk_user primary key (id))
 ;
 
+create sequence bpcredit_seq;
+
 create sequence comment_seq;
 
 create sequence faq_seq;
@@ -112,32 +124,36 @@ create sequence transaction_p_seq;
 
 create sequence user_seq;
 
-alter table comment add constraint fk_comment_author_1 foreign key (author_id) references user (id) on delete restrict on update restrict;
-create index ix_comment_author_1 on comment (author_id);
-alter table img_path add constraint fk_img_path_product_2 foreign key (product_id) references product (id) on delete restrict on update restrict;
-create index ix_img_path_product_2 on img_path (product_id);
-alter table private_message add constraint fk_private_message_sender_3 foreign key (sender_id) references user (id) on delete restrict on update restrict;
-create index ix_private_message_sender_3 on private_message (sender_id);
-alter table private_message add constraint fk_private_message_receiver_4 foreign key (receiver_id) references user (id) on delete restrict on update restrict;
-create index ix_private_message_receiver_4 on private_message (receiver_id);
-alter table product add constraint fk_product_mainCategory_5 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
-create index ix_product_mainCategory_5 on product (main_category_id);
-alter table product add constraint fk_product_owner_6 foreign key (owner_id) references user (id) on delete restrict on update restrict;
-create index ix_product_owner_6 on product (owner_id);
-alter table product add constraint fk_product_subCategory_7 foreign key (sub_category_id) references sub_category (id) on delete restrict on update restrict;
-create index ix_product_subCategory_7 on product (sub_category_id);
-alter table product add constraint fk_product_buyerUser_8 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
-create index ix_product_buyerUser_8 on product (buyer_user_id);
-alter table sub_category add constraint fk_sub_category_mainCategory_9 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
-create index ix_sub_category_mainCategory_9 on sub_category (main_category_id);
-alter table transaction_p add constraint fk_transaction_p_product_10 foreign key (product_id) references product (id) on delete restrict on update restrict;
-create index ix_transaction_p_product_10 on transaction_p (product_id);
+alter table bpcredit add constraint fk_bpcredit_creditOwner_1 foreign key (credit_owner_id) references user (id) on delete restrict on update restrict;
+create index ix_bpcredit_creditOwner_1 on bpcredit (credit_owner_id);
+alter table comment add constraint fk_comment_author_2 foreign key (author_id) references user (id) on delete restrict on update restrict;
+create index ix_comment_author_2 on comment (author_id);
+alter table img_path add constraint fk_img_path_product_3 foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_img_path_product_3 on img_path (product_id);
+alter table private_message add constraint fk_private_message_sender_4 foreign key (sender_id) references user (id) on delete restrict on update restrict;
+create index ix_private_message_sender_4 on private_message (sender_id);
+alter table private_message add constraint fk_private_message_receiver_5 foreign key (receiver_id) references user (id) on delete restrict on update restrict;
+create index ix_private_message_receiver_5 on private_message (receiver_id);
+alter table product add constraint fk_product_mainCategory_6 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
+create index ix_product_mainCategory_6 on product (main_category_id);
+alter table product add constraint fk_product_owner_7 foreign key (owner_id) references user (id) on delete restrict on update restrict;
+create index ix_product_owner_7 on product (owner_id);
+alter table product add constraint fk_product_subCategory_8 foreign key (sub_category_id) references sub_category (id) on delete restrict on update restrict;
+create index ix_product_subCategory_8 on product (sub_category_id);
+alter table product add constraint fk_product_buyerUser_9 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
+create index ix_product_buyerUser_9 on product (buyer_user_id);
+alter table sub_category add constraint fk_sub_category_mainCategory_10 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
+create index ix_sub_category_mainCategory_10 on sub_category (main_category_id);
+alter table transaction_p add constraint fk_transaction_p_product_11 foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_transaction_p_product_11 on transaction_p (product_id);
 
 
 
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
+
+drop table if exists bpcredit;
 
 drop table if exists comment;
 
@@ -158,6 +174,8 @@ drop table if exists transaction_p;
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists bpcredit_seq;
 
 drop sequence if exists comment_seq;
 

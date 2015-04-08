@@ -440,6 +440,7 @@ public class ProductController extends Controller {
 		flash("buy_product_success", Messages.get("Cestitamo, Uspjesno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
 		return ok(profile.render(l, buyerUser));
 	}
+
 	
 	/**
 	 * When a paypal procedure has failed for some reason (creditcard number wrong or any kind of error occured in the

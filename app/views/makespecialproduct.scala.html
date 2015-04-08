@@ -1,0 +1,29 @@
+@(p: Product)
+@import helper._
+
+@main("Use Credits", ""){
+	
+	<div class="main">
+    	<div class="content">
+       		<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="contact-form">
+				  		<h1 class="redHeader">Molimo Vas unesite iznos BitPik Kredita </h1>
+				  		<br>
+				  			<p> Iskoristite Kredit na @p.name oglasu </p>
+				  			
+								@helper.form(routes.CreditController.useCreditsProcess(p.id), 'id->"creditForm") {
+																
+									<h5 id="editProfileText">Kolicina BitPik Kredita koje zelite izdvojiti na oglas :</h5>			
+									<input type="number" min="1" max="500" step="any" value="" id="credit" name="credit" required/>
+									
+									<input class="buttonRed" type="submit" value="ISKORISTI KREDITE" />					
+								}
+		
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+}
