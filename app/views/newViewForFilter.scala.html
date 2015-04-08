@@ -1,38 +1,220 @@
-@(productList: List[Product])
-@main("Proizvodi", "Korisnici") {
+@(products: List[Product])(mainCategoryList: List[MainCategory])
+
+@main("BitPik", "index") {
+
 <div class="wrap">
-     <div class="main">
-    	<div class="content">
-    		<div class="section group">
-				<h1 class="redHeader">Rezultati pretrage:</h1><br>  
-					@if(productList.isEmpty()){
-						<div class="section group">
-						<h2 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za vasu pretragu</font></h2>	
-					}else{
-						@if(productList.size() > 0){
-							<h3 class="redHeader">Proizvodi:</h3>	
-							@for(product <- productList){
-							<div class="grid_1_of_4 images_1_of_4">
-								<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
-								<h4 id="oneLineText">@product.name </h4>
-								<div class="price-details">
-									<div class="price-number2">
-										<span class="price-number2">@product.getPriceString() KM</span>
-									</div>
-									<div class="add-cart2">								
-										<h5><a href="/showProduct/@product.id">Pogledaj</a></h5>
-							     	</div>
-							 		<div class="clear"></div>
-								</div>					 
-							</div>
-						}
-						</div>
-						}else{
-						<h3 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za pretragu proizvoda</font></h3>
-							}	
-			</div>
+<div class="header">
+		<div class="validateAndLogout">
+			@flash.get("validate")
+			@flash.get("logout")    
+			@flash.get("login_success ")
 		</div>
+		<div >
+					  	
+							<!--@helper.form(routes.ProductController.filteredSearch(),'id->"filteredSearch") {-->
+									
+									<form action="/filteredSearch" method="GET">
+									<h5 id="editProfileText1">Cijena od-do</h5
+									<div style="margin-top:10px;">			
+									<input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin" required/> 
+										<input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax" required/>
+									<h5 id="editProfileText1">Opis</h5>
+									<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="desc" name="desc" required/>						
+						  			<!-- This is css for Kategorija and availability dropdown meni -->
+					
+						  			<style>
+						    			fieldset {
+							    			border: 0;
+						    	  			font-style: bold;
+						    	  			}
+						    			
+							    		label {
+							      			display: block;
+							      			margin: 0 0 0 0;
+							      			}
+							    		
+							    		select {
+							  		    	width: 53%;
+							  		    	height: 40px;
+							  		    	font-weight: bold;
+							  		    	color: #464646;
+											font-size: 1em;
+											font-family: Arial, Helvetica, sans-serif;
+											padding: 8px;
+											margin: 5px;
+											}
+							   			
+							    		.overflow {
+							      			height: 400px;
+							      			}
+						 			</style>
+						 			
+						  							
+						  						
+ 											
+ 											
+ 											<script language="JavaScript">
+
+												var e = document.getElementById("categoryString");
+												function showHideCategoryFields() {
+													var selected = e.value;
+
+													var hiddenDivs = document.querySelectorAll('.fieldsetToHide');
+
+													for (var i = 0; i < hiddenDivs.length; i++) {
+														hiddenDivs[i].style.display = 'none';
+													}
+
+													var actives = document.querySelectorAll("#subCategoryString");
+
+													for (var i = 0; i < actives.length; i++) {
+														actives[i].id = "inactive";
+														actives[i].name = "inactive";
+													}
+
+
+													var shown = document.getElementById(selected);
+													shown.style.display = 'block';
+											
+													var children = shown.childNodes;
+													var node = children[1];
+													var children2 = node.childNodes;
+													var selectNode = children2[3];
+													
+													selectNode.id = "subCategoryString";
+													selectNode.name = "subCategoryString";
+													
+													
+														
+												};
+												
+												e.onchange = showHideCategoryFields;
+												
+												showHideCategoryFields();
+		
+						 					</script>
+	
+											<fieldset>
+			   									<label id="editProfileText1" for="availability" width=10px>Dostupnost</label>
+			    								<select name="availabilityS" id="availabilityS">
+			     									<option selected="selected">Svugdje</option>
+									     			<option>Unutar BiH</option>
+									      			<option>Sarajevo</option>
+									    			<option>Unsko sanski</option>
+									    			<option>Posavski</option>
+									     			<option>Tuzlanski</option>
+									     			<option>Zenicko-dobojski</option>
+											    	<option>Bosansko-Podrinjski</option>
+									   				<option>Srednjo-bosanski</option>
+									    			<option>Zapadno-hercegovacki</option>
+									    			<option>Livanjski</option>
+									     			<option>Hercegovacko-neretvanski</option>
+									   		   		<option>Distrikt Brcko</option>
+									  		    	<option>Banjalucka</option>
+									  		    	<option>Dobojsko-bijeljinska</option>
+									   		   		<option>Sarajevsko-zvornicka</option>
+									   		 		<option>Focansko-trebinjska</option>
+									   		 	</select>
+									   		 </fieldset> 
+								
+								
+									<input class="buttonRed" type="submit" value="Traži" />	
+							</div>
+								</form>
+						</div>
+					
+	<div class="header_slide">
+		<div class="header_bottom_left">	
+			<div class="categories">
+				<ul>
+					<h3>Kategorije</h3>
+				  		
+				  		@if(mainCategoryList.size() > 0 ) {
+				  			@for(mainCategory <- mainCategoryList) {
+				  				<li><a href="kategorija/@mainCategory.id">@mainCategory.name</a></li>
+				  			}
+				  		}
+				  		
+				</ul>
+			</div>					
+		</div>
+		
+		 
+		 <!-- Start WOWSlider.com BODY section -->
+		 
+		<div id="wowslider-container1">
+			<div class="ws_images">
+				<ul>
+					<li><a href=""><img src="@routes.Assets.at("images/af.jpg")" alt="stripovi" title="stripovi" id="wows1_0"/></a></li>
+					<li><a href=""><img src="@routes.Assets.at("images/gs.jpg")" alt="programer" title="programer" id="wows1_1"/></a></li>
+					<li><a href=""><img src="@routes.Assets.at("images/gk.jpg")" alt="prstenovi" title="prstenovi" id="wows1_2"/></a></li>
+				</ul>
+			</div>
+			
+			<div class="ws_bullets">
+				<div>
+					<a href="#" title="stripovi"><span><img src="@routes.Assets.at("images/tooltip_af.jpg")" alt="af"/>1</span></a>
+					<a href="#" title="programer"><span><img src="@routes.Assets.at("images/tooltip_gs.jpg")" alt="gs"/>2</span></a>
+					<a href="#" title="prstenovi"><span><img src="@routes.Assets.at("images/tooltip_gk.jpg")" alt="gk"/>3</span></a>
+				</div>
+			</div>
+			<div class="ws_shadow"></div>
+		</div>	
+		
+		<script src="@routes.Assets.at("javascripts/wowslider.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.at("javascripts/script1.js")" type="text/javascript"></script>
+		
+		<!-- End WOWSlider.com BODY section -->
+		 
+		 
+		 
+
+
 	</div>
-</div>
+	</div>
+	<div class="clear"></div>
+	<div class="main">
+		<div class="content">
+		<div class="clear"></div>
+    		    	<div class="content_top">
+			    		<div class="heading">
+			    		<h3>Artikli</h3>
+			    		</div>
+			    		<div class="see">
+			    			<p><a href="#">Pogledaj</a></p>
+			    		</div>
+			    		<div class="clear"></div>
+			    	</div>
+			    	</div>
+			    	
+				
+				<div class="section group">	      	      
+	      
+					@if(products.size() > 0 ) {
+						@for(product <- products) {						
+							<div class="grid_1_of_4 images_1_of_4">
+					 			<a href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
+					 			<h2>@product.name</h2>
+									<div class="price-details">
+				       					<div class="price-number">
+											<p><span class="rupees">@product.getPriceString() KM</span></p>
+					   					</div>
+					       					<div class="add-cart">								
+												<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+							    			</div>
+							    		
+							    			 
+											 <div class="clear"></div>
+									</div>				 
+							</div>				
+						}
+					}
+				</div>
+			
+    	</div>
+	</div>
+
+
+   
 }
 }

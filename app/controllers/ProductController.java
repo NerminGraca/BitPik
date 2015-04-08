@@ -1,7 +1,7 @@
-
 package controllers;
 
 import helpers.SessionHelper;
+
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -450,19 +450,23 @@ public class ProductController extends Controller {
 	}
 	
 public static Result filteredSearch(){
-		
+	    double priceMin=0;
+	    double priceMax=999999999;
 		String availability;
+		String descr;
 		if(filteredSearch.hasErrors()){
 			Logger.info("Error in form");
 			return redirect(routes.Application.index());
 			}
 
-		double priceMin=filteredSearch.bindFromRequest().get().priceMin;
-		double priceMax=filteredSearch.bindFromRequest().get().priceMax;
+		priceMin=filteredSearch.bindFromRequest().get().priceMin;
+		priceMax=filteredSearch.bindFromRequest().get().priceMax;
+		descr=filteredSearch.bindFromRequest().get().desc;
 		availability= filteredSearch.bindFromRequest().get().availabilityS;
 	
-		List<Product>products=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+"))").findList();
+		List<Product>products=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"')").findList();
 		
-		return ok(newViewForFilter.render(products));
+//		return ok(newViewForFilter.render(products));
+		return ok(index.render(products, MainCategory.allMainCategories()));
 }
 }
