@@ -44,7 +44,7 @@
 	    									
 	    									@if(p.imgPathList.size() > 0  ) {
 									  			@for(imgPath <- p.imgPathList) {
-									  			<div class="wrap">	
+									  			<div class="imageWrap">	
 									  				<a class="fancybox" rel="gallery1" href="@routes.Assets.at(imgPath.imgPath)">
 									  					<img src="@routes.Assets.at(imgPath.imgPath)" alt="" />	
 									  				</a>
@@ -93,7 +93,7 @@
 
 	    				<div class="desc span_3_of_2">
 							<h2>@p.name</h2>
-							<p>@p.description</p>					
+							<p>@p.description</p>			
 							<div class="price">
 								<p>Cijena: <span>@p.getPriceString() KM</span></p>
 							</div>
@@ -103,7 +103,22 @@
 										<a href="/korisnik/@p.owner.id">@p.owner.username</a>
 									</ul>
 							</div>
+
+				@if(user != null) {			
+					@if(user.username.equals(p.owner.username) || user.isAdmin) {			
+						@if(p.isSpecial && !p.isSold) {
+							<div class="available">
+									<p>Izdvojen oglas :</p>
+										<ul>
+											<h2>Oglas izdvojen do @p.getExpiryDateInFormat()</h2>
+											<h2>Iskoristeno kredita za ovaj oglas je @p.credit</h2>
+										</ul>
+								</div>
+							}
+					}
+				}
 							
+
 					@if(user != null && p.buyerUser != null) {		
 						@if((user == p.buyerUser || user == p.owner) ) {
 							<div class="available">
@@ -181,8 +196,22 @@
 									}
 									<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->
 									@if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {
+
 										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni Artikal</a></span></div>
+										<br> <br> <br>
+										@if(!p.isSpecial) {
+										<div class="button"><span><a href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></span></div>
+										}
+										@if(p.isSpecial) {
+										<div class="button"><span><a href="@routes.CreditController.updateCredits(p.id)">Dopuni Kredite</a></span></div>
+										}
+										
 									}
+									
+									@if(user.isAdmin && !p.isSold && p.isSpecial) {
+										<div class="button"><span><a href="@routes.CreditController.makeProductNotSpecial(p.id)">Skini izdvojen oglas</a></span></div>
+									}
+
 									@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {
 										<br>
 										<p>Navedite razlog za refundaciju</p>
@@ -200,6 +229,7 @@
 											@if(user.isAdmin){
 												<div class="available">
 													<p>Transakcijski ID :</p>
+
 													<ul>
 														@p.purchaseTransaction.id
 													</ul>
@@ -209,6 +239,17 @@
 														<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
 													</ul>
 													<br>
+
+													<ul>
+														@p.purchaseTransaction.id
+													</ul>
+													<br>
+													<p>Poslao zahtjev za refund :</p>
+													<ul>
+														<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
+													</ul>
+													<br>
+
 													<p>Razlozi za refund :</p>
 													<ul>
 														@p.refundReason
@@ -269,9 +310,7 @@
 							</ul>
 							<div class="resp-tabs-container">
 								<div class="product-desc">
-									<p>Lorem Ipsum is simply dummy text of the <span>printing and typesetting industry</span>. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, <span>when an unknown printer took a galley of type and scrambled</span> it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.<span> It has survived not only five centuries</span>, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>					
+									<p>@p.longDescription</p>
 								</div>
 								
 								<!--- Zakomentarisani tab za review, mozda poslije ga implementirati ili ga iskoristiti negdje drugo??!!
@@ -318,9 +357,8 @@
 						$(".fancybox").fancybox();
 					});
 					</script>
-									  <div id="boxForEditingProduct">
+						<div id="boxForEditingProduct">
 						
-							<div>
 							@if(user != null) {
 							    <!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
 							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {
@@ -340,7 +378,7 @@
 								}	
 								
 							}
-							</div><br><br>	
+							
 						</div>
 					<div class="content_bottom">
 						<div class="heading">

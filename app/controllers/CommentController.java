@@ -3,7 +3,9 @@ package controllers;
 import helpers.SessionHelper;
 
 import java.util.Date;
+
 import java.util.List;
+
 
 import models.Comment;
 import models.User;
@@ -45,7 +47,9 @@ public class CommentController extends Controller{
 		}
 		Comment newComment = Comment.create(content, date, u);
 		newComment.save();
+
 		List<Comment> commentList = Comment.find.all();
+
 		flash("add_comment_success", Messages.get("Uspješno ste dodali komentar."));
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}
@@ -79,7 +83,11 @@ public class CommentController extends Controller{
 		}
 		comment.setContent(content);
 		comment.setCreatedAt(date);
+
 		List<Comment> commentList = Comment.find.all();
+
+
+
 		flash("update_comment_success", Messages.get("Uspješno ste izmijenili komentar."));
 		
 		return redirect(routes.ProductController.showProduct(idProduct));

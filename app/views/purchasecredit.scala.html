@@ -1,6 +1,6 @@
-@(id: Integer)
+@(amount: String)
 
-@main("purchase", ""){
+@main("Purchase Credits", ""){
 	
 	<div class="main">
     	<div class="content">
@@ -9,13 +9,16 @@
 					<div class="contact-form">
 				  		<h1 class="redHeader">Kliknite na slijedeci link za PayPal Transkaciju</h1>
 				  		<br>
-       					<!-- Button number 2. which, when pressed by the User - gets redirected to Paypal -->
-							<form method="post" action="@routes.UserController.purchaseProcessing(id)">
+  							<p>Trosak kupovine kredita iznosi @amount KM<p> 
+					</div>
+					
+					<!-- Button number 2. which, when pressed by the User - gets redirected to Paypal -->
+							<form method="post" action="@routes.CreditController.purchaseCredit(amount)">
 								<button type="submit">	
 				  					<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" />
 								</button>
 							</form>
-					</div>
+							
 				</div>
 			</div>
 		</div>

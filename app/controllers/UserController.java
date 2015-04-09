@@ -41,7 +41,7 @@ public class UserController extends Controller {
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);
 	static String usernameSes;	
 	private static final String SESSION_USERNAME = "username";
-	public static final String OURHOST = "http://localhost:9000";
+	public static final String OURHOST = Play.application().configuration().getString("OURHOST");
 	
 	//Finders
 	static Finder<Integer, User> findUser = new Finder<Integer, User>(Integer.class, User.class);
@@ -55,8 +55,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 	public static Result addUser() {
-		
-		
+				
 		String username;
 		String password;
 		String confirmPassword;
@@ -405,10 +404,11 @@ public class UserController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
     public static Result adminPanel() {
+		List<Product> specialProducts = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
 		List<Product> products = ProductController.findProduct.where().eq("isRefunding", true).findList();
    	  	usernameSes = session(SESSION_USERNAME);
    	  	User u = User.finder(usernameSes);
-   	 return ok(adminPanel.render(u, products));
+   	 return ok(adminPanel.render(specialProducts, u, products));
     }
 	
 	/**
@@ -492,8 +492,7 @@ public class UserController extends Controller {
 	
 	public static Result showPurchase(int id)
 	{
-		Product p = Product.find.byId(id);
-		return ok(purchase.render(p));
+		return ok(purchase.render(id));
 	}
 	
 	/**
@@ -511,8 +510,9 @@ public class UserController extends Controller {
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
 		try{
-			String accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
-					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
+			String payPalSecretKey1 = Play.application().configuration().getString("payPalSecretKey1");
+			String payPalSecretKey2 = Play.application().configuration().getString("payPalSecretKey2");
+			String accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
 			
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
@@ -585,6 +585,11 @@ public class UserController extends Controller {
 		String payerId = null;
 		String token = null;
 		String accessToken = null;
+
+		
+		String payPalSecretKey1 = Play.application().configuration().getString("payPalSecretKey1");
+		String payPalSecretKey2 = Play.application().configuration().getString("payPalSecretKey2");
+
 		
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
@@ -593,6 +598,7 @@ public class UserController extends Controller {
 		    paymentId = paypalReturn.get("paymentId");
 			payerId = paypalReturn.get("PayerID");
 			token = paypalReturn.get("token");
+
 			 accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
 					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
 			APIContext apiContext = new APIContext(accessToken);
@@ -600,6 +606,14 @@ public class UserController extends Controller {
 			
 			Payment payment = Payment.get(accessToken, paymentId);
 			
+
+			
+			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
+			
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			//Payment payment = Payment.get(accessToken, paymentId);			
+
 			//payment.execute(apiContext, paymentExecution);
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
@@ -686,10 +700,19 @@ public class UserController extends Controller {
 	 */
 	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
 		
-		try {;
+
+		
 			DynamicForm paypalReturn = Form.form().bindFromRequest();
-			accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
-					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
+			
+		String payPalSecretKey1 = Play.application().configuration().getString("payPalSecretKey1");
+		String payPalSecretKey2 = Play.application().configuration().getString("payPalSecretKey2");
+		
+		try {
+			
+			//DynamicForm paypalReturn = Form.form().bindFromRequest();
+			
+			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
+
 			Map<String, String> sdkConfig = new HashMap<String, String>();
 			sdkConfig.put("mode", "sandbox");
 			APIContext apiContext = new APIContext(accessToken);
@@ -706,5 +729,5 @@ public class UserController extends Controller {
 		}
 		return redirect("http://localhost:9000/buyingAProduct/" +id +"/"+ token);
 	}	
-		
+
 }

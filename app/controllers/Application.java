@@ -18,9 +18,13 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.libs.F.Function;
 import play.libs.F.Promise;
+import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+
 
 public class Application extends Controller {
 
@@ -55,19 +59,20 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Method index renders the index.hmtl page
+	 * Method index renders the index.html page
 	 * 
 	 * @return
 	 */
 	public static Result index() {
-		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).findList();
+		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", false).findList();
+		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 
-		return ok(index.render(productList, mainCategoryList));
+		return ok(index.render(specialProductList, productList, mainCategoryList));
 	}
 
 	/**
-	 * Renders the registration.html page;
+	 * Method registration renders the registration.html page;
 	 * 
 	 * @return
 	 */
@@ -76,7 +81,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Renders the login.html page;
+	 * Method login renders the login.html page;
 	 * 
 	 * @return
 	 */
@@ -97,7 +102,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	* Renders(gets) the contact.html page;
+	* Method contact renders the contact.html page;
 	* 
 	* @return
 	*/

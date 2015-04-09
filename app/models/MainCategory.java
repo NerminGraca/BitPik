@@ -30,7 +30,6 @@ public class MainCategory extends Model {
 	}
 	
 	/**
-	 * @author Graca Nermin
 	 * Constructor of object MainCategory with one parameter (String name)
 	 * @param name = String name which will new object hold
 	 */
@@ -39,7 +38,6 @@ public class MainCategory extends Model {
 	}
 	
 	/**
-	 * @author Graca Nermin
 	 * Method createMainCategory creates new object of class MainCategory and saves it
 	 * in the database
 	 * @param name = String name which will new object hold
