@@ -226,7 +226,7 @@ public class ProductController extends Controller {
 		p.save();
 		Logger.of("product").info("User "+ usernameSes + " updated the info of product " + oldname + ", NAME : ["+p.name+"]");
 		oldname = null;
-		flash("edit_product_success", Messages.get("Uspjesno ste izmijenili oglas"));
+		flash("edit_product_success", Messages.get("Uspješno ste izmijenili oglas"));
 		return redirect("/showProduct/" + id);	
 	}
 
@@ -242,7 +242,7 @@ public class ProductController extends Controller {
 		Product.delete(id);
 		Logger.of("product").info( session("username") + " deleted the product " + toBeDeleted);
 		toBeDeleted = null;
-		flash("delete_product_success",  Messages.get("Uspjesno ste izbrisali oglas"));
+		flash("delete_product_success",  Messages.get("Uspješno ste izbrisali oglas"));
 		return redirect(routes.UserController.findProfileProducts());
 	}	
 	
@@ -342,7 +342,7 @@ public class ProductController extends Controller {
 		//If file size is bigger then 2MB, redirect user on profile without uploading image.
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
-			flash("error",  Messages.get("Slika ne smije biti veca od 2 MB"));
+			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB"));
 			Logger.of("product").warn( usernameSes + " tried to upload an image that is bigger than 2MB.");
 			return redirect("/addPictureProduct/" + id);
 		}
@@ -362,7 +362,7 @@ public class ProductController extends Controller {
 			e.printStackTrace();
 		}
 		
-		flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
+		flash("add_product_success", Messages.get("Uspješno ste objavili oglas"));
 
 		return redirect("/showProduct/"+p.id);
 	}
@@ -375,7 +375,7 @@ public class ProductController extends Controller {
 	 */
 	public static Result saveNoFile(int id){
 			Product p = findProduct.byId(id);
-			flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
+			flash("add_product_success", Messages.get("Uspješno ste objavili oglas"));
 			return redirect("/showProduct/"+p.id);
 	}
 
@@ -418,7 +418,7 @@ public class ProductController extends Controller {
 		p.save();
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyerUser.username).eq("isSold", false).findList();
 		Logger.of("product").info("User "+ buyerUser.username +" bought the product '" + p.name + "'");
-		flash("buy_product_success", Messages.get("Cestitamo, Uspjesno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
+		flash("buy_product_success", Messages.get("Čestitamo, uspješno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
 		return ok(profile.render(l, buyerUser));
 	}
 

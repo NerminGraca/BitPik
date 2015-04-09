@@ -51,7 +51,7 @@
 									  				@if(user != null) {
 									  					@if(user.username.equals(p.owner.username)) {
 									  						@form(routes.ProductController.deleteOnePicture(p.id, imgPath.imgPath)) {
-									  						<input class="btnDelete" type="submit" value="Izbrisi sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati sliku?');"> 
+									  						<input class="btnDelete" type="submit" value="Izbriši sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati sliku?');"> 
 									  						}
 									  					}
 									  				}
@@ -261,18 +261,18 @@
 						<textarea maxlength="250" postComment' name="content" id="content" placeholder="Write something nice" required> </textarea>
 						<br><br>
 	
-						<input type="submit" value="Potvrdi" class="btn btn-success" />
-						<a href="/" class="btn btn-danger"> Odustajem </a>
-						<input type="reset" value="Reset" class="btn btn-warning" />
+						<input type="submit" value="Potvrdi" class="btn btn-primary btn-fontNovi" />
+						<a href="/" class="btn btn-primary btn-fontNovi"> Odustajem </a>
+						<input type="reset" value="Reset" class="btn btn-primary btn-fontNovi" />
 						<br><br>
 						
 					}
 					
 					@for(comment <- commentList){
 						<h5><a href="/korisnik/@comment.author.id">@comment.author.username</a></h5>
-						<p>@comment.createdAt</p>
+						<p>@comment.createdAt <button class="btn-fontNovi"><a href="/deleteComment/@comment.id/@p.id">Obriši</<a></button></p>
 						<p>@comment.content</p>
-						<button class="btn btn-warning"><a href="/deleteComment/@comment.id/@p.id">Obriši</a></button>
+						
 					}
 	    		}
 							
@@ -360,7 +360,7 @@
 								<!--  Vidljivost "DELETE "samo za vlasnika proizvoda -->	
 								@if(user.username.equals(p.owner.username) || user.isAdmin) {
 									@form(routes.ProductController.deleteProduct(p.id)) {
-                   					<input class="btnRed" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                   					<input class="btn btn-danger btn-fontNovi" type="submit" value="Izbriši proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
                 					}
 								}	
 								
