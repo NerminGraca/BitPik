@@ -100,8 +100,8 @@
 	      
 				
 						@for(sproduct <- sproducts) {						
-							<div class="grid_1_of_4 images_1_of_4">
-					 			<a class="productImg" href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" /></a>
+							<div class="grid_1_of_4 images_1_of_4" >
+					 			<a href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" class="productImg"/></a>
 					 			<h2>@sproduct.name </h2>
 									<div class="price-details">
 				       					<div class="price-number">

@@ -519,6 +519,12 @@ body {
 	width:100%;
 	margin: 0 auto;
 }
+
+.imageWrap img {
+	max-height: 164px;
+	width:100%;
+	margin: 0 auto;
+}
 .header {
 	background: #FFF;
 }
@@ -751,7 +757,7 @@ body {
 	position: relative;	
 }
 .images_1_of_4  img {
-	max-height: 85%;
+	max-height: 164px;
 	max-width: 85%;
 	position: center;
 	 
@@ -2029,3 +2035,5 @@ body {
 	padding-bottom: 5px;
 	font-family: verdana, arial, helvetica, helve, sans-serif;
 	}
+	
+

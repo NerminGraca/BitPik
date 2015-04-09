@@ -1,5 +1,9 @@
+import java.io.File;
+
 import models.FAQ;
+import models.ImgPath;
 import models.MainCategory;
+import models.Product;
 import models.SubCategory;
 import models.User;
 import play.Application;
@@ -166,7 +170,37 @@ public class Global extends GlobalSettings {
 			for (int i = 0; i < questions.length; i++) {
 				FAQ.create(questions[i], answers[i]);
 			}
+			// Seller vec objavio WhiteChair product;
+			MainCategory mc = MainCategory.findMainCategoryByName("Moj dom");
+			SubCategory sc = SubCategory.findSubCategoryByName("Namještaj");
+			Product p1 = Product.create("Stolica", "Stolica Bijela Nova", "Nova Stolica kupljena 2013, Savrsena!", 70.00, seller, mc, sc, "sarajevo");
+			p1.productImagePath = "images/productPicture/whitechair.jpg";
+			p1.save();
+			
+			// Seller vec objavio MacBookPro product;
+			MainCategory mcw2 = MainCategory.findMainCategoryByName("Kompjuteri");
+			SubCategory scw2 = SubCategory.findSubCategoryByName("Laptopi");
+			Product p2 = Product.create("Mac Book Pro 13", "Nov Mac Book Pro 13", "Savrsen, Prelijep, Nov Mac Book Pro 13!", 3500.00, seller, mcw2, scw2, "sarajevo");
+			p2.productImagePath = "images/productPicture/macbookpro.jpg";
+			p2.save();
+			
+			// Seller vec objavio Parfem product;
+			MainCategory mcw3 = MainCategory.findMainCategoryByName("Ljepota i zdravlje");
+			SubCategory scw3 = SubCategory.findSubCategoryByName("Parfemi");
+			Product p3 = Product.create("Gucci Parfem", "Nov Gucci Parfem", "Nov Gucci Parfem, Pour Home", 120.00, seller, mcw3, scw3, "sarajevo");
+			p3.productImagePath = "images/productPicture/gucciperfume.jpg";
+			p3.save();
+			
+			// Seller vec objavio MacBookPro product;
+			MainCategory mcw4 = MainCategory.findMainCategoryByName("Mobilni uređaji");
+			SubCategory scw4 = SubCategory.findSubCategoryByName("Mobiteli");
+			Product p4 = Product.create("iPhone 6", "iPhone 6", "iPhone 6 - Dual-core 1.4 GHz Cyclone", 900.00, seller, mcw4, scw4, "sarajevo");
+			p4.productImagePath = "images/productPicture/iphone6.jpg";
+			p4.save();
 		}
+		
+	
+		
 
 	}
 }

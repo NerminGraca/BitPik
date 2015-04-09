@@ -1128,9 +1128,12 @@ a:focus {
 figure {
   margin: 0;
 }
+
 img {
+  max-height:290px;
   vertical-align: middle;
 }
+
 .img-responsive,
 .thumbnail > img,
 .thumbnail a > img,
