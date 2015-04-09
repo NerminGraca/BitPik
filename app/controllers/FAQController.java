@@ -78,13 +78,13 @@ public class FAQController extends Controller{
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (currentUser == null) {
 			Logger.of("faq").warn("Not registered user tried to edit a FAQ");
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 		FAQ faq = FAQController.findFaq.byId(id);
 		if(!currentUser.isAdmin)
 		{
 			Logger.of("faq").warn("Not an admin user tried to edit a FAQ");
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 		return ok(editFaq.render(usernameSes, faq, currentUser));
 	}
@@ -133,12 +133,12 @@ public class FAQController extends Controller{
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (currentUser == null) {
 			Logger.of("faq").warn("Not registered user tried delete a FAQ");
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 		if(!currentUser.isAdmin)
 		{
 			Logger.of("faq").warn("Not an admin user tried delete a FAQ");
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 		FAQ.delete(id);
 		Logger.of("faq").info("Admin deleted a FAQ");
@@ -152,7 +152,6 @@ public class FAQController extends Controller{
 		List<FAQ>faqs=FAQ.find.where("UPPER(question) LIKE UPPER('%"+q+"%')").findList();
 		Logger.debug(""+faqs.size());
 		
-		return ok(listaFAQs.render(faqs,currentUser));
-		
+		return ok(listaFAQs.render(faqs,currentUser));		
 	}
 }

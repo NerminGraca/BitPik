@@ -80,7 +80,4 @@ public class BPCredit {
 	public void setCreditOwner(User creditOwner) {
 		this.creditOwner = creditOwner;
 	}
-	
-		
-
 }

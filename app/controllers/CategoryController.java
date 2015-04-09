@@ -33,7 +33,8 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * 
+	 * Method subCategoriesView finds all entries in database which are members of given Sub Category
+	 * and sends them to view to be showed
 	 * @param id
 	 * @return
 	 */
@@ -258,6 +259,5 @@ public class CategoryController extends Controller {
 			flash("add_sub_success", Messages.get("Uspjesno ste dodali novu podkategoriju."));
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}			
-	}
-	
+	}	
 }

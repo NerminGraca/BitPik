@@ -5,6 +5,11 @@ import play.libs.mailer.MailerPlugin;
 
 public class MailHelper {
 
+	/**
+	 * Method send sends email to the Users email which has just registered
+	 * @param email
+	 * @param message
+	 */
 	public static void send(String email, String message) {
 
 		Email mail = new Email();
@@ -20,6 +25,12 @@ public class MailHelper {
 
 	}
 
+	/**
+	 * Method sendEmailVerification sends email to User which changed his already verified
+	 * email in order to verify this new email
+	 * @param email
+	 * @param message
+	 */
 	public static void sendEmailVerification(String email, String message) {
 
 		Email mail = new Email();
@@ -35,6 +46,12 @@ public class MailHelper {
 
 	}
 	
+	/**
+	 * Method sendRefundEmail sends email to users when product has been sent to refund
+	 * @param buyerEmail
+	 * @param sellerEmail
+	 * @param message
+	 */
 	public static void sendRefundEmail(String buyerEmail, String sellerEmail, String message) {
 
 		Email mail = new Email();
@@ -51,6 +68,12 @@ public class MailHelper {
 
 	}
 	
+	/**
+	 * Method sendRefundEmailDenial sends email to users when product refund has been denied
+	 * @param buyerEmail
+	 * @param sellerEmail
+	 * @param message
+	 */
 	public static void sendRefundEmailDenial(String buyerEmail, String sellerEmail, String message) {
 
 		Email mail = new Email();

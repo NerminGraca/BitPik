@@ -5,7 +5,6 @@ import helpers.SessionHelper;
 
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Iterator;
 import java.io.File;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import models.Comment;
-import javassist.runtime.Inner;
 import models.ImgPath;
 import models.MainCategory;
 import models.Product;
@@ -40,16 +38,14 @@ public class ProductController extends Controller {
 		public String priceMin;
 		public String priceMax;
 		public String desc;
-	public String availabilityS;
+		public String availabilityS;
 		
 		public FilteredSearch(){
-			
-		
+					
 		}
 		public FilteredSearch(String priceMin,String priceMax,String availability){
-			this.priceMin=priceMin;
-			this.priceMax=priceMax;
-			
+			this.priceMin = priceMin;
+			this.priceMax = priceMax;			
 		}
 	}
 
@@ -58,7 +54,6 @@ public class ProductController extends Controller {
 	static Form<FilteredSearch> filteredSearch=new Form<FilteredSearch>(FilteredSearch.class);
 	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);
-	static String usernameSes;
 	public static final String OURHOST = Play.application().configuration().getString("OURHOST");
 
 	/**
@@ -73,13 +68,7 @@ public class ProductController extends Controller {
 		List<Comment> commentList = Comment.find.all();
 		return ok(showProduct.render(p, u, mainCategoryList, commentList));
 	}
-//	public static Result showSoldProducti(int id){
-//		User u = helpers.SessionHelper.getCurrentUser(ctx());
-//		Product p = ProductController.findProduct.byId(id);
-//		return ok(payPalValidation.render(arg0, arg1, arg2, arg3, arg4))
-//	}
 	
-
 	/**
 	 * Method takes the usernameSes from the session variable and sends it to
 	 * the addProduct.html page; Where the Form for publishing the product needs
@@ -88,17 +77,16 @@ public class ProductController extends Controller {
 	public static Result addProduct() {
 		
 		User currentUser = SessionHelper.getCurrentUser(ctx());
-		// 1. Ako nije registrovan da mu oneomogucimo prikaz addProduct.html;
+		// Unregistred user check
 		if (currentUser == null) {
 			return redirect(routes.Application.index());
 		}
-		// 2. Zabrana admin user-u da objavljuje proizvod;
+		// Admin can not create product
 		if (currentUser.isAdmin) {
 			return redirect(routes.Application.index());
 		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		return ok(addProduct.render(mainCategoryList));
-
 	}
 
 	/**
@@ -145,7 +133,7 @@ public class ProductController extends Controller {
 		}
 		User u = SessionHelper.getCurrentUser(ctx());
 		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, availability);
-		Logger.of("product").info("User "+ usernameSes +" added a new product '" + p.name + "'");
+		Logger.of("product").info("User "+ u.username +" added a new product '" + p.name + "'");
 		return redirect("/addPictureProduct/" + p.id);
 	}
 
@@ -159,7 +147,6 @@ public class ProductController extends Controller {
 	*/
 	public static Result editProduct(int id) {
 		 User currentUser = SessionHelper.getCurrentUser(ctx());
-	   	 usernameSes = session("username");
 	   	 Product p = findProduct.byId(id);
 	   	 
 	   	 if (p == null) {
@@ -176,7 +163,7 @@ public class ProductController extends Controller {
 		}
 	   			 
 	   	if(!currentUser.username.equals(p.owner.username)) {
-	   		Logger.of("product").warn(usernameSes + " tried to update an anothers user's product");
+	   		Logger.of("product").warn(currentUser.username + " tried to update an anothers user's product");
   			return redirect(routes.Application.index());
  		}
 	   	//  Ako je admin ulogovan, onemogucujemo mu da edituje proizvod;
@@ -185,7 +172,7 @@ public class ProductController extends Controller {
  			return redirect(routes.Application.index());
    		}
    		//  Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog proizvoda> da ga edituje;    
-   		return ok(editProduct.render(usernameSes, p, mainCategoryList));
+   		return ok(editProduct.render(p, mainCategoryList));
     }
 
 	/**
@@ -197,7 +184,6 @@ public class ProductController extends Controller {
 	*/
 	public static Result saveEditedProduct(int id) {
 		// takes the new attributes that are entered in the form;
-		usernameSes = session("username");
 		
 		String name;
 		String desc;
@@ -245,7 +231,8 @@ public class ProductController extends Controller {
 		p.setSubCategory(sc);
 		p.setAvailability(availability);
 		p.save();
-		Logger.of("product").info("User "+ usernameSes + " updated the info of product " + oldname + ", NAME : ["+p.name+"]");
+		User u = SessionHelper.getCurrentUser(ctx());
+		Logger.of("product").info("User "+ u.username + " updated the info of product " + oldname + ", NAME : ["+p.name+"]");
 		oldname = null;
 		flash("edit_product_success", Messages.get("Uspjesno ste izmijenili oglas"));
 		return redirect("/showProduct/" + id);	
@@ -281,13 +268,11 @@ public class ProductController extends Controller {
 		for (int i = 0; i< imgList.size() ; i++){
 			String s = imgList.get(i).imgPath;
 			
-			if (!s.equals(defaultPic)){
+			if (!s.equals(defaultPic)) {
 				File file = new File(deletePath + s);
 				file.delete();
-			}
-						
-		}
-			
+			}				
+		}			
 	}
 	
 	public static Result deleteOnePicture(int id, String imgPath){
@@ -316,9 +301,8 @@ public class ProductController extends Controller {
 	 * @return redirect to html for adding picture
 	 */
 	public static Result productPicture(int id) {
-		usernameSes = session("username");
 		Product p = findProduct.byId(id);
-		return ok(addPictureProduct.render(usernameSes, p));
+		return ok(addPictureProduct.render(p));
 	}
 		
 	/**
@@ -330,7 +314,8 @@ public class ProductController extends Controller {
 	
 	public static Result saveFile(int id){
 		
-	   	Product p = findProduct.byId(id);	   	 		
+	   	Product p = findProduct.byId(id);
+	   	User u = SessionHelper.getCurrentUser(ctx());
 	   	 			
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 
@@ -356,7 +341,7 @@ public class ProductController extends Controller {
 			&& !extension.equalsIgnoreCase(".png") ){
 		
 			flash("error",  Messages.get("Niste unijeli sliku"));
-			Logger.of("product").warn( usernameSes + " tried to upload an image that is not valid.");
+			Logger.of("product").warn( u.username + " tried to upload an image that is not valid.");
 			return redirect("/addPictureProduct/" + id);
 		}
 		
@@ -364,7 +349,7 @@ public class ProductController extends Controller {
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
 			flash("error",  Messages.get("Slika ne smije biti veca od 2 MB"));
-			Logger.of("product").warn( usernameSes + " tried to upload an image that is bigger than 2MB.");
+			Logger.of("product").warn( u.username + " tried to upload an image that is bigger than 2MB.");
 			return redirect("/addPictureProduct/" + id);
 		}
 		
@@ -379,11 +364,11 @@ public class ProductController extends Controller {
 			p.imgPathList.add(imp);
 			p.save();
 		} catch (IOException e) {
-			Logger.of("product").error( usernameSes + " failed to upload an image to the product " +p.name);
+			Logger.of("product").error( u.username + " failed to upload an image to the product " +p.name);
 			e.printStackTrace();
 		}
 		
-		flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
+		flash("add_product_success", Messages.get("Uspjesno ste uploadali sliku"));
 
 		return redirect("/showProduct/"+p.id);
 	}
@@ -485,7 +470,7 @@ public class ProductController extends Controller {
 		}
 		
 		if (refundReason == null) {
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 		
 		Product p = Product.find.byId(id);
@@ -497,7 +482,7 @@ public class ProductController extends Controller {
 		User seller = p.owner;
 		User buyer = p.buyerUser;
 		
-		MailHelper.sendRefundEmail(buyer.email, seller.email, "http://" + OURHOST + "/showProduct/" + id);
+		MailHelper.sendRefundEmail(buyer.email, seller.email, OURHOST + "/showProduct/" + id);
 		
 		return redirect("/showProduct/" + id);
 	}
@@ -518,7 +503,7 @@ public class ProductController extends Controller {
 		User seller = p.owner;
 		User buyer = p.buyerUser;
 		
-		MailHelper.sendRefundEmailDenial(buyer.email, seller.email, "http://" + OURHOST + "/showProduct/" + id);
+		MailHelper.sendRefundEmailDenial(buyer.email, seller.email, OURHOST + "/showProduct/" + id);
 		
 		return redirect("/showProduct/" + id);
 		
@@ -536,7 +521,7 @@ public class ProductController extends Controller {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// If no User is logged in;
 		if (currentUser == null) {
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 	
 		String comment;
@@ -548,7 +533,7 @@ public class ProductController extends Controller {
 				}
 				//2. Second check;
 				if (comment == null) {
-					return redirect("/");
+					return redirect(routes.Application.index());
 					}
 				Product p = Product.find.byId(id);
 				p.purchaseTransaction.setBuyer_comment(comment);
@@ -568,7 +553,7 @@ public class ProductController extends Controller {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// If no User is logged in;
 		if (currentUser == null) {
-			return redirect("/");
+			return redirect(routes.Application.index());
 		}
 	
 		String comment;
@@ -580,7 +565,7 @@ public class ProductController extends Controller {
 				}
 				//2. Second check;
 				if (comment == null) {
-					return redirect("/");
+					return redirect(routes.Application.index());
 					}
 				Product p = Product.find.byId(id);
 				p.purchaseTransaction.setSeller_comment(comment);
@@ -588,14 +573,18 @@ public class ProductController extends Controller {
 				return redirect("/showProduct/" + id);
 	}
 	
-
+	/**
+	 * 
+	 * @param ids
+	 * @return
+	 */
 	public static Result filteredSearch(String ids){
 		
 		String[] productsIDs = ids.split(",");		
-		List<Product>products= new ArrayList<Product>();
+		List<Product>products = new ArrayList<Product>();
 		for(String id: productsIDs){
 			long currentID = Long.valueOf(id);
-			int current=(int)currentID;
+			int current = (int)currentID;
 			Product currentProduct = Product.find.byId(current);			
 			products.add(currentProduct);
 		}
@@ -604,8 +593,8 @@ public class ProductController extends Controller {
 			return ok(newViewForFilter.render(products,MainCategory.allMainCategories()));
 		}
 		List<Product>productList=new ArrayList<Product>();
-	    double priceMin=0;
-	    double priceMax=999999999;
+	    double priceMin = 0;
+	    double priceMax = 999999999;
 		String availability ;
 		String descr;
 		if(filteredSearch.hasErrors()){
@@ -617,13 +606,13 @@ public class ProductController extends Controller {
 		String max=filteredSearch.bindFromRequest().get().priceMax;
 		descr=filteredSearch.bindFromRequest().get().desc;
 		availability= filteredSearch.bindFromRequest().get().availabilityS;
-		if(min!=""){
+		if(min != ""){
 			priceMin=Double.parseDouble(min);
 		}
-		if(max!=""){
+		if(max != ""){
 			priceMax=Double.parseDouble(max);
 		}
-		if(descr==""){
+		if(descr == ""){
 			productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false'))").findList();
 	    }else{
 
@@ -638,7 +627,5 @@ public class ProductController extends Controller {
 		}
 		
 		return ok(newViewForFilter.render(filteredProducts,MainCategory.allMainCategories()));
-	   
-
 	}
 }
