@@ -33,19 +33,18 @@ import com.google.common.io.Files;
 public class ProductController extends Controller {
 	
 	public static class FilteredSearch{
-		public double priceMin;
-		public double priceMax;
+		public String priceMin;
+		public String priceMax;
 		public String desc;
 		public String mainCategory;
 		public String subCategory;
 	public String availabilityS;
 		
 		public FilteredSearch(){
-			this.priceMin=-1;
-			this.priceMax=999999;
+			
 		
 		}
-		public FilteredSearch(double priceMin,double priceMax,String availability){
+		public FilteredSearch(String priceMin,String priceMax,String availability){
 			this.priceMin=priceMin;
 			this.priceMax=priceMax;
 			
@@ -454,33 +453,77 @@ public static Result filteredSearch(String ids){
 	String[] productsIDs = ids.split(",");		
 	List<Product>products= new ArrayList<Product>();
 	for(String id: productsIDs){
-		int currentID = Long.valueOf(id);
-		Product currentProduct = Product.find.byId(currentID);			
+		long currentID = Long.valueOf(id);
+		int current=(int)currentID;
+		Product currentProduct = Product.find.byId(current);			
 		products.add(currentProduct);
 	}
-	double priceMin=0;
+	if(products.isEmpty()){
+		Logger.info("Error");
+		//return ok(listaPretrage.render(products,null));
+		return ok(index.render(products, MainCategory.allMainCategories()));
+	}
+	List<Product>productList=new ArrayList<Product>();
+    double priceMin=0;
     double priceMax=999999999;
-	String availability;
+	String availability ;
 	String descr;
 	if(filteredSearch.hasErrors()){
 		Logger.info("Error in form");
-		return redirect(routes.Application.index());
+//		return redirect(routes.Application.index());
+		return ok(index.render(products, MainCategory.allMainCategories()));
 		}
 
-	priceMin=filteredSearch.bindFromRequest().get().priceMin;
-	priceMax=filteredSearch.bindFromRequest().get().priceMax;
+	String min=filteredSearch.bindFromRequest().get().priceMin;
+	String max=filteredSearch.bindFromRequest().get().priceMax;
 	descr=filteredSearch.bindFromRequest().get().desc;
 	availability= filteredSearch.bindFromRequest().get().availabilityS;
-	
-	products.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"')").findList();
-	if(list.isEmpty()){
-	return ok(index.render(Product.find.all(), MainCategory.allMainCategories()));
+	if(min!=""){
+		priceMin=Double.parseDouble(min);
+	}
+	if(max!=""){
+		priceMax=Double.parseDouble(max);
+	}
+	if(descr==""){
+		productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false'))").findList();
+    }else{
+
+	productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false'))").findList();
+	 }
+	//List<Product>productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (is_Sold LIKE ('false'))").findList();
+//	return ok(index.render(productList, MainCategory.allMainCategories()));
+//	Logger.debug("Error: " +productList);
+//	if(productList.isEmpty()){
+////		return ok(listaPretrage.render(productList,null));
+//		return ok(index.render(productList, MainCategory.allMainCategories()));
+//	}
+	List<Product>filteredProducts=new ArrayList<Product>();
+	for(Product product: products){
+		if(productList.contains(product)){
+			filteredProducts.add(product);
+		}
 	}
 	
-	return ok(index.render(list, Category.all()));
+//	Iterator<Product> it=products.iterator();
+//	Iterator<Product> itL=productList.iterator();
+//	
+//	while(it.hasNext()){
+//		Product temp1=it.next();
+//		while(itL.hasNext()){
+//			Product temp=itL.next();
+//			if(temp1.id==temp.id){
+//				filteredProducts.add(temp1);
+//			}
+//		}
+//		}
+//	
+//
+//	if(filteredProducts.isEmpty()){
+//	//return ok(listaPretrage.render(products,null));
+//		return ok(index.render(filteredProducts, MainCategory.allMainCategories()));
+//	}
 	
-	    
-//		return ok(newViewForFilter.render(products));
-		return ok(index.render(products, MainCategory.allMainCategories()));
+	return ok(index.render(filteredProducts, MainCategory.allMainCategories()));
+   
 }
 }

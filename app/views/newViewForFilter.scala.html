@@ -15,10 +15,10 @@
 									<form action="@routes.ProductController.filteredSearch(Product.getIds(products))" method="POST"">
 									<h5 id="editProfileText1">Cijena od-do</h5
 									<div style="margin-top:10px;">			
-									<input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin" required/> 
-										<input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax" required/>
+									<input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
+										<input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax"/>
 									<h5 id="editProfileText1">Opis</h5>
-									<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="desc" name="desc" required/>						
+									<input type="text" value="" id="desc" name="desc"/>						
 						  			<!-- This is css for Kategorija and availability dropdown meni -->
 					
 						  			<style>
