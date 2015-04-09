@@ -1,9 +1,11 @@
-
 package controllers;
 
 import helpers.MailHelper;
 import helpers.SessionHelper;
 
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Iterator;
 import java.io.File;
@@ -11,6 +13,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import models.Comment;
+import javassist.runtime.Inner;
 import models.ImgPath;
 import models.MainCategory;
 import models.Product;
@@ -32,9 +35,27 @@ import com.google.common.io.Files;
 
 
 public class ProductController extends Controller {
+	
+	public static class FilteredSearch{
+		public String priceMin;
+		public String priceMax;
+		public String desc;
+	public String availabilityS;
+		
+		public FilteredSearch(){
+			
+		
+		}
+		public FilteredSearch(String priceMin,String priceMax,String availability){
+			this.priceMin=priceMin;
+			this.priceMax=priceMax;
+			
+		}
+	}
 
 	static Form<Product> newProduct = new Form<Product>(Product.class);
 	static Form<TransactionP> newTransaction = new Form<TransactionP>(TransactionP.class);
+	static Form<FilteredSearch> filteredSearch=new Form<FilteredSearch>(FilteredSearch.class);
 	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);
 	static String usernameSes;
@@ -567,4 +588,57 @@ public class ProductController extends Controller {
 				return redirect("/showProduct/" + id);
 	}
 	
+
+	public static Result filteredSearch(String ids){
+		
+		String[] productsIDs = ids.split(",");		
+		List<Product>products= new ArrayList<Product>();
+		for(String id: productsIDs){
+			long currentID = Long.valueOf(id);
+			int current=(int)currentID;
+			Product currentProduct = Product.find.byId(current);			
+			products.add(currentProduct);
+		}
+		if(products.isEmpty()){
+			Logger.info("Error");
+			return ok(newViewForFilter.render(products,MainCategory.allMainCategories()));
+		}
+		List<Product>productList=new ArrayList<Product>();
+	    double priceMin=0;
+	    double priceMax=999999999;
+		String availability ;
+		String descr;
+		if(filteredSearch.hasErrors()){
+			Logger.info("Error in form");
+			return ok(newViewForFilter.render(products,MainCategory.allMainCategories()));
+			}
+
+		String min=filteredSearch.bindFromRequest().get().priceMin;
+		String max=filteredSearch.bindFromRequest().get().priceMax;
+		descr=filteredSearch.bindFromRequest().get().desc;
+		availability= filteredSearch.bindFromRequest().get().availabilityS;
+		if(min!=""){
+			priceMin=Double.parseDouble(min);
+		}
+		if(max!=""){
+			priceMax=Double.parseDouble(max);
+		}
+		if(descr==""){
+			productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false'))").findList();
+	    }else{
+
+		productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false'))").findList();
+		 }
+		
+		List<Product>filteredProducts=new ArrayList<Product>();
+		for(Product product: products){
+			if(productList.contains(product)){
+				filteredProducts.add(product);
+			}
+		}
+		
+		return ok(newViewForFilter.render(filteredProducts,MainCategory.allMainCategories()));
+	   
+
+	}
 }

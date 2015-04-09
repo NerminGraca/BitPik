@@ -142,8 +142,13 @@ box-sizing: border-box;
 #editProfileText{
 	margin: 6px;
 	font-family: 'ambleregular';
+	
 }
-
+#editProfileText1{
+	margin: 10px;
+	font-family: 'Lucida Console';
+	
+}
 .addImage{
 	margin: 10px;
 }
@@ -650,6 +655,10 @@ body {
 }
 .header_bottom_left{
 	float:left;
+	width:25%;
+}
+.header_bottom_right{
+	float:right;
 	width:25%;
 }
 .categories{

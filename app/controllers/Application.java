@@ -67,6 +67,9 @@ public class Application extends Controller {
 		return ok(index.render(specialProductList, productList, mainCategoryList));
 	}
 
+	public static Result newViewForFilter(){
+		return ok(newViewForFilter.render(Product.find.all(),MainCategory.allMainCategories()));
+	}
 	/**
 	 * Method registration renders the registration.html page;
 	 * 

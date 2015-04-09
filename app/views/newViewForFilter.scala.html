@@ -1,18 +1,18 @@
-@(productList: List[Product])(mainCategoryList: List[MainCategory])(mainCategory: MainCategory)
+@(products: List[Product])(mainCategoryList: List[MainCategory])
 
-@import helper._
+@main("BitPik", "index") {
 
-@main("Kategorija", "") {
-
-    
 <div class="wrap">
-	<div class="main">
-		<div class="content">
-    		<div class="section group">
-    			<div >
+<div class="header">
+		<div class="validateAndLogout">
+			@flash.get("validate")
+			@flash.get("logout")    
+			@flash.get("login_success ")
+		</div>
+		<div >
 					  	
 							
-									<form action="@routes.ProductController.filteredSearch(Product.getIds(productList))" method="POST"">
+									<form action="@routes.ProductController.filteredSearch(Product.getIds(products))" method="POST"">
 									<h5 id="editProfileText1">Cijena od-do</h5
 									<div style="margin-top:10px;">			
 									<input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
@@ -121,75 +121,72 @@
 							</div>
 								</form>
 						</div>
-				<div class="header_slide">
-					<div class="leftBoxCat">				
-						<div class="categories">
-				  			<ul>
-				  				<h3>Kategorije</h3>
-				  	
-						  		@if(mainCategoryList.size() > 0 ) {
-						  			@for(mCategory <- mainCategoryList) {
-						  				<li><a href="@mCategory.id">@mCategory.name</a></li>
-						  			}
-						  		}
+					
+	<div class="header_slide">
+		<div class="header_bottom_left">	
+			<div class="categories">
+				<ul>
+					<h3>Kategorije</h3>
 				  		
-				  			</ul>
-						</div>					
-					</div>
-					<div class="subCatBox">
-						<div class="categories">
-							<ul id="listOfCategory">
-				  			<h3>Podkategorije kategorije @mainCategory.name</h3>
-				  		
-				  			@if(mainCategory.subCategories.size() > 0 ) {
-				  				@for(subCategory <- mainCategory.subCategories) {
-				  					<li>
-				  						<a href="/podKategorija/@subCategory.id">@subCategory.name</a>
-				  					</li>
-				  				}
+				  		@if(mainCategoryList.size() > 0 ) {
+				  			@for(mainCategory <- mainCategoryList) {
+				  				<li><a href="kategorija/@mainCategory.id">@mainCategory.name</a></li>
 				  			}
+				  		}
 				  		
-							</ul>
-						</div>
-					</div>
-					<div class="clear"></div>
+				</ul>
+			</div>					
+		</div>
+		 
+		 
+		 
+
+
+	</div>
+	</div>
+	<div class="clear"></div>
+	<div class="main">
+		<div class="content">
+		<div class="clear"></div>
     		    	<div class="content_top">
 			    		<div class="heading">
-			    		<h3>Artikli Kategorije - @mainCategory.name</h3>
+			    		<h3>Artikli</h3>
 			    		</div>
 			    		<div class="see">
 			    			<p><a href="#">Pogledaj</a></p>
 			    		</div>
 			    		<div class="clear"></div>
 			    	</div>
-	      	      	<div class="section group">				
-	      	      
-						@if(productList.size() > 0){
-							@for(product <- productList){
-
-
-								<div class="grid_1_of_4 images_1_of_4">
-									<a href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
-									<h2>@product.name</h2>
-									<div class="price-details">
-										<div class="price-number">
-											<p><span class="rupees">@product.getPriceString() KM</span></p>
-										</div>
-										<div class="add-cart">								
-											<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
-								     	</div>
-								 		<div class="clear"></div>
-									</div>					 
-								</div>
-
+			    	</div>
+			    	
 				
-							}
+				<div class="section group">	      	      
+	      
+					@if(products.size() > 0 ) {
+						@for(product <- products) {						
+							<div class="grid_1_of_4 images_1_of_4">
+					 			<a href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
+					 			<h2>@product.name</h2>
+									<div class="price-details">
+				       					<div class="price-number">
+											<p><span class="rupees">@product.getPriceString() KM</span></p>
+					   					</div>
+					       					<div class="add-cart">								
+												<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+							    			</div>
+							    		
+							    			 
+											 <div class="clear"></div>
+									</div>				 
+							</div>				
 						}
-					</div>
-				</div>	
-    		</div>
-		</div>
+					}
+				</div>
+			
+    	</div>
 	</div>
-</div>
+
+
    
 }
+
