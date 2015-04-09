@@ -35,6 +35,40 @@ public class MailHelper {
 
 	}
 	
+	public static void sendRefundEmail(String buyerEmail, String sellerEmail, String message) {
+
+		Email mail = new Email();
+		mail.setSubject("Refundacija aktivirana");
+		mail.setFrom("bitpikgroup@gmail.com");
+		mail.addTo("bitpikgroup@gmail.com");
+		mail.addTo("nera.graca@gmail.com");
+		mail.addTo(buyerEmail);
+		mail.addTo(sellerEmail);
+		mail.setBodyText(message);
+		mail.setBodyHtml("Artikal je poslan na refundaciju :\n"
+				+ message);
+
+		MailerPlugin.send(mail);
+
+	}
+	
+	public static void sendRefundEmailDenial(String buyerEmail, String sellerEmail, String message) {
+
+		Email mail = new Email();
+		mail.setSubject("Refundacija otkazana");
+		mail.setFrom("bitpikgroup@gmail.com");
+		mail.addTo("bitpikgroup@gmail.com");
+		mail.addTo("nera.graca@gmail.com");
+		mail.addTo(buyerEmail);
+		mail.addTo(sellerEmail);
+		mail.setBodyText(message);
+		mail.setBodyHtml("Refundacija artikla nije odobrena :\n"
+				+ message);
+
+		MailerPlugin.send(mail);
+
+	}
+	
 	/**
 	 * first creates the Email object, then sets its properties(some of them with values passed as parameters),
 	 * and finally, sends that object
@@ -57,5 +91,4 @@ public class MailHelper {
 		MailerPlugin.send(mail);
 		}
 	}
-
 }

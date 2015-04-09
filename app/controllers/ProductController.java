@@ -1,14 +1,17 @@
 
 package controllers;
 
+import helpers.MailHelper;
 import helpers.SessionHelper;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import models.Comment;
 import models.ImgPath;
 import models.MainCategory;
 import models.Product;
@@ -33,7 +36,9 @@ public class ProductController extends Controller {
 	static Form<Product> newProduct = new Form<Product>(Product.class);
 	static Form<TransactionP> newTransaction = new Form<TransactionP>(TransactionP.class);
 	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
+	static Form<Comment> postComment = new Form<Comment>(Comment.class);
 	static String usernameSes;
+	public static final String OURHOST = "http://localhost:9000";
 
 	/**
 	 * 
@@ -44,8 +49,15 @@ public class ProductController extends Controller {
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
 		Product p = ProductController.findProduct.byId(id);
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
-		return ok(showProduct.render(p, u, mainCategoryList));
+		List<Comment> commentList = Comment.find.all();
+		return ok(showProduct.render(p, u, mainCategoryList, commentList));
 	}
+//	public static Result showSoldProducti(int id){
+//		User u = helpers.SessionHelper.getCurrentUser(ctx());
+//		Product p = ProductController.findProduct.byId(id);
+//		return ok(payPalValidation.render(arg0, arg1, arg2, arg3, arg4))
+//	}
+	
 
 	/**
 	 * Method takes the usernameSes from the session variable and sends it to
@@ -230,7 +242,7 @@ public class ProductController extends Controller {
 	}	
 	
 	/**
-	 * 
+	 * used when deleting product
 	 * @param id
 	 */
 	public static void deletePicture(int id){
@@ -366,9 +378,6 @@ public class ProductController extends Controller {
 		
 		flash("add_product_success", Messages.get("Uspjesno ste objavili oglas"));
 
-		p = findProduct.byId(id);
-		User user = SessionHelper.getCurrentUser(ctx());
-
 		return redirect("/showProduct/"+p.id);
 	}
 	
@@ -475,7 +484,36 @@ public class ProductController extends Controller {
 		p.isRefunding = true;
 		p.refundReason = refundReason;
 		p.save();
+		
+		//Email sending
+		User seller = p.owner;
+		User buyer = p.buyerUser;
+		
+		MailHelper.sendRefundEmail(buyer.email, seller.email, "http://" + OURHOST + "/showProduct/" + id);
+		
 		return redirect("/showProduct/" + id);
+	}
+	
+	/**
+	 * Method denyRefund allows Administrator to deny refund asked by buyer and
+	 * sets it refunding fields to false
+	 * @param id
+	 * @return
+	 */
+	public static Result denyRefund(int id) {
+		Product p = Product.find.byId(id);
+		p.isRefunding = false;
+		p.refundable = false;
+		p.save();
+		
+		//Email sending
+		User seller = p.owner;
+		User buyer = p.buyerUser;
+		
+		MailHelper.sendRefundEmailDenial(buyer.email, seller.email, "http://" + OURHOST + "/showProduct/" + id);
+		
+		return redirect("/showProduct/" + id);
+		
 	}
 	
 	/**
@@ -541,4 +579,8 @@ public class ProductController extends Controller {
 				p.save();
 				return redirect("/showProduct/" + id);
 	}
+	
+	
+	
+	
 }

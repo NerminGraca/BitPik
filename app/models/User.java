@@ -256,6 +256,5 @@ public class User extends Model {
 			throw new IllegalArgumentException("Password too short!");
 		}
 		this.password = password;
-	}
-	
+	}	
 }

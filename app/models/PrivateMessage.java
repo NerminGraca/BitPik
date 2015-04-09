@@ -4,16 +4,9 @@ package models;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import com.avaje.ebeaninternal.server.core.Message;
-
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
-import play.db.ebean.Model.Finder;
 
 @Entity
 
@@ -83,9 +76,4 @@ public class PrivateMessage extends Model{
 	public static void delete(int id) {
 		  find.ref(id).delete();
 	}
-
-	
-
 }
-
-

@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
+
 @Entity
 public class FAQ extends Model {
 	
@@ -96,9 +97,20 @@ public class FAQ extends Model {
 		return newFaq;
 	}
 	
+	/**
+	 * Finder for FAQ (by id)
+	 * @param id
+	 * @return FAQ
+	 */
+	
 	public static FAQ finder(int id) {
 		return find.where().eq("id", id).findUnique();
 	}
+	
+	/**
+	 * Method deletes FAQ with given id
+	 * @param id
+	 */
 	
 	public static void delete(int id) {
 		FAQ.finder(id).delete();

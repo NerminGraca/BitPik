@@ -16,7 +16,7 @@
 			<div class="section group">
 				<div class="col span_2_of_3">
 				  <div class="contact-form">
-				  	<h1><strong>CONTACT US</strong></h1><br><br>
+				  	<h1><strong>OBRAZAC ZA KONTAKT</strong></h1><br><br>
 				  	
 	<!--
 		NAŠ HELPER
@@ -26,7 +26,7 @@
 					 <input pattern=".{3,250}" type="email" class='@("error-input".when(contactForm("email").hasErrors)) form-control' 
       				name="email" id="email" placeholder="john@@mail.com" value='@contactForm("email").value' required/>
 					
-					<h5>Message:</h5>
+					<h5>Poruka:</h5>
 					<textarea maxlength="250" class='@("error-input".when(contactForm("message").hasErrors)) form-control' 
       				name="message" id="message" placeholder="Write something nice" value='@contactForm("message").value' required> @contactForm("message").value </textarea>
 					<br><br>
@@ -36,9 +36,9 @@
 			<div class="g-recaptcha" data-sitekey="6LfrmQMTAAAAALfMimGrrcLFOhlv6vRLcr1ZrTxM"></div>
 			</div>
 			</div>
-					 <input type="submit" value="Send message" class="btn btn-success" />
-				<a href="/" class="btn btn-danger"> Cancel </a>
-				<input type="reset" value="Clean" class="btn btn-warning" />
+					 <input type="submit" value="Pošalji" class="btn btn-primary btn-fontNovi" />
+				<a href="/" class="btn btn-primary btn-fontNovi"> Odustani </a>
+				<input type="reset" value="Obriši" class="btn btn-primary btn-fontNovi" />
 					
 					
 				  </div>

@@ -538,11 +538,12 @@ public class UserControllerTest extends WithApplication {
 					}
 
 				});
-	}*/
-	/*
 
+	}
+	
+*/
 	@Test
-	public void testSaveFile(){
+	public void testSaveFilePass(){
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
@@ -553,30 +554,35 @@ public class UserControllerTest extends WithApplication {
 						u.verified = true;
 						u.save();
 						u.imagePath="image.png";
-						MultipartFormData body = UserController.request().body().asMultipartFormData();
-						FilePart filePart = body.getFile("image");
-						assertNotNull(filePart);
-						File image = filePart.getFile();
-						String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
-						extension.trim();
-						assertEquals(extension, ".png");
-						int userID = User.finder(u.username).id;
-				   	  	//creating path where we are going to save image
-						final String savePath = "." + File.separator 
-								+ "public" + File.separator + "images" 
-								+ File.separator + "profilePicture" + File.separator;
-						File profile = new File(savePath + userID + extension);
-						String assetsPath = "images" 
-								+ File.separator + "profilePicture" + File.separator + profile.getName();
-						u.imagePath = assetsPath;
+						u.save();
+						assertEquals(u.imagePath, "image.png");
+					}
+		});
+	}
+	
+
+	
+	@Test
+	public void testSaveFileFail(){
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						// Register a user;
+						User.createSaveUser("necko", "password",
+								"necko@test.com");
+						User u = User.find(4);
+						u.verified = true;
+						u.save();
+						u.imagePath="image.prc";
 						u.save();
 						assertEquals(u.imagePath, "image.png");
 					}
 		});
 
 	}
-	*/
-	public void test(){
+	
+	public void testPrivateMessage(){
+
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
 				HTMLUNIT, new Callback<TestBrowser>() {
 					public void invoke(TestBrowser browser) {
@@ -608,5 +614,9 @@ public class UserControllerTest extends WithApplication {
 					}
 		});
 	}
+
 	
+
+	
+
 }

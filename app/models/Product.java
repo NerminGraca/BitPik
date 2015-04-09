@@ -42,6 +42,8 @@ public class Product extends Model {
 	
 	public String refundReason;
 	
+	public boolean refundable;
+	
 	@Required
 	public String availability;
 	
@@ -76,6 +78,7 @@ public class Product extends Model {
 		this.isSold = false;
 		this.isRefunding = false;
 		this.refundReason = "None";
+		this.refundable = true;
 		this.availability = "Unknown";
 		this.subCategory = null;
 		this.subCategoryString = "Unknown";
@@ -97,6 +100,7 @@ public class Product extends Model {
 		this.isSold = false;
 		this.isRefunding = false;
 		this.refundReason = "None";
+		this.refundable = true;
 		this.mainCategory = mainCategory;
 		this.subCategory = subCategory;
 		this.availability = availability;

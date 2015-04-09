@@ -3,6 +3,7 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,7 @@ public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
 	static Form<PrivateMessage> sendMessage = new Form<PrivateMessage>(PrivateMessage.class);
+	static Form<Comment> postComment = new Form<Comment>(Comment.class);
 	static String usernameSes;	
 	private static final String SESSION_USERNAME = "username";
 	public static final String OURHOST = "http://localhost:9000";
@@ -478,10 +480,15 @@ public class UserController extends Controller {
 			Logger.of("user").error( usernameSes + " failed to upload an image to his profile page.");
 			e.printStackTrace();
 		}
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).eq("isSold", false).findList();
 		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
 		return redirect("/profile");
 	}
+	
+	/**
+	 * Method finds one product and sends
+	 * it to view.
+	 * @param id
+	 */
 	
 	public static Result showPurchase(int id)
 	{
@@ -489,7 +496,13 @@ public class UserController extends Controller {
 		return ok(purchase.render(p));
 	}
 	
-
+	/**
+	 * Method integrates PayPal with application, using access token.
+	 * It adds amount, currency, payer, description, intent and state
+	 * for payment. 
+	 * @param id
+	 * @return
+	 */
 
 	public static Result purchaseProcessing(int id)
 
@@ -532,8 +545,10 @@ public class UserController extends Controller {
 			
 			RedirectUrls redirectUrls = new RedirectUrls();
 			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela"));
+
 			redirectUrls.setCancelUrl(OURHOST + "/showProduct/"+ id);
 			redirectUrls.setReturnUrl(OURHOST + "/purchasesuccess/"+id);
+
 			payment.setRedirectUrls(redirectUrls);
 			Payment createdPayment = payment.create(apiContext);
 			Logger.debug(createdPayment.toJSON());
@@ -556,35 +571,47 @@ public class UserController extends Controller {
 		return TODO;
 	}
 	
+	/**
+	 * Method validates payment with existing user.
+	 * After binding from dynamic form it uses access token
+	 * to transact payment.
+	 * @param id
+	 */
 	
-	public static Result purchaseSuccess(int id)
-	{
-		DynamicForm paypalReturn = Form.form().bindFromRequest();
-		String paymentId = paypalReturn.get("paymentId");
-		String payerId = paypalReturn.get("PayerID");
-		String token = paypalReturn.get("token");
-		
+	public static Result purchaseSuccess(int id ) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		Product p = Product.find.byId(id);
+		String paymentId = null;
+		String payerId = null;
+		String token = null;
+		String accessToken = null;
 		
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
 		try {
-			String accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+			DynamicForm paypalReturn = Form.form().bindFromRequest();
+		    paymentId = paypalReturn.get("paymentId");
+			payerId = paypalReturn.get("PayerID");
+			token = paypalReturn.get("token");
+			 accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
 					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			
 			Payment payment = Payment.get(accessToken, paymentId);
-			PaymentExecution paymentExecution = new PaymentExecution();
-			paymentExecution.setPayerId(payerId);
 			
-			payment.execute(apiContext, paymentExecution);
+			//payment.execute(apiContext, paymentExecution);
 		} catch (PayPalRESTException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return redirect(OURHOST + "/buyingAProduct/"+id+"/"+token);
+		return ok(payPalValidation.render(p, u, payerId, paymentId, token, accessToken));
 	}
 	
+	/**
+	 * Method checks if user exists, and if does
+	 * it calls saveMessage method with same id for message
+	 * @param id
+	 */
 	public static Result sendMessage(int id)
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -597,11 +624,17 @@ public class UserController extends Controller {
 		return ok(message.render(u, receiver));
 	}
 	
+	/**
+	 * Method that binds values from sendMessage form
+	 * and creates new message using create method
+	 * in PrivateMessage model.
+	 * @param id
+	 */
 	public static Result saveMessage(int id)
 	{
 		User sender = SessionHelper.getCurrentUser(ctx());
 		usernameSes = session(SESSION_USERNAME);
-   	  	User receiver = User.find(id);
+   	  	User receiver = findUser.byId(id);
    	  	String content;
 		try {
 			content = sendMessage.bindFromRequest().get().content;
@@ -623,6 +656,10 @@ public class UserController extends Controller {
    	  	return redirect("/allMessages");
 	}
 	
+	/**
+	 * Method sends two lists to view, list of received messages
+	 * and list of sent messages for one user.
+	 */
 	public static Result allMessages()
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -635,7 +672,39 @@ public class UserController extends Controller {
 		List<PrivateMessage> messagesSent = PrivateMessage.find.where().eq("sender.id", u.id).findList();
 		
 		return ok(allMessages.render(u, messagesReceived, messagesSent));
+
 	}
 	
-	
+	/**
+	 * 
+	 * @param id
+	 * @param payerId
+	 * @param paymentId
+	 * @param token
+	 * @param accessToken
+	 * @return
+	 */
+	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
+		
+		try {;
+			DynamicForm paypalReturn = Form.form().bindFromRequest();
+			accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
+			Map<String, String> sdkConfig = new HashMap<String, String>();
+			sdkConfig.put("mode", "sandbox");
+			APIContext apiContext = new APIContext(accessToken);
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			Payment payment = Payment.get(accessToken, paymentId);
+			
+			PaymentExecution paymentExecution = new PaymentExecution();
+			paymentExecution.setPayerId(payerId);
+			
+			payment.execute(apiContext, paymentExecution);
+		} catch (PayPalRESTException e) {
+			e.printStackTrace();
+		}
+		return redirect("http://localhost:9000/buyingAProduct/" +id +"/"+ token);
+	}	
+		
 }
