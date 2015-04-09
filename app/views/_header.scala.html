@@ -32,7 +32,7 @@
 	     	<div class="menu">
 	     		<ul>
 			    	<li class='@("active".when(location == "index"))'><a href="/">Početna</a></li>
-			    	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">FAQs</a></li>
+			    	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">Česta pitanja i odgovori</a></li>
 			    	<li class='@("active".when(location == "Kontakt"))'><a href="/contact">Kontakt</a></li>
 			    	@if(user != null) {
 			    		<li class='@("active".when(location == "Poruke"))'><a href="/allMessages">Poruke</a></li>
@@ -48,7 +48,7 @@
 	     	</div>
 	     	<div class="search_box">
 	     		<form action="/search" method="GET">
-	     			<input id="q" name="q" type="text" placeholder="Trazi proizvode ili korisnike..." required/>
+	     			<input id="q" name="q" type="text" placeholder="Traži proizvode ili korisnike..." required/>
 	     			<!--<input id="q" name="q" type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">-->
 	     			<input type="submit" value="">
 	     		</form>
