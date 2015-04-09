@@ -126,13 +126,31 @@ public class JsonHelper {
 	
 	
 	
+
 	
+	public static ArrayNode jsonUserList(List<User> users){
+		ArrayNode arrayNode = new ArrayNode(JsonNodeFactory.instance);
+		for(User u: users){
+			ObjectNode user = jsonUser(u);
+			arrayNode.add(user);
+		}
+		return arrayNode;
+	}
 	
 	public static ArrayNode jsonSubcategoryList(List<SubCategory> subcategories){
 		ArrayNode arrayNode = new ArrayNode(JsonNodeFactory.instance);
 		for(SubCategory s: subcategories){
 			ObjectNode subcategory = jsonSubcategory(s);
 			arrayNode.add(subcategory);
+		}
+		return arrayNode;
+	}
+	
+	public static ArrayNode jsonCategoryList(List<MainCategory> categories){
+		ArrayNode arrayNode = new ArrayNode(JsonNodeFactory.instance);
+		for(MainCategory c: categories){
+			ObjectNode category = jsonCategory(c);
+			arrayNode.add(category);
 		}
 		return arrayNode;
 	}
@@ -145,5 +163,23 @@ public class JsonHelper {
 		}
 		return arrayNode;
 	}
+	
+	public static ArrayNode jsonMessageList(List<PrivateMessage> messages){
+		ArrayNode arrayNode = new ArrayNode(JsonNodeFactory.instance);
+		for(PrivateMessage m: messages){
+			ObjectNode message = jsonMessage(m);
+			arrayNode.add(message);
+		}
+		return arrayNode;
+	}
 
+	public static ArrayNode jsonCommentList(List<Comment> comments){
+		ArrayNode arrayNode = new ArrayNode(JsonNodeFactory.instance);
+		for(Comment c: comments){
+			ObjectNode comment = jsonComment(c);
+			arrayNode.add(comment);
+		}
+		return arrayNode;
+	}
+	
 }
