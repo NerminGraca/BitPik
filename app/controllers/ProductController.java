@@ -36,8 +36,6 @@ public class ProductController extends Controller {
 		public String priceMin;
 		public String priceMax;
 		public String desc;
-		public String mainCategory;
-		public String subCategory;
 	public String availabilityS;
 		
 		public FilteredSearch(){
@@ -460,8 +458,7 @@ public static Result filteredSearch(String ids){
 	}
 	if(products.isEmpty()){
 		Logger.info("Error");
-		//return ok(listaPretrage.render(products,null));
-		return ok(index.render(products, MainCategory.allMainCategories()));
+		return ok(newViewForFilter.render(products,MainCategory.allMainCategories()));
 	}
 	List<Product>productList=new ArrayList<Product>();
     double priceMin=0;
@@ -470,8 +467,7 @@ public static Result filteredSearch(String ids){
 	String descr;
 	if(filteredSearch.hasErrors()){
 		Logger.info("Error in form");
-//		return redirect(routes.Application.index());
-		return ok(index.render(products, MainCategory.allMainCategories()));
+		return ok(newViewForFilter.render(products,MainCategory.allMainCategories()));
 		}
 
 	String min=filteredSearch.bindFromRequest().get().priceMin;
@@ -490,13 +486,7 @@ public static Result filteredSearch(String ids){
 
 	productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false'))").findList();
 	 }
-	//List<Product>productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (is_Sold LIKE ('false'))").findList();
-//	return ok(index.render(productList, MainCategory.allMainCategories()));
-//	Logger.debug("Error: " +productList);
-//	if(productList.isEmpty()){
-////		return ok(listaPretrage.render(productList,null));
-//		return ok(index.render(productList, MainCategory.allMainCategories()));
-//	}
+	
 	List<Product>filteredProducts=new ArrayList<Product>();
 	for(Product product: products){
 		if(productList.contains(product)){
@@ -504,26 +494,7 @@ public static Result filteredSearch(String ids){
 		}
 	}
 	
-//	Iterator<Product> it=products.iterator();
-//	Iterator<Product> itL=productList.iterator();
-//	
-//	while(it.hasNext()){
-//		Product temp1=it.next();
-//		while(itL.hasNext()){
-//			Product temp=itL.next();
-//			if(temp1.id==temp.id){
-//				filteredProducts.add(temp1);
-//			}
-//		}
-//		}
-//	
-//
-//	if(filteredProducts.isEmpty()){
-//	//return ok(listaPretrage.render(products,null));
-//		return ok(index.render(filteredProducts, MainCategory.allMainCategories()));
-//	}
-	
-	return ok(index.render(filteredProducts, MainCategory.allMainCategories()));
+	return ok(newViewForFilter.render(filteredProducts,MainCategory.allMainCategories()));
    
 }
 }
