@@ -68,7 +68,9 @@ public class Application extends Controller {
 	}
 
 	public static Result newViewForFilter(){
-		return ok(newViewForFilter.render(Product.find.all(),MainCategory.allMainCategories()));
+		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", false).findList();
+		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
+		return ok(newViewForFilter.render(specialProductList,productList,MainCategory.allMainCategories()));
 	}
 	/**
 	 * Method registration renders the registration.html page;

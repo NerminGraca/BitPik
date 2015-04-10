@@ -28,8 +28,9 @@ public class CategoryController extends Controller {
 	public static Result categories(int id) {
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		MainCategory mc = MainCategory.findMainCategory(id);
-		List<Product> productList = ProductController.findProduct.where().eq("mainCategory", mc).eq("isSold", false).findList();
-		return ok(kategorija.render(productList, mainCategoryList, mc));
+		List<Product> productList = ProductController.findProduct.where().eq("mainCategory", mc).eq("isSold", false).eq("isSpecial", false).findList();
+		List<Product> sproductList = ProductController.findProduct.where().eq("mainCategory", mc).eq("isSold", false).eq("isSpecial", true).findList();
+		return ok(kategorija.render(sproductList,productList, mainCategoryList, mc));
 	}
 	
 	/**
@@ -42,8 +43,9 @@ public class CategoryController extends Controller {
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		SubCategory sc = SubCategory.findSubCategory(id);
 		MainCategory mc = sc.mainCategory;
-		List<Product> productList = ProductController.findProduct.where().eq("subCategory", sc).eq("isSold", false).findList();
-		return ok(podKategorija.render(productList, mainCategoryList, mc, sc.name));
+		List<Product> productList = ProductController.findProduct.where().eq("subCategory", sc).eq("isSold", false).eq("isSpecial", false).findList();
+		List<Product> sproductList = ProductController.findProduct.where().eq("subCategory", sc).eq("isSold", false).eq("isSpecial", true).findList();
+		return ok(podKategorija.render(sproductList,productList, mainCategoryList, mc, sc.name));
 	}
 	
 	/**
