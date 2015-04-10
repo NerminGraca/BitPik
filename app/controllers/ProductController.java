@@ -1,6 +1,7 @@
 
 package controllers;
 
+import helpers.JsonHelper;
 import helpers.MailHelper;
 import helpers.SessionHelper;
 
@@ -29,6 +30,8 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.i18n.Messages;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.io.Files;
 
 
@@ -55,6 +58,14 @@ public class ProductController extends Controller {
 		Product p = ProductController.findProduct.byId(id);
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		List<Comment> commentList = Comment.find.all();
+		if (!request().accepts("text/html")) {
+			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
+			array.add(JsonHelper.jsonProduct(p));
+			array.add(JsonHelper.jsonUser(u));
+			array.add(JsonHelper.jsonCategoryList(mainCategoryList));
+			array.add(JsonHelper.jsonCommentList(commentList));
+			return ok(array);
+		}
 		return ok(showProduct.render(p, u, mainCategoryList, commentList));
 	}
 //	public static Result showSoldProducti(int id){
@@ -81,6 +92,9 @@ public class ProductController extends Controller {
 			return redirect(routes.Application.index());
 		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
+		if (!request().accepts("text/html")) {
+			return JsonController.addProduct();
+		}
 		return ok(addProduct.render(mainCategoryList));
 
 	}
@@ -168,6 +182,9 @@ public class ProductController extends Controller {
 			Logger.of("product").warn("An admin tried to update a users product");
  			return redirect(routes.Application.index());
    		}
+	   	if (!request().accepts("text/html")) {
+	   		return JsonController.editProduct(id);
+	   	}
    		//  Prosle sve provjere, tj. dozvoljavamo samo registrovanom useru <svog proizvoda> da ga edituje;    
    		return ok(editProduct.render(usernameSes, p, mainCategoryList));
     }

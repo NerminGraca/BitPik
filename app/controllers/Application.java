@@ -77,6 +77,9 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result registration() {
+		if (!request().accepts("text/html")) {
+			return JsonController.registration();
+		}
 		return ok(registration.render("", ""));
 	}
 
@@ -86,6 +89,9 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result login() {
+		if (!request().accepts("text/html")) {
+			return JsonController.login();
+		}
 		return ok(login.render("", ""));
 
 	}

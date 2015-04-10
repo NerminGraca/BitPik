@@ -10,8 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+<<<<<<< HEAD
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+=======
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+>>>>>>> f2d5bd981728c432c4c28d5e2b436cbe28623d8c
 import com.google.common.io.Files;
 
 import helpers.CurrentUserFilter;
@@ -26,6 +33,7 @@ import play.*;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
+import play.libs.Json;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
@@ -105,7 +113,6 @@ public class UserController extends Controller {
 		User.createSaveUser(username, password, email);
 		Logger.of("user").info("Added a new user "+ username +" (email not verified)");
 		return redirect(routes.Application.index());
-
 	}
 
 	/**
@@ -147,6 +154,9 @@ public class UserController extends Controller {
 		}
 		boolean userExists = HashHelper.checkPassword(password, hashPass);
 		// if verified and matching passwords;
+		if (!request().accepts("text/html")) {
+			return ok();
+		}
 		if (userExists && u.verified) {
 			// the username put in the session variable under the key
 			// "username";
@@ -174,11 +184,18 @@ public class UserController extends Controller {
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).eq("isSold", false).findList();
 		User u = User.finder(usernameSes);
+
 	//	return ok(profile.render(l, u));
-		ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
-		array.add(JsonHelper.jsonUser(u));
-		array.add(JsonHelper.jsonProductList(l));
-		return ok(array);
+		
+
+		if (!request().accepts("text/html")) {
+			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
+			array.add(JsonHelper.jsonProductList(l));
+			array.add(JsonHelper.jsonUser(u));
+			return ok(array);
+		}
+		return ok(profile.render(l, u));
+
 	}	
 	
 	/**
@@ -193,6 +210,12 @@ public class UserController extends Controller {
 		List <Product> l = ProductController.findProduct.where().eq("buyerUser", currentUser).findList();
 		if (l.isEmpty()) {
 			flash("no_bought_products", Messages.get("Vi jos uvijek nemate kupljenih proizvoda"));
+		}
+		if (!request().accepts("text/html")) {
+			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
+			array.add(JsonHelper.jsonProductList(l));
+			array.add(JsonHelper.jsonUser(currentUser));
+			return ok(array);
 		}
 		return ok(boughtproducts.render(l, currentUser));
 	}
@@ -210,6 +233,12 @@ public class UserController extends Controller {
 		if (l.isEmpty()) {
 			flash("no_sold_products", Messages.get("Vi jos uvijek nemate prodatih proizvoda"));
 		}
+		if (!request().accepts("text/html")) {
+			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
+			array.add(JsonHelper.jsonProductList(l));
+			array.add(JsonHelper.jsonUser(currentUser));
+			return ok(array);
+		}
 		return ok(soldproducts.render(l, currentUser));
 	}
 	
@@ -221,6 +250,9 @@ public class UserController extends Controller {
 	@Security.Authenticated(AdminFilter.class)
 	public static Result allUsers() {
 	   	 List<User> userList = findUser.all();
+	   	if (!request().accepts("text/html")) {
+		 	 return ok(JsonHelper.jsonUserList(userList));
+	   	 }
 	   	 return ok(korisnici.render(userList));
 	}
 	 
@@ -237,6 +269,13 @@ public class UserController extends Controller {
 		if(currentUser==null){
 			return redirect(routes.Application.index());
 		}
+		if (!request().accepts("text/html")) {
+			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
+			array.add(JsonHelper.jsonUser(currentUser));
+			array.add(JsonHelper.jsonUser(u));
+			array.add(JsonHelper.jsonProductList(l));
+			return ok(array);
+	   	 }
 		return ok(korisnik.render(currentUser, u, l));	  
 	}
 	
@@ -249,6 +288,9 @@ public class UserController extends Controller {
 		  User.delete(id);
 		  Logger.of("user").info("Admin deleted a User");
 		  flash("delete_user_success",  Messages.get("Uspjesno ste izbrisali Usera"));
+		  if (!request().accepts("text/html")) {
+				return ok();
+		  }
 		  return redirect(routes.UserController.allUsers());
 	}
 		
@@ -262,7 +304,10 @@ public class UserController extends Controller {
 
 		User userById = findUser.byId(id);
 		User currentUser = SessionHelper.getCurrentUser(ctx());
-	
+		if (!request().accepts("text/html")) {
+			return JsonController.editUser(id);
+	   	 }
+
 		if (userById.equals(currentUser)) {
 			return ok(editUser.render(userById, currentUser));
 		} else {
@@ -307,6 +352,9 @@ public class UserController extends Controller {
 			MailHelper.sendEmailVerification(email, UserController.OURHOST + "/validateEmail/" + confirmation);
 			flash("validate", Messages.get("Primili ste email validaciju."));
 		}
+		if (request().accepts("application/json")){
+			return JsonController.editUser(id);
+	   	 }
 		user.save();
 		Logger.of("user").info("User with "+ oldEmail +" updated. NEW : ["+ user.username +", "+ user.email +"]");
 		session(SESSION_USERNAME, user.username);
@@ -336,6 +384,9 @@ public class UserController extends Controller {
 		u.save();
 		Logger.of("user").info("User " + u.username+ " verified the email");
 		session(SESSION_USERNAME, u.username);
+		if (!request().accepts("text/html")) {
+			return ok();
+	   	 }
 		return redirect(routes.Application.index());
 	}
 	
@@ -356,7 +407,9 @@ public class UserController extends Controller {
 		u.emailVerified = true;
 		u.emailConfirmation = null;
 		u.save();
-
+		if (!request().accepts("text/html")) {
+			return ok();
+	   	 }
 		flash("validate", Messages.get("Novi email verifikovan"));
 		return redirect(routes.Application.index());
 	}
@@ -387,6 +440,9 @@ public class UserController extends Controller {
 		u.save();
 		Logger.of("user").info("User "+ u.username + " changed their password successfully");
 		flash("chng_pass_success", Messages.get("Uspjesno ste zamijenili vasu sifru."));
+		if (!request().accepts("text/html")) {
+			return ok(JsonHelper.jsonUser(u));
+	   	 }
 		return redirect("/korisnik/" + id);
 	}
 	
@@ -402,6 +458,9 @@ public class UserController extends Controller {
 		user.isAdmin = admin;
 		user.save();
 		Logger.of("user").info("An admin user made the User "+ user.username+" an admin");
+		if (!request().accepts("text/html")) {
+				return ok(JsonHelper.jsonUser(user));
+	   	 }
 		return redirect("/korisnik/" + id);
 	}
 	
@@ -415,6 +474,13 @@ public class UserController extends Controller {
 		List<Product> products = ProductController.findProduct.where().eq("isRefunding", true).findList();
    	  	usernameSes = session(SESSION_USERNAME);
    	  	User u = User.finder(usernameSes);
+   	  	if (!request().accepts("text/html")) {
+			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
+			array.add(JsonHelper.jsonProductList(specialProducts));
+			array.add(JsonHelper.jsonUser(u));
+			array.add(JsonHelper.jsonProductList(products));
+			return ok(array);
+	   	 }
    	 return ok(adminPanel.render(specialProducts, u, products));
     }
 	
@@ -488,6 +554,9 @@ public class UserController extends Controller {
 			e.printStackTrace();
 		}
 		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
+		if (!request().accepts("text/html")) {
+			return ok(JsonHelper.jsonUser(u));
+	   	 }
 		return redirect("/profile");
 	}
 	
@@ -499,6 +568,11 @@ public class UserController extends Controller {
 	
 	public static Result showPurchase(int id)
 	{
+		if (!request().accepts("text/html")) {
+			ObjectNode num = Json.newObject();
+			num.put("id", id);
+			return ok(num);
+	   	}
 		return ok(purchase.render(id));
 	}
 	
@@ -565,6 +639,11 @@ public class UserController extends Controller {
 				Links link = itr.next();
 				if(link.getRel().equals("approval_url"))
 				{
+					if (request().accepts("application/json")){
+						ObjectNode num = Json.newObject();
+						num.put("id", id);
+						return ok(num);
+				   	}
 					return redirect(link.getHref());
 				}
 			}
@@ -625,6 +704,7 @@ public class UserController extends Controller {
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
 		}
+		
 		return ok(payPalValidation.render(p, u, payerId, paymentId, token, accessToken));
 	}
 	
@@ -642,6 +722,9 @@ public class UserController extends Controller {
 			return redirect(routes.Application.index());
 		}
 		User receiver = User.find(id);
+		if (!request().accepts("text/html")) {
+			return JsonController.sendMessage(id);
+	   	}
 		return ok(message.render(u, receiver));
 	}
 	
@@ -691,7 +774,13 @@ public class UserController extends Controller {
 	  	}
 		List<PrivateMessage> messagesReceived = PrivateMessage.find.where().eq("receiver.id", u.id).findList();
 		List<PrivateMessage> messagesSent = PrivateMessage.find.where().eq("sender.id", u.id).findList();
-		
+		if (!request().accepts("text/html")) {
+			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
+			array.add(JsonHelper.jsonUser(u));
+			array.add(JsonHelper.jsonMessageList(messagesReceived));
+			array.add(JsonHelper.jsonMessageList(messagesSent));
+			return ok(array);
+	   	}
 		return ok(allMessages.render(u, messagesReceived, messagesSent));
 
 	}
