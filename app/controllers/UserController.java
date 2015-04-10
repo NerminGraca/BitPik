@@ -10,11 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.io.Files;
 
 import helpers.CurrentUserFilter;
 import helpers.AdminFilter;
 import helpers.HashHelper;
+import helpers.JsonHelper;
 import helpers.MailHelper;
 import helpers.SessionHelper;
 import models.*;
@@ -171,7 +174,11 @@ public class UserController extends Controller {
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).eq("isSold", false).findList();
 		User u = User.finder(usernameSes);
-		return ok(profile.render(l, u));
+	//	return ok(profile.render(l, u));
+		ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
+		array.add(JsonHelper.jsonUser(u));
+		array.add(JsonHelper.jsonProductList(l));
+		return ok(array);
 	}	
 	
 	/**

@@ -33,7 +33,7 @@ public class JsonHelper {
 		user.put("emailConfirmation", u.emailConfirmation);
 		user.put("imagePath", u.imagePath);
 		ObjectNode credit = jsonCredit(u.bpcredit);
-		user.put("bpcredit", credit);
+		user.put("bpcredit", u.bpcredit.toString());
 		ArrayNode products = jsonProductList(u.products);
 		user.put("products", products);
 		ArrayNode boughtProducts = jsonProductList(u.bought_products);
