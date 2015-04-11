@@ -589,9 +589,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 
-	public static Result purchaseProcessing(int id)
-
-	{
+	public static Result purchaseProcessing(int id) {
 		Product p = Product.find.byId(id);
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
@@ -644,7 +642,7 @@ public class UserController extends Controller {
 				Links link = itr.next();
 				if(link.getRel().equals("approval_url"))
 				{
-					if (request().accepts("application/json")){
+					if (!request().accepts("html/text")){
 						ObjectNode num = Json.newObject();
 						num.put("id", id);
 						return ok(num);
