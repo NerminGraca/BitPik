@@ -51,7 +51,7 @@
 									  				@if(user != null) {
 									  					@if(user.username.equals(p.owner.username)) {
 									  						@form(routes.ProductController.deleteOnePicture(p.id, imgPath.imgPath)) {
-									  						<input class="btnDelete" type="submit" value="Izbrisi sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati sliku?');"> 
+									  						<input class="btnDelete" type="submit" value="Izbriši sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati sliku?');"> 
 									  						}
 									  					}
 									  				}
@@ -196,7 +196,7 @@
 									<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->
 									@if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {
 										
-										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni Artikal</a></span></div>
+										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni artikal</a></span></div>
 										<br> <br> <br>
 										@if(!p.isSpecial) {
 										<div class="button"><span><a href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></span></div>
@@ -206,6 +206,33 @@
 										}
 										
 									}
+									
+						
+							<!--  Premjesten donji dio koda da bi dugme "IZBRISI PROIZVOD" bilo gore -->			
+							<div>
+							@if(user != null) {
+							    <!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
+							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {
+							    
+								
+								<!--  ZA KOMENTARISANO DUGME KUPI KOJE PRESKACE CITAV PAYPAL PROCES I PREBACUJE PROIZVOD U boughtproducts -->
+								<!--    <a href="/buyingAProduct/@p.id" class="btn" onclick="return confirm('Da li zelite da vas redirectamo na PayPal stranicu da izvrsite placanje?');">Kupi</a>  -->
+								<!--  ZA KOMENTARISANO IMAGE OD PAYPAL-a 		<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" /> -->
+								}
+									    
+								
+								<!--  Vidljivost "DELETE "samo za vlasnika proizvoda -->	
+								@if(user.username.equals(p.owner.username) || user.isAdmin) {
+									@form(routes.ProductController.deleteProduct(p.id)) {
+                   					<input class="btn btn-danger btn-fontNovi" type="submit" value="Izbriši proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+	                					}
+									}			
+								}
+							</div>
+									
+									
+									
+
 									
 									@if(user.isAdmin && !p.isSold && p.isSpecial) {
 										<div class="button"><span><a href="@routes.CreditController.makeProductNotSpecial(p.id)">Skini izdvojen oglas</a></span></div>
@@ -257,22 +284,23 @@
 							</div>
 				 @if(user!=null){
 	    			@helper.form(routes.CommentController.addComment(p.id), 'id->"postComment"){
-	    				<h5>Postavi komentar:</h5>
+	    				<h5>Napiši komentar:</h5>
+	    				
+	    				<div class="contact-form">
+	    				
 						<textarea maxlength="250" postComment' name="content" id="content" placeholder="Write something nice" required> </textarea>
-						<br><br>
-	
-						<input type="submit" value="Potvrdi" class="btn btn-success" />
-						<a href="/" class="btn btn-danger"> Odustajem </a>
-						<input type="reset" value="Reset" class="btn btn-warning" />
-						<br><br>
+						<div style="margin-left: 220px;">
+						<input type="submit" value="Objavi" class="btn btn-primary btn-fontNovi" />						
+						</div></div>
 						
 					}
 					
 					@for(comment <- commentList){
 						<h5><a href="/korisnik/@comment.author.id">@comment.author.username</a></h5>
-						<p>@comment.createdAt</p>
+						<p>@comment.createdAt <button class="btn-fontNovi"><a href="/deleteComment/@comment.id/@p.id">Obriši</<a></button></p>
 						<p>@comment.content</p>
-						<button class="btn btn-warning"><a href="/deleteComment/@comment.id/@p.id">Obriši</a></button>
+						<hr style="margin-top: 5px; margin-bottom: 5px;">
+						
 					}
 	    		}
 							
@@ -344,32 +372,10 @@
 						$(".fancybox").fancybox();
 					});
 					</script>
-						<div id="boxForEditingProduct">
-						
-							@if(user != null) {
-							    <!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
-							    @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p)) {
-							    
-						
-						<!--  ZA KOMENTARISANO DUGME KUPI KOJE PRESKACE CITAV PAYPAL PROCES I PREBACUJE PROIZVOD U boughtproducts -->
-						<!--    <a href="/buyingAProduct/@p.id" class="btn" onclick="return confirm('Da li zelite da vas redirectamo na PayPal stranicu da izvrsite placanje?');">Kupi</a>  -->
-						<!--  ZA KOMENTARISANO IMAGE OD PAYPAL-a 		<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" /> -->
-								}
-									    
-								
-								<!--  Vidljivost "DELETE "samo za vlasnika proizvoda -->	
-								@if(user.username.equals(p.owner.username) || user.isAdmin) {
-									@form(routes.ProductController.deleteProduct(p.id)) {
-                   					<input class="btnRed" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
-                					}
-								}	
-								
-							}
-							
-						</div>
+
 					<div class="content_bottom">
 						<div class="heading">
-							<h3>Slicni Artikli</h3>
+							<h3>Slični artikli</h3>
 						</div>
 						<div class="see">
 							<p><a href="#">Pogledaj ostale</a></p>

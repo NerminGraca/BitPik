@@ -182,7 +182,7 @@ public class UserController extends Controller {
 			return redirect(routes.Application.index());
 		}
 
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser).eq("isSold", false).findList();
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		User u = User.finder(currentUser.username);
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);

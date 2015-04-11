@@ -2,7 +2,7 @@
 
 @import helper._
 
-@main("Kontakt", "kontakt"){
+@main("Kontakt", "Kontakt"){
 	
 <div class="wrap">
 	<div class="validateAndLogout">
@@ -22,6 +22,7 @@
 		NAŠ HELPER
 		-->
 	@helper.form(routes.Application.sendMail(), 'class->"form-horizontal", 'id->"contactForm"){
+	
 					<h5>Email:</h5>
 					 <input pattern=".{3,250}" type="email" class='@("error-input".when(contactForm("email").hasErrors)) form-control' 
       				name="email" id="email" placeholder="john@@mail.com" value='@contactForm("email").value' required/>
@@ -31,15 +32,21 @@
       				name="message" id="message" placeholder="Write something nice" value='@contactForm("message").value' required> @contactForm("message").value </textarea>
 					<br><br>
 					
-						<div class="form-group">
-					 <div class="col-md-offset-2 col-sm-10 col-md-5">
+					
+					<div style="margin-left: 7px; margin-top: -35px;">
+					
+					
+					
 			<div class="g-recaptcha" data-sitekey="6LfrmQMTAAAAALfMimGrrcLFOhlv6vRLcr1ZrTxM"></div>
-			</div>
-			</div>
+
 					 <input type="submit" value="Pošalji" class="btn btn-primary btn-fontNovi" />
 				<a href="/" class="btn btn-primary btn-fontNovi"> Odustani </a>
 				<input type="reset" value="Obriši" class="btn btn-primary btn-fontNovi" />
-					
+				
+				
+				</div>
+				
+				
 					
 				  </div>
   				</div>
