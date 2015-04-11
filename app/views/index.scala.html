@@ -12,7 +12,7 @@
 		@flash.get("login_success ")
 	</div>
 	<div class="header_slide">
-		<div class="header_bottom_left">				
+		<div class="header_bottom_left">	
 			<div class="categories">
 				<ul>
 					<h3>Kategorije</h3>
@@ -100,19 +100,17 @@
 	      
 				
 						@for(sproduct <- sproducts) {						
-							<div class="grid_1_of_4 images_1_of_4">
-					 			<a class="productImg" href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" /></a>
-					 			<h2>@sproduct.name </h2>
+							<div class="grid_1_of_4 images_1_of_4" >
+					 			<a href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" class="productImg"/></a>
+					 			
 									<div class="price-details">
 				       					<div class="price-number">
-											<div><span class="rupees">@sproduct.price KM</span></div>
+											<p><span class="rupees">@sproduct.price KM</span></p>
 					   					 </div>
-					       					<div class="add-cart">								
-												<h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
-							    			 </div>
-							    		
-							    			 
-											 <div class="clear"></div>
+					       				<div class="add-cart">								
+											<h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
+							    		 </div>
+										 <div class="clear"></div>
 									</div>				 
 							</div>				
 						}
@@ -141,7 +139,7 @@
 					 			<h2>@product.name </h2>
 									<div class="price-details">
 				       					<div class="price-number">
-											<div><span class="rupees">@product.price KM</span></div>
+											<p><span class="rupees">@product.price KM</span></p>
 					   					 </div>
 					       					<div class="add-cart">								
 												<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
