@@ -235,7 +235,7 @@
 
 									
 									@if(user.isAdmin && !p.isSold && p.isSpecial) {
-										<div class="button"><span><a href="@routes.CreditController.makeProductNotSpecial(p.id)">Skini izdvojen oglas</a></span></div>
+										<div class="button"><span><a href="@routes.CreditController.makeProductNotSpecial(p.id)"  onclick="return confirm('Da li ste sigurni da zelite skinuti proizvod sa izdvojenih proizvoda?');">Skini izdvojen oglas</a></span></div>
 									}
 									
 									@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {

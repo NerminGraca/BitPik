@@ -572,8 +572,7 @@ public class UserController extends Controller {
 	 * @param id
 	 */
 	
-	public static Result showPurchase(int id)
-	{
+	public static Result showPurchase(int id) {
 		if (!request().accepts("text/html")) {
 			ObjectNode num = Json.newObject();
 			num.put("id", id);
