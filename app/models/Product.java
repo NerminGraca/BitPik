@@ -386,5 +386,16 @@ public class Product extends Model {
 		sb.deleteCharAt(sb.length() - 1);
 		return sb.toString();
 	}
+	
+	public static int[] getIdss(List<Product> products){//treba izbrisati 
+		int []ids=new int[products.size()-1];
+		int i=0;
+		for(Product product : products){
+			ids[i]=product.id;
+			i++;
+		}
+		return ids;
+		
+	}
 
 }

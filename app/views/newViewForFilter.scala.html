@@ -126,7 +126,7 @@
       <div class="content">
          <div class="clear"></div>
          <div class="section group">
-            @if(sproducts.size() > 0 ) {
+            @if(!sproducts.isEmpty()) {
             <div class="content_top">
                <div class="heading">
                   <h3>Izdvojeni Artikli</h3>
@@ -165,7 +165,7 @@
                <div class="clear"></div>
             </div>
             <div class="section group">
-               @if(products.size() > 0 ) {
+               @if(!products.isEmpty()) {
                @for(product <- products) {						
                <div class="grid_1_of_4 images_1_of_4">
                   <a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
