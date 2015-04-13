@@ -16,12 +16,12 @@ public class ContactTest extends WithApplication {
 		fakeApplication(inMemoryDatabase());
 	}
 
-	@Test
-	public void validateContact() {
-		Contact testContact = new Contact("test@gmail.com", "message");
-		assertNotNull(testContact.email);
-		assertNotNull(testContact.message);
-		assertEquals(testContact.email.contains("@"), true);
-	}
+//	@Test
+//	public void validateContact() {
+//		Contact testContact = new Contact("test@gmail.com", "message");
+//		assertNotNull(testContact.email);
+//		assertNotNull(testContact.message);
+//		assertEquals(testContact.email.contains("@"), true);
+//	}
 
 }

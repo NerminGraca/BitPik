@@ -162,6 +162,9 @@
 									</form>
 									<h5 id="editProfileText">Detaljni opis:</h5>
 								<textarea maxlength="250" id="longDescription" name="longDescription" required>@p.longDescription</textarea>
+									<script>
+									CKEDITOR.replace('longDescription');
+									</script>
 									<input class="buttonRed" type="submit" value="Spasi izmjene" />
 				  				</div>
   					</div>
