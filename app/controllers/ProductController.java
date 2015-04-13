@@ -133,7 +133,7 @@ public class ProductController extends Controller {
 			flash("add_product_null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.addProduct());
 		}
-		if(longDesc.contains("$") || longDesc.contains("<") || longDesc.contains(">")){
+		if(longDesc.contains("$") || longDesc.contains("<") || longDesc.contains(">")  || longDesc.contains("'")){
 			flash("add_product_null_field", Messages.get("Pogresan format, molimo pokusajte ponovo"));
 			return redirect(routes.ProductController.addProduct());
 		} 
@@ -229,7 +229,7 @@ public class ProductController extends Controller {
 			flash("edit_product_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.editProduct(id));
 		}
-		if(longDesc.contains("$") || longDesc.contains("<") || longDesc.contains(">")){
+		if(longDesc.contains("$") || longDesc.contains("<") || longDesc.contains(">") || longDesc.contains("'")){
 			flash("add_product_null_field", Messages.get("Pogresan format, molimo pokusajte ponovo"));
 			return redirect(routes.ProductController.editProduct(id));
 		} 
