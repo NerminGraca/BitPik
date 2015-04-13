@@ -229,6 +229,10 @@ public class ProductController extends Controller {
 			flash("edit_product_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.editProduct(id));
 		}
+		if(longDesc.contains("$") || longDesc.contains("<") || longDesc.contains(">")){
+			flash("add_product_null_field", Messages.get("Pogresan format, molimo pokusajte ponovo"));
+			return redirect(routes.ProductController.editProduct(id));
+		} 
 
 		MainCategory mc = MainCategory.findMainCategoryByName(mainCategory);
 		List<SubCategory> subCats = mc.subCategories;
