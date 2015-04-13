@@ -10,15 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-<<<<<<< HEAD
+
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-=======
+
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
->>>>>>> f2d5bd981728c432c4c28d5e2b436cbe28623d8c
+
 import com.google.common.io.Files;
 
 import helpers.CurrentUserFilter;
