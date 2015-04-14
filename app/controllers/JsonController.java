@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import helpers.JsonHelper;
 import helpers.SessionHelper;
 import models.MainCategory;
@@ -20,6 +22,17 @@ import play.mvc.Result;
 
 public class JsonController extends Controller{
 
+	/**
+	 * Index page for Android;
+	 * @param productlist
+	 * @return
+	 */
+	public static Result indexAndroid(List<Product> productList) {
+		ArrayNode arr = JsonHelper.jsonProductList(productList);
+		return ok(arr);
+	}
+	
+	
 	public static Result registration(){
 		
 		JsonNode json = request().body().asJson();

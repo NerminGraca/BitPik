@@ -19,6 +19,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class JsonHelper {
 	
+	/**
+	 * Used
+	 * @param u
+	 * @return
+	 */
 	public static ObjectNode jsonUser(User u){
 		ObjectNode user = Json.newObject();
 		user.put("id", u.id);
@@ -28,28 +33,20 @@ public class JsonHelper {
 		return user;
 	}
 	
+	/**
+	 * Used
+	 * @param p
+	 * @return
+	 */
 	public static ObjectNode jsonProduct(Product p){
 		ObjectNode product = Json.newObject();
+		product.put("id", p.id);
 		product.put("name", p.name);
 		product.put("description", p.description);
-		product.put("longDescription", p.longDescription);
-		product.put("categoryString", p.categoryString);
-		ObjectNode category = jsonCategory(p.mainCategory);
-		product.put("mainCategory", category);
 		product.put("price", p.price);
-		product.put("publishedDate", p.publishedDate);
-		ObjectNode owner = jsonUser(p.owner);
-		product.put("owner", owner);
 		product.put("isSold", p.isSold);
-		product.put("isRefunding", p.isRefunding);
-		product.put("id", p.id);
 		product.put("isSpecial", p.isSpecial);
-		product.put("credit", p.credit);
-		product.put("availability", p.availability);
 		product.put("productImagePath", p.productImagePath);
-		product.put("refundReason", p.refundReason);
-		product.put("refundable", p.refundable);
-		product.put("subCategoryString", p.subCategoryString);
 		return product;
 	}
 	

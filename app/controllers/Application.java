@@ -1,5 +1,6 @@
 package controllers;
 
+import helpers.JsonHelper;
 import helpers.MailHelper;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import play.libs.F.Promise;
 import play.libs.Json;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -64,10 +66,13 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result index() {
+		
 		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", false).findList();
 		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
-
+		if (!request().accepts("text/html")) {
+			return JsonController.indexAndroid(productList);
+		}
 		return ok(index.render(specialProductList, productList, mainCategoryList));
 	}
 
