@@ -450,9 +450,10 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result searchUsers(String q){
-		List<Product>products=Product.find.where("UPPER(name) LIKE UPPER('%"+q+"%')AND(isSold) LIKE (false)").findList();
+		List<Product>products=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('false'))").findList();
+		List<Product>sproducts=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('true'))").findList();
 		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
-		return ok(listaPretrage.render(products,users));	
+		return ok(listaPretrage.render(sproducts,products,users));	
 	}
 	
 	/**

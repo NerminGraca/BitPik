@@ -8,14 +8,17 @@
          @flash.get("logout")    
          @flash.get("login_success ")
       </div>
-      <div >
+      <div class="container1">
          <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
             <h1 class="redHeader">Cijena od-do</h1>
-            <div style="margin-top:10px;">
+            <div class="cijena" style="margin-top:10px;">
                <input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
                <input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax"/>
+               </div>
+               <div class="opis" style="margin:-53px 330px;">
                <h1 class="redHeader">Opis</h1>
-               <input type="text" value="" id="desc" name="desc"/>						
+               <input type="text" value="" id="desc" name="desc"/>	
+               </div>					
                <!-- This is css for Kategorija and availability dropdown meni -->
                <style>
                   fieldset {
@@ -79,7 +82,8 @@
                   showHideCategoryFields();
                   
                </script>
-               <fieldset>
+               <div class="dostupnost">
+               <fieldset >
                   <label class="redHeader" for="availability" width=3px>Dostupnost</label>
                   <select name="availabilityS" id="availabilityS">
                      <option selected="selected">Svugdje</option>
@@ -101,8 +105,9 @@
                      <option>Focansko-trebinjska</option>
                   </select>
                </fieldset>
+               </div>
                <input class="button" type="submit" value="Traži" />	
-            </div>
+            
          </form>
       </div>
       <div class="header_slide">
@@ -150,9 +155,10 @@
                      <div class="clear"></div>
                   </div>
                </div>
+               </div>
                }
-            </div>
             }
+            </div>
             <!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
             <!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
             <div class="content_top">
@@ -184,7 +190,6 @@
                }
             </div>
             <!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
-         </div>
       </div>
    </div>
 </div>

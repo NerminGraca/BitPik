@@ -72,6 +72,7 @@ public class Application extends Controller {
 		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
 		return ok(newViewForFilter.render(specialProductList,productList,MainCategory.allMainCategories()));
 	}
+	
 	/**
 	 * Method registration renders the registration.html page;
 	 * 
