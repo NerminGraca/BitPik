@@ -44,7 +44,7 @@ public class UserController extends Controller {
 	static Form<User> newUser = new Form<User>(User.class);
 	static Form<PrivateMessage> sendMessage = new Form<PrivateMessage>(PrivateMessage.class);
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);	
-	private static final String SESSION_USERNAME = "username";
+	public static final String SESSION_USERNAME = "username";
 	public static final String OURHOST = Play.application().configuration().getString("OURHOST");
 	
 	//Finders
@@ -126,6 +126,10 @@ public class UserController extends Controller {
 		String username;
 		String password;
 		
+		if (!request().accepts("text/html")) {
+			return JsonController.login();
+		}
+		
 		try {
 			username = newUser.bindFromRequest().get().username;
 			password = newUser.bindFromRequest().get().password;
@@ -150,9 +154,9 @@ public class UserController extends Controller {
 		}
 		boolean userExists = HashHelper.checkPassword(password, hashPass);
 		// if verified and matching passwords;
-		if (!request().accepts("text/html")) {
-			return ok();
-		}
+//		if (!request().accepts("text/html")) {
+//			return JsonController.login();
+//		}
 		if (userExists && u.verified) {
 			// the username put in the session variable under the key
 			// "username";

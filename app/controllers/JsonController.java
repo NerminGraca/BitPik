@@ -17,6 +17,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+
 public class JsonController extends Controller{
 
 	public static Result registration(){
@@ -51,21 +52,26 @@ public class JsonController extends Controller{
 	}
 	
 	public static Result login(){
-		
+				
 		JsonNode json = request().body().asJson();
 		String username = json.findPath("username").textValue();
 		String password = json.findPath("password").textValue();
-		if(username.equals(null) || username.isEmpty()){
+				
+		if(username.isEmpty()){
 			Logger.info("Login error, username not valid");
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Username not valid."));
 		}
-		if(password.equals(null) || password.isEmpty()){
+		if(password.isEmpty()){
 			Logger.info("Login error, password not valid");
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Password not valid."));
 		}
-		return ok();
+		//new*****
+		User u = User.finder(username);
+		session().clear();
+		session(UserController.SESSION_USERNAME, username);
+		return ok(JsonHelper.jsonUser(u));
 	}
 	
 	public static Result editUser(int id){

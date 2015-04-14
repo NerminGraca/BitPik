@@ -25,19 +25,6 @@ public class JsonHelper {
 		user.put("username", u.username);
 		user.put("password", u.password);
 		user.put("email", u.email);
-		user.put("isAdmin", u.isAdmin);
-		user.put("isProtectedAdmin", u.isProtectedAdmin);
-		user.put("verified", u.verified);
-		user.put("confirmation", u.confirmation);
-		user.put("emailVerified", u.emailVerified);
-		user.put("emailConfirmation", u.emailConfirmation);
-		user.put("imagePath", u.imagePath);
-		ObjectNode credit = jsonCredit(u.bpcredit);
-		user.put("bpcredit", credit);
-		ArrayNode products = jsonProductList(u.products);
-		user.put("products", products);
-		ArrayNode boughtProducts = jsonProductList(u.bought_products);
-		user.put("products", boughtProducts);
 		return user;
 	}
 	
