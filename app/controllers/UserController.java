@@ -3,16 +3,21 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.JsonNode;
+
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import com.google.common.io.Files;
 
 import helpers.CurrentUserFilter;
@@ -44,7 +49,7 @@ public class UserController extends Controller {
 	static Form<User> newUser = new Form<User>(User.class);
 	static Form<PrivateMessage> sendMessage = new Form<PrivateMessage>(PrivateMessage.class);
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);	
-	private static final String SESSION_USERNAME = "username";
+	public static final String SESSION_USERNAME = "username";
 	public static final String OURHOST = Play.application().configuration().getString("OURHOST");
 	
 	//Finders
@@ -126,6 +131,10 @@ public class UserController extends Controller {
 		String username;
 		String password;
 		
+		if (!request().accepts("text/html")) {
+			return JsonController.login();
+		}
+		
 		try {
 			username = newUser.bindFromRequest().get().username;
 			password = newUser.bindFromRequest().get().password;
@@ -151,8 +160,9 @@ public class UserController extends Controller {
 		boolean userExists = HashHelper.checkPassword(password, hashPass);
 		// if verified and matching passwords;
 		if (!request().accepts("text/html")) {
-			return ok();
+			return ok(JsonHelper.jsonUser(u));
 		}
+
 		if (userExists && u.verified) {
 			// the username put in the session variable under the key
 			// "username";
@@ -181,16 +191,16 @@ public class UserController extends Controller {
 			Logger.of("user").warn("Not registered User tried access the profile page");
 			return redirect(routes.Application.index());
 		}
-
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
+		List <Product> productList = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		User u = User.finder(currentUser.username);
+
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
-			array.add(JsonHelper.jsonProductList(l));
+			array.add(JsonHelper.jsonProductList(productList));
 			array.add(JsonHelper.jsonUser(u));
 			return ok(array);
 		}
-		return ok(profile.render(l, u));
+		return ok(profile.render(productList, u));
 
 	}	
 	
@@ -207,17 +217,17 @@ public class UserController extends Controller {
 			return redirect(routes.Application.index());
 		}		
 		// List of products that the current logged in User has bought;
-		List <Product> l = ProductController.findProduct.where().eq("buyerUser", currentUser).findList();
-		if (l.isEmpty()) {
+		List <Product> productList = ProductController.findProduct.where().eq("buyerUser", currentUser).findList();
+		if (productList.isEmpty()) {
 			flash("no_bought_products", Messages.get("Vi jos uvijek nemate kupljenih proizvoda"));
 		}
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
-			array.add(JsonHelper.jsonProductList(l));
+			array.add(JsonHelper.jsonProductList(productList));
 			array.add(JsonHelper.jsonUser(currentUser));
 			return ok(array);
 		}
-		return ok(boughtproducts.render(l, currentUser));
+		return ok(boughtproducts.render(productList, currentUser));
 	}
 	
 	/**
@@ -233,17 +243,17 @@ public class UserController extends Controller {
 			return redirect(routes.Application.index());
 		}
 		// List of products that the current logged in User has sold;
-		List <Product> l = ProductController.findProduct.where().eq("owner", currentUser).eq("isSold", true).findList();
-		if (l.isEmpty()) {
+		List <Product> productList = ProductController.findProduct.where().eq("owner", currentUser).eq("isSold", true).findList();
+		if (productList.isEmpty()) {
 			flash("no_sold_products", Messages.get("Vi jos uvijek nemate prodatih proizvoda"));
 		}
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
-			array.add(JsonHelper.jsonProductList(l));
+			array.add(JsonHelper.jsonProductList(productList));
 			array.add(JsonHelper.jsonUser(currentUser));
 			return ok(array);
 		}
-		return ok(soldproducts.render(l, currentUser));
+		return ok(soldproducts.render(productList, currentUser));
 	}	
 	
 	/**
@@ -268,7 +278,7 @@ public class UserController extends Controller {
 	public static Result singleUser(int id) {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		User u = findUser.byId(id);
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", u.username).findList();
+		List <Product> productList = ProductController.findProduct.where().eq("owner.username", u.username).findList();
 		if(currentUser==null){
 			return redirect(routes.Application.index());
 		}
@@ -276,10 +286,10 @@ public class UserController extends Controller {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
 			array.add(JsonHelper.jsonUser(currentUser));
 			array.add(JsonHelper.jsonUser(u));
-			array.add(JsonHelper.jsonProductList(l));
+			array.add(JsonHelper.jsonProductList(productList));
 			return ok(array);
 	   	 }
-		return ok(korisnik.render(currentUser, u, l));	  
+		return ok(korisnik.render(currentUser, u, productList));	  
 	}
 	
 	/**
@@ -307,10 +317,6 @@ public class UserController extends Controller {
 
 		User userById = findUser.byId(id);
 		User currentUser = SessionHelper.getCurrentUser(ctx());
-		if (!request().accepts("text/html")) {
-			return JsonController.editUser(id);
-	   	 }
-
 		if (userById.equals(currentUser)) {
 			return ok(editUser.render(userById, currentUser));
 		} else {
@@ -354,9 +360,7 @@ public class UserController extends Controller {
 			MailHelper.sendEmailVerification(email, UserController.OURHOST + "/validateEmail/" + confirmation);
 			flash("validate", Messages.get("Primili ste email validaciju."));
 		}
-		if (request().accepts("application/json")){
-			return JsonController.editUser(id);
-	   	 }
+		
 		user.save();
 		Logger.of("user").info("User with "+ oldEmail +" updated. NEW : ["+ user.username +", "+ user.email +"]");
 		session(SESSION_USERNAME, user.username);
@@ -674,9 +678,11 @@ public class UserController extends Controller {
 		String payerId = null;
 		String token = null;
 		String accessToken = null;
+
 		
 		String payPalSecretKey1 = Play.application().configuration().getString("payPalSecretKey1");
 		String payPalSecretKey2 = Play.application().configuration().getString("payPalSecretKey2");
+
 		
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
@@ -685,12 +691,22 @@ public class UserController extends Controller {
 		    paymentId = paypalReturn.get("paymentId");
 			payerId = paypalReturn.get("PayerID");
 			token = paypalReturn.get("token");
-			
-			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
+
+			 accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			
+			Payment payment = Payment.get(accessToken, paymentId);
+			
+
+			
+			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
+			
+			apiContext.setConfigurationMap(sdkConfig);
+			
 			//Payment payment = Payment.get(accessToken, paymentId);			
+
 			//payment.execute(apiContext, paymentExecution);
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
@@ -784,6 +800,10 @@ public class UserController extends Controller {
 	 */
 	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
 		
+
+		
+			DynamicForm paypalReturn = Form.form().bindFromRequest();
+			
 		String payPalSecretKey1 = Play.application().configuration().getString("payPalSecretKey1");
 		String payPalSecretKey2 = Play.application().configuration().getString("payPalSecretKey2");
 		
@@ -792,6 +812,7 @@ public class UserController extends Controller {
 			//DynamicForm paypalReturn = Form.form().bindFromRequest();
 			
 			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
+
 			Map<String, String> sdkConfig = new HashMap<String, String>();
 			sdkConfig.put("mode", "sandbox");
 			APIContext apiContext = new APIContext(accessToken);

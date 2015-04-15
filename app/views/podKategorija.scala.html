@@ -5,103 +5,106 @@
 <div class="main">
 <div class="content">
 <div class="section group">
-<div >
-   <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST"">
-      <h1 class="redHeader">Cijena od-do</h1>
-      <div style="margin-top:10px;">
-         <input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
-         <input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax"/>
-         <h1 class="redHeader">Opis</h1>
-         <input type="text" value="" id="desc" name="desc"/>						
-         <!-- This is css for Kategorija and availability dropdown meni -->
-         <style>
-            fieldset {
-            border: 0;
-            font-style: bold;
-            }
-            label {
-            display: block;
-            margin: 0 0 0 0;
-            }
-            select {
-            width: 16%;
-            height: 40px;
-            font-weight: bold;
-            color: #464646;
-            font-size: 1em;
-            font-family: Arial, Helvetica, sans-serif;
-            padding: 8px;
-            margin: 5px;
-            }
-            .overflow {
-            height: 400px;
-            }
-         </style>
-         <script language="JavaScript">
-            var e = document.getElementById("categoryString");
-            function showHideCategoryFields() {
-            	var selected = e.value;
-            
-            	var hiddenDivs = document.querySelectorAll('.fieldsetToHide');
-            
-            	for (var i = 0; i < hiddenDivs.length; i++) {
-            		hiddenDivs[i].style.display = 'none';
-            	}
-            
-            	var actives = document.querySelectorAll("#subCategoryString");
-            
-            	for (var i = 0; i < actives.length; i++) {
-            		actives[i].id = "inactive";
-            		actives[i].name = "inactive";
-            	}
-            
-            
-            	var shown = document.getElementById(selected);
-            	shown.style.display = 'block';
-            
-            	var children = shown.childNodes;
-            	var node = children[1];
-            	var children2 = node.childNodes;
-            	var selectNode = children2[3];
-            	
-            	selectNode.id = "subCategoryString";
-            	selectNode.name = "subCategoryString";
-            	
-            	
-            		
-            };
-            
-            e.onchange = showHideCategoryFields;
-            
-            showHideCategoryFields();
-            
-         </script>
-         <fieldset>
-             <label class="redHeader" for="availability" width=10px>Dostupnost</label>
-            <select name="availabilityS" id="availabilityS">
-               <option selected="selected">Svugdje</option>
-               <option>Unutar BiH</option>
-               <option>Sarajevo</option>
-               <option>Unsko sanski</option>
-               <option>Posavski</option>
-               <option>Tuzlanski</option>
-               <option>Zenicko-dobojski</option>
-               <option>Bosansko-Podrinjski</option>
-               <option>Srednjo-bosanski</option>
-               <option>Zapadno-hercegovacki</option>
-               <option>Livanjski</option>
-               <option>Hercegovacko-neretvanski</option>
-               <option>Distrikt Brcko</option>
-               <option>Banjalucka</option>
-               <option>Dobojsko-bijeljinska</option>
-               <option>Sarajevsko-zvornicka</option>
-               <option>Focansko-trebinjska</option>
-            </select>
-         </fieldset>
-         <input class="button" type="submit" value="Traži" />	
-      </div>
-   </form>
-</div>
+  <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
+         <div class="filter" style="margin-top:20px; margin:25px 130px;">
+            <h1 class="redHeader">Cijena od-do</h1>
+               <input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
+               <input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax"/>
+               					
+               <!-- This is css for Kategorija and availability dropdown meni -->
+               <style>
+                  fieldset {
+                  border: 0;
+                  font-style: bold;
+                  }
+                  label {
+                  display: block;
+                  margin: 0 0 0 0;
+                  }
+                  select {
+                  width: 16%;
+                  height: 40px;
+                  font-weight: bold;
+                  color: #464646;
+                  font-size: 1em;
+                  font-family: Arial, Helvetica, sans-serif;
+                  padding: 6px;
+                  margin: 3px;
+                  }
+                  .overflow {
+                  height: 400px;
+                  }
+               </style>
+               <script language="JavaScript">
+                  var e = document.getElementById("categoryString");
+                  function showHideCategoryFields() {
+                  	var selected = e.value;
+                  
+                  	var hiddenDivs = document.querySelectorAll('.fieldsetToHide');
+                  
+                  	for (var i = 0; i < hiddenDivs.length; i++) {
+                  		hiddenDivs[i].style.display = 'none';
+                  	}
+                  
+                  	var actives = document.querySelectorAll("#subCategoryString");
+                  
+                  	for (var i = 0; i < actives.length; i++) {
+                  		actives[i].id = "inactive";
+                  		actives[i].name = "inactive";
+                  	}
+                  
+                  
+                  	var shown = document.getElementById(selected);
+                  	shown.style.display = 'block';
+                  	
+                  	var children = shown.childNodes;
+                  	var node = children[1];
+                  	var children2 = node.childNodes;
+                  	var selectNode = children2[3];
+                  	
+                  	selectNode.id = "subCategoryString";
+                  	selectNode.name = "subCategoryString";
+                  	
+                  	
+                  	
+                  };
+                  
+                  e.onchange = showHideCategoryFields;
+                  
+                  showHideCategoryFields();
+                  
+               </script>
+               <div class="dostupnost" style="margin:-45px 400px;">
+               <fieldset style="width:600px;">
+                  <label class="redHeader" for="availability" width=3px>Dostupnost</label>
+                  <select name="availabilityS" id="availabilityS">
+                     <option selected="selected">Svugdje</option>
+                     <option>Unutar BiH</option>
+                     <option>Sarajevo</option>
+                     <option>Unsko sanski</option>
+                     <option>Posavski</option>
+                     <option>Tuzlanski</option>
+                     <option>Zenicko-dobojski</option>
+                     <option>Bosansko-Podrinjski</option>
+                     <option>Srednjo-bosanski</option>
+                     <option>Zapadno-hercegovacki</option>
+                     <option>Livanjski</option>
+                     <option>Hercegovacko-neretvanski</option>
+                     <option>Distrikt Brcko</option>
+                     <option>Banjalucka</option>
+                     <option>Dobojsko-bijeljinska</option>
+                     <option>Sarajevsko-zvornicka</option>
+                     <option>Focansko-trebinjska</option>
+                  </select>
+               </fieldset>
+                </div>
+                <div class="opis" style="margin:-53px 710px;">
+               <h1 class="redHeader">Opis</h1>
+               <input type="text" value="" id="desc" name="desc"/>	
+               </div>
+               <input class="button" type="submit" value="Traži" style="margin:65px 730px;" />	
+            </div>
+         </form>
 <div class="header_slide">
    <div class="leftBoxCat">
       <div class="categories">

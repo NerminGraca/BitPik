@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import helpers.JsonHelper;
 import helpers.SessionHelper;
 import models.MainCategory;
@@ -17,8 +19,20 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+
 public class JsonController extends Controller{
 
+	/**
+	 * Index page for Android;
+	 * @param productlist
+	 * @return
+	 */
+	public static Result indexAndroid(List<Product> productList) {
+		ArrayNode arr = JsonHelper.jsonProductList(productList);
+		return ok(arr);
+	}
+	
+	
 	public static Result registration(){
 		
 		JsonNode json = request().body().asJson();
@@ -52,46 +66,26 @@ public class JsonController extends Controller{
 	}
 	
 	public static Result login(){
-		
+				
 		JsonNode json = request().body().asJson();
 		String username = json.findPath("username").textValue();
 		String password = json.findPath("password").textValue();
-		if(username.equals(null) || username.isEmpty()){
+				
+		if(username.isEmpty()){
 			Logger.info("Login error, username not valid");
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Username not valid."));
 		}
-		if(password.equals(null) || password.isEmpty()){
+		if(password.isEmpty()){
 			Logger.info("Login error, password not valid");
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Password not valid."));
 		}
-		return ok();
-	}
-	
-	public static Result editUser(int id){
-		User currentUser = SessionHelper.getCurrentUser(ctx());
-		JsonNode json = request().body().asJson();
-		String username = json.findPath("username").textValue();
-		String email = json.findPath("email").textValue();
-		if(username.equals(null) || username.isEmpty()){
-			Logger.info("Login error, username not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Username not valid."));
-		}
-		if(email.equals(null) || email.isEmpty()){
-			Logger.info("Login error, password not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Password not valid."));
-		}
-		User u = User.find(id);
-		u.setUsername(username);
-		u.setEmail(email);
-		u.save();
-		ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
-		array.add(JsonHelper.jsonUser(u));
-		array.add(JsonHelper.jsonUser(currentUser));
-		return ok(array);
+		//new*****
+		User u = User.finder(username);
+		session().clear();
+		session(UserController.SESSION_USERNAME, username);
+		return ok(JsonHelper.jsonUser(u));
 	}
 	
 	public static Result changePassword(int id){

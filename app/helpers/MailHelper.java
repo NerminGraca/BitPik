@@ -58,6 +58,9 @@ public class MailHelper {
 		mail.setSubject("Refundacija aktivirana");
 		mail.setFrom("bitpikgroup@gmail.com");
 		mail.addTo("bitpikgroup@gmail.com");
+
+		mail.addTo("nera.graca@gmail.com");
+
 		mail.addTo(buyerEmail);
 		mail.addTo(sellerEmail);
 		mail.setBodyText(message);
@@ -80,6 +83,9 @@ public class MailHelper {
 		mail.setSubject("Refundacija otkazana");
 		mail.setFrom("bitpikgroup@gmail.com");
 		mail.addTo("bitpikgroup@gmail.com");
+
+		mail.addTo("nera.graca@gmail.com");
+
 		mail.addTo(buyerEmail);
 		mail.addTo(sellerEmail);
 		mail.setBodyText(message);
