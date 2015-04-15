@@ -8,17 +8,12 @@
          @flash.get("logout")    
          @flash.get("login_success ")
       </div>
-      <div class="container1">
-         <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
+     <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
+         <div class="filter" style="margin-top:20px; margin:25px 130px;">
             <h1 class="redHeader">Cijena od-do</h1>
-            <div class="cijena" style="margin-top:10px;">
                <input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
                <input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax"/>
-               </div>
-               <div class="opis" style="margin:-53px 330px;">
-               <h1 class="redHeader">Opis</h1>
-               <input type="text" value="" id="desc" name="desc"/>	
-               </div>					
+               					
                <!-- This is css for Kategorija and availability dropdown meni -->
                <style>
                   fieldset {
@@ -36,8 +31,8 @@
                   color: #464646;
                   font-size: 1em;
                   font-family: Arial, Helvetica, sans-serif;
-                  padding: 8px;
-                  margin: 5px;
+                  padding: 6px;
+                  margin: 3px;
                   }
                   .overflow {
                   height: 400px;
@@ -82,8 +77,8 @@
                   showHideCategoryFields();
                   
                </script>
-               <div class="dostupnost">
-               <fieldset >
+               <div class="dostupnost" style="margin:-45px 400px;">
+               <fieldset style="width:600px;">
                   <label class="redHeader" for="availability" width=3px>Dostupnost</label>
                   <select name="availabilityS" id="availabilityS">
                      <option selected="selected">Svugdje</option>
@@ -105,10 +100,15 @@
                      <option>Focansko-trebinjska</option>
                   </select>
                </fieldset>
+                </div>
+                <div class="opis" style="margin:-53px 710px;">
+               <h1 class="redHeader">Opis</h1>
+               <input type="text" value="" id="desc" name="desc"/>	
                </div>
-               <input class="button" type="submit" value="Traži" />	
-            
+               <input class="button" type="submit" value="Traži" style="margin:65px 730px;" />	
+            </div>
          </form>
+    
       </div>
       <div class="header_slide">
          <div class="header_bottom_left">
