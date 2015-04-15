@@ -71,6 +71,11 @@ public class Application extends Controller {
 		return ok(index.render(specialProductList, productList, mainCategoryList));
 	}
 
+	public static Result newViewForFilter(){
+		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", false).findList();
+		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
+		return ok(newViewForFilter.render(specialProductList,productList,MainCategory.allMainCategories()));
+	}
 	/**
 	 * Method registration renders the registration.html page;
 	 * 
@@ -171,5 +176,4 @@ public class Application extends Controller {
 		// return the promise
 		return holder;
 	}
-
 }

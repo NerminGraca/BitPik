@@ -12,7 +12,7 @@
 		@flash.get("login_success ")
 	</div>
 	<div class="header_slide">
-		<div class="header_bottom_left">				
+		<div class="header_bottom_left">	
 			<div class="categories">
 				<ul>
 					<h3>Kategorije</h3>
@@ -35,10 +35,10 @@
 								<a href="#"><img src="@routes.Assets.at("images/slide-1-image.png")" alt="learn more" /></a>									    
 							</div>
 						    <div class="slider-text">
-		                    	<h1>Reklama<br><span>VASA</span></h1>
+		                    	<h1>Reklama<br><span>VAŠA</span></h1>
 		                   		<h2>Popust 20%</h2>
 								<div class="features_list">
-									<h4>Da saznate vise kontaktirajte nasu marketing sluzbu na linku ispod</h4>						               
+									<h4>Da saznate više kontaktirajte našu marketing službu na linku ispod</h4>						               
 							    </div>
 							    <a href="#" class="button">Kontaktirajte odmah!</a>
 					       </div>			               
@@ -46,10 +46,10 @@
 				        </div>	
 						<div class="slide">
 							<div class="slider-text">
-		                    	<h1>Reklama<br><span>VASA</span></h1>
+		                    	<h1>Reklama<br><span>VAŠA</span></h1>
 		                    	<h2>Popust 40%</h2>
 								<div class="features_list">
-									<h4>Da saznate vise kontaktirajte nasu marketing sluzbu na linku ispod</h4>							               
+									<h4>Da saznate više kontaktirajte našu marketing službu na linku ispod</h4>							               
 								</div>
 							    <a href="#" class="button">Kontaktirajte odmah!</a>
 					    	</div>		
@@ -63,10 +63,10 @@
 								<a href="#"><img src="@routes.Assets.at("images/slide-2-image.jpg")" alt="learn more" /></a>
 							</div>
 							<div class="slider-text">
-		                    	<h1>Reklama<br><span>VASA</span></h1>
+		                    	<h1>Reklama<br><span>VAŠA</span></h1>
 		                    	<h2>Popust 10%</h2>
 								<div class="features_list">
-									<h4>Da saznate vise kontaktirajte nasu marketing sluzbu na linku ispod</h4>							               
+									<h4>Da saznate više kontaktirajte našu marketing službu na linku ispod</h4>							               
 								</div>
 							    <a href="#" class="button">Kontaktirajte odmah!</a>
 					   		</div>	
@@ -100,19 +100,17 @@
 	      
 				
 						@for(sproduct <- sproducts) {						
-							<div class="grid_1_of_4 images_1_of_4">
-					 			<a class="productImg" href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" /></a>
-					 			<h2>@sproduct.name </h2>
+							<div class="grid_1_of_4 images_1_of_4" >
+					 			<a href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" class="productImg"/></a>
+					 			
 									<div class="price-details">
 				       					<div class="price-number">
-											<div><span class="rupees">@sproduct.price KM</span></div>
+											<p><span class="rupees">@sproduct.price KM</span></p>
 					   					 </div>
-					       					<div class="add-cart">								
-												<h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
-							    			 </div>
-							    		
-							    			 
-											 <div class="clear"></div>
+					       				<div class="add-cart">								
+											<h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
+							    		 </div>
+										 <div class="clear"></div>
 									</div>				 
 							</div>				
 						}
@@ -141,7 +139,7 @@
 					 			<h2>@product.name </h2>
 									<div class="price-details">
 				       					<div class="price-number">
-											<div><span class="rupees">@product.price KM</span></div>
+											<p><span class="rupees">@product.price KM</span></p>
 					   					 </div>
 					       					<div class="add-cart">								
 												<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>

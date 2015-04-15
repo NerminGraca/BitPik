@@ -1,7 +1,5 @@
 package controllers;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,21 +8,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
-import com.google.common.io.Files;
-
 import helpers.*;
 import models.*;
 import play.i18n.Messages;
 import play.*;
 import play.data.DynamicForm;
 import play.data.Form;
-import play.db.ebean.Model.Finder;
 import play.mvc.*;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.FilePart;
-import views.*;
 import views.html.*;
 
 import com.paypal.api.payments.*;
@@ -36,7 +26,7 @@ import com.paypal.base.rest.PayPalRESTException;
  * This controller is User to control the Users Credit
  * their amount, to get certain amount that User has,
  * to Use them when a User wants to use them on a a certain product
- * to get their product to be special(listed amoung the first ones) in search queries,
+ * to get their product to be special(listed among the first ones) in search queries,
  * to subtract them when used on certain products;
  * Basically everything and every actions one with the Credits (which are simple integers),
  * is done with this class CreditControllers;

@@ -48,8 +48,7 @@ public class UserController extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
 	static Form<PrivateMessage> sendMessage = new Form<PrivateMessage>(PrivateMessage.class);
-	static Form<Comment> postComment = new Form<Comment>(Comment.class);
-	static String usernameSes;	
+	static Form<Comment> postComment = new Form<Comment>(Comment.class);	
 	private static final String SESSION_USERNAME = "username";
 	public static final String OURHOST = Play.application().configuration().getString("OURHOST");
 	
@@ -81,6 +80,7 @@ public class UserController extends Controller {
 			return redirect(routes.Application.registration());
 		}
 
+		// Null catching
 		if (	username == null ||
 				password == null ||
 				confirmPassword == null ||
@@ -102,6 +102,7 @@ public class UserController extends Controller {
 					"Email je iskoristen, molimo Vas koristite drugi!"));
 		}
 
+		// Password confirmation evaluation
 		if(!password.equals(confirmPassword))
 		{
 			Logger.of("user").error("At Registration - Password not confirmed correctly");
@@ -137,7 +138,8 @@ public class UserController extends Controller {
 			flash("login_null_field", Messages.get("Molim Vas popunite sva polja u formi"));
 			return redirect(routes.Application.login());
 		}
-				
+		
+		// Null catching
 		if (username == null || password == null) {
 			return redirect(routes.Application.login());
 		}
@@ -154,7 +156,7 @@ public class UserController extends Controller {
 		boolean userExists = HashHelper.checkPassword(password, hashPass);
 		// if verified and matching passwords;
 		if (!request().accepts("text/html")) {
-			return ok();
+			return ok(JsonHelper.jsonUser(u));
 		}
 		if (userExists && u.verified) {
 			// the username put in the session variable under the key
@@ -175,17 +177,19 @@ public class UserController extends Controller {
 	* And renders the profile.html page;
 	* @return renders the profile.html page with the list of products mentioned;
 	*/
+	@Security.Authenticated(SessionHelper.class)
 	public static Result findProfileProducts(){
-		usernameSes = session(SESSION_USERNAME);
-		if (usernameSes == null) {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		
+		// Null Catching
+		if (currentUser == null) {
 			Logger.of("user").warn("Not registered User tried access the profile page");
 			return redirect(routes.Application.index());
 		}
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", usernameSes).eq("isSold", false).findList();
-		User u = User.finder(usernameSes);
+		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
+		User u = User.finder(currentUser.username);
 
 	//	return ok(profile.render(l, u));
-		
 
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
@@ -198,13 +202,17 @@ public class UserController extends Controller {
 	}	
 	
 	/**
-	 * This method lists all the bought items of the User logged in;
-	 * If no products where bought by the user we inform him about it; 
-	 * 
-	 * @return Result;
-	 */
+	* This method lists all the bought items of the User logged in;
+	* If no products where bought by the user we inform him about it; 
+	* 
+	* @return Result;
+	*/
 	public static Result find_bought_products() {
-		User currentUser = SessionHelper.getCurrentUser(ctx());
+		User currentUser = SessionHelper.getCurrentUser(ctx());		
+		//Null Catching
+		if (currentUser == null) {
+			return redirect(routes.Application.index());
+		}		
 		// List of products that the current logged in User has bought;
 		List <Product> l = ProductController.findProduct.where().eq("buyerUser", currentUser).findList();
 		if (l.isEmpty()) {
@@ -227,6 +235,10 @@ public class UserController extends Controller {
 	 */
 	public static Result findSoldProducts() {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
+		//Null Catching
+		if (currentUser == null) {
+			return redirect(routes.Application.index());
+		}
 		// List of products that the current logged in User has sold;
 		List <Product> l = ProductController.findProduct.where().eq("owner", currentUser).eq("isSold", true).findList();
 		if (l.isEmpty()) {
@@ -239,8 +251,7 @@ public class UserController extends Controller {
 			return ok(array);
 		}
 		return ok(soldproducts.render(l, currentUser));
-	}
-	
+	}	
 	
 	/**
 	* Method list all users registered in database
@@ -325,7 +336,6 @@ public class UserController extends Controller {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		User user = User.find(id);
 		String oldEmail = user.email;		
-		usernameSes = session(SESSION_USERNAME);
 		
 		String username;
 		String email;
@@ -469,18 +479,23 @@ public class UserController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
     public static Result adminPanel() {
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		//Null Catching
+		if (currentUser == null) {
+			return redirect(routes.Application.index());
+		}
 		List<Product> specialProducts = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
 		List<Product> products = ProductController.findProduct.where().eq("isRefunding", true).findList();
-   	  	usernameSes = session(SESSION_USERNAME);
-   	  	User u = User.finder(usernameSes);
    	  	if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
 			array.add(JsonHelper.jsonProductList(specialProducts));
-			array.add(JsonHelper.jsonUser(u));
+			array.add(JsonHelper.jsonUser(currentUser));
 			array.add(JsonHelper.jsonProductList(products));
 			return ok(array);
 	   	 }
-   	 return ok(adminPanel.render(specialProducts, u, products));
+
+   	 return ok(adminPanel.render(specialProducts, currentUser, products));
+
     }
 	
 	/**
@@ -491,7 +506,6 @@ public class UserController extends Controller {
 	*/
 	public static Result saveFile(){
 		User u = SessionHelper.getCurrentUser(ctx());
-		usernameSes = session(SESSION_USERNAME);
 		
 		//checks if picture exists in base, if it does deletes it then uploads new picture
 		final String deletePath = "." + File.separator 
@@ -504,7 +518,7 @@ public class UserController extends Controller {
 			d.delete();
 		}
 			
-		int userID = User.finder(usernameSes).id;
+		int userID = u.id;
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 
 				+ "public" + File.separator + "images" 
@@ -528,7 +542,7 @@ public class UserController extends Controller {
 			&& !extension.equalsIgnoreCase(".png") ){
 			
 			flash("error",  Messages.get("Slika ne smije biti veca od 2 MB"));
-			Logger.of("user").warn( usernameSes + " tried to upload an image that is not valid.");
+			Logger.of("user").warn( u.username + " tried to upload an image that is not valid.");
 			return redirect("/profile");
 		}
 		
@@ -536,7 +550,7 @@ public class UserController extends Controller {
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
 			flash("error",  Messages.get("Image size not valid"));
-			Logger.of("user").warn( usernameSes + " tried to upload an image that is bigger than 2MB.");
+			Logger.of("user").warn( u.username + " tried to upload an image that is bigger than 2MB.");
 			return redirect("/profile");
 		}
 		
@@ -549,7 +563,7 @@ public class UserController extends Controller {
 			u.imagePath = assetsPath;
 			u.save();
 		} catch (IOException e) {
-			Logger.of("user").error( usernameSes + " failed to upload an image to his profile page.");
+			Logger.of("user").error( u.username + " failed to upload an image to his profile page.");
 			e.printStackTrace();
 		}
 		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
@@ -565,8 +579,7 @@ public class UserController extends Controller {
 	 * @param id
 	 */
 	
-	public static Result showPurchase(int id)
-	{
+	public static Result showPurchase(int id) {
 		if (!request().accepts("text/html")) {
 			ObjectNode num = Json.newObject();
 			num.put("id", id);
@@ -583,9 +596,7 @@ public class UserController extends Controller {
 	 * @return
 	 */
 
-	public static Result purchaseProcessing(int id)
-
-	{
+	public static Result purchaseProcessing(int id) {
 		Product p = Product.find.byId(id);
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");
@@ -638,7 +649,7 @@ public class UserController extends Controller {
 				Links link = itr.next();
 				if(link.getRel().equals("approval_url"))
 				{
-					if (request().accepts("application/json")){
+					if (!request().accepts("html/text")){
 						ObjectNode num = Json.newObject();
 						num.put("id", id);
 						return ok(num);
@@ -715,7 +726,6 @@ public class UserController extends Controller {
 	public static Result sendMessage(int id)
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
-		usernameSes = session(SESSION_USERNAME);
 		if(u == null)
 		{
 			return redirect(routes.Application.index());
@@ -736,7 +746,6 @@ public class UserController extends Controller {
 	public static Result saveMessage(int id)
 	{
 		User sender = SessionHelper.getCurrentUser(ctx());
-		usernameSes = session(SESSION_USERNAME);
    	  	User receiver = findUser.byId(id);
    	  	String content;
 		try {
@@ -766,7 +775,6 @@ public class UserController extends Controller {
 	public static Result allMessages()
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
-		usernameSes = session(SESSION_USERNAME);
 		if(u == null)
 	  	{
 	  		return redirect(routes.Application.index());
@@ -822,7 +830,7 @@ public class UserController extends Controller {
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
 		}
-		return redirect("http://localhost:9000/buyingAProduct/" +id +"/"+ token);
+		return redirect(OURHOST + "/buyingAProduct/" +id +"/"+ token);
 	}	
 
 }

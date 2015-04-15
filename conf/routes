@@ -3,12 +3,14 @@
 # ~~~~
 
 # Home page
+
 GET     /                           		controllers.Application.index()
 GET		/registration 						controllers.Application.registration()
 GET		/login								controllers.Application.login()
 GET     /logout								controllers.Application.logout()
 POST 	/contact                        	controllers.Application.sendMail()
 GET 	/contact 							controllers.Application.contact()
+GET     /newViewForFilter               controllers.Application.newViewForFilter()
 
 POST	/adduser							controllers.UserController.addUser()
 POST	/finduser							controllers.UserController.findUser()
@@ -56,6 +58,7 @@ POST	/refund								controllers.ProductController.refundProduct(id: Int)
 POST 	/leavecommentbuyer/:id				controllers.ProductController.leaveBCommentTransaction(id: Integer)
 POST 	/leavecommentseller/:id				controllers.ProductController.leaveSCommentTransaction(id: Integer)
 GET		/denyRefund/:id						controllers.ProductController.denyRefund(id: Integer)
+POST    /filteredSearch                     controllers.ProductController.filteredSearch(ids1: String, ids2: String)
 
 GET		/kategorija/:id						controllers.CategoryController.categories(id: Integer)
 GET		/listaKategorija 					controllers.CategoryController.allCategory()
