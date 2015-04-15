@@ -124,7 +124,8 @@
                <div class="subCatBox">
                   <div class="categories">
                      <ul id="listOfCategory">
-                        <h3>Podkategorije kategorije @mainCategory.name</h3>
+			         	<!-- Podkategorije kategorije -->
+                        <h3>@mainCategory.name</h3>
                         @if(mainCategory.subCategories.size() > 0 ) {
                         @for(subCategory <- mainCategory.subCategories) {
                         <li>
