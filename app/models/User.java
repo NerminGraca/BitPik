@@ -33,6 +33,14 @@ public class User extends Model {
 	
 	public boolean isAdmin;
 	
+	public boolean isPikStore;
+	
+	public String storeName;
+	
+	public String adress;
+	
+	public String city;
+	
 	public boolean isProtectedAdmin;
 
 	public String createdDate;
@@ -170,6 +178,12 @@ public class User extends Model {
 		admin.save();
 		return admin;
 	}
+	public static User createPikStore(String username,String password,String email){
+		User pikStore=new User(username,password,email);
+		pikStore.setPikStore();
+		pikStore.save();
+		return pikStore;
+	}
 	
 	// Finders
 	public static Finder<String, User> find = new Finder<String, User>(String.class, User.class);
@@ -231,6 +245,11 @@ public class User extends Model {
 		this.isAdmin = isAdmin;
 		save();
 			
+	}
+	public void setPikStore()
+	{
+		this.isPikStore=true;
+		save();
 	}
 	
 	/**
