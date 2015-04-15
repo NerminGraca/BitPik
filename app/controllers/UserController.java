@@ -49,7 +49,7 @@ public class UserController extends Controller {
 	static Form<User> newUser = new Form<User>(User.class);
 	static Form<PrivateMessage> sendMessage = new Form<PrivateMessage>(PrivateMessage.class);
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);	
-	private static final String SESSION_USERNAME = "username";
+	public static final String SESSION_USERNAME = "username";
 	public static final String OURHOST = Play.application().configuration().getString("OURHOST");
 	
 	//Finders
@@ -131,6 +131,10 @@ public class UserController extends Controller {
 		String username;
 		String password;
 		
+		if (!request().accepts("text/html")) {
+			return JsonController.login();
+		}
+		
 		try {
 			username = newUser.bindFromRequest().get().username;
 			password = newUser.bindFromRequest().get().password;
@@ -158,6 +162,7 @@ public class UserController extends Controller {
 		if (!request().accepts("text/html")) {
 			return ok(JsonHelper.jsonUser(u));
 		}
+
 		if (userExists && u.verified) {
 			// the username put in the session variable under the key
 			// "username";
@@ -188,8 +193,6 @@ public class UserController extends Controller {
 		}
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		User u = User.finder(currentUser.username);
-
-	//	return ok(profile.render(l, u));
 
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
@@ -314,10 +317,6 @@ public class UserController extends Controller {
 
 		User userById = findUser.byId(id);
 		User currentUser = SessionHelper.getCurrentUser(ctx());
-		if (!request().accepts("text/html")) {
-			return JsonController.editUser(id);
-	   	 }
-
 		if (userById.equals(currentUser)) {
 			return ok(editUser.render(userById, currentUser));
 		} else {
@@ -361,9 +360,7 @@ public class UserController extends Controller {
 			MailHelper.sendEmailVerification(email, UserController.OURHOST + "/validateEmail/" + confirmation);
 			flash("validate", Messages.get("Primili ste email validaciju."));
 		}
-		if (request().accepts("application/json")){
-			return JsonController.editUser(id);
-	   	 }
+		
 		user.save();
 		Logger.of("user").info("User with "+ oldEmail +" updated. NEW : ["+ user.username +", "+ user.email +"]");
 		session(SESSION_USERNAME, user.username);

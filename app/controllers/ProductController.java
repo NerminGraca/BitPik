@@ -480,9 +480,10 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result searchUsers(String q){
-		List<Product>products=Product.find.where("UPPER(name) LIKE UPPER('%"+q+"%')AND(isSold) LIKE (false)").findList();
+		List<Product>products=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('false'))").findList();
+		List<Product>sproducts=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('true'))").findList();
 		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
-		return ok(listaPretrage.render(products,users));	
+		return ok(listaPretrage.render(sproducts,products,users));	
 	}
 	
 	/**
@@ -611,24 +612,34 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result filteredSearch(String ids1,String ids2){
+		//List<User>users=new ArrayList<User>();
+		Logger.debug(ids1);
+		Logger.debug(ids2);
 		String[] productsIDs1 = ids1.split(",");		
 		List<Product>products = new ArrayList<Product>();
+		String temp;
+		if(!ids1.isEmpty()){
 		for(String id: productsIDs1){
-			long currentID = Long.valueOf(id);
-			int current = (int)currentID;
-			Product currentProduct = Product.find.byId(current);			
+			int currentID = Integer.parseInt(id);
+			temp=""+currentID;
+			Logger.debug(temp);
+			Product currentProduct = Product.find.byId(currentID);			
 			products.add(currentProduct);
 		}
+		}
+		
 		List<Product>sproducts = new ArrayList<Product>();
-		if(ids2!=""){
+		if(!ids2.isEmpty()){
 		String[] productsIDs2 = ids2.split(",");		
 		for(String id: productsIDs2){
-			long scurrentID = Long.valueOf(id);
-			int scurrent = (int)scurrentID;
-			Product scurrentProduct = Product.find.byId(scurrent);			
+			int scurrentID = Integer.parseInt(id);
+			temp=""+scurrentID;
+			Logger.debug(temp);
+			Product scurrentProduct = Product.find.byId(scurrentID);			
 			sproducts.add(scurrentProduct);
 		}
 		}
+		
 		if((products.isEmpty())&(sproducts.isEmpty())){
 			Logger.info("No searched products or special products");
 			return ok(newViewForFilter.render(sproducts,products,MainCategory.allMainCategories()));
@@ -661,7 +672,7 @@ public class ProductController extends Controller {
 		if(max != ""){
 			priceMax=Double.parseDouble(max);
 		}
-		if(descr == ""){
+		if(descr.isEmpty()){
 			productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
 			sproductList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
 	    }else{

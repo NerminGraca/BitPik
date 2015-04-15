@@ -2073,4 +2073,25 @@ body {
 	font-family: verdana, arial, helvetica, helve, sans-serif;
 	}
 
+	
+	.opis{
+	
+	margin:-53px 330px
+	}
+	.cijena{
+	margin: 10px 20px
+	}
+	.dostupnost{
+	margin:53px 530px
+	}
+	
+	.filter{
+	position: relative;
+	padding: 2px;
+	width: 1070px;
+	height: 100px;
+	background-color: #FDF4F4;
+	border: solid 1px grey;
+	}
+	
 
