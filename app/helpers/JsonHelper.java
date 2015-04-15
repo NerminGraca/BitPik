@@ -32,12 +32,12 @@ public class JsonHelper {
 		user.put("emailVerified", u.emailVerified);
 		user.put("emailConfirmation", u.emailConfirmation);
 		user.put("imagePath", u.imagePath);
-		ObjectNode credit = jsonCredit(u.bpcredit);
+	/*	ObjectNode credit = jsonCredit(u.bpcredit);
 		user.put("bpcredit", credit);
 		ArrayNode products = jsonProductList(u.products);
 		user.put("products", products);
 		ArrayNode boughtProducts = jsonProductList(u.bought_products);
-		user.put("products", boughtProducts);
+		user.put("products", boughtProducts);*/
 		return user;
 	}
 	
@@ -47,12 +47,12 @@ public class JsonHelper {
 		product.put("description", p.description);
 		product.put("longDescription", p.longDescription);
 		product.put("categoryString", p.categoryString);
-		ObjectNode category = jsonCategory(p.mainCategory);
-		product.put("mainCategory", category);
+	/*	ObjectNode category = jsonCategory(p.mainCategory);
+		product.put("mainCategory", category);*/
 		product.put("price", p.price);
 		product.put("publishedDate", p.publishedDate);
-		ObjectNode owner = jsonUser(p.owner);
-		product.put("owner", owner);
+	/*	ObjectNode owner = jsonUser(p.owner);
+		product.put("owner", owner);*/
 		product.put("isSold", p.isSold);
 		product.put("isRefunding", p.isRefunding);
 		product.put("id", p.id);
