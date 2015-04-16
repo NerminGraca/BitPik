@@ -162,7 +162,7 @@ public class CreditController extends Controller{
 			amount.setTotal(priceInUSD);
 			amount.setCurrency("USD");
 			Transaction transaction = new Transaction();
-			transaction.setDescription("Cestitamo, jos ste samo nekoliko koraka od kupovine  ' " + priceInUSD +
+			transaction.setDescription("Čestitamo, još ste samo nekoliko koraka od kupovine  ' " + priceInUSD +
 										" ' u dolarima iznosa kredita");
 			transaction.setAmount(amount);
 			
@@ -268,7 +268,7 @@ public class CreditController extends Controller{
 		buyerUser.save();
 	//	if later we choose to archive everytransaction for every bitpik bought
 	//  TransactionP temp = new TransactionP(token, p); *(+token to be sent here; product attribute?)
-		flash("buy_credit_success", Messages.get("Cestitamo, Uspjesno ste kupili BitPik Kredite"));
+		flash("buy_credit_success", Messages.get("Čestitamo, uspješno ste kupili BitPik Kredite"));
 		int actualCredits = buyerUser.bpcredit.getCredit();
 		return ok(credits.render(buyerUser, actualCredits));
 	}
@@ -312,7 +312,7 @@ public class CreditController extends Controller{
 		int oldAmount = currentUser.bpcredit.getCredit();
 		// If the User wants to use more credits than he actually has we redirect him;
 		if (credit > oldAmount) {
-			flash("use_credit_poor", Messages.get("Zao nam je, Nemate dovoljno kredita. Molim vas da kupite jos kredita"));
+			flash("use_credit_poor", Messages.get("Žao nam je, nemate dovoljno kredita. Molim vas da kupite još kredita"));
 			return redirect(routes.CreditController.showCredits());
 		}
 		
@@ -332,7 +332,7 @@ public class CreditController extends Controller{
 		p.setExpirySpecial(c.getTime()); // We set the Date/Time as the expiry Date for the speciality of the prodcut;
 		p.save();
 	
-		flash("use_credit_success", Messages.get("Cestitamo, Uspjesno ste izdvojili oglas i iskoristili BitPik Kredite"));
+		flash("use_credit_success", Messages.get("Čestitamo, uspješno ste izdvojili oglas i iskoristili BitPik Kredite"));
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		return ok(profile.render(l, currentUser));
 		
@@ -377,7 +377,7 @@ public class CreditController extends Controller{
 		int oldAmount = currentUser.bpcredit.getCredit();
 		// If the User wants to update more credits than he actually has we redirect him;
 		if (credit > oldAmount) {
-			flash("update_credit_poor", Messages.get("Zao nam je, Nemate dovoljno kredita. Molim vas da kupite jos kredita"));
+			flash("update_credit_poor", Messages.get("Žao nam je, nemate dovoljno kredita. Molim vas da kupite jos kredita"));
 			return redirect(routes.CreditController.showCredits());
 		}
 		
@@ -400,7 +400,7 @@ public class CreditController extends Controller{
 		p.setExpirySpecial(c.getTime()); // We set the Date/Time as the expiry Date for the speciality of the prodcut;
 		p.save();
 				
-		flash("update_credit_success", Messages.get("Cestitamo, Uspjesno ste dopunili BitPik Kredite na oglasu"));
+		flash("update_credit_success", Messages.get("Čestitamo, uspješno ste dopunili BitPik Kredite na oglasu"));
 		
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		return ok(profile.render(l, currentUser));

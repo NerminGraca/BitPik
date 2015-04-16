@@ -23,15 +23,12 @@
 		-->
 	@helper.form(routes.UserController.saveMessage(receiver.id), 'id->"nameForm"){
 	
-					<h5>Message:</h5>
+					<h5>Privatna poruka:</h5>
 					<textarea maxlength="250" nameForm' 
       				name="content" id="content" placeholder="Write something nice" required> </textarea>
-					<br><br>
+					<br>
 						
-					 <input type="submit" value="Pošalji" class="btn btn-success" />
-					 <a href="/" class="btn btn-danger"> Odustajem </a>
-					 <input type="reset" value="Reset" class="btn btn-warning" />
-					
+					 <input type="submit" value="Pošalji" class="btn btn-primary btn-fontNovi" />
 					
 				  </div>
   				</div>

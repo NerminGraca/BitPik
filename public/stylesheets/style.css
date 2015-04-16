@@ -267,6 +267,7 @@ box-sizing: border-box;
 	float: left;
 	width: 30%;
 	padding: 0px;
+	background-color: cornsilk;
 }
 
 /* this is for editProfile red and blue text*/
@@ -496,6 +497,12 @@ box-sizing: border-box;
 	font-family: 'ambleregular';
 	font-size: 20px;
 	color: #B81D22;
+}
+
+.redHeaderAS{
+	font-family: 'ambleregular';
+	font-size: 15px;
+	color: #786304;
 }
 
 .redHeader2{
@@ -742,6 +749,9 @@ body {
 	padding: 15px 20px;
 	border: 1px solid #EBE8E8;
 	border-radius: 3px;
+}
+.content_top1{
+	border-bottom: 1px solid #EBE8E8;
 }
 .content_bottom {
 	padding: 15px 20px;
@@ -1038,7 +1048,7 @@ body {
 }
 .span_1_of_2 {
 	width: 67.1%;
-	padding: 1.5%;
+	padding: 0 1.5%;
 }
 .images_3_of_2 {
 	width: 44.2%;
@@ -1072,7 +1082,7 @@ body {
 }
 .price p {
 	font-size: 0.8125em;
-	padding:20px 0;
+	padding: 0px;
 	color: #666;
 	vertical-align: top;
 }
@@ -1690,7 +1700,7 @@ body {
 	padding: 8px;
 	margin: 5px;
 	display: block;
-	width:50%;
+	width:70%;
 	background:none;
 	border:2px solid #CACACA;
 	outline: none;
@@ -1735,7 +1745,7 @@ body {
 	padding: 8px;
 	margin: 5px;
 	display: block;
-	width:50%;
+	width:100%;
 	background:none;
 	border:2px solid #CACACA;
 	outline: none;
@@ -2088,12 +2098,12 @@ body {
 	.filter{
 	display: inline-block;
 	float: left;
-	position: relative;
-	padding: 2px;
-	width: 1070px;
-	height: 100px;
-	background-color: #FDF4F4;
-	border: solid 1px grey;
+	AAposition: relative;
+	AApadding: 2px;
+	AAwidth: 1070px;
+	AAheight: 100px;
+	AAbackground-color: #FDF4F4;
+	AAborder: solid 1px grey;
 	}
 	
 

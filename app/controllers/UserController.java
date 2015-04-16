@@ -92,14 +92,14 @@ public class UserController extends Controller {
 		if (User.finder(username) != null) {
 			Logger.of("user").error("User tried to register with "+ username +" which already exist");
 			return ok(registration.render(
-					"Korisnicko ime je zauzeto, molimo Vas izaberite drugo!", ""));
+					"Korisničko ime je zauzeto, molimo Vas izaberite drugo!", ""));
 		}
 		
 		// Unique 'email' verification
 		if (User.emailFinder(email)) {
 			Logger.of("user").error("User tried to register with "+ email +" which already exist");
 			return ok(registration.render("",
-					"Email je iskoristen, molimo Vas koristite drugi!"));
+					"Email je iskorišten, molimo Vas koristite drugi!"));
 		}
 
 		// Password confirmation evaluation
@@ -172,7 +172,7 @@ public class UserController extends Controller {
 			return redirect(routes.Application.index());
 		} else {
 			Logger.of("login").error("User " + username + " tried to login with incorrect password");
-			return ok(login.render("", "Password je netacan"));
+			return ok(login.render("", "Password je netačan"));
 		}
 	}
 
@@ -219,7 +219,7 @@ public class UserController extends Controller {
 		// List of products that the current logged in User has bought;
 		List <Product> l = ProductController.findProduct.where().eq("buyerUser", currentUser).findList();
 		if (l.isEmpty()) {
-			flash("no_bought_products", Messages.get("Vi jos uvijek nemate kupljenih proizvoda"));
+			flash("no_bought_products", Messages.get("Vi još uvijek nemate kupljenih proizvoda"));
 		}
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
@@ -245,7 +245,7 @@ public class UserController extends Controller {
 		// List of products that the current logged in User has sold;
 		List <Product> l = ProductController.findProduct.where().eq("owner", currentUser).eq("isSold", true).findList();
 		if (l.isEmpty()) {
-			flash("no_sold_products", Messages.get("Vi jos uvijek nemate prodatih proizvoda"));
+			flash("no_sold_products", Messages.get("Vi još uvijek nemate prodatih proizvoda"));
 		}
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
@@ -300,7 +300,7 @@ public class UserController extends Controller {
 	public static Result deleteUser(int id) {
 		  User.delete(id);
 		  Logger.of("user").info("Admin deleted a User");
-		  flash("delete_user_success",  Messages.get("Uspjesno ste izbrisali Usera"));
+		  flash("delete_user_success",  Messages.get("Uspješno ste izbrisali Usera"));
 		  if (!request().accepts("text/html")) {
 				return ok();
 		  }
@@ -351,7 +351,7 @@ public class UserController extends Controller {
 		
 		if (oldEmail.equals(email)) {
 			user.setEmail(email);
-			flash("edit_user_success", Messages.get("Uspjesno ste izmijenili profil"));
+			flash("edit_user_success", Messages.get("Uspješno ste izmijenili profil"));
 		} else {
 			user.setEmail(email);
 			user.emailVerified = false;
@@ -438,14 +438,14 @@ public class UserController extends Controller {
 		if (!password.equals(confirmPassword))
 		{
 			Logger.of("user").error(u.username + " tried to change password - Password not confirmed correctly");
-			flash("chng_pass_not_confirmed", Messages.get("Niste dobro potvrdili sifru."));
+			flash("chng_pass_not_confirmed", Messages.get("Niste dobro potvrdili šifru."));
 			return ok(changePassword.render(u));
 		}
 		password = HashHelper.createPassword(password);
 		u.setPassword(password);
 		u.save();
 		Logger.of("user").info("User "+ u.username + " changed their password successfully");
-		flash("chng_pass_success", Messages.get("Uspjesno ste zamijenili vasu sifru."));
+		flash("chng_pass_success", Messages.get("Uspješno ste zamijenili vašu šifru."));
 		if (!request().accepts("text/html")) {
 			return ok(JsonHelper.jsonUser(u));
 	   	 }
@@ -538,7 +538,7 @@ public class UserController extends Controller {
 			&& !extension.equalsIgnoreCase(".jpg")
 			&& !extension.equalsIgnoreCase(".png") ){
 			
-			flash("error",  Messages.get("Slika ne smije biti veca od 2 MB"));
+			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB"));
 			Logger.of("user").warn( u.username + " tried to upload an image that is not valid.");
 			return redirect("/profile");
 		}
@@ -563,7 +563,7 @@ public class UserController extends Controller {
 			Logger.of("user").error( u.username + " failed to upload an image to his profile page.");
 			e.printStackTrace();
 		}
-		flash("upload_img_success",  Messages.get("Uspjesno ste objavili sliku"));
+		flash("upload_img_success",  Messages.get("Uspješno ste objavili sliku"));
 		if (!request().accepts("text/html")) {
 			return ok(JsonHelper.jsonUser(u));
 	   	 }
@@ -615,8 +615,8 @@ public class UserController extends Controller {
 			amount.setTotal(p.getPriceinStringinUSD());
 			amount.setCurrency("USD");
 			Transaction transaction = new Transaction();
-			transaction.setDescription("Cestitamo, jos ste samo nekoliko koraka od kupovine proizvoda '" + p.name +
-										"' sa slijedecim opisom : '" + p.description + "'");
+			transaction.setDescription("Čestitamo, još ste samo nekoliko koraka od kupovine proizvoda '" + p.name +
+										"' sa sljedećim opisom : '" + p.description + "'");
 
 			transaction.setAmount(amount);
 			List<Transaction> transactions = new ArrayList<Transaction>();
