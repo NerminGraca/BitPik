@@ -58,7 +58,7 @@ public class UserControllerTest extends WithApplication {
 								.findMainCategoryByName("Kompjuteri");
 						SubCategory sc = SubCategory.findSubCategoryByName("Laptopi");
 						Product.create("original_product",
-								"original_product_description", 10.00, u, mc, sc,
+								"original_product_description","longDescription", 10.00, u, mc, sc,
 								"sarajevo");
 						Product p = Product.find.byId(1);
 						assertNotNull(p);
@@ -204,7 +204,7 @@ public class UserControllerTest extends WithApplication {
 								.findMainCategoryByName("Kompjuteri");
 						SubCategory sc = SubCategory.findSubCategoryByName("Laptopi");
 						Product.create("original_product",
-								"original_product_description", 10.00, u, mc,
+								"original_product_description","longDescription", 10.00, u, mc,
 								sc, "sarajevo");
 						Product p = Product.find.byId(1);
 						assertNotNull(p);
@@ -252,7 +252,7 @@ public class UserControllerTest extends WithApplication {
 								.findMainCategoryByName("Kompjuteri");
 						SubCategory sc = SubCategory.findSubCategoryByName("Laptopi");
 						Product.create("original_product",
-								"original_product_description", 10.00, u, mc,
+								"original_product_description","longDescription", 10.00, u, mc,
 								sc, "sarajevo");
 						Product p = Product.find.byId(1);
 						assertNotNull(p);

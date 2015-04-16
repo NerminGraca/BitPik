@@ -164,7 +164,7 @@ public class SubCategoryTest extends WithApplication {
 						// category, String availability
 						MainCategory mc = MainCategory.findMainCategoryByName("Vozila");
 						SubCategory sc = SubCategory.findSubCategoryByName("Automobili");
-						Product.create("golf", "mk2",
+						Product.create("golf", "mk2","longDescription",
 								1000.00, u, mc, sc, "sarajevo");
 						
 						browser.goTo("http://localhost:3333/kategorija/1");
