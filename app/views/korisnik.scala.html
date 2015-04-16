@@ -16,16 +16,34 @@
 				
 					<h2 id="redText">Email:</h2>
 					<p class="blueText">@user.email</p>
-			
+					
+					@if(!user.isPikStore){
 					<h2 id="redText">Admin:</h2>
 						@if(user.isAdmin){
 							<p class="blueText">Da</p>
 						}else{
 							<p class="blueText">Ne</p>				
 						}
-					
+					}
 					<h2 id="redText">Datum registracije:</h2>
 					<p class="blueText">@user.createdDate</p>
+					
+					@if(user.isPikStore){
+						
+					
+						<h2 id="redText">Naziv firme:</h2>
+						<p class="blueText">@user.storeName</p>
+					
+						<h2 id="redText">Adressa:</h2>
+						<p class="blueText">@user.address</p>
+						
+						<h2 id="redText">Grad:</h2>
+						<p class="blueText">@user.city</p>
+					
+						<h2 id="redText">Telefon:</h2>
+						<p class="blueText">@user.phone</p>
+					}
+					
 					
 					@helper.form(routes.UserController.changeAdmin(user.id),'id->"adminForm") {
 						@if(userSes.isAdmin && !user.isProtectedAdmin){

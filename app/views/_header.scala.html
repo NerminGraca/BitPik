@@ -8,7 +8,7 @@
 			<div class="account_desc">
 				<ul>
 					@if(user == null || user.verified == false) {
-						<li><a href="/registration">Registracija</a></li>
+						<li><a href="/chooseRegistration">Registracija</a></li>
 						<li><a href="/login">Login</a></li>
 					}
 					@if(user != null && user.verified == true){
