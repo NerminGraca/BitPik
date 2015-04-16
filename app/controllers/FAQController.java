@@ -45,7 +45,7 @@ public class FAQController extends Controller{
 		FAQ.create(question, answer);
 		Logger.of("faq").info("Admin added a new FAQ");
 		List <FAQ> faqList = findFaq.all();
-		flash("add_faq_success", Messages.get("Uspjesno ste dodali novi FAQ."));
+		flash("add_faq_success", Messages.get("Uspješno ste dodali novi FAQ."));
 		return ok(faqs.render(usernameSes, faqList, currentUser));	
 	}
 	
@@ -117,7 +117,7 @@ public class FAQController extends Controller{
 		faq.setAnswer(answer);
 		faq.save();
 		Logger.of("faq").info("Admin user updated a FAQ");
-		flash("edit_faq_success", Messages.get("Uspjesno ste izmijenili FAQ."));
+		flash("edit_faq_success", Messages.get("Uspješno ste izmijenili FAQ."));
 		return redirect(routes.FAQController.allFaqs());
 	}
 	
@@ -142,7 +142,7 @@ public class FAQController extends Controller{
 		}
 		FAQ.delete(id);
 		Logger.of("faq").info("Admin deleted a FAQ");
-		flash("delete_faq_success",  Messages.get("Uspjesno ste izbrisali FAQ"));
+		flash("delete_faq_success",  Messages.get("Uspješno ste izbrisali FAQ"));
 		return redirect(routes.FAQController.allFaqs());
 	}
 	

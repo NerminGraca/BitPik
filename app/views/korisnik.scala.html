@@ -11,7 +11,7 @@
     	<div class="content">
     		<div class="section group">
 				<div class="rightBox">
-					<h2 id="redText">Korisnicko ime:</h2>
+					<h2 id="redText">Korisničko ime:</h2>
 					<p class="blueText">@user.username</p>
 				
 					<h2 id="redText">Email:</h2>
@@ -26,7 +26,11 @@
 					
 					<h2 id="redText">Datum registracije:</h2>
 					<p class="blueText">@user.createdDate</p>
-					
+				
+					@if(userSes != null) {
+						<a href="/message/@user.id" class="btn btn-primary btn-fontNovi">Pošalji privatnu poruku</a>
+					}
+						
 					@helper.form(routes.UserController.changeAdmin(user.id),'id->"adminForm") {
 						@if(userSes.isAdmin && !user.isProtectedAdmin){
 						<fieldset>
@@ -104,9 +108,6 @@
 					
 						</div>
 						}
-					}
-					@if(userSes != null) {
-						<a href="/message/@user.id" class="btn">Pošalji privatnu poruku</a>
 					}
 				</div>
 	

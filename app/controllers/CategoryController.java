@@ -124,7 +124,7 @@ public class CategoryController extends Controller {
 			mc.save();
 			Logger.of("category").info("Admin updated category " +oldname+" to " + name);
 			oldname = null;
-			flash("change_maincat_success", Messages.get("Uspjesno promijenjen naziv kategorije."));
+			flash("change_maincat_success", Messages.get("Uspješno promijenjen naziv kategorije."));
 			return redirect(routes.CategoryController.allCategory());
 		}		
 	}
@@ -158,7 +158,7 @@ public class CategoryController extends Controller {
 			sc.save();
 			Logger.of("category").info("Admin updated subcategory "+oldname+" to " + sc.name);
 			oldname = null;
-			flash("change_sub_success", Messages.get("Uspjesno promijenjen naziv podkategorije."));
+			flash("change_sub_success", Messages.get("Uspješno promijenjen naziv podkategorije."));
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}
 	}
@@ -258,7 +258,7 @@ public class CategoryController extends Controller {
 		} else {
 			SubCategory.createSubCategory(name, mc);
 			Logger.of("category").info("Admin added subcategory " + name);
-			flash("add_sub_success", Messages.get("Uspjesno ste dodali novu podkategoriju."));
+			flash("add_sub_success", Messages.get("Uspješno ste dodali novu podkategoriju."));
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}			
 	}	

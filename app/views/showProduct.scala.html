@@ -27,12 +27,6 @@
 	
 	<div class="main">
     	<div class="content">
-    		<div class="content_top">
-	    		<div class="back-links">
-	    		<p><a href="/kategorija/@p.mainCategory.id">@p.mainCategory.name</a> >>>> <a href="/podKategorija/@p.subCategory.id">@p.subCategory.name</a></p>
-	    	    </div>
-	    		<div class="clear"></div>
-	    	</div>
 	    	<div class="section group">
 	    		<div class="cont-desc span_1_of_2">
 	    			<div class="product-details">
@@ -40,7 +34,7 @@
 	    					<div id="container">
 	    						<div id="products_example">
 	    							<div id="products">
-	    								<div class="slides_container">
+	    								<div class="slides_container" style="margin-bottom: 5px;">
 	    									
 	    									@if(p.imgPathList.size() > 0  ) {
 									  			@for(imgPath <- p.imgPathList) {
@@ -63,6 +57,8 @@
 									  		}
 	    									
 										</div>
+										
+										<!-- 
 										<ul class="pagination">
 										
 											@if(p.imgPathList.size() > 0  ) {
@@ -73,36 +69,64 @@
 											
 											
 										</ul>
+										 -->
 	    							
 	    							</div>
 	    						</div>
 	    					</div>
 	    					@if(user != null) {
 	    						@if(user.username.equals(p.owner.username)) {
-	    							<form id="imgs" action="@routes.ProductController.saveFile(p.id)" method="post" enctype="multipart/form-data" >
-										<input class="sendFile" type="file" name="image" id="image" />
-										<input class="sendFileBtn" type="submit" value="Send file" />
-									</form>
+	    							
+	    					
+	    							
+	    							
+		
+					<div class="addImage col-xs-2" style="padding: 15px; width: 10%; margin: 0px 20px;">
+				  		<form id="imgs"  action="@routes.ProductController.saveFile(p.id)" method="post" enctype="multipart/form-data" >
+							<input class="sendFile" type="file" name="image" id="image" />
+							<input class="sendFileBtn" type="submit" value="Send file" />
+						</form>
+					</div>	    							
+	    							
+	    							
+	  
 	    						}
 	    					}
-	    					
 	    					
 						</div>
 	    				</div>
 						<div class="addImage" >
 
+
 	    				<div class="desc span_3_of_2">
-							<h2>@p.name</h2>
-							<p>@p.description</p>			
+			    		<div class="AAback-links">
+			    		<p><a href="/kategorija/@p.mainCategory.id">@p.mainCategory.name</a> >>>> <a href="/podKategorija/@p.subCategory.id">@p.subCategory.name</a></p>
+			    	    </div><br></div>
+
+            			<div class="col-md-6" style="padding: 10px; background-color: #D4CA9F; margin: 0px 0px 0px 35px;">
+							<h2>@p.name</h2><hr>
+							<br>
+							<p>@p.description</p>
+							<br><br><br>
 							<div class="price">
-								<p>Cijena: <span>@p.getPriceString() KM</span></p>
+								<p style="text-align: right;"><span>@p.getPriceString() KM</span></p>
 							</div>
-							<div class="available">
+										
+
+
+
+						</div>
+
+	    					<div class="desc span_3_of_2">
+
+
+							<div class="available" style="border-top: 0px;">
 								<p>Objavio korisnik :</p>
 									<ul>
 										<a href="/korisnik/@p.owner.id">@p.owner.username</a>
 									</ul>
 							</div>
+
 
 				@if(user != null) {			
 					@if(user.username.equals(p.owner.username) || user.isAdmin) {			
@@ -181,7 +205,7 @@
 							
 							<div class="share-desc">
 								<div class="share">
-									<p>Podijeli Artikal :</p>
+									<p>Podijeli artikal :</p>
 									<ul>
 										<li><a href="#"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
 										<li><a href="#"><img src="@routes.Assets.at("images/twitter.png")" alt="" /></a></li>					    
@@ -192,16 +216,15 @@
 								@if(user != null) {
 									<!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio -->
 									@if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p) && !user.isAdmin) {
-										<div class="button"><span><a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true">Kupi Artikal</a></span></div>
+										<div class="button"><span><a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true">Kupi artikal</a></span></div>
 									}
 									<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->
 									@if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {
 
 									
 										
-										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni artikal</a></span></div>
+										<div class="button" style="margin-left: 10px;"><span><a href="/editProduct/@p.id">Izmijeni artikal</a></span></div>
 
-										<br> </br>
 										@if(!p.isSpecial) {
 										<div class="button"><span><a href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></span></div>
 										}
@@ -305,7 +328,7 @@
 	    				<div class="contact-form">
 	    				
 						<textarea maxlength="250" postComment' name="content" id="content" placeholder="Write something nice" required> </textarea>
-						<div style="margin-left: 220px;">
+						<div style="margin-left: 90%;">
 						<input type="submit" value="Objavi" class="btn btn-primary btn-fontNovi" />						
 						</div></div>
 						
@@ -405,7 +428,7 @@
 						
 					</div>
 	    		</div>
-	    		<div class="rightsidebar span_3_of_1">
+	    		<div class="rightsidebar span_3_of_1" style="width: 20%;">
 	    			<h2>KATEGORIJE</h2>
 	    			<ul>
 	    				@if(mainCategoryList.size() > 0 ) {

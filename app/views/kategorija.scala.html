@@ -5,12 +5,43 @@
    <div class="main">
       <div class="content">
          <div class="section group">
-            <div >
+            <div class="header_slide">
+               <div class="leftBoxCat">
+                  <div class="categories">
+                     <ul>
+                        <h3>Kategorije</h3>
+                        @if(mainCategoryList.size() > 0 ) {
+                        @for(mCategory <- mainCategoryList) {
+                        <li><a href="@mCategory.id">@mCategory.name</a></li>
+                        }
+                        }
+                     </ul>
+                  </div>
+               </div>
+               <div class="subCatBox">
+                  <div class="categories">
+                     <ul id="listOfCategory">
+			         	<!-- Podkategorije kategorije -->
+                        <h3>@mainCategory.name</h3>
+                        @if(mainCategory.subCategories.size() > 0 ) {
+                        @for(subCategory <- mainCategory.subCategories) {
+                        <li>
+                           <a href="/podKategorija/@subCategory.id">@subCategory.name</a>
+                        </li>
+                        }
+                        }
+                     </ul>
+                  </div>
+				</div>
+
+			
+			<!-- Početak naprednog Search Box-a -->
+            <div class="filter col-xs-4" style="padding: 15px; background-color: #E8A741; margin: 0px 20px;">
               <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
-         <div class="filter" style="margin-top:20px; margin:25px 130px;">
-            <h1 class="redHeader">Cijena od-do</h1>
-               <input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
-               <input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax"/>
+
+            <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
+               <input type="number" min="1" max="9999999" step="any" value="" id="od" style="height:25px; width: 110px; font-size:20px;" name="priceMin"/>
+               <input type="number" min="1" max="9999999" step="any" value="" id="do" style="height:25px; width: 110px; font-size:20px;" name="priceMax"/>
                					
                <!-- This is css for Kategorija and availability dropdown meni -->
                <style>
@@ -36,6 +67,8 @@
                   height: 400px;
                   }
                </style>
+               
+               
                <script language="JavaScript">
                   var e = document.getElementById("categoryString");
                   function showHideCategoryFields() {
@@ -75,67 +108,41 @@
                   showHideCategoryFields();
                   
                </script>
-               <div class="dostupnost" style="margin:-45px 400px;">
-               <fieldset style="width:600px;">
-                  <label class="redHeader" for="availability" width=3px>Dostupnost</label>
-                  <select name="availabilityS" id="availabilityS">
+               
+               <br><br>
+               <fieldset>
+                  <label class="redHeaderAS" for="availability" width=3px>Dostupnost</label>
+                  <select name="availabilityS" id="availabilityS" style="height:33px; width:225px; font-size:24px;">
                      <option selected="selected">Svugdje</option>
                      <option>Unutar BiH</option>
                      <option>Sarajevo</option>
-                     <option>Unsko sanski</option>
+                     <option>Unsko-sanski</option>
                      <option>Posavski</option>
                      <option>Tuzlanski</option>
-                     <option>Zenicko-dobojski</option>
-                     <option>Bosansko-Podrinjski</option>
-                     <option>Srednjo-bosanski</option>
-                     <option>Zapadno-hercegovacki</option>
+                     <option>Zeničko-dobojski</option>
+                     <option>Bosansko-podrinjski</option>
+                     <option>Srednjobosanski</option>
+                     <option>Zapadnohercegovački</option>
                      <option>Livanjski</option>
-                     <option>Hercegovacko-neretvanski</option>
-                     <option>Distrikt Brcko</option>
-                     <option>Banjalucka</option>
+                     <option>Hercegovačko-neretvanski</option>
+                     <option>Distrikt Brčko</option>
+                     <option>Banjalučka</option>
                      <option>Dobojsko-bijeljinska</option>
-                     <option>Sarajevsko-zvornicka</option>
-                     <option>Focansko-trebinjska</option>
+                     <option>Sarajevsko-zvornička</option>
+                     <option>Fočansko-trebinjska</option>
                   </select>
                </fieldset>
-                </div>
-                <div class="opis" style="margin:-53px 710px;">
-               <h1 class="redHeader">Opis</h1>
-               <input type="text" value="" id="desc" name="desc"/>	
-               </div>
-               <input class="button" type="submit" value="Traži" style="margin:65px 730px;" />	
+               
+               <br>
+               <h1 class="redHeaderAS">Opis</h1>
+               <input type="text" value="" id="desc" name="desc" style="height:25px; width:420px; font-size:18px;" />	
+               <input class="btn btn-primary btn-fontNovi" style="margin-left: 10px;" type="submit" value="Traži" />	
+	         </form>
             </div>
-         </form>
-    
             </div>
-            <div class="header_slide">
-               <div class="leftBoxCat">
-                  <div class="categories">
-                     <ul>
-                        <h3>Kategorije</h3>
-                        @if(mainCategoryList.size() > 0 ) {
-                        @for(mCategory <- mainCategoryList) {
-                        <li><a href="@mCategory.id">@mCategory.name</a></li>
-                        }
-                        }
-                     </ul>
-                  </div>
-               </div>
-               <div class="subCatBox">
-                  <div class="categories">
-                     <ul id="listOfCategory">
-                        <h3>Podkategorije kategorije @mainCategory.name</h3>
-                        @if(mainCategory.subCategories.size() > 0 ) {
-                        @for(subCategory <- mainCategory.subCategories) {
-                        <li>
-                           <a href="/podKategorija/@subCategory.id">@subCategory.name</a>
-                        </li>
-                        }
-                        }
-                     </ul>
-                  </div>
-               </div>
-               <div class="clear"></div>
+			<div class="clear"></div>
+			<!-- Kraj naprednog Search Box-a -->
+
                <div class="content_top">
                   <div class="heading">
                      <h3>Artikli Kategorije - @mainCategory.name</h3>
