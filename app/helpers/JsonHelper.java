@@ -31,6 +31,8 @@ public class JsonHelper {
 		user.put("username", u.username);
 		user.put("password", u.password);
 		user.put("email", u.email);
+		user.put("createdDate", u.createdDate);
+		user.put("imagePath", u.imagePath);
 		return user;
 	}
 	

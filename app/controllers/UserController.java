@@ -195,10 +195,7 @@ public class UserController extends Controller {
 		User u = User.finder(currentUser.username);
 
 		if (!request().accepts("text/html")) {
-			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
-			array.add(JsonHelper.jsonProductList(productList));
-			array.add(JsonHelper.jsonUser(u));
-			return ok(array);
+			return ok(JsonHelper.jsonUser(u));
 		}
 		return ok(profile.render(productList, u));
 
