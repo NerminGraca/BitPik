@@ -2096,8 +2096,14 @@ body {
 	
 	#reg-desno{
 	margin: 20px;
-	float: left;
+	float: right;
 	width: 39%;
+	}
+	
+	#reg-lijevo{
+	margin:20px;
+	float: left;
+	width: 38%;
 	}
 	
 	

@@ -329,6 +329,15 @@ public class UserController extends Controller {
 	   	 }
 	   	 return ok(korisnici.render(userList));
 	}
+	
+	@Security.Authenticated(AdminFilter.class)
+	public static Result allPikStores() {
+	   	 List<User> stores = findUser.where().eq("isPikStore",true).findList();
+	   	if (!request().accepts("text/html")) {
+		 	 return ok(JsonHelper.jsonUserList(stores));
+	   	 }
+	   	 return ok(korisnici.render(stores));
+	}
 	 
 	/**
 	* Method shows profile view of single user

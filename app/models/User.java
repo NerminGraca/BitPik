@@ -174,6 +174,7 @@ public class User extends Model {
 		newUser.storeName=storeName;
 		newUser.address=address;
 		newUser.city=city;
+		newUser.setCredits(new BPCredit(300, newUser));
 		newUser.save();
 		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
 		return newUser;
