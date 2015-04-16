@@ -152,7 +152,7 @@ public class ApplicationTest {
 						assertNotNull(u);
 						MainCategory mc = MainCategory.findMainCategoryByName("Vozila");
 						SubCategory sc = SubCategory.findSubCategoryByName("Automobili");
-						Product.create("original_product2", "original_product_description",
+						Product.create("original_product2", "original_product_description","longDescription",
 								10.00, u, mc, sc, "sarajevo");
 						browser.fill("#q").with("original_product2");
 						browser.submit("#nameForm");
