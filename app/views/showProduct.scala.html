@@ -103,7 +103,7 @@
 										<a href="/korisnik/@p.owner.id">@p.owner.username</a>
 									</ul>
 							</div>
-							
+
 				@if(user != null) {			
 					@if(user.username.equals(p.owner.username) || user.isAdmin) {			
 						@if(p.isSpecial && !p.isSold) {
@@ -118,6 +118,7 @@
 					}
 				}
 							
+
 					@if(user != null && p.buyerUser != null) {		
 						@if((user == p.buyerUser || user == p.owner) ) {
 							<div class="available">
@@ -195,9 +196,12 @@
 									}
 									<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda -->
 									@if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {
+
+									
 										
 										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni artikal</a></span></div>
-										<br> <br> <br>
+
+										<br> </br>
 										@if(!p.isSpecial) {
 										<div class="button"><span><a href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></span></div>
 										}
@@ -237,7 +241,7 @@
 									@if(user.isAdmin && !p.isSold && p.isSpecial) {
 										<div class="button"><span><a href="@routes.CreditController.makeProductNotSpecial(p.id)"  onclick="return confirm('Da li ste sigurni da zelite skinuti proizvod sa izdvojenih proizvoda?');">Skini izdvojen oglas</a></span></div>
 									}
-									
+
 									@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {
 										<br>
 										<p>Navedite razlog za refundaciju</p>
@@ -255,6 +259,7 @@
 											@if(user.isAdmin){
 												<div class="available">
 													<p>Transakcijski ID :</p>
+
 													<ul>
 														@p.purchaseTransaction.id
 													</ul>
@@ -264,6 +269,17 @@
 														<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
 													</ul>
 													<br>
+
+													<ul>
+														@p.purchaseTransaction.id
+													</ul>
+													<br>
+													<p>Poslao zahtjev za refund :</p>
+													<ul>
+														<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
+													</ul>
+													<br>
+
 													<p>Razlozi za refund :</p>
 													<ul>
 														@p.refundReason

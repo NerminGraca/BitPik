@@ -80,7 +80,9 @@ GET		/purchasesuccess/:id				controllers.UserController.purchaseSuccess(id: Inte
 GET		/addComment/:idProduct				controllers.CommentController.addComment(idProduct: Integer)
 GET		/editComment/:idComment/:idProduct  controllers.CommentController.editComment(idComment: Integer, idProduct: Integer)
 POST	/editComment/:idComment/:idProduct  controllers.CommentController.editComment(idComment: Integer, idProduct: Integer)
-GET		/deleteComment/:idComment/:idProduct controllers.CommentController.deleteComment(idComment: Integer, idProduct: Integer)			
+
+GET		/deleteComment/:idComment/:idProduct controllers.CommentController.deleteComment(idComment: Integer, idProduct: Integer)				
+		
 
 GET		/credits							controllers.CreditController.showCredits()
 GET		/addcredits							controllers.CreditController.addCredits()
@@ -93,6 +95,7 @@ GET		/makespecialproduct/:id				controllers.CreditController.useCredits(id: Inte
 POST	/makespecialproduct/:id				controllers.CreditController.useCreditsProcess(id: Integer)
 GET		/updatecredits/:id					controllers.CreditController.updateCredits(id: Integer)
 POST	/updatecredits/:id					controllers.CreditController.updateCreditsProcess(id: Integer)
+
 
 GET		/makeproductnotspecial/:id			controllers.CreditController.makeProductNotSpecial(id: Integer)
 

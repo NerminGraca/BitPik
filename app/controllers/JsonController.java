@@ -61,6 +61,7 @@ public class JsonController extends Controller{
 			return badRequest(message.put("error", "Email not valid."));
 		}
 		User u = User.createSaveUser(username, confirmPassword, email);
+		u.save();
 		return ok();
 	}
 	
@@ -85,31 +86,6 @@ public class JsonController extends Controller{
 		session().clear();
 		session(UserController.SESSION_USERNAME, username);
 		return ok(JsonHelper.jsonUser(u));
-	}
-	
-	public static Result editUser(int id){
-		User currentUser = SessionHelper.getCurrentUser(ctx());
-		JsonNode json = request().body().asJson();
-		String username = json.findPath("username").textValue();
-		String email = json.findPath("email").textValue();
-		if(username.equals(null) || username.isEmpty()){
-			Logger.info("Login error, username not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Username not valid."));
-		}
-		if(email.equals(null) || email.isEmpty()){
-			Logger.info("Login error, password not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Password not valid."));
-		}
-		User u = User.find(id);
-		u.setUsername(username);
-		u.setEmail(email);
-		u.save();
-		ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
-		array.add(JsonHelper.jsonUser(u));
-		array.add(JsonHelper.jsonUser(currentUser));
-		return ok(array);
 	}
 	
 	public static Result changePassword(int id){
@@ -155,8 +131,8 @@ public class JsonController extends Controller{
 		String longDesc = json.findPath("longDesc").textValue();
 		String priceStr = json.findPath("price").textValue();
 		double price = Double.parseDouble(priceStr);
-		MainCategory mainCategory = new MainCategory(json.findPath("mainCategory").textValue());
-		SubCategory subCategory = new SubCategory(json.findPath("subCategory").textValue(), mainCategory);
+		MainCategory mainCategory = MainCategory.findMainCategoryByName(json.findPath("mainCategory").textValue());
+		SubCategory subCategory = SubCategory.findSubCategoryByName(json.findPath("subCategory").textValue());
 		String availability = json.findPath("availability").textValue();
 		if(name.equals(null) || name.isEmpty()){
 			Logger.info("Login error, username not valid");
@@ -189,6 +165,7 @@ public class JsonController extends Controller{
 			return badRequest(message.put("error", "Availability not valid."));
 		}
 		Product p = Product.create(name, desc, longDesc, price, u, mainCategory, subCategory, availability);
+		p.save();
 		return ok();
 	}
 	

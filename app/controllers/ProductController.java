@@ -3,9 +3,10 @@ package controllers;
 import helpers.JsonHelper;
 import helpers.MailHelper;
 import helpers.SessionHelper;
-
+import java.util.Date;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Iterator;
 import java.io.File;
@@ -57,7 +58,10 @@ public class ProductController extends Controller {
 	static Form<FilteredSearch> filteredSearch=new Form<FilteredSearch>(FilteredSearch.class);
 	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);
+	static String usernameSes;
+
 	public static final String OURHOST = Play.application().configuration().getString("OURHOST");
+
 
 	/**
 	 * 
@@ -511,8 +515,10 @@ public class ProductController extends Controller {
 		
 		MailHelper.sendRefundEmail(buyer.email, seller.email, OURHOST + "/showProduct/" + id);
 		
+
 		return redirect("/showProduct/" + id);
 	}
+	
 	
 	/**
 	 * Method denyRefund allows Administrator to deny refund asked by buyer and
