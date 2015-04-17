@@ -354,6 +354,13 @@ public class Product extends Model {
 	 */
 	public static Product create(String name, String desc, String longDesc, double price, User owner, MainCategory category, SubCategory subCategory, String availability) {
 		Product newProduct = new Product(name, desc, longDesc,price, owner, category, subCategory, availability);
+		if(owner.isPikStore){
+			newProduct.setSpecial(true);
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			c.add(Calendar.DATE, 300); 
+			newProduct.setExpirySpecial(c.getTime());
+		}
 		newProduct.save();
 		return newProduct;
 	}

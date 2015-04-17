@@ -127,7 +127,6 @@
 									</ul>
 							</div>
 
-
 				@if(user != null) {			
 					@if(user.username.equals(p.owner.username) || user.isAdmin) {			
 						@if(p.isSpecial && !p.isSold) {
@@ -223,7 +222,13 @@
 
 									
 										
+
 										<div class="button" style="margin-left: 10px;"><span><a href="/editProduct/@p.id">Izmijeni artikal</a></span></div>
+
+
+										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni artikal</a></span></div>
+
+										<br> </br>
 
 										@if(!p.isSpecial) {
 										<div class="button"><span><a href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></span></div>
@@ -282,6 +287,16 @@
 											@if(user.isAdmin){
 												<div class="available">
 													<p>Transakcijski ID :</p>
+
+													<ul>
+														@p.purchaseTransaction.id
+													</ul>
+													<br>
+													<p>Poslao zahtjev za refund :</p>
+													<ul>
+														<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
+													</ul>
+													<br>
 
 													<ul>
 														@p.purchaseTransaction.id

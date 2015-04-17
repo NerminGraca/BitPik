@@ -194,7 +194,8 @@ box-sizing: border-box;
 
 .validateAndLogout{
 	font-family: 'Open Sans', sans-serif;
-	background-color :#FA5555;
+
+	background-color: #E8DCB5;
 
     color: #FFFFFF;
 	font-size: 20px;
@@ -2106,5 +2107,18 @@ body {
 	AAbackground-color: #FDF4F4;
 	AAborder: solid 1px grey;
 	}
+	
+	#reg-desno{
+	margin: 20px;
+	float: right;
+	width: 39%;
+	}
+	
+	#reg-lijevo{
+	margin:20px;
+	float: left;
+	width: 38%;
+	}
+	
 	
 

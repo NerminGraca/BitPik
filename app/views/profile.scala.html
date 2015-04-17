@@ -26,7 +26,9 @@
 					
 					<h2 id="redText"><p>Email: </p></h2>		
 					<p class="blueText">@u.email</p>
-		
+					
+					@if(!u.isPikStore){
+						
 					<h2 id="redText"><ep>Admin: </p></h2>
 		
 						@if(u.isAdmin){
@@ -34,9 +36,22 @@
 						}else{
 							<p class="blueText">Ne</p>			
 						}
-					
+					}
 					<h2 id="redText"><p>Datum registracije:</p></h2>
 					<p class="blueText">@u.createdDate</p><br>	
+					
+					@if(u.isPikStore){
+						
+						<h2 id="redText">Naziv firme:</h2>
+						<p class="blueText">@u.storeName</p>
+					
+						<h2 id="redText">Adressa:</h2>
+						<p class="blueText">@u.address</p>
+						
+						<h2 id="redText">Grad:</h2>
+						<p class="blueText">@u.city</p>
+					
+					}
 		
 		
 						<form action="/editUser/@u.id">
@@ -61,7 +76,8 @@
 					<div class="categories">
 					  	<ul>
 
-					  	  <li><a href="#">Izbriši sliku</a></li>
+					  	  <li><a href="#">Izbrisi sliku</a></li>
+
 					      <li><a href="#">Poruke</a></li>
 					      <li><a href="#">Blokirani korisnici</a></li>
 					      <li><a href="#">Javna pitanja</a></li>

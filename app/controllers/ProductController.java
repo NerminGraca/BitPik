@@ -623,7 +623,6 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result filteredSearch(String ids1,String ids2){
-		//List<User>users=new ArrayList<User>();
 		Logger.debug(ids1);
 		Logger.debug(ids2);
 		String[] productsIDs1 = ids1.split(",");		
@@ -677,10 +676,10 @@ public class ProductController extends Controller {
 		String max=filteredSearch.bindFromRequest().get().priceMax;
 		descr=filteredSearch.bindFromRequest().get().desc;
 		availability= filteredSearch.bindFromRequest().get().availabilityS;
-		if(min != ""){
+		if(!min.isEmpty()){
 			priceMin=Double.parseDouble(min);
 		}
-		if(max != ""){
+		if(!max.isEmpty()){
 			priceMax=Double.parseDouble(max);
 		}
 		if(descr.isEmpty()){

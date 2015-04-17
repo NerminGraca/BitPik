@@ -33,6 +33,16 @@ public class User extends Model {
 	
 	public boolean isAdmin;
 	
+	public boolean isPikStore;
+	
+	public String storeName;
+	
+	public String address;
+	
+	public String city;
+	
+	public String phone;
+	
 	public boolean isProtectedAdmin;
 
 	public String createdDate;
@@ -158,6 +168,19 @@ public class User extends Model {
 		return newUser;
 	}
 	
+	public static User createPikStore(String username, String password,String email,String storeName,String address,String city){
+		User newUser = new User(username,password,email);
+		newUser.setPikStore();
+		newUser.storeName=storeName;
+		newUser.address=address;
+		newUser.city=city;
+		newUser.setCredits(new BPCredit(300, newUser));
+		newUser.save();
+		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
+		return newUser;
+		
+	}
+	
 	/**
 	 * Creates a new Admin object and saves it into database, and returns value of it's ID variable
 	 * 
@@ -231,6 +254,11 @@ public class User extends Model {
 		this.isAdmin = isAdmin;
 		save();
 			
+	}
+	public void setPikStore()
+	{
+		this.isPikStore=true;
+		save();
 	}
 	
 	/**

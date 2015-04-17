@@ -82,6 +82,14 @@ public class Application extends Controller {
 		return ok(newViewForFilter.render(specialProductList,productList,MainCategory.allMainCategories()));
 	}
 	
+	public static Result chooseRegistration(){
+		return ok(chooseRegistration.render("",""));
+	}
+	
+	public static Result registrationPikStore(){
+		return ok(registrationPikStore.render("",""));
+	}
+	
 	/**
 	 * Method registration renders the registration.html page;
 	 * 

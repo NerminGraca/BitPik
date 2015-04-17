@@ -114,6 +114,67 @@ public class UserController extends Controller {
 		Logger.of("user").info("Added a new user "+ username +" (email not verified)");
 		return redirect(routes.Application.index());
 	}
+	
+	public static Result addPikStore() {
+		
+		String username;
+		String password;
+		String confirmPassword;
+		String email;
+		String storeName;
+		String address;
+		String city;
+		
+		try {
+			username = newUser.bindFromRequest().get().username;
+			password = newUser.bindFromRequest().get().password;
+			confirmPassword = newUser.bindFromRequest().field("confirmPassword").value();
+			email = newUser.bindFromRequest().get().email;
+			storeName=newUser.bindFromRequest().get().storeName;
+			address=newUser.bindFromRequest().get().address;
+			city=newUser.bindFromRequest().get().city;
+		} catch(IllegalStateException e) {
+			flash("add_user_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
+			return redirect(routes.Application.registrationPikStore());
+		}
+
+		// Null catching
+		if (	username == null ||
+				password == null ||
+				confirmPassword == null ||
+				email == null || storeName==null || address==null || city==null){
+			return redirect(routes.Application.registrationPikStore());//novi redirect
+		}
+		
+		// Unique 'username' verification
+		if (User.finder(username) != null) {
+			Logger.of("user").error("User tried to register with "+ username +" which already exist");
+			return ok(registrationPikStore.render(
+					"Korisnicko ime je zauzeto, molimo Vas izaberite drugo!", ""));
+		}
+		
+		// Unique 'email' verification
+		if (User.emailFinder(email)) {
+			Logger.of("user").error("User tried to register with "+ email +" which already exist");
+			return ok(registrationPikStore.render("",
+					"Email je iskoristen, molimo Vas koristite drugi!"));
+		}
+
+		// Password confirmation evaluation
+		if(!password.equals(confirmPassword))
+		{
+			Logger.of("user").error("At Registration - Password not confirmed correctly");
+			return ok(registrationPikStore
+					.render("", "Niste ispravno potvrdili lozinku!"));
+		}
+		
+		flash("validate", Messages.get("Primili ste email validaciju."));
+		User.createPikStore(username, password, email,storeName,address,city);
+		Logger.of("pikStore").info("Added a new Pik Store "+ username +" (email not verified)");
+		return redirect(routes.Application.index());
+	}
+
+
 
 	/**
 	 * 1. Gets the username and password from the form from the Login.html page;
@@ -195,6 +256,7 @@ public class UserController extends Controller {
 		User u = User.finder(currentUser.username);
 
 		if (!request().accepts("text/html")) {
+
 			return ok(JsonHelper.jsonUser(u));
 		}
 		return ok(profile.render(productList, u));
@@ -214,7 +276,6 @@ public class UserController extends Controller {
 			return redirect(routes.Application.index());
 		}		
 		// List of products that the current logged in User has bought;
-
 		List <Product> productList = ProductController.findProduct.where().eq("buyerUser", currentUser).findList();
 		if (productList.isEmpty()) {
 			flash("no_bought_products", Messages.get("Vi jos uvijek nemate kupljenih proizvoda"));
@@ -268,6 +329,15 @@ public class UserController extends Controller {
 		 	 return ok(JsonHelper.jsonUserList(userList));
 	   	 }
 	   	 return ok(korisnici.render(userList));
+	}
+	
+	@Security.Authenticated(AdminFilter.class)
+	public static Result allPikStores() {
+	   	 List<User> stores = findUser.where().eq("isPikStore",true).findList();
+	   	if (!request().accepts("text/html")) {
+		 	 return ok(JsonHelper.jsonUserList(stores));
+	   	 }
+	   	 return ok(korisnici.render(stores));
 	}
 	 
 	/**
