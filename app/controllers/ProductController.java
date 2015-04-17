@@ -221,10 +221,6 @@ public class ProductController extends Controller {
 			name = newProduct.bindFromRequest().get().name;
 			desc = newProduct.bindFromRequest().get().description;
 			longDesc = newProduct.bindFromRequest().get().longDescription;
-			if(longDesc.contains("\"")){
-				flash("add_product_null_field", Messages.get("Neispravan format molimo vas bez navodnika"));
-				return redirect(routes.ProductController.addProduct());
-			}
 			price = newProduct.bindFromRequest().get().price;
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
@@ -233,10 +229,6 @@ public class ProductController extends Controller {
 			flash("edit_product_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.editProduct(id));
 		}
-		if(longDesc.contains("$") || longDesc.contains("<") || longDesc.contains(">") || longDesc.contains("'")){
-			flash("add_product_null_field", Messages.get("Pogresan format, molimo pokusajte ponovo"));
-			return redirect(routes.ProductController.editProduct(id));
-		} 
 
 		MainCategory mc = MainCategory.findMainCategoryByName(mainCategory);
 		List<SubCategory> subCats = mc.subCategories;
