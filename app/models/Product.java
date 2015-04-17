@@ -358,7 +358,7 @@ public class Product extends Model {
 			newProduct.setSpecial(true);
 			Calendar c = Calendar.getInstance();
 			c.setTime(new Date());
-			c.add(Calendar.DATE, 300); 
+			c.add(Calendar.DATE, 30); 
 			newProduct.setExpirySpecial(c.getTime());
 		}
 		newProduct.save();

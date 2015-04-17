@@ -193,13 +193,11 @@ box-sizing: border-box;
 }
 
 .validateAndLogout{
-	font-family: 'Open Sans', sans-serif;
-
+	font-family: Courier;
 	background-color: #E8DCB5;
-
     color: #FFFFFF;
 	font-size: 20px;
-	font-style: bold;
+	font-style: italic;
 	text-align: center;
 	width: 300px;
 	margin: 5px 35%;
@@ -1702,7 +1700,7 @@ body {
 	padding: 8px;
 	margin: 5px;
 	display: block;
-	width:70%;
+	width:50%;
 	background:none;
 	border:2px solid #CACACA;
 	outline: none;
@@ -1747,7 +1745,7 @@ body {
 	padding: 8px;
 	margin: 5px;
 	display: block;
-	width:100%;
+	width:50%;
 	background:none;
 	border:2px solid #CACACA;
 	outline: none;

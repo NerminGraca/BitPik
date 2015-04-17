@@ -103,7 +103,7 @@
 			    		<p><a href="/kategorija/@p.mainCategory.id">@p.mainCategory.name</a> >>>> <a href="/podKategorija/@p.subCategory.id">@p.subCategory.name</a></p>
 			    	    </div><br></div>
 
-            			<div class="col-md-6" style="padding: 10px; background-color: #D4CA9F; margin: 0px 0px 0px 35px;">
+            			<div class="col-md-6" style="padding: 10px; margin: 0px 0px 0px 35px;">
 							<h2>@p.name</h2><hr>
 							<br>
 							<p>@p.description</p>
@@ -226,10 +226,6 @@
 										<div class="button" style="margin-left: 10px;"><span><a href="/editProduct/@p.id">Izmijeni artikal</a></span></div>
 
 
-										<div class="button"><span><a href="/editProduct/@p.id">Izmijeni artikal</a></span></div>
-
-										<br> </br>
-
 										@if(!p.isSpecial) {
 										<div class="button"><span><a href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></span></div>
 										}
@@ -287,26 +283,6 @@
 											@if(user.isAdmin){
 												<div class="available">
 													<p>Transakcijski ID :</p>
-
-													<ul>
-														@p.purchaseTransaction.id
-													</ul>
-													<br>
-													<p>Poslao zahtjev za refund :</p>
-													<ul>
-														<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
-													</ul>
-													<br>
-
-													<ul>
-														@p.purchaseTransaction.id
-													</ul>
-													<br>
-													<p>Poslao zahtjev za refund :</p>
-													<ul>
-														<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
-													</ul>
-													<br>
 
 													<ul>
 														@p.purchaseTransaction.id
