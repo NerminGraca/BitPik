@@ -21,17 +21,19 @@
 							
 								@helper.form(routes.ProductController.createProduct(),'id->"productForm") {
 									
-									<h5 id="editProfileText">Naziv proizvoda:</h5>
+									<h5 id="editProfileText">Naziv proizvoda:*</h5>
 									<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="" id="name" name="name" required/>
 									
-									<h5 id="editProfileText">Kratki opis:</h5>
+									<h5 id="editProfileText">Kratki opis:*</h5>
 									<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="description" name="description" required/>
 									
 									
 									
-									<h5 id="editProfileText">Cijena:</h5>			
+									<h5 id="editProfileText">Cijena:*</h5>			
 									<input type="number" min="1" max="9999999" step="any" value="" id="price" name="price" required/>
-															
+									
+									<h5 class="redHeaderReq">Molimo popunite sva polja oznacena sa *</h5>	
+														
 						  			<!-- This is css for Kategorija and availability dropdown meni -->
 					
 						  			<style>
@@ -164,7 +166,7 @@
 										</form>
 
 										<h5 id="editProfileText">Detaljni opis:</h5>
-									<textarea maxlength="250" value="" id="longDescription" name="longDescription" required></textarea>
+									<textarea maxlength="250" value="" id="longDescription" name="longDescription" ></textarea>
 
 									<script>
 									

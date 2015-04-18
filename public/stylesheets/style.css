@@ -512,6 +512,12 @@ box-sizing: border-box;
 	color: black;
 	font-style:italic;
 }
+.redHeaderReq{
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif, italic;
+	font-size: 15x;
+	color: red;
+	font-style:italic;
+}
 
 /* Template CSS */
 @font-face {

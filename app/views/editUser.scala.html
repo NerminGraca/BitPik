@@ -19,11 +19,12 @@
 				  		<h1 class="redHeader">PROMIJENI PODATKE</h1>
 						<div>
 							@helper.form(routes.UserController.saveEditedUser(u.id),'id->"nameForm") {
-								<h5 id="editProfileText">Ime:</h5>
+								<h5 id="editProfileText">Ime:*</h5>
 								<input pattern=".{3,20}" required title="Od 3 do 20 karaktera" type="text" value="@u.username" id="username" name="username" required/>								
 								
-								<h5 id="editProfileText">Email:</h5>			
+								<h5 id="editProfileText">Email:*</h5>			
 								<input type="email" value="@u.email" id="email" name="email" required/>
+								<h5 class="redHeaderReq">Molimo popunite sva polja oznacena sa *</h5>
 								<br>
 								<input class="buttonRed" type="submit" value="Spasi promjene" />
 							}	
