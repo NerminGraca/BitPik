@@ -16,28 +16,28 @@
 					  		<h2>Objavljeni proizvodi :</h2>
 					  
 						 				   <div class="row">
-											    <div class="col-sm-1" style="background-color:lavender;"><strong>Bitpik id</strong></div>
-											    <div class="col-sm-1" style="background-color:lavenderblush;"><strong>Ime proizvoda</strong></div>
-											    <div class="col-sm-1" style="background-color:lavender;"><strong>Cijena</strong></div>
-											    <div class="col-sm-1" style="background-color:lavender;"><strong>Datum objave</strong></div>
-											    <div class="col-sm-1" style="background-color:lavender;"><strong>Prodat artikal</strong></div>
-											    <div class="col-sm-1" style="background-color:lavenderblush;"><strong>Izdvojen</strong></div>
-											    <div class="col-sm-1" style="background-color:lavender;"><strong>Br. pregleda</strong></div>
-											    <div class="col-sm-1" style="background-color:lavender;"><strong>Br. komentara</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Bitpik id</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Ime proizvoda</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Cijena</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Datum objave</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Prodat artikal</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Izdvojen</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Br. pregleda</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Br. komentara</strong></div>
 										  </div>
 				
 							
 								@for(product <- products) {		  
 						
 										   <div class="row">
-											    <div class="col-sm-1" style="background-color:lavender;">@product.id</div>
-											    <div class="col-sm-1" style="background-color:lavenderblush;">@product.name</div>
-											    <div class="col-sm-1" style="background-color:lavenderblush;">@product.price</div>
-											    <div class="col-sm-1" style="background-color:lavender;">@product.publishedDate</div>
-											    <div class="col-sm-1" style="background-color:lavender;">@product.statsProducts.isItSold</div>
-											    <div class="col-sm-1" style="background-color:lavenderblush;">@product.statsProducts.isItSpecial</div>
-											    <div class="col-sm-1" style="background-color:lavender;">@product.statsProducts.noOfClicksS</div>
-											    <div class="col-sm-1" style="background-color:lavender;">@product.statsProducts.noOfComments</div>
+											    <div class="col-sm-1" style="background-color:#E6E5F2;">@product.id</div>
+											    <div class="col-sm-1" style="background-color:#E8E7E2;">@product.name</div>
+											    <div class="col-sm-1" style="background-color:#E6E5F2;">@product.price</div>
+											    <div class="col-sm-1" style="background-color:#E8E7E2;">@product.publishedDate</div>
+											    <div class="col-sm-1" style="background-color:#E6E5F2;">@product.statsProducts.isItSold</div>
+											    <div class="col-sm-1" style="background-color:#E8E7E2;">@product.statsProducts.isItSpecial</div>
+											    <div class="col-sm-1" style="background-color:#E6E5F2;">@product.statsProducts.noOfClicksS</div>
+											    <div class="col-sm-1" style="background-color:#E8E7E2;">@product.statsProducts.noOfComments</div>
 										  </div>
 							  	  }
 							} else {
