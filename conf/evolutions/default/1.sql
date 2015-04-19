@@ -147,24 +147,6 @@ alter table bpcredit add constraint fk_bpcredit_creditOwner_1 foreign key (credi
 create index ix_bpcredit_creditOwner_1 on bpcredit (credit_owner_id);
 alter table comment add constraint fk_comment_author_2 foreign key (author_id) references user (id) on delete restrict on update restrict;
 create index ix_comment_author_2 on comment (author_id);
-<<<<<<< HEAD
-alter table img_path add constraint fk_img_path_product_3 foreign key (product_id) references product (id) on delete restrict on update restrict;
-create index ix_img_path_product_3 on img_path (product_id);
-alter table private_message add constraint fk_private_message_sender_4 foreign key (sender_id) references user (id) on delete restrict on update restrict;
-create index ix_private_message_sender_4 on private_message (sender_id);
-alter table private_message add constraint fk_private_message_receiver_5 foreign key (receiver_id) references user (id) on delete restrict on update restrict;
-create index ix_private_message_receiver_5 on private_message (receiver_id);
-alter table product add constraint fk_product_mainCategory_6 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
-create index ix_product_mainCategory_6 on product (main_category_id);
-alter table product add constraint fk_product_owner_7 foreign key (owner_id) references user (id) on delete restrict on update restrict;
-create index ix_product_owner_7 on product (owner_id);
-alter table product add constraint fk_product_subCategory_8 foreign key (sub_category_id) references sub_category (id) on delete restrict on update restrict;
-create index ix_product_subCategory_8 on product (sub_category_id);
-alter table product add constraint fk_product_buyerUser_9 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
-create index ix_product_buyerUser_9 on product (buyer_user_id);
-alter table statistics add constraint fk_statistics_productStats_10 foreign key (product_stats_id) references product (id) on delete restrict on update restrict;
-create index ix_statistics_productStats_10 on statistics (product_stats_id);
-=======
 alter table comment add constraint fk_comment_product_3 foreign key (product_id) references product (id) on delete restrict on update restrict;
 create index ix_comment_product_3 on comment (product_id);
 alter table img_path add constraint fk_img_path_product_4 foreign key (product_id) references product (id) on delete restrict on update restrict;
@@ -181,11 +163,12 @@ alter table product add constraint fk_product_subCategory_9 foreign key (sub_cat
 create index ix_product_subCategory_9 on product (sub_category_id);
 alter table product add constraint fk_product_buyerUser_10 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
 create index ix_product_buyerUser_10 on product (buyer_user_id);
->>>>>>> 6ce787de8518d48301866b55b4d9012dd0a19af3
-alter table sub_category add constraint fk_sub_category_mainCategory_11 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
-create index ix_sub_category_mainCategory_11 on sub_category (main_category_id);
-alter table transaction_p add constraint fk_transaction_p_product_12 foreign key (product_id) references product (id) on delete restrict on update restrict;
-create index ix_transaction_p_product_12 on transaction_p (product_id);
+alter table statistics add constraint fk_statistics_productStats_11 foreign key (product_stats_id) references product (id) on delete restrict on update restrict;
+create index ix_statistics_productStats_11 on statistics (product_stats_id);
+alter table sub_category add constraint fk_sub_category_mainCategory_12 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
+create index ix_sub_category_mainCategory_12 on sub_category (main_category_id);
+alter table transaction_p add constraint fk_transaction_p_product_13 foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_transaction_p_product_13 on transaction_p (product_id);
 
 
 

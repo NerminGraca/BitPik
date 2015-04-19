@@ -7,10 +7,12 @@
 	<div class="main">
     	<div class="content">
     		<div class="section group">	
-    			<div style="padding-left: 2%">
+    			<div style="padding-left: 9%">
     			
 					  <h2>Izvjestaj korisnika : @u.username </h2>
-					  	
+					  
+		
+		@if(!products.isEmpty) {
 					  		<h2>Objavljeni proizvodi :</h2>
 					  
 						 				   <div class="row">
@@ -20,11 +22,11 @@
 											    <div class="col-sm-1" style="background-color:lavender;"><strong>Datum objave</strong></div>
 											    <div class="col-sm-1" style="background-color:lavender;"><strong>Prodat artikal</strong></div>
 											    <div class="col-sm-1" style="background-color:lavenderblush;"><strong>Izdvojen</strong></div>
-											    <div class="col-sm-1" style="background-color:lavender;"><strong>Broj pregleda</strong></div>
-											    <div class="col-sm-1" style="background-color:lavender;"><strong>Broj komentara</strong></div>
+											    <div class="col-sm-1" style="background-color:lavender;"><strong>Br. pregleda</strong></div>
+											    <div class="col-sm-1" style="background-color:lavender;"><strong>Br. komentara</strong></div>
 										  </div>
 				
-							@if(!products.isEmpty) {
+							
 								@for(product <- products) {		  
 						
 										   <div class="row">
@@ -38,6 +40,8 @@
 											    <div class="col-sm-1" style="background-color:lavender;">@product.statsProducts.noOfComments</div>
 										  </div>
 							  	  }
+							} else {
+							<h2> Vi još uvijek nemate artikala</h2>							
 							}
 								  
 				</div>
