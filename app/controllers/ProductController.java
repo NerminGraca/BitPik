@@ -20,6 +20,7 @@ import models.Product;
 import models.SubCategory;
 import models.TransactionP;
 import models.User;
+import models.Statistics;
 import views.html.*;
 import play.Logger;
 import play.Play;
@@ -73,6 +74,10 @@ public class ProductController extends Controller {
 		Product p = ProductController.findProduct.byId(id);
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		List<Comment> commentList = Comment.find.all();
+		// We set the number of views for this item to +1 more;
+		p.statsProducts.setNoOfClicks(p.statsProducts.getNoOfClicks() + 1);
+		p.statsProducts.save();
+		p.save();
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
 			array.add(JsonHelper.jsonProduct(p));

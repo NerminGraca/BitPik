@@ -197,8 +197,6 @@ public class CreditController extends Controller{
 		{
 			Logger.warn(e.getMessage());
 		}
-		
-		
 		return TODO;
 
 

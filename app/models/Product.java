@@ -69,10 +69,10 @@ public class Product extends Model {
 	
 	public boolean isSpecial;
 	
-//	public Date madeSpecial;
-	
 	public Date expirySpecial;
-
+	
+	@OneToOne(mappedBy="productStats", cascade=CascadeType.ALL)
+	public Statistics statsProducts;
 
 	/**
 	 * Constructor with default values
@@ -283,6 +283,23 @@ public class Product extends Model {
 	}
 	
 	/**
+	 * This method is used to get the Statistics model of the (this)
+	 * product;
+	 * @return
+	 */
+	public Statistics getStatsProducts() {
+		return statsProducts;
+	}
+
+	/**
+	 * This method is user to set the Statistics of the (this) product.
+	 * @param statsProducts
+	 */
+	public void setStatsProducts(Statistics statsProducts) {
+		this.statsProducts = statsProducts;
+	}
+	
+	/**
 	 * 
 	 * @return formated price with two decimals
 	 */
@@ -300,23 +317,6 @@ public class Product extends Model {
 		double priceInUSD = price * 0.56;
 		return String.format("%1.2f",priceInUSD);
 	}
-//	
-//	/**
-//	 * Gets us the date that the Product has been set as Special product;
-//	 * @return
-//	 */
-//	public Date getMadeSpecial() {
-//		return madeSpecial;
-//	}
-//
-//	/**
-//	 * We use this method to set the date when the product has been
-//	 * made one of the special products;
-//	 * @param madeSpecial
-//	 */
-//	public void setMadeSpecial(Date madeSpecial) {
-//		this.madeSpecial = madeSpecial;
-//	}
 	
 	/**
 	 * This method gets us the date of the date when the product
@@ -361,6 +361,7 @@ public class Product extends Model {
 			c.add(Calendar.DATE, 30); 
 			newProduct.setExpirySpecial(c.getTime());
 		}
+		newProduct.statsProducts = new Statistics(newProduct);
 		newProduct.save();
 		return newProduct;
 	}

@@ -71,6 +71,17 @@ create table product (
   constraint pk_product primary key (id))
 ;
 
+create table statistics (
+  id                        integer not null,
+  no_of_clicks              integer,
+  no_of_clicks_s            varchar(255),
+  no_of_comments            integer,
+  is_it_sold                varchar(255),
+  is_it_special             varchar(255),
+  product_stats_id          integer,
+  constraint pk_statistics primary key (id))
+;
+
 create table sub_category (
   id                        integer not null,
   name                      varchar(255),
@@ -123,6 +134,8 @@ create sequence private_message_seq;
 
 create sequence product_seq;
 
+create sequence statistics_seq;
+
 create sequence sub_category_seq;
 
 create sequence transaction_p_seq;
@@ -147,10 +160,12 @@ alter table product add constraint fk_product_subCategory_8 foreign key (sub_cat
 create index ix_product_subCategory_8 on product (sub_category_id);
 alter table product add constraint fk_product_buyerUser_9 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
 create index ix_product_buyerUser_9 on product (buyer_user_id);
-alter table sub_category add constraint fk_sub_category_mainCategory_10 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
-create index ix_sub_category_mainCategory_10 on sub_category (main_category_id);
-alter table transaction_p add constraint fk_transaction_p_product_11 foreign key (product_id) references product (id) on delete restrict on update restrict;
-create index ix_transaction_p_product_11 on transaction_p (product_id);
+alter table statistics add constraint fk_statistics_productStats_10 foreign key (product_stats_id) references product (id) on delete restrict on update restrict;
+create index ix_statistics_productStats_10 on statistics (product_stats_id);
+alter table sub_category add constraint fk_sub_category_mainCategory_11 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
+create index ix_sub_category_mainCategory_11 on sub_category (main_category_id);
+alter table transaction_p add constraint fk_transaction_p_product_12 foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_transaction_p_product_12 on transaction_p (product_id);
 
 
 
@@ -171,6 +186,8 @@ drop table if exists main_category;
 drop table if exists private_message;
 
 drop table if exists product;
+
+drop table if exists statistics;
 
 drop table if exists sub_category;
 
@@ -193,6 +210,8 @@ drop sequence if exists main_category_seq;
 drop sequence if exists private_message_seq;
 
 drop sequence if exists product_seq;
+
+drop sequence if exists statistics_seq;
 
 drop sequence if exists sub_category_seq;
 

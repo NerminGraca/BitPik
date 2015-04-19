@@ -677,11 +677,6 @@ public class UserController extends Controller {
 			apiContext.setConfigurationMap(sdkConfig);
 			Amount amount = new Amount();
 
-			amount.setTotal("" + p.price);
-			amount.setCurrency("EUR");
-			
-			
-
 			// We put the amount in USD and convert it to a String;
 			amount.setTotal(p.getPriceinStringinUSD());
 			amount.setCurrency("USD");
@@ -717,11 +712,11 @@ public class UserController extends Controller {
 				Links link = itr.next();
 				if(link.getRel().equals("approval_url"))
 				{
-					if (!request().accepts("html/text")){
-						ObjectNode num = Json.newObject();
-						num.put("id", id);
-						return ok(num);
-				   	}
+//					if (!request().accepts("html/text")){
+//						ObjectNode num = Json.newObject();
+//						num.put("id", id);
+//						return ok(num);
+//				   	}
 					return redirect(link.getHref());
 				}
 			}
@@ -730,9 +725,7 @@ public class UserController extends Controller {
 		{
 			Logger.warn(e.getMessage());
 		}
-		
-		
-		return TODO;
+		return TODO;		
 	}
 	
 	/**

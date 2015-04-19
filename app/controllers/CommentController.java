@@ -3,11 +3,12 @@ package controllers;
 import helpers.SessionHelper;
 
 import java.util.Date;
-
 import java.util.List;
 
 
+
 import models.Comment;
+import models.Product;
 import models.User;
 import play.data.Form;
 import play.i18n.Messages;
@@ -45,6 +46,10 @@ public class CommentController extends Controller{
 			flash("add_comment_fail", Messages.get("Greška. Niste postavili komentar."));
 			return redirect(routes.ProductController.showProduct(idProduct));
 		}
+		Product p = Product.find.byId(idProduct);
+		p.statsProducts.setNoOfComments(p.statsProducts.getNoOfComments() + 1);
+		p.statsProducts.save();
+		p.save();
 		Comment newComment = Comment.create(content, date, u);
 		newComment.save();
 
@@ -110,6 +115,10 @@ public class CommentController extends Controller{
 			return redirect(routes.Application.index());
 		}
 		Comment.delete(idComment);
+		Product p = Product.find.byId(idProduct);
+		p.statsProducts.setNoOfComments(p.statsProducts.getNoOfComments() - 1);
+		p.statsProducts.save();
+		p.save();
 		flash("delete_comment", Messages.get("Uspješno ste obrisali komentar."));
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}

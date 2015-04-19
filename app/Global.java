@@ -207,7 +207,7 @@ public class Global extends GlobalSettings {
 			// Prodavac published the headphones product;	
 			MainCategory tehnika = MainCategory.findMainCategoryByName("Tehnika");
 			SubCategory multimedija = SubCategory.findSubCategoryByName("Multimedija");
-			Product p6 = Product.create("Slusalice", "Crne slusalice", "Bass slusalice, Sensibilitet: 95 -3dB, Impedance: 32 Ohm i Frekvencija: 20-2000Hz ", 50.00, seller, tehnika, multimedija, "Hercegovacko-neretvanski");
+			Product p6 = Product.create("Slusalice", "Crne slusalice", "Bass slusalice, Sensibilitet: 95 -3dB, Frek.: 20-2000Hz ", 50.00, seller, tehnika, multimedija, "Hercegovacko-neretvanski");
 			p6.productImagePath = "images/productPicture/headphones.jpg";
 			p6.save();
 			
@@ -221,7 +221,7 @@ public class Global extends GlobalSettings {
 			// Prodavac published the red car toy product;	
 			MainCategory sportsub = MainCategory.findMainCategoryByName("Sportska oprema");
 			SubCategory wintersports = SubCategory.findReturnSubCategoryByNameAndMainCategory("Zimski sportovi", sportsub);
-			Product p8 = Product.create("Snowboard i buce", "Snow board 2012 i buce", "Snow board 2012 - Lijep dizajn od drveta zajedno sa bucama", 250.00, seller, sportsub, wintersports, "Hercegovacko-neretvanski");
+			Product p8 = Product.create("Snowboard", "Snow board 2012", "Snow board 2012 - Lijep dizajn od drveta", 250.00, seller, sportsub, wintersports, "Hercegovacko-neretvanski");
 			p8.productImagePath = "images/productPicture/snowboard.jpg";
 			p8.save();
 		}
