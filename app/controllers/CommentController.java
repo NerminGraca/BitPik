@@ -47,10 +47,13 @@ public class CommentController extends Controller{
 			return redirect(routes.ProductController.showProduct(idProduct));
 		}
 		Product p = Product.find.byId(idProduct);
+
 		p.statsProducts.setNoOfComments(p.statsProducts.getNoOfComments() + 1);
 		p.statsProducts.save();
 		p.save();
-		Comment newComment = Comment.create(content, date, u);
+
+		Comment newComment = Comment.create(content, date, u, p);
+
 		newComment.save();
 
 		List<Comment> commentList = Comment.find.all();

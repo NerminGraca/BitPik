@@ -26,6 +26,9 @@ public class Comment extends Model{
 	
 	@ManyToOne
 	public User author;
+	
+	@ManyToOne
+	public Product product;
 
 	public static Finder<Integer, Comment> find = new Finder<Integer, Comment>(Integer.class, Comment.class);
 
@@ -36,10 +39,11 @@ public class Comment extends Model{
 	 * @param author
 	 */
 	
-	public Comment(String content, Date createdAt, User author) {
+	public Comment(String content, Date createdAt, User author, Product product) {
 		this.content = content;
 		this.createdAt = createdAt;
 		this.author = author;
+		this.product = product;
 	}
 	
 	/**
@@ -50,6 +54,7 @@ public class Comment extends Model{
 		this.content = "No content";
 		this.createdAt = null;
 		this.author = null;
+		this.product = null;
 	}
 
 	/**
@@ -115,9 +120,9 @@ public class Comment extends Model{
 	 * @return newComment
 	 */
 	
-	public static Comment create(String content, Date createdAt, User author)
+	public static Comment create(String content, Date createdAt, User author, Product product)
 	{
-		Comment newComment = new Comment(content, createdAt, author);
+		Comment newComment = new Comment(content, createdAt, author, product);
 		newComment.save();
 		return newComment;
 	}
