@@ -324,16 +324,18 @@
 						</div></div>
 						
 					}
-					
+				
 					@for(comment <- commentList){
-						<h5><a href="/korisnik/@comment.author.id">@comment.author.username</a></h5>
-						<p>@comment.createdAt </p>
-						@if(user==comment.author){
-							<button class="btn-fontNovi"><a href="/deleteComment/@comment.id/@p.id">Obriši</<a></button>
-						}
-						<p>@comment.content</p>
-						<hr style="margin-top: 5px; margin-bottom: 5px;">
+						@if(comment.product.equals(p)){
 						
+							<h5><a href="/korisnik/@comment.author.id">@comment.author.username</a></h5>
+							<p>@comment.createdAt </p>
+							@if(user==comment.author){
+								<button class="btn-fontNovi"><a href="/deleteComment/@comment.id/@p.id">Obriši</<a></button>
+							}
+							<p>@comment.content</p>
+							<hr style="margin-top: 5px; margin-bottom: 5px;">
+						}
 					}
 	    		}
 							

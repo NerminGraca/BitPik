@@ -8,6 +8,7 @@ import java.util.List;
 
 
 import models.Comment;
+import models.Product;
 import models.User;
 import play.data.Form;
 import play.i18n.Messages;
@@ -45,7 +46,8 @@ public class CommentController extends Controller{
 			flash("add_comment_fail", Messages.get("Greška. Niste postavili komentar."));
 			return redirect(routes.ProductController.showProduct(idProduct));
 		}
-		Comment newComment = Comment.create(content, date, u);
+		Product p = Product.find.byId(idProduct);
+		Comment newComment = Comment.create(content, date, u, p);
 		newComment.save();
 
 		List<Comment> commentList = Comment.find.all();
