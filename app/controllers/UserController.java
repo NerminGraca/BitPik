@@ -243,7 +243,7 @@ public class UserController extends Controller {
 	* And renders the profile.html page;
 	* @return renders the profile.html page with the list of products mentioned;
 	*/
-	@Security.Authenticated(SessionHelper.class)
+	//@Security.Authenticated(SessionHelper.class)
 	public static Result findProfileProducts(){
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		
@@ -255,10 +255,7 @@ public class UserController extends Controller {
 		List <Product> productList = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		User u = User.finder(currentUser.username);
 
-		if (!request().accepts("text/html")) {
-
-			return ok(JsonHelper.jsonUser(u));
-		}
+		
 		return ok(profile.render(productList, u));
 
 	}	

@@ -32,6 +32,12 @@ public class JsonController extends Controller{
 		return ok(arr);
 	}
 	
+	public static Result profileAndroid() {
+		User u = User.find(2);
+		ObjectNode user = JsonHelper.jsonUser(u);
+		return ok(user);
+	}
+	
 	
 	public static Result registration(){
 		
