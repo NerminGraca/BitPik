@@ -488,7 +488,12 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result searchUsers(String q){
+		User currentUser = SessionHelper.getCurrentUser(ctx());
 		List<Product>products=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('false'))").findList();
+		if(currentUser!=null){
+			currentUser.search.add(q);
+		}
+		currentUser.save();
 		List<Product>sproducts=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('true'))").findList();
 		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
 		return ok(listaPretrage.render(sproducts,products,users));	
@@ -703,4 +708,5 @@ public class ProductController extends Controller {
 		}
 		return ok(newViewForFilter.render(sfilteredProducts,filteredProducts,MainCategory.allMainCategories()));
 	}
+	
 }

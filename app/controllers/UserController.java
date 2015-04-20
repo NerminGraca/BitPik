@@ -826,6 +826,9 @@ public class UserController extends Controller {
 	  	{
 	  		return redirect(routes.Application.index());
 	  	}
+	  	String message = "Dobili ste privatnu poruku od korisnika " + sender.username + 
+	  			": \n" + content;
+	  	MailHelper.sendNewsletter(receiver.email, message);
    	  	return redirect("/allMessages");
 	}
 	
@@ -893,5 +896,29 @@ public class UserController extends Controller {
 		}
 		return redirect(OURHOST + "/buyingAProduct/" +id +"/"+ token);
 	}	
+	
+	public static Result newsletter(int id){
+		User u = User.find(id);
+		List<Product>newsletterProducts = new ArrayList<Product>();
+		for (String s: u.search){
+			Product p = (Product) Product.find.where("(UPPER(name) LIKE UPPER('%"+s+"%')) AND ((isSold) LIKE (false))");
+			newsletterProducts.add(p);
+		}
+		String message = "Novi oglasi koji bi vas mogli zanimati:\n";
+		for (int i=0; i<u.search.size(); i++)
+		{
+			message += u.search.get(i) + " ";
+		}
+		message += u.search.size();
+	/*	if(newsletterProducts!=null)
+		{
+			for(Product p: newsletterProducts){
+				message += p.name + ", " + p.description + "\n";
+				
+			}
+		}*/
+		MailHelper.sendNewsletter(u.email, message);
+		return redirect("/");
+	}
 
 }

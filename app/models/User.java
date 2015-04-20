@@ -5,9 +5,11 @@ import helpers.MailHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 import java.util.UUID;
 
 import javax.persistence.*;
@@ -70,6 +72,8 @@ public class User extends Model {
 	@OneToMany(mappedBy="sender", cascade=CascadeType.ALL)
 	public List<PrivateMessage> privateMessage;
 	
+	public List<String> search;
+	
 	/**
 	 * @author Gordan Sajevic
 	 * Constructor with default values
@@ -85,6 +89,7 @@ public class User extends Model {
 		this.verified = false;
 		this.emailVerified = false;
 		this.imagePath = "images/profilePicture/profileimg.png";
+		this.search = new ArrayList<String>();
 	}
 
 	/**
@@ -106,6 +111,7 @@ public class User extends Model {
 		this.emailVerified = false;
 		this.emailConfirmation = UUID.randomUUID().toString();
 		this.imagePath = "images/profilePicture/profileimg.png";
+		this.search = new ArrayList<String>();
 	}
 	
 	/**
@@ -126,7 +132,7 @@ public class User extends Model {
 		this.confirmation = null;
 		this.emailVerified = true;
 		this.imagePath = "images/profilePicture/profileimg.png";
-
+		this.search = new ArrayList<String>();
 	}
 
 	/**
