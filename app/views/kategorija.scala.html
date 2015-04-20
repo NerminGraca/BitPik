@@ -36,7 +36,7 @@
 
 			
 			<!-- Početak naprednog Search Box-a -->
-            <div class="filter col-xs-4" style="padding: 15px; background-color: #E8A741; margin: 0px 20px;">
+            <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #C8C8C8; background-color: #FFF3CF; margin: 0px 20px;">
               <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
 
             <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
@@ -135,8 +135,8 @@
                
                <br>
                <h1 class="redHeaderAS">Opis</h1>
-               <input type="text" value="" id="desc" name="desc" style="height:25px; width:420px; font-size:18px;" />	
-               <input class="btn btn-primary btn-fontNovi" style="margin-left: 10px;" type="submit" value="Traži" />	
+               <input type="text" value="" id="desc" name="desc" style="height:25px; width:240px; font-size:18px;" />	
+               <input class="btn btn-primary btn-fontNovi" style="margin-left: 185px; margin-top: 15px;" type="submit" value="Traži" />	
 	         </form>
             </div>
             </div>

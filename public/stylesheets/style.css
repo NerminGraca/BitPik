@@ -268,7 +268,7 @@ box-sizing: border-box;
 	float: left;
 	width: 30%;
 	padding: 0px;
-	background-color: cornsilk;
+	background-color: whitesmoke;
 }
 
 /* this is for editProfile red and blue text*/
@@ -504,6 +504,7 @@ box-sizing: border-box;
 	font-family: 'ambleregular';
 	font-size: 15px;
 	color: #786304;
+	margin-bottom: 3px;
 }
 
 .redHeader2{

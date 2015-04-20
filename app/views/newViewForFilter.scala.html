@@ -8,9 +8,25 @@
          @flash.get("logout")    
          @flash.get("login_success ")
       </div>
- 			
+			<div class="clear"></div>
+		      <div class="header_slide">
+		         <div class="header_bottom_left">
+		            <div class="categories">
+		               <ul>
+		                  <h3>Kategorije</h3>
+		                  @if(mainCategoryList.size() > 0 ) {
+		                  @for(mainCategory <- mainCategoryList) {
+		                  <li><a href="kategorija/@mainCategory.id">@mainCategory.name</a></li>
+		                  }
+		                  }
+		               </ul>
+		            </div>
+		         </div>
+		      </div>
+		   </div>
+			
 			<!-- Početak naprednog Search Box-a -->
-            <div class="filter col-xs-4" style="padding: 15px; background-color: #E8A741; margin: 0px 20px;">
+            <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #C8C8C8; background-color: #FFF3CF; margin: 0px 20px;">
               <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
 
             <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
@@ -93,52 +109,37 @@
                      <option>Unsko-sanski</option>
                      <option>Posavski</option>
                      <option>Tuzlanski</option>
-                     <option>Zenicko-dobojski</option>
+                     <option>Zeničko-dobojski</option>
                      <option>Bosansko-podrinjski</option>
                      <option>Srednjobosanski</option>
-                     <option>Zapadnohercegovacki</option>
+                     <option>Zapadnohercegovački</option>
                      <option>Livanjski</option>
-                     <option>Hercegovacko-neretvanski</option>
-                     <option>Distrikt Brcko</option>
-                     <option>Banjalucka</option>
+                     <option>Hercegovačko-neretvanski</option>
+                     <option>Distrikt Brčko</option>
+                     <option>Banjalučka</option>
                      <option>Dobojsko-bijeljinska</option>
-                     <option>Sarajevsko-zvornicka</option>
-                     <option>Focansko-trebinjska</option>
+                     <option>Sarajevsko-zvornička</option>
+                     <option>Fočansko-trebinjska</option>
                   </select>
                </fieldset>
                
                <br>
                <h1 class="redHeaderAS">Opis</h1>
-               <input type="text" value="" id="desc" name="desc" style="height:25px; width:420px; font-size:18px;" />	
-               <input class="btn btn-primary btn-fontNovi" style="margin-left: 10px;" type="submit" value="Traži" />	
+               <input type="text" value="" id="desc" name="desc" style="height:25px; width:240px; font-size:18px;" />	
+               <input class="btn btn-primary btn-fontNovi" style="margin-left: 185px; margin-top: 15px;" type="submit" value="Traži" />	
 	         </form>
             </div>
             </div>
 			<div class="clear"></div>
-		      <div class="header_slide">
-		         <div class="header_bottom_left">
-		            <div class="categories">
-		               <ul>
-		                  <h3>Kategorije</h3>
-		                  @if(mainCategoryList.size() > 0 ) {
-		                  @for(mainCategory <- mainCategoryList) {
-		                  <li><a href="kategorija/@mainCategory.id">@mainCategory.name</a></li>
-		                  }
-		                  }
-		               </ul>
-		            </div>
-		         </div>
-		         <div class="clear"></div>
-		      </div>
-		   </div>
+			<!-- Kraj naprednog Search Box-a -->
+
+
+
+
+		 <div class="main">
+		  <div class="content">
 		   <div class="clear"></div>
-		   <div class="main">
-		      <div class="content">
-		         <div class="clear"></div>
-		         <div class="section group">
-               	<!-- Kraj naprednog Search Box-a -->
-
-
+		    <div class="section group">
             @if(!sproducts.isEmpty()) {
             <div class="content_top">
                <div class="heading">
