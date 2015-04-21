@@ -50,6 +50,8 @@ public class JsonHelper {
 		product.put("isSold", p.isSold);
 		product.put("isSpecial", p.isSpecial);
 		product.put("productImagePath", p.productImagePath);
+		product.put("ownerUsername", p.owner.username);
+		product.put("ownerId", p.owner.id);
 		return product;
 	}
 	

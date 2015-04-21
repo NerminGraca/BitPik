@@ -39,6 +39,28 @@ public class JsonController extends Controller{
 	}
 	
 	
+	public static Result getUserForAndroid() {
+		JsonNode json = request().body().asJson();  //// {"id" : "3"}
+		Logger.info("json primljeni je : " + json);
+//		String jsonString = json.toString();
+//		Logger.info("json convertovani je  : " + id);
+		String idAsString = json.findPath("id").asText();  
+		Logger.info("idAsString je : " + idAsString);
+	
+		int id = Integer.valueOf(idAsString);
+		Logger.info("json convertovani je  : " + id);
+		
+		User u = User.find(id);
+		if (u == null) {
+			return badRequest();
+		}
+		ObjectNode user = JsonHelper.jsonUser(u);
+		return ok(user);
+	}
+	
+	
+	
+	
 	public static Result registration(){
 		
 		JsonNode json = request().body().asJson();

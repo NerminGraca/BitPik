@@ -38,6 +38,7 @@ GET		/allMessages						controllers.UserController.allMessages()
 GET     /payPalValidation/:id/:payerId/:paymentId/:token/:accessToken           controllers.UserController.showSellingProduct(id: Integer, payerId: String, paymentId: String, token: String, accessToken: String)
 
 GET		/profileAndroid						controllers.JsonController.profileAndroid()
+POST		/api/userforAnd				controllers.JsonController.getUserForAndroid()
 
 GET		/editFaq/:id						controllers.FAQController.editFaq(id: Integer)
 POST	/editFaq/:id/change					controllers.FAQController.saveEditedFaq(id: Integer)
