@@ -1,0 +1,71 @@
+@(stores: List[User])
+
+@main("BitPik", "Pik radnje") {
+	
+	<link rel="stylesheet" media="all" href="@routes.Assets.at("stylesheets/style.css")">
+
+<div class="wrap">
+<div class="header">
+<div class="validateAndLogout">
+		@flash.get("validate")
+		@flash.get("logout")    
+		@flash.get("login_success ")
+	</div>
+	</div>
+	<body style="background-color:#FAF7F5;">
+		<div class="container" style="background-color: #FFF;">
+			
+					<h3 style="font-size:20px; padding:5px;">Pik radnje u kategorijama</h3>
+				  		<div style="padding:5px;overflow:hidden;width:62%;float:left;">
+				  		
+				  		     <ul class="radnje">
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Vozila</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/2">Odjeća i obuća</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/3">Kompjuteri</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/4">Biznis i industrija</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik">Mobilni uređaji</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Moj dom</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Nekretnine</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Literatura</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Tehnika</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Sportska oprema</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Nakit i satovi</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Kolekcionarstvo</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Životinje</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Video igre</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="/korisnik/1">Ostalo</a></li>
+				  				<li style="display: block;float: left; margin: 5px; width: 143px;padding: 5px;  border: 1px solid #e2e2e2;border-left: 4px solid #e2e2e2;"><a href="@routes.UserController.allPikStores()">Sve kategorije</a></li>
+				  				</ul>
+				  			
+				  			</div>
+				  			<div style="width:32%;float:left;padding:10px 10px 10px 0">
+				  			<h2 style="font-size:23px; padding-bottom:7px;">Pik radnja</h2>
+				  			<p>
+							Komercijalni profil sa vlastitom poddomenom, promocijom, izvještajima i još mnogo toga. Idealno za sva pravna i fizička lica koja se bave trgovinom.
+							Prvih 30 dana korištenja je potpuno besplatno! </p>
+							<br>
+							
+				  			<div class="btn btn-primary btn-fontNovi" style="background-color:#9DAB50; padding-top:3px; border-color:#9DAB50;"><span><a href="/registrationPikStore" style="color:white;">REGISTRUJ SE</a></span></div>
+				  			</div>
+				  			</div>
+				  			<br></br>
+				  			<div class="container" style="padding-bottom:20px; background-color: #FFF; height:900px;">
+				  			<div style="background-color: #FFF; position:relative; box-shadow:0px 3px 3px 1px rgba(0,0,0,0.1); border:1px solid #ccc; border-color: #e4e4e4; width:100%; box-sizinf:border-box; left:auto; right:auto; margin:0 0 20px 0; float:left;">
+				  			
+				  		<div class="section group">	      	      
+	      				@for(store <- stores) {						
+							<div class="grid_1_of_4 images_1_of_4" >
+					 			<a href="/korisnik/@store.id"><img src="@routes.Assets.at(store.imagePath)" alt="" /></a>
+					 			<h2>@store.username </h2>
+												 
+							</div>	
+						}
+							</div>			
+						
+					
+				
+			</div>	
+		</div>
+	</body>
+</div
+}
