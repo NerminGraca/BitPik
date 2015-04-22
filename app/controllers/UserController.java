@@ -91,8 +91,7 @@ public class UserController extends Controller {
 		// Unique 'username' verification
 		if (User.finder(username) != null) {
 			Logger.of("user").error("User tried to register with "+ username +" which already exist");
-			return ok(registration.render(
-					"Korisničko ime je zauzeto, molimo Vas izaberite drugo!", ""));
+			return ok(registration.render("Korisničko ime je zauzeto, molimo Vas izaberite drugo!", ""));
 		}
 		
 		// Unique 'email' verification
@@ -514,9 +513,6 @@ public class UserController extends Controller {
 		u.save();
 		Logger.of("user").info("User "+ u.username + " changed their password successfully");
 		flash("chng_pass_success", Messages.get("Uspješno ste zamijenili vašu šifru."));
-		if (!request().accepts("text/html")) {
-			return ok(JsonHelper.jsonUser(u));
-	   	 }
 		return redirect("/korisnik/" + id);
 	}
 	

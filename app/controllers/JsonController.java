@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import helpers.HashHelper;
 import helpers.JsonHelper;
 import helpers.SessionHelper;
 import models.MainCategory;
@@ -116,22 +117,26 @@ public class JsonController extends Controller{
 		return ok(JsonHelper.jsonUser(u));
 	}
 	
-	public static Result changePassword(int id){
+	public static Result editUser(){
 		JsonNode json = request().body().asJson();
 		String password = json.findPath("password").textValue();
-		String confirmPassword = json.findPath("confirmPassword").textValue();
+		String username = json.findPath("username").textValue();
+		String idStr = json.findPath("id").asText();
 		if(password.equals(null) || password.isEmpty()){
 			Logger.info("Login error, password not valid");
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Password not valid."));
 		}
-		if(confirmPassword.equals(null) || confirmPassword.isEmpty() || !password.equals(confirmPassword)){
-			Logger.info("Login error, password not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Password not valid."));
-		}
+		int id = Integer.valueOf(idStr);
+		Logger.info("json convertovani je  : " + id);
 		User u = User.find(id);
-		u.setPassword(confirmPassword);
+		if(u==null){
+			return badRequest();
+		}
+		password = HashHelper.createPassword(password);
+		u.setUsername(username);
+		u.setPassword(password);
+		u.save();
 		return ok(JsonHelper.jsonUser(u));
 	}
 	
