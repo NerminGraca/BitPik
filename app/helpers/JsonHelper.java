@@ -4,6 +4,7 @@ import java.util.List;
 
 import play.libs.Json;
 import models.BPCredit;
+import models.Blogger;
 import models.FAQ;
 import models.MainCategory;
 import models.PrivateMessage;
@@ -34,6 +35,14 @@ public class JsonHelper {
 		user.put("createdDate", u.createdDate);
 		user.put("imagePath", u.imagePath);
 		return user;
+	}
+	public static ObjectNode jsonBlogger(Blogger b){
+		ObjectNode blogger = Json.newObject();
+		blogger.put("id", b.id);
+		blogger.put("name", b.name);
+		blogger.put("description", b.description);
+		blogger.put("imagePath", b.blogImagePath);
+		return blogger;
 	}
 	
 	/**

@@ -18,6 +18,17 @@ public class ImgPath extends Model{
 	
 	@ManyToOne
 	public Product product;
+	
+	
+	public Blogger blogger;
+
+	public Blogger getBlogger() {
+		return blogger;
+	}
+
+	public void setBlogger(Blogger blogger) {
+		this.blogger = blogger;
+	}
 
 	public int getId() {
 		return id;
@@ -46,6 +57,10 @@ public class ImgPath extends Model{
 	public ImgPath(String imgPath, Product product) {
 		this.imgPath = imgPath;
 		this.product = product;
+	}
+	public ImgPath(String imgPath, Blogger blogger){
+		this.imgPath = imgPath;
+		this.blogger = blogger;
 	}
 
 }

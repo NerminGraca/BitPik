@@ -204,6 +204,7 @@ public class UserController extends Controller {
 			return redirect(routes.Application.login());
 		}
 		
+		
 		// Null catching
 		if (username == null || password == null) {
 			return redirect(routes.Application.login());
@@ -225,6 +226,12 @@ public class UserController extends Controller {
 		}
 
 		if (userExists && u.verified) {
+			
+			if(username.equals("blogger")){
+				session(SESSION_USERNAME, username);
+				Logger.of("login").info("User " + username + " logged in");
+				return redirect(routes.BloggerController.showBlog());
+			}
 			// the username put in the session variable under the key
 			// "username";
 			session(SESSION_USERNAME, username);

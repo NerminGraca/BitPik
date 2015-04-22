@@ -14,6 +14,19 @@ GET     /newViewForFilter                   controllers.Application.newViewForFi
 GET     /chooseRegistration                 controllers.Application.chooseRegistration()
 GET     /registrationPikStore               controllers.Application.registrationPikStore()
 
+
+GET     /addBlog  							controllers.BloggerController.addBlog()
+GET     /addBlogPicture/:id					controllers.BloggerController.bloggerPicture(id: Integer)
+POST   	/addBlogPicture/  	         		controllers.BloggerController.saveFile(id: Integer)
+GET   	/createBlog/         				controllers.BloggerController.createBlog()
+GET     /showBlog							controllers.BloggerController.showBlog()
+GET     /showOneBlog/:id					controllers.BloggerController.showOneBlog(id: Integer)
+GET     /editBlog/:id						controllers.BloggerController.editBlog(id: Integer)
+POST    /saveEditedBlog/:id/change			controllers.BloggerController.saveEditedBlog(id: Integer)
+GET     /deleteBlog/:id						controllers.BloggerController.deleteBlog(id: Integer)
+
+
+
 POST	/adduser							controllers.UserController.addUser()
 POST    /addPikStore                        controllers.UserController.addPikStore()
 POST	/finduser							controllers.UserController.findUser()

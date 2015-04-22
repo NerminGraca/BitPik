@@ -31,6 +31,11 @@ public class Global extends GlobalSettings {
 			User buyer = User.create("buyer", "buyer", "buyer@buyer.com");
 			buyer.verified = true;
 			buyer.save();
+			
+			//Blogger entry
+			User blogger = User.create("blogger", "blogger", "blogger@blogger.com");
+			blogger.verified = true;
+			blogger.save();
 
 			//Main Categories entry
 			String[] categoryArray = {"Vozila", "Odjeća i obuća", "Kompjuteri", "Biznis i industrija",

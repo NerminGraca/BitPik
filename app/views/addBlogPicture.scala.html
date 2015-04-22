@@ -1,0 +1,47 @@
+@(b: Blogger)
+
+
+@main("blog", "") {
+    
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Entries Column -->
+            <div class="col-md-8">
+						
+					
+						
+					<h1 class="redHeader">KORAK 2 : Dodaj sliku bloga:</h1><br>
+							<hr>
+							<div >
+									<form id="imgs" action="@routes.BloggerController.saveFile(b.id)" method="post" 
+									enctype="multipart/form-data" >
+									<input type="file" name="image" id="image" />
+									<input type="submit" value="Send file" />
+							
+							</div>
+							<hr>
+							 <a class="btn btn-primary" href="/showBlog">Preskoči </a>
+							<br><br>
+               
+           
+
+               
+                        <!-- /.col-lg-6 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                
+
+            </div>
+
+        </div>
+        
+
+    </div>
+    	
+    }
+

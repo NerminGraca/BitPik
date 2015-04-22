@@ -9,6 +9,7 @@ import models.Product;
 import models.SubCategory;
 import models.User;
 
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -70,7 +71,8 @@ public class JsonController extends Controller{
 		JsonNode json = request().body().asJson();
 		String username = json.findPath("username").textValue();
 		String password = json.findPath("password").textValue();
-				
+		
+		
 		if(username.isEmpty()){
 			Logger.info("Login error, username not valid");
 			ObjectNode message = Json.newObject();
