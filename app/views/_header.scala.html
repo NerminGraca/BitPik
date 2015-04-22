@@ -12,10 +12,6 @@
 						<li><a href="/login">Login</a></li>
 					}
 					@if(user != null && user.verified == true){
-						<!--  Da admin ne moze vidjeti Objavite oglas -->
-						@if(!user.isAdmin) {
-						<li><a href="/addProduct">Objavite oglas</a></li>
-						}
 						<li><a href="/profile">Korisnik @user.username</a></li>
 						<li><a href="/logout">Logout</a></li>
 					}
@@ -58,7 +54,17 @@
 	     			<input type="submit" value="">
 	     		</form>
 	     	</div>
-	     	
+
+					@if(user != null && user.verified == true){
+						<!--  Da admin ne moze vidjeti Objavite oglas -->
+						@if(!user.isAdmin) {
+
+				<ul>
+			    	<li><a class="btn btn-success btn-fontNovi" href="/addProduct" style="margin-left: 20%; margin-top: 2px; padding: 10px;">Objavite oglas</a></li>
+				</ul>
+				}
+				}
+  	
 			<!-- OBRISATI? -->
 	     	<div class="clear"></div>
 

@@ -257,10 +257,11 @@ box-sizing: border-box;
 
 .rightBox{
 	display: inline-block;
-	float: right;
-	width: 70%;
+	float: left;
+	width: 20%;
 	padding: 5px 10px;
-	margin-left:10px; 
+	margin-left: 30px;
+	border: burlywood 1px solid;
 }
 
 .subCatBox{
@@ -271,29 +272,27 @@ box-sizing: border-box;
 	background-color: whitesmoke;
 }
 
-/* this is for editProfile red and blue text*/
+/* this is for editProfile red and blue text
+* CORRECTION! gray and green text!
+*/
 
 #redText{
-	color: #B81D22;
-	font-size: 20px;
-	font-style: bold;
-	font-family: 'ambleregular';
+    font-family: "Lucida Grande", Tahoma;
+	font-size: 13px;
+	font-variant: normal;
+	text-transform: uppercase;
+	color: #666666;
+    margin-top: 10px;
+	letter-spacing: 0.2em;
 }
 
 .blueText{
-	color: #52478d;
+	color: #C2B366;
 	font-size: 20px;
 	font-style: bold;
 	padding-bottom: 10px;
 	font-family: 'ambleregular';
 }
-
-
-
-
-
-
-
 
 /* this is button on profile.html for editing profile
 	
