@@ -22,6 +22,8 @@ public class MainCategory extends Model {
 	@OneToMany(mappedBy="mainCategory", cascade=CascadeType.ALL)
 	public List<SubCategory> subCategories;
 	
+	@OneToMany(mappedBy="storeCategory", cascade=CascadeType.ALL)
+	public User pikStore;
 	/**
 	 * Default constructor
 	 */

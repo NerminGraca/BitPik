@@ -87,7 +87,7 @@ public class Application extends Controller {
 	}
 	
 	public static Result registrationPikStore(){
-		return ok(registrationPikStore.render("",""));
+		return ok(registrationPikStore.render("","",MainCategory.allMainCategories()));
 	}
 	
 	/**

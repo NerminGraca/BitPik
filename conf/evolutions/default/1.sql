@@ -112,6 +112,8 @@ create table user (
   address                   varchar(255),
   city                      varchar(255),
   phone                     varchar(255),
+  category_string           varchar(255),
+  store_category_id         integer,
   is_protected_admin        boolean,
   created_date              varchar(255),
   verified                  boolean,
@@ -170,6 +172,8 @@ alter table sub_category add constraint fk_sub_category_mainCategory_12 foreign 
 create index ix_sub_category_mainCategory_12 on sub_category (main_category_id);
 alter table transaction_p add constraint fk_transaction_p_product_13 foreign key (product_id) references product (id) on delete restrict on update restrict;
 create index ix_transaction_p_product_13 on transaction_p (product_id);
+alter table user add constraint fk_user_storeCategory_14 foreign key (store_category_id) references main_category (id) on delete restrict on update restrict;
+create index ix_user_storeCategory_14 on user (store_category_id);
 
 
 

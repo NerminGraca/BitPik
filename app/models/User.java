@@ -42,6 +42,11 @@ public class User extends Model {
 	public String city;
 	
 	public String phone;
+
+	public String categoryString;
+	
+	@ManyToOne
+	public MainCategory storeCategory;
 	
 	public boolean isProtectedAdmin;
 
@@ -168,13 +173,14 @@ public class User extends Model {
 		return newUser;
 	}
 	
-	public static User createPikStore(String username, String password,String email,String storeName,String address,String city){
+	public static User createPikStore(String username, String password,String email,String storeName,String address,String city,MainCategory storeCategory){
 		User newUser = new User(username,password,email);
 		newUser.setPikStore();
 		newUser.storeName=storeName;
 		newUser.address=address;
 		newUser.city=city;
 		newUser.setCredits(new BPCredit(300, newUser));
+		newUser.setStoreCategory(storeCategory);
 		newUser.save();
 		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
 		return newUser;
@@ -259,6 +265,10 @@ public class User extends Model {
 	{
 		this.isPikStore=true;
 		save();
+	}
+	
+	public void setStoreCategory(MainCategory storeCategory){
+		this.storeCategory=storeCategory;
 	}
 	
 	/**

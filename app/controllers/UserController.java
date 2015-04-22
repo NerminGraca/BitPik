@@ -152,14 +152,14 @@ public class UserController extends Controller {
 		if (User.finder(username) != null) {
 			Logger.of("user").error("User tried to register with "+ username +" which already exist");
 			return ok(registrationPikStore.render(
-					"Korisnicko ime je zauzeto, molimo Vas izaberite drugo!", ""));
+					"Korisnicko ime je zauzeto, molimo Vas izaberite drugo!", "",MainCategory.allMainCategories()));
 		}
 		
 		// Unique 'email' verification
 		if (User.emailFinder(email)) {
 			Logger.of("user").error("User tried to register with "+ email +" which already exist");
 			return ok(registrationPikStore.render("",
-					"Email je iskoristen, molimo Vas koristite drugi!"));
+					"Email je iskoristen, molimo Vas koristite drugi!",MainCategory.allMainCategories()));
 		}
 
 		// Password confirmation evaluation
@@ -167,7 +167,7 @@ public class UserController extends Controller {
 		{
 			Logger.of("user").error("At Registration - Password not confirmed correctly");
 			return ok(registrationPikStore
-					.render("", "Niste ispravno potvrdili lozinku!"));
+					.render("", "Niste ispravno potvrdili lozinku!",MainCategory.allMainCategories()));
 		}
 		
 		flash("validate", Messages.get("Primili ste email validaciju."));
@@ -336,7 +336,7 @@ public class UserController extends Controller {
 	   	if (!request().accepts("text/html")) {
 		 	 return ok(JsonHelper.jsonUserList(stores));
 	   	 }
-	   	 return ok(korisnici.render(stores));
+	   	 return ok(pikRadnje.render(stores));
 	}
 	
 	public static Result pikStoresByCategory(int categoryId){

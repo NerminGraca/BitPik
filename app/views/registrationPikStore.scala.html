@@ -1,4 +1,4 @@
-@(usernameMessage: String)(emailMessage: String)
+@(usernameMessage: String)(emailMessage: String)(mainCategoryList: List[MainCategory])
 @import helper._
 
 @main("Registration Pik Store", "") {
@@ -36,6 +36,16 @@
 							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="text" value="" id="address" name="address" required/>
 							<h9 id="editProfileText">Grad:</h9>
 							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="text" value="" id="city" name="city" required/>
+							<fieldset>
+	    						<label id="editProfileText" for="category">Kategorija djelatnosti:</label>
+	    							<select name="categoryString" id="categoryString" style="width:323px;">
+		    							@if(mainCategoryList.size() > 0 ) {
+						  					@for(mainCategory <- mainCategoryList) {
+						  						<option value="@mainCategory.name">@mainCategory.name</option>
+						  							}		
+						  							}
+						  						</select>
+ 											</fieldset>
 							<br><br>
 							<input class="buttonRed" type="submit" value="Registruj" />
 					</div>
