@@ -5,20 +5,12 @@
 	<div class="main">
 		<div class="content">
 
-
-
-
-
-  
-
-
 			<!-- Početak naprednog Search Box-a -->
             <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #C8C8C8; background-color: #FFF3CF; margin: 0px 20px;">
               <form action="@routes.ProductController.filteredSearch(Product.getIds(productList),Product.getIds(sproducts))" method="POST">
-
             <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
-               <input type="number" min="1" max="9999999" step="any" value="" id="od" style="height:25px; width: 110px; font-size:20px;" name="priceMin"/>
-               <input type="number" min="1" max="9999999" step="any" value="" id="do" style="height:25px; width: 110px; font-size:20px;" name="priceMax"/>
+               <input type="number" min="1" max="9999999" step="any" value="" id="od" style="height:25px; width: 40%; font-size:18px;" name="priceMin"/>
+               <input type="number" min="1" max="9999999" step="any" value="" id="do" style="height:25px; width: 40%; font-size:18px;" name="priceMax"/>
                					
                <!-- This is css for Kategorija and availability dropdown meni -->
                <style>
@@ -44,8 +36,7 @@
                   height: 400px;
                   }
                </style>
-               
-               
+                              
                <script language="JavaScript">
                   var e = document.getElementById("categoryString");
                   function showHideCategoryFields() {
@@ -63,8 +54,7 @@
                   		actives[i].id = "inactive";
                   		actives[i].name = "inactive";
                   	}
-                  
-                  
+                                   
                   	var shown = document.getElementById(selected);
                   	shown.style.display = 'block';
                   	
@@ -75,9 +65,7 @@
                   	
                   	selectNode.id = "subCategoryString";
                   	selectNode.name = "subCategoryString";
-                  	
-                  	
-                  	
+                  	                 	
                   };
                   
                   e.onchange = showHideCategoryFields;
@@ -89,7 +77,7 @@
                <br><br>
                <fieldset>
                   <label class="redHeaderAS" for="availability" width=3px>Dostupnost</label>
-                  <select name="availabilityS" id="availabilityS" style="height:33px; width:225px; font-size:24px;">
+                  <select name="availabilityS" id="availabilityS" style="height:33px; width:90%; font-size:24px;">
                      <option selected="selected">Svugdje</option>
                      <option>Unutar BiH</option>
                      <option>Sarajevo</option>
@@ -112,19 +100,13 @@
                
                <br>
                <h1 class="redHeaderAS">Opis</h1>
-               <input type="text" value="" id="desc" name="desc" style="height:25px; width:240px; font-size:18px;" />	
-               <input class="btn btn-primary btn-fontNovi" style="margin-left: 185px; margin-top: 15px;" type="submit" value="Traži" />	
+               <input type="text" value="" id="desc" name="desc" style="height:25px; width:95%; font-size:18px;" />	
+               <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px;" type="submit" value="Traži" />
 	         </form>
             </div>
             </div>
 			<div class="clear"></div>
 			<!-- Kraj naprednog Search Box-a -->
-
-
-
-
-
-
    
     <br><br>		
 	<h1 class="redHeader">Rezultati pretrage:</h1><br>  
