@@ -197,7 +197,7 @@ public class JsonController extends Controller{
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Availability not valid."));
 		}
-		Product p = Product.create(name, desc, longDesc, price, u, mainCategory, subCategory, availability);
+		Product p = Product.create(name, desc, longDesc, price, u, mainCategory, subCategory, availability,null);
 		p.save();
 		return ok();
 	}

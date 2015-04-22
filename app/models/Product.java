@@ -49,6 +49,8 @@ public class Product extends Model {
 	@Required
 	public String availability;
 	
+	public String condition;
+	
 	@ManyToOne
 	public SubCategory subCategory;
 	
@@ -105,7 +107,7 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, String longDesc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability) {
+	public Product(String name, String desc, String longDesc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability,String condition) {
 		this.name = name;
 		this.description = desc;
 		this.longDescription = longDesc;
@@ -118,6 +120,7 @@ public class Product extends Model {
 		this.mainCategory = mainCategory;
 		this.subCategory = subCategory;
 		this.availability = availability;
+		this.condition=condition;
 		publishedDate = getDate();
 		this.productImagePath = "images/productPicture/no-img.jpg";
 		this.buyerUser = null;
@@ -144,6 +147,11 @@ public class Product extends Model {
 	public void setDesc(String desc) {
 		this.description = desc;
 	}
+	
+	public void setCondition(String condition){
+		this.condition=condition;
+	}
+
 	
 	/**
 	 * Gets the information whether the product is sold or not;
@@ -290,6 +298,10 @@ public class Product extends Model {
 	public Statistics getStatsProducts() {
 		return statsProducts;
 	}
+	
+	public String getCondition(){
+		return condition;
+	}
 
 	/**
 	 * This method is user to set the Statistics of the (this) product.
@@ -352,8 +364,8 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static Product create(String name, String desc, String longDesc, double price, User owner, MainCategory category, SubCategory subCategory, String availability) {
-		Product newProduct = new Product(name, desc, longDesc,price, owner, category, subCategory, availability);
+	public static Product create(String name, String desc, String longDesc, double price, User owner, MainCategory category, SubCategory subCategory, String availability,String condition) {
+		Product newProduct = new Product(name, desc, longDesc,price, owner, category, subCategory, availability,condition);
 		if(owner.isPikStore){
 			newProduct.setSpecial(true);
 			Calendar c = Calendar.getInstance();

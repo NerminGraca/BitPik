@@ -129,6 +129,7 @@ public class ProductController extends Controller {
 		String mainCategory;
 		String subCategory;
 		String availability;
+		String condition;
 		
 		try {
 			name = newProduct.bindFromRequest().get().name;
@@ -138,6 +139,7 @@ public class ProductController extends Controller {
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
 			availability = newProduct.bindFromRequest().get().availability;
+			condition=newProduct.bindFromRequest().get().condition;
 		} catch(IllegalStateException e) {
 			flash("add_product_null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.addProduct());
@@ -158,7 +160,7 @@ public class ProductController extends Controller {
 			}
 		}
 		User u = SessionHelper.getCurrentUser(ctx());
-		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, availability);
+		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, availability,condition);
 		Logger.of("product").info("User "+ u.username +" added a new product '" + p.name + "'");
 		return redirect("/addPictureProduct/" + p.id);
 	}
@@ -221,6 +223,7 @@ public class ProductController extends Controller {
 		String mainCategory;
 		String subCategory;
 		String availability;
+		String condition;
 		
 		try {
 			name = newProduct.bindFromRequest().get().name;
@@ -230,6 +233,7 @@ public class ProductController extends Controller {
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
 			availability = newProduct.bindFromRequest().get().availability;
+			condition=newProduct.bindFromRequest().get().condition;
 		} catch(IllegalStateException e) {		
 			flash("edit_product_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.editProduct(id));
@@ -259,6 +263,7 @@ public class ProductController extends Controller {
 		p.setCategory(mc);
 		p.setSubCategory(sc);
 		p.setAvailability(availability);
+		p.setCondition(condition);
 		p.save();
 		User u = SessionHelper.getCurrentUser(ctx());
 		Logger.of("product").info("User "+ u.username + " updated the info of product " + oldname + ", NAME : ["+p.name+"]");

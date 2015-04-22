@@ -173,55 +173,55 @@ public class Global extends GlobalSettings {
 			// Seller vec objavio WhiteChair product;
 			MainCategory mc = MainCategory.findMainCategoryByName("Moj dom");
 			SubCategory sc = SubCategory.findSubCategoryByName("Namještaj");
-			Product p1 = Product.create("Stolica", "Stolica Bijela Nova", "Nova Stolica kupljena 2013, Savrsena!", 70.00, seller, mc, sc, "Sarajevo");
+			Product p1 = Product.create("Stolica", "Stolica Bijela Nova", "Nova Stolica kupljena 2013, Savrsena!", 70.00, seller, mc, sc, "Sarajevo","Novo");
 			p1.productImagePath = "images/productPicture/whitechair.jpg";
 			p1.save();
 			
 			// Seller vec objavio MacBookPro product;
 			MainCategory mcw2 = MainCategory.findMainCategoryByName("Kompjuteri");
 			SubCategory scw2 = SubCategory.findSubCategoryByName("Laptopi");
-			Product p2 = Product.create("Mac Book Pro 13", "Nov Mac Book Pro 13", "Savrsen, Prelijep, Nov Mac Book Pro 13!", 3500.00, seller, mcw2, scw2, "Sarajevo");
+			Product p2 = Product.create("Mac Book Pro 13", "Nov Mac Book Pro 13", "Savrsen, Prelijep, Nov Mac Book Pro 13!", 3500.00, seller, mcw2, scw2, "Sarajevo","Novo");
 			p2.productImagePath = "images/productPicture/macbookpro.jpg";
 			p2.save();
 			
 			// Seller vec objavio Parfem product;
 			MainCategory mcw3 = MainCategory.findMainCategoryByName("Ljepota i zdravlje");
 			SubCategory scw3 = SubCategory.findSubCategoryByName("Parfemi");
-			Product p3 = Product.create("Gucci Parfem", "Nov Gucci Parfem", "Nov Gucci Parfem, Pour Home", 120.00, seller, mcw3, scw3, "Sarajevo");
+			Product p3 = Product.create("Gucci Parfem", "Nov Gucci Parfem", "Nov Gucci Parfem, Pour Home", 120.00, seller, mcw3, scw3, "Sarajevo","Novo");
 			p3.productImagePath = "images/productPicture/gucciperfume.jpg";
 			p3.save();
 			
 			// Seller vec objavio MacBookPro product;
 			MainCategory mcw4 = MainCategory.findMainCategoryByName("Mobilni uređaji");
 			SubCategory scw4 = SubCategory.findSubCategoryByName("Mobiteli");
-			Product p4 = Product.create("iPhone 6", "iPhone 6", "iPhone 6 - Dual-core 1.4 GHz Cyclone", 900.00, seller, mcw4, scw4, "Sarajevo");
+			Product p4 = Product.create("iPhone 6", "iPhone 6", "iPhone 6 - Dual-core 1.4 GHz Cyclone", 900.00, seller, mcw4, scw4, "Sarajevo","Korišteno");
 			p4.productImagePath = "images/productPicture/iphone6.jpg";
 			p4.save();
 			
 			// Prodavac published the ikea Lamp product;
 			SubCategory lamps = SubCategory.findSubCategoryByName("Lampe i rasvjeta");
-			Product p5 = Product.create("Ikea Lampa", "Ikea Lampa 2013", "Nova Ikea Lampa - Proizvodnja 2013 godina", 60.00, seller, mc, lamps, "Hercegovacko-neretvanski");
+			Product p5 = Product.create("Ikea Lampa", "Ikea Lampa 2013", "Nova Ikea Lampa - Proizvodnja 2013 godina", 60.00, seller, mc, lamps, "Hercegovacko-neretvanski","Novo");
 			p5.productImagePath = "images/productPicture/ikealamp.jpg";
 			p5.save();
 			
 			// Prodavac published the headphones product;	
 			MainCategory tehnika = MainCategory.findMainCategoryByName("Tehnika");
 			SubCategory multimedija = SubCategory.findSubCategoryByName("Multimedija");
-			Product p6 = Product.create("Slusalice", "Crne slusalice", "Bass slusalice, Sensibilitet: 95 -3dB, Frek.: 20-2000Hz ", 50.00, seller, tehnika, multimedija, "Hercegovacko-neretvanski");
+			Product p6 = Product.create("Slusalice", "Crne slusalice", "Bass slusalice, Sensibilitet: 95 -3dB, Frek.: 20-2000Hz ", 50.00, seller, tehnika, multimedija, "Hercegovacko-neretvanski","Korišteno");
 			p6.productImagePath = "images/productPicture/headphones.jpg";
 			p6.save();
 			
 			// Prodavac published the tires and rims product;	
 			MainCategory vozilad = MainCategory.findMainCategoryByName("Vozila");
 			SubCategory doo = SubCategory.findReturnSubCategoryByNameAndMainCategory("Dijelovi i oprema", vozilad);
-			Product p7 = Product.create("Felge i Gume", "Felge 19 inch-i i Gume", "Rally Gume, Sirina: 30mm, Heksagonalna duzina: 12mm, Tezina: 139g/4komada", 450.00, seller, vozilad, doo, "Hercegovacko-neretvanski");
+			Product p7 = Product.create("Felge i Gume", "Felge 19 inch-i i Gume", "Rally Gume, Sirina: 30mm, Heksagonalna duzina: 12mm, Tezina: 139g/4komada", 450.00, seller, vozilad, doo, "Hercegovacko-neretvanski","Korišteno");
 			p7.productImagePath = "images/productPicture/rims.jpg";
 			p7.save();
 			
 			// Prodavac published the red car toy product;	
 			MainCategory sportsub = MainCategory.findMainCategoryByName("Sportska oprema");
 			SubCategory wintersports = SubCategory.findReturnSubCategoryByNameAndMainCategory("Zimski sportovi", sportsub);
-			Product p8 = Product.create("Snowboard", "Snow board 2012", "Snow board 2012 - Lijep dizajn od drveta", 250.00, seller, sportsub, wintersports, "Hercegovacko-neretvanski");
+			Product p8 = Product.create("Snowboard", "Snow board 2012", "Snow board 2012 - Lijep dizajn od drveta", 250.00, seller, sportsub, wintersports, "Hercegovacko-neretvanski","Novo");
 			p8.productImagePath = "images/productPicture/snowboard.jpg";
 			p8.save();
 		}
