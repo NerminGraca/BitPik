@@ -123,6 +123,7 @@ public class UserController extends Controller {
 		String storeName;
 		String address;
 		String city;
+		String storeCategory;
 		
 		try {
 			username = newUser.bindFromRequest().get().username;
@@ -132,10 +133,12 @@ public class UserController extends Controller {
 			storeName=newUser.bindFromRequest().get().storeName;
 			address=newUser.bindFromRequest().get().address;
 			city=newUser.bindFromRequest().get().city;
+			storeCategory=newUser.bindFromRequest().get().categoryString;
 		} catch(IllegalStateException e) {
 			flash("add_user_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 			return redirect(routes.Application.registrationPikStore());
 		}
+		MainCategory mainCat = MainCategory.findMainCategoryByName(storeCategory);
 
 		// Null catching
 		if (	username == null ||
@@ -168,7 +171,7 @@ public class UserController extends Controller {
 		}
 		
 		flash("validate", Messages.get("Primili ste email validaciju."));
-		User.createPikStore(username, password, email,storeName,address,city);
+		User.createPikStore(username, password, email,storeName,address,city,mainCat);
 		Logger.of("pikStore").info("Added a new Pik Store "+ username +" (email not verified)");
 		return redirect(routes.Application.index());
 	}
@@ -327,14 +330,19 @@ public class UserController extends Controller {
 	   	 return ok(korisnici.render(userList));
 	}
 	
-	
+	@Security.Authenticated(AdminFilter.class)
 	public static Result allPikStores() {
-	   	// List<User> stores = findUser.where().eq("isPikStore",true).findList();
+	   	 List<User> stores = findUser.where().eq("isPikStore",true).findList();
 	   	if (!request().accepts("text/html")) {
-		 	 return ok(JsonHelper.jsonUserList(null));
+		 	 return ok(JsonHelper.jsonUserList(stores));
 	   	 }
-	   	List<User>users=findUser.all();
-	   	 return ok(pikRadnje.render(users));
+	   	 return ok(korisnici.render(stores));
+	}
+	
+	public static Result pikStoresByCategory(int categoryId){
+		MainCategory mainCategory=MainCategory.findMainCategory(categoryId);
+		List<User>stores=findUser.where().eq("storeCategory.name", mainCategory.name).findList();
+		return ok(pikRadnje.render(stores));
 	}
 	 
 	/**
