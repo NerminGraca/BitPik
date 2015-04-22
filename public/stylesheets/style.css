@@ -2119,5 +2119,10 @@ body {
 	width: 38%;
 	}
 	
+	 .datum{
+	 float:initial;
+	 display:inline-block;
+	 padding-right:87px;
+	 }
 	
 
