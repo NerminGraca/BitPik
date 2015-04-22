@@ -35,7 +35,7 @@ POST   	/fileupload          				controllers.UserController.saveFile()
 GET		/message/:id						controllers.UserController.sendMessage(id: Integer)
 POST	/message/:id/save					controllers.UserController.saveMessage(id: Integer)
 GET		/allMessages						controllers.UserController.allMessages()
-GET		/newsletter/:id						controllers.UserController.newsletter(id: Integer)
+GET		/newsletter							controllers.UserController.newsletter()
 GET     /payPalValidation/:id/:payerId/:paymentId/:token/:accessToken           controllers.UserController.showSellingProduct(id: Integer, payerId: String, paymentId: String, token: String, accessToken: String)
 
 GET		/profileAndroid						controllers.JsonController.profileAndroid()

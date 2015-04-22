@@ -16,6 +16,7 @@ import java.util.UUID;
 import models.Comment;
 import models.ImgPath;
 import models.MainCategory;
+import models.Newsletter;
 import models.Product;
 import models.SubCategory;
 import models.TransactionP;
@@ -490,10 +491,16 @@ public class ProductController extends Controller {
 	public static Result searchUsers(String q){
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		List<Product>products=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('false'))").findList();
+		Logger.error("String(Product controller): " + q);
 		if(currentUser!=null){
-			currentUser.search.add(q);
+			Date currentDate = new Date();
+			Newsletter newsletter =new Newsletter(q, currentDate, currentUser);
+			newsletter.save();
+			currentUser.newsletter.add(newsletter);
+			currentUser.save();
 		}
-		currentUser.save();
+		Logger.error("Prvi string(Product controller): " + currentUser.newsletter.get(0).searchString);
+		Logger.error("Current user: " + currentUser.username);
 		List<Product>sproducts=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('true'))").findList();
 		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
 		return ok(listaPretrage.render(sproducts,products,users));	

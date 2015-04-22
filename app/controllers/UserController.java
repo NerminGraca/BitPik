@@ -2,6 +2,8 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -894,28 +896,42 @@ public class UserController extends Controller {
 		return redirect(OURHOST + "/buyingAProduct/" +id +"/"+ token);
 	}	
 	
-	public static Result newsletter(int id){
-		User u = User.find(id);
-		List<Product>newsletterProducts = new ArrayList<Product>();
-		for (String s: u.search){
-			Product p = (Product) Product.find.where("(UPPER(name) LIKE UPPER('%"+s+"%')) AND ((isSold) LIKE (false))");
-			newsletterProducts.add(p);
-		}
-		String message = "Novi oglasi koji bi vas mogli zanimati:\n";
-		for (int i=0; i<u.search.size(); i++)
-		{
-			message += u.search.get(i) + " ";
-		}
-		message += u.search.size();
-	/*	if(newsletterProducts!=null)
-		{
-			for(Product p: newsletterProducts){
-				message += p.name + ", " + p.description + "\n";
+	public static Result newsletter() throws ParseException{
+		String message = "<h2>Novosti sa BitPik-a!</h2><br><h3>Novi oglasi koji bi vas mogli zanimati:</h3><br>";
+		List<User> users = User.find.all();
+		for(User u: users){
+			List<Product>newsletterProducts = new ArrayList<Product>();
+			for (Newsletter n: u.newsletter){
+				Product p =  Product.find.where("(UPPER(name) LIKE UPPER('%"+n.searchString+"%')) AND ((isSold) LIKE (false))").findUnique();
+				newsletterProducts.add(p);
+				/*	SimpleDateFormat sdf = new SimpleDateFormat();
+				Date pDate;
+				Date nDate;
 				
+				
+					pDate = sdf.parse(p.publishedDate);
+					nDate = sdf.parse(n.createdDate.toString());
+					Logger.error("Datum 1: " + pDate);
+					Logger.error("Datum 2: " + nDate);
+					if(pDate.compareTo(nDate)==0){
+						newsletterProducts.add(p);
+					}
+				*/
 			}
-		}*/
-		MailHelper.sendNewsletter(u.email, message);
-		return redirect("/");
+		
+			if(newsletterProducts!=null)
+			{
+				for(Product p: newsletterProducts){
+				
+					message += p.name + ", opis: " + p.description + 
+							", cijena <strong>" + p.price + "</strong> " + ", objavio korisnik " +
+							p.owner.username + " dana " + p.publishedDate.toString() + "<br>";
+					
+				}
+			}
+			MailHelper.sendNewsletter(u.email, message);
+		}
+		return redirect("/korisnici");
 	}
 
 }
