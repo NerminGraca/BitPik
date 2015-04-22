@@ -47,7 +47,7 @@ public class Product extends Model {
 	public boolean refundable;
 	
 	@Required
-	public String availability;
+	public String location;
 	
 	public String condition;
 	
@@ -92,7 +92,7 @@ public class Product extends Model {
 		this.isRefunding = false;
 		this.refundReason = "None";
 		this.refundable = true;
-		this.availability = "Unknown";
+		this.location = "Unknown";
 		this.subCategory = null;
 		this.subCategoryString = "Unknown";
 		this.productImagePath = "images/productPicture/no-img.jpg";
@@ -107,7 +107,7 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, String longDesc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String availability,String condition) {
+	public Product(String name, String desc, String longDesc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String location,String condition) {
 		this.name = name;
 		this.description = desc;
 		this.longDescription = longDesc;
@@ -119,7 +119,7 @@ public class Product extends Model {
 		this.refundable = true;
 		this.mainCategory = mainCategory;
 		this.subCategory = subCategory;
-		this.availability = availability;
+		this.location = location;
 		this.condition=condition;
 		publishedDate = getDate();
 		this.productImagePath = "images/productPicture/no-img.jpg";
@@ -234,8 +234,8 @@ public class Product extends Model {
 	 * Sets the availability of the product;
 	 * @param availability
 	 */
-	public void setAvailability(String availability) {
-		this.availability = availability;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 		
 	/**
@@ -364,8 +364,8 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static Product create(String name, String desc, String longDesc, double price, User owner, MainCategory category, SubCategory subCategory, String availability,String condition) {
-		Product newProduct = new Product(name, desc, longDesc,price, owner, category, subCategory, availability,condition);
+	public static Product create(String name, String desc, String longDesc, double price, User owner, MainCategory category, SubCategory subCategory, String location,String condition) {
+		Product newProduct = new Product(name, desc, longDesc,price, owner, category, subCategory, location,condition);
 		if(owner.isPikStore){
 			newProduct.setSpecial(true);
 			Calendar c = Calendar.getInstance();

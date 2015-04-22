@@ -43,7 +43,7 @@ public class ProductController extends Controller {
 		public String priceMin;
 		public String priceMax;
 		public String desc;
-		public String availabilityS;
+		public String locationS;
 		
 		public FilteredSearch(){
 					
@@ -128,7 +128,7 @@ public class ProductController extends Controller {
 		Double price;
 		String mainCategory;
 		String subCategory;
-		String availability;
+		String location;
 		String condition;
 		
 		try {
@@ -138,7 +138,7 @@ public class ProductController extends Controller {
 			price = newProduct.bindFromRequest().get().price;
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
-			availability = newProduct.bindFromRequest().get().availability;
+			location = newProduct.bindFromRequest().get().location;
 			condition=newProduct.bindFromRequest().get().condition;
 		} catch(IllegalStateException e) {
 			flash("add_product_null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
@@ -160,7 +160,7 @@ public class ProductController extends Controller {
 			}
 		}
 		User u = SessionHelper.getCurrentUser(ctx());
-		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, availability,condition);
+		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, location,condition);
 		Logger.of("product").info("User "+ u.username +" added a new product '" + p.name + "'");
 		return redirect("/addPictureProduct/" + p.id);
 	}
@@ -222,7 +222,7 @@ public class ProductController extends Controller {
 		Double price;
 		String mainCategory;
 		String subCategory;
-		String availability;
+		String location;
 		String condition;
 		
 		try {
@@ -232,7 +232,7 @@ public class ProductController extends Controller {
 			price = newProduct.bindFromRequest().get().price;
 			mainCategory = newProduct.bindFromRequest().get().categoryString;
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
-			availability = newProduct.bindFromRequest().get().availability;
+			location = newProduct.bindFromRequest().get().location;
 			condition=newProduct.bindFromRequest().get().condition;
 		} catch(IllegalStateException e) {		
 			flash("edit_product_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
@@ -262,7 +262,7 @@ public class ProductController extends Controller {
 		p.setPrice(price);
 		p.setCategory(mc);
 		p.setSubCategory(sc);
-		p.setAvailability(availability);
+		p.setLocation(location);
 		p.setCondition(condition);
 		p.save();
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -667,7 +667,7 @@ public class ProductController extends Controller {
 		List<Product>sproductList=new ArrayList<Product>();
 	    double priceMin = 0;
 	    double priceMax = 999999999;
-		String availability ;
+		String location ;
 		String descr;
 		if(filteredSearch.hasErrors()){
 			Logger.info("Error in form");
@@ -677,7 +677,7 @@ public class ProductController extends Controller {
 		String min=filteredSearch.bindFromRequest().get().priceMin;
 		String max=filteredSearch.bindFromRequest().get().priceMax;
 		descr=filteredSearch.bindFromRequest().get().desc;
-		availability= filteredSearch.bindFromRequest().get().availabilityS;
+		location= filteredSearch.bindFromRequest().get().locationS;
 		if(!min.isEmpty()){
 			priceMin=Double.parseDouble(min);
 		}
@@ -685,12 +685,12 @@ public class ProductController extends Controller {
 			priceMax=Double.parseDouble(max);
 		}
 		if(descr.isEmpty()){
-			productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
-			sproductList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
+			productList=Product.find.where("(location LIKE '"+location+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
+			sproductList=Product.find.where("(location LIKE '"+location+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
 	    }else{
 
-		productList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
-		sproductList=Product.find.where("(availability LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
+		productList=Product.find.where("(location LIKE '"+location+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
+		sproductList=Product.find.where("(location LIKE '"+location+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
 		 }
 		
 		List<Product>filteredProducts=new ArrayList<Product>();

@@ -61,7 +61,7 @@ create table product (
   is_refunding              boolean,
   refund_reason             varchar(255),
   refundable                boolean,
-  availability              varchar(255),
+  location                  varchar(255),
   condition                 varchar(255),
   sub_category_id           integer,
   sub_category_string       varchar(255),

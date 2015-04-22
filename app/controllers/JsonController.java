@@ -166,7 +166,7 @@ public class JsonController extends Controller{
 		double price = Double.parseDouble(priceStr);
 		MainCategory mainCategory = MainCategory.findMainCategoryByName(json.findPath("mainCategory").textValue());
 		SubCategory subCategory = SubCategory.findSubCategoryByName(json.findPath("subCategory").textValue());
-		String availability = json.findPath("availability").textValue();
+		String location = json.findPath("availability").textValue();
 		if(name.equals(null) || name.isEmpty()){
 			Logger.info("Login error, username not valid");
 			ObjectNode message = Json.newObject();
@@ -192,12 +192,12 @@ public class JsonController extends Controller{
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Subcategory not valid."));
 		}
-		if(availability.equals(null)){
+		if(location.equals(null)){
 			Logger.info("Login error, availability not valid");
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Availability not valid."));
 		}
-		Product p = Product.create(name, desc, longDesc, price, u, mainCategory, subCategory, availability,null);
+		Product p = Product.create(name, desc, longDesc, price, u, mainCategory, subCategory, location,null);
 		p.save();
 		return ok();
 	}
@@ -212,7 +212,7 @@ public class JsonController extends Controller{
 		double price = Double.parseDouble(priceStr);
 		MainCategory mainCategory = new MainCategory(json.findPath("mainCategory").textValue());
 		SubCategory subCategory = new SubCategory(json.findPath("subCategory").textValue(), mainCategory);
-		String availability = json.findPath("availability").textValue();
+		String location = json.findPath("location").textValue();
 		if(name.equals(null) || name.isEmpty()){
 			Logger.info("Login error, username not valid");
 			ObjectNode message = Json.newObject();
@@ -238,7 +238,7 @@ public class JsonController extends Controller{
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Subcategory not valid."));
 		}
-		if(availability.equals(null)){
+		if(location.equals(null)){
 			Logger.info("Login error, availability not valid");
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Availability not valid."));
@@ -247,7 +247,7 @@ public class JsonController extends Controller{
 		p.setName(name);
 		p.setDesc(longDesc);
 		p.setCategory(mainCategory);
-		p.setAvailability(availability);
+		p.setLocation(location);
 		p.setPrice(price);
 		p.setSubCategory(subCategory);
 		p.save();
