@@ -1095,6 +1095,10 @@ body {
 	padding:20px 0;
 	border-top: 1px solid #CD1F25;
 }
+.availablefortrans {
+	padding:20px 0;
+}
+
 .available p {
 	font-size: 0.9em;
 	color: #333;
