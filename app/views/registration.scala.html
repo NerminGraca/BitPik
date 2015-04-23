@@ -17,18 +17,19 @@
 	
 	<!-- NAŠ HELPER : MINIMUM of three characters is here!! -->
 						@helper.form(routes.UserController.addUser(),'id->"nameForm") {
-							<h5 id="editProfileText">Ime:</h5>
+							<h5 id="editProfileText">Ime:*</h5>
 							<input pattern=".{3,20}" required title="Od 3 do 20 karaktera" type="text" value="" id="username" name="username" required/>
 							<h6>@usernameMessage</h6>
 							@if(!usernameMessage.equals("")) {
 								<br>
 							}
-							<h5 id="editProfileText">Lozinka:</h5>
+							<h5 id="editProfileText">Lozinka:*</h5>
  							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="password" name="password" required/>
-							<h5 id="editProfileText">Potvrdite lozinku:</h5>
+							<h5 id="editProfileText">Potvrdite lozinku:*</h5>
 							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="confirmPassword" name="confirmPassword" required/>
-							<h5 id="editProfileText">Email:</h5>			
+							<h5 id="editProfileText">Email:*</h5>			
 							<input type="email"  value="" id="email" name="email" required/>
+							<h5 class="redHeaderReq">Molimo popunite sva polja oznacena sa *</h5>
 							<h6>@emailMessage</h6>
 							<br><br>
 							<input class="btn btn-primary btn-fontNovi" type="submit" value="Registruj" />
