@@ -322,6 +322,7 @@ header h1 {
   display: block;
   margin: 1.6em 0 .4em;
   line-height: 1.2;
+  color: #634142;
 }
 @media only screen and (min-width: 768px) {
   .cd-faq-trigger {
@@ -330,6 +331,7 @@ header h1 {
     font-weight: 300;
     margin: 0;
     padding: 24px 72px 24px 24px;
+	color: #634142;
   }
   .cd-faq-trigger::before, .cd-faq-trigger::after {
     /* arrow icon on the right */
@@ -339,6 +341,7 @@ header h1 {
     height: 2px;
     width: 13px;
     background: #cfdca0;
+	color: #634142;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     -webkit-transition-property: -webkit-transform;
