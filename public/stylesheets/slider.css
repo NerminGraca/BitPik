@@ -33,7 +33,7 @@
 .slide h1{ 
 	   font-size:2.5em; 
 	   font-weight:bold;
-	   color:#CAA7A9; 
+	   color:#243B5D; 
 	   text-transform:uppercase;
  }
  .slide h1 span{
@@ -89,7 +89,7 @@
 .button {
 	margin-top:20px;
 	display: inline-block;
-	background:#CD1F25;
+	background:#85B80C;
 	color: #FFF;
 	text-decoration: none;
 	border-radius:5px;

@@ -288,7 +288,7 @@ header h1 {
   font-size: 12px;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #bbbbc7;
+  color: #243B5D;
 }
 .no-js .cd-faq-group {
   display: block;
@@ -330,7 +330,7 @@ header h1 {
     font-weight: 300;
     margin: 0;
     padding: 24px 72px 24px 24px;
-    color:black;
+    color:rgb(36, 59, 93);
   }
   .cd-faq-trigger::before, .cd-faq-trigger::after {
     /* arrow icon on the right */
@@ -384,7 +384,7 @@ header h1 {
   font-size: 14px;
   font-size: 1.0rem;
   line-height: 1.4;
-  color: #6c7d8e;
+  color: #243B5D;
 }
 @media only screen and (min-width: 768px) {
   .cd-faq-content {

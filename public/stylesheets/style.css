@@ -497,7 +497,7 @@ box-sizing: border-box;
 .redHeader{
 	font-family: 'ambleregular';
 	font-size: 20px;
-	color: #B81D22;
+	color: #243B5D;
 }
 
 .redHeaderAS{
@@ -522,6 +522,7 @@ box-sizing: border-box;
 body {
 	font-family: 'Sintony', sans-serif;
 	font-size: 15px;
+	
 }
 
 .wrap {
@@ -574,8 +575,8 @@ body {
 	border:none;
 }
 .account_desc li a{
-	font-size:1.09em;
-	color:#9C9C9C;
+	font-size:1.2em;
+	color:#2E4264;
 	padding:0 10px;
 	font-family: 'ambleregular';
 }
@@ -591,7 +592,7 @@ body {
 
   /**** End ExCart ****/
 .header_bottom {
-	background: #E8A741;
+	background: #797774;
 	border-radius: 6px;
 	-webkit-border-radius: 6px;
 	-moz-border-rfadius: 6px;
@@ -599,6 +600,7 @@ body {
 }
 .menu {
 	float: left;
+	background-color: #85B80C;
 }
 .menu li {
 	float:left;
@@ -618,7 +620,7 @@ body {
    transition: all .9s;
 }
 .menu li a:hover,.menu li.active a{
-	background:#B81D22;
+	background:#243B5D;
 }
 .menu li:first-child  a{
 	border-radius:6px 0 0 6px;
@@ -646,7 +648,7 @@ body {
    transition: all .9s;
 }
 .menu2 li a:hover,.menu li.active a{
-	background:#B81D22;
+	background:#243B5D;
 }
 .menu2 li:first-child  a{
 	border-radius: 0 6px 6px 0;
@@ -704,7 +706,7 @@ body {
 	font-size:1.2em;
 	color:#FFF;
 	padding:10px;
-	background:#9C640C;
+	background:#797774;
 	text-transform:uppercase;
 	font-family: 'ambleregular';	
 }
@@ -811,7 +813,7 @@ body {
 	 
 }
 .images_1_of_4  h2 {
-	color:#6A82A4;
+	color:#243B5D;
 	font-family: 'ambleregular';
 	font-size:1.1em;
 	font-weight: normal;
@@ -848,7 +850,7 @@ body {
 	display: block;
 	padding:10px 15px;
 	font-family: 'ambleregular';
-	background:#CD1F25;
+	background:#85B80C;
 	color: #FFF;
 	text-decoration: none;
 	outline: 0;
@@ -1636,7 +1638,7 @@ body {
 	transition: all .5s;
 }
 .content-pagenation li a:hover,.content-pagenation li.active a{
-	background:#303030;
+	background:#243B5D;
 	color:#FFF;
 }
 
