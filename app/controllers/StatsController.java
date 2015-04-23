@@ -10,8 +10,10 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.*;
 import views.html.*;
+import models.Blogger;
 import models.Product;
 import models.Statistics;
+import models.User;
 
 /**
  * This is the Statistics controller;
@@ -35,6 +37,11 @@ public class StatsController extends Controller {
 	 * @return
 	 */
 	public static Result showStats() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// Null Catching
 		if (currentUser == null) {

@@ -1,0 +1,53 @@
+@(b: Blogger)(bloggerList: List[Blogger])
+
+
+@main("blog", "") {
+    
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <!-- Blog Entries Column -->
+            <div class="col-md-8">
+						
+					
+						@helper.form(routes.BloggerController.saveEditedBlog(b.id),'id->"blogForm") {
+					<h5 id="editProfileText">Naziv Bloga:</h5>
+									<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="@b.name" id="name" name="name" required/>
+									
+									<h5 id="editProfileText">Kratki opis:</h5>
+									<input style= "width: 750px; height: 30px".{3,140}"  required title="Od 3 do 140 karaktera" type="text" value="@b.description" id="description" name="description" required/>
+                					
+                					
+                					<h5 id="editProfileText">Detaljni opis:</h5>
+									<textarea maxlength="250" value="@b.longDescription" id="longDescription" name="longDescription" required>@b.longDescription</textarea>
+
+									<script>
+									
+									CKEDITOR.replace('longDescription');
+									</script>
+									<input class="btn btn-primary btn-odmak btn-fontNovi" type="submit" value="Dodaj sliku" />
+
+                		
+
+               
+           
+
+               
+                        <!-- /.col-lg-6 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+                
+
+            </div>
+
+        </div>
+        
+
+    </div>
+    	}
+    }
+

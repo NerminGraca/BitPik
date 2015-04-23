@@ -14,6 +14,20 @@ GET     /newViewForFilter                   controllers.Application.newViewForFi
 GET     /chooseRegistration                 controllers.Application.chooseRegistration()
 GET     /registrationPikStore               controllers.Application.registrationPikStore()
 
+
+GET     /addBlog  							controllers.BloggerController.addBlog()
+GET     /addBlogPicture/:id					controllers.BloggerController.bloggerPicture(id: Integer)
+POST   	/addBlogPicture/  	         		controllers.BloggerController.saveFile(id: Integer)
+GET   	/createBlog/         				controllers.BloggerController.createBlog()
+GET     /showBlog							controllers.BloggerController.showBlog()
+GET     /showOneBlog/:id					controllers.BloggerController.showOneBlog(id: Integer)
+GET     /editBlog/:id						controllers.BloggerController.editBlog(id: Integer)
+POST    /saveEditedBlog/:id/change			controllers.BloggerController.saveEditedBlog(id: Integer)
+GET     /deleteBlog/:id						controllers.BloggerController.deleteBlog(id: Integer)
+GET     /searchBlog							controllers.BloggerController.searchBlog(q: String)
+
+
+
 POST	/adduser							controllers.UserController.addUser()
 POST    /addPikStore                        controllers.UserController.addPikStore()
 POST	/finduser							controllers.UserController.findUser()
@@ -28,7 +42,8 @@ GET		/confirm/:r							controllers.UserController.confirmEmail(r: String)
 GET		/validateEmail/:r					controllers.UserController.validateEmail(r: String)
 POST	/editUser/:id/change				controllers.UserController.saveEditedUser(id: Integer)
 GET		/editUser/:id						controllers.UserController.editUser(id: Integer)
-GET 	/changePassword/:id					controllers.UserController.changePassword(id: Integer)
+GET		/changePassword						controllers.UserController.changePasswordPage()
+POST 	/changePassword/:id					controllers.UserController.changePassword(id: Integer)
 POST	/changeAdmin/:id					controllers.UserController.changeAdmin(id: Int)
 GET		/adminPanel							controllers.UserController.adminPanel()
 POST   	/fileupload          				controllers.UserController.saveFile()

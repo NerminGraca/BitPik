@@ -25,6 +25,11 @@ public class FAQController extends Controller{
 	 */
 	
 	public static Result addFaq() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		
 		usernameSes = session("username");
 		User currentUser = SessionHelper.getCurrentUser(ctx());
@@ -55,6 +60,11 @@ public class FAQController extends Controller{
 	 */
 	
 	public static Result allFaqs(){
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		usernameSes = session("username");
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		List <FAQ> faqList = findFaq.all();
@@ -74,6 +84,11 @@ public class FAQController extends Controller{
 	
 	public static Result editFaq(int id)
 	{
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		usernameSes = session("username");
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (currentUser == null) {
@@ -97,6 +112,11 @@ public class FAQController extends Controller{
 	
 	public static Result saveEditedFaq(int id)
 	{
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		FAQ faq = FAQController.findFaq.byId(id);
 		usernameSes = session("username");
 		User currentUser = SessionHelper.getCurrentUser(ctx());
@@ -129,6 +149,11 @@ public class FAQController extends Controller{
 	 */
 	
 	public static Result deleteFaq(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 	
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (currentUser == null) {
@@ -147,6 +172,11 @@ public class FAQController extends Controller{
 	}
 	
 	public static Result searchFaq(String q){
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		Logger.debug("seacrh");
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		List<FAQ>faqs=FAQ.find.where("UPPER(question) LIKE UPPER('%"+q+"%')").findList();

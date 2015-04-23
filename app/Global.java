@@ -20,6 +20,7 @@ public class Global extends GlobalSettings {
 			User ad = User
 					.createAdmin("admin", "admin", "admin@admin.ba", true);
 			ad.verified = true;
+			ad.imagePath = "images/profilePicture/adminpic.png";
 			ad.save();
 			
 			//Seller entry
@@ -31,6 +32,11 @@ public class Global extends GlobalSettings {
 			User buyer = User.create("buyer", "buyer", "buyer@buyer.com");
 			buyer.verified = true;
 			buyer.save();
+			
+			//Blogger entry
+			User blogger = User.create("blogger", "blogger", "blogger@blogger.com");
+			blogger.verified = true;
+			blogger.save();
 
 			//Main Categories entry
 			String[] categoryArray = {"Vozila", "Odjeća i obuća", "Kompjuteri", "Biznis i industrija",
@@ -229,7 +235,7 @@ public class Global extends GlobalSettings {
 			User realestate = User.createPikStore("Real Estate", "realestate", "realestate@realestate.com", "Real Estate Company d.o.o.", "Ferhadija 55", "Sarajevo",mainCat);
 			realestate.isPikStore = true;
 			realestate.verified = true;
-			realestate.imagePath = "images/profilePicture/realestate.jpg";
+			realestate.imagePath = "images/profilePicture/realestate.png";
 			realestate.save();
 			
 			MainCategory mainCat2 = MainCategory.findMainCategoryByName("Sportska oprema");
@@ -249,7 +255,7 @@ public class Global extends GlobalSettings {
 			User eslc = User.createPikStore("Eslc", "eslc", "eslc@eslc.com", "English Skills Learning Center", "Safeta B. Basagica 32", "Sarajevo", mainCat3);
 			eslc.isPikStore = true;
 			eslc.verified = true;
-			eslc.imagePath = "images/profilePicture/eslc.jpg";
+			eslc.imagePath = "images/profilePicture/ecls.png";
 			eslc.save();
 			
 		}

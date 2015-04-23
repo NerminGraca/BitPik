@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import helpers.*;
 import models.*;
 import play.i18n.Messages;
@@ -45,7 +46,14 @@ public class CreditController extends Controller{
 	 * @return Result mainCredits.html page;
 	 */
 	public static Result showCredits() {
+		
 		User currentUser = SessionHelper.getCurrentUser(ctx());
+		
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		// 1.1 If the User is not Logged in;
 		// 1.2 or if the User is an Admin; 
 		// we redirect these kind of Users to the index.html page;
@@ -64,6 +72,11 @@ public class CreditController extends Controller{
 	 */
 	public static Result addCredits() {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		// 1.1 If the User is not Logged in;
 		// 1.2 or if the User is an Admin; 
 		// we redirect these kind of Users to the index.html page;
@@ -109,6 +122,11 @@ public class CreditController extends Controller{
 	 */
 	public static Result addCreditsProcess() {
 		int credit;
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		try {
 			credit = creditForm.bindFromRequest().get().credit;
 			} catch(IllegalStateException e) {
@@ -129,6 +147,11 @@ public class CreditController extends Controller{
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result makeProductNotSpecial(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		Product p = Product.find.byId(id);
 		p.setSpecial(false);
 		p.setExpirySpecial(null);
@@ -145,6 +168,11 @@ public class CreditController extends Controller{
 	 * @return
 	 */
 	public static Result purchaseCredit(String priceKMString) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		double priceCostKM = Double.parseDouble(priceKMString);
 		String priceInUSD = converterToStringUSD(priceCostKM);
 		// ovdje je vec PAyPal redirectanje dole sto se ispod ove metode nalazi... ne zaboravi conertovati u USD;
@@ -208,6 +236,11 @@ public class CreditController extends Controller{
 	 * @return
 	 */
 	public static Result purchaseSuccessCredits(String priceInUSD) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		DynamicForm paypalReturn = Form.form().bindFromRequest();
 		String paymentId = paypalReturn.get("paymentId");
 		String payerId = paypalReturn.get("PayerID");
@@ -244,6 +277,11 @@ public class CreditController extends Controller{
 	 * @return
 	 */
 	public static Result buyCreditSuccess(String priceInUSD) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		User buyerUser = SessionHelper.getCurrentUser(ctx());
 		//1. No permission for unregistered user;
 		if (buyerUser == null) {
@@ -280,6 +318,11 @@ public class CreditController extends Controller{
 	 * @return
 	 */
 	public static Result useCredits( int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		Product p = Product.find.byId(id);
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// 1.1 If the User is not Logged in;
@@ -300,6 +343,11 @@ public class CreditController extends Controller{
 	 * @return
 	 */
 	public static Result useCreditsProcess(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		int credit;
 		try {
@@ -342,6 +390,11 @@ public class CreditController extends Controller{
 	 * @return
 	 */
 	public static Result updateCredits(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		Product p = Product.find.byId(id);
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// 1.1 If the User is not Logged in;
@@ -365,6 +418,11 @@ public class CreditController extends Controller{
 	 * @return
 	 */
 	public static Result updateCreditsProcess(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		int credit;
 		try {

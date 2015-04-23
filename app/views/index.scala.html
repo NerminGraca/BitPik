@@ -82,16 +82,17 @@
 			
 		<div class="izdvojeni-index radnje">
 			<div style="overflow:hidden;margin-top:-4px;min-width:500px;display:block;">
-			<div style="float:left;display:block;overflow:hidden;max-height:180px;width:1100px; border:1px solid #EEE;"> 
-			<h2 style="height:15px;line-height:0;border-bottom:3px solid #f2f2f2;font-size:18px;color:gray; padding-top:15px;">Ekskluzivne PIK radnje<span style="float:right;">
+			<h2 style="height:15px;line-height:0;font-size:18px;color:gray; padding-top:15px;">Ekskluzivne PIK radnje<span style="float:right;">
+			<div style="float:left;display:block;overflow:hidden;max-height:190px;width:1100px; "> 
 			<div class="see">
 			<p style="padding: 0px 12px 0px 0px;"><a href="/pikRadnje">Saznaj više</a></p>
 			</div>
+			
 			</span></h2>
 			   	      	@if(pikShops.size() > 0) {
 	      				       @for(pikShop <- pikShops) {						
 							   
-					 			<a href="/korisnik/@pikShop.id"><img src="@routes.Assets.at(pikShop.imagePath)" alt="" class="productImg"/ style="height: 190px; width: 151px; background-position: center center; border:1px solid #EEE;"></a>
+					 			<a href="/korisnik/@pikShop.id"><img src="@routes.Assets.at(pikShop.imagePath)" alt="" class="productImg"/ style="height: 190px; width: 190px; background-position: center center; border:1px solid #EEE;"></a>
 					 			
 												 
 							

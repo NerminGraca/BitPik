@@ -86,13 +86,15 @@
 					</div>					
 	  	    
 				</div>
+				
+				@if(!products.isEmpty) {
 			<div class="section group">
 				<br>
 				<h1 class="redHeader">Objavljeni proizvodi:</h1><br> 
 			</div>			
 			<div class="section group">
 				
-				@if(!products.isEmpty) {
+				
 					@for(product <- products) {				
 						<div class="grid_1_of_4 images_1_of_4">
 							<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>					 		 <h2>@product.name </h2>

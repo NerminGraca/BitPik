@@ -10,6 +10,16 @@ create table bpcredit (
   constraint pk_bpcredit primary key (id))
 ;
 
+create table blogger (
+  id                        integer not null,
+  name                      varchar(255),
+  description               varchar(255),
+  long_description          TEXT,
+  blog_image_path           varchar(255),
+  published_date            varchar(255),
+  constraint pk_blogger primary key (id))
+;
+
 create table comment (
   id                        integer not null,
   content                   varchar(255),
@@ -134,6 +144,8 @@ create table user (
 
 create sequence bpcredit_seq;
 
+create sequence blogger_seq;
+
 create sequence comment_seq;
 
 create sequence faq_seq;
@@ -195,6 +207,8 @@ SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists bpcredit;
 
+drop table if exists blogger;
+
 drop table if exists comment;
 
 drop table if exists faq;
@@ -220,6 +234,8 @@ drop table if exists user;
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists bpcredit_seq;
+
+drop sequence if exists blogger_seq;
 
 drop sequence if exists comment_seq;
 
