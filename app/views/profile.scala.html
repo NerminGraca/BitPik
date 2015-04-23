@@ -20,6 +20,45 @@
 	<div class="main">
     	<div class="content">
     		<div class="section group">
+
+		
+		
+		
+				
+				<div class="leftBox">
+					<div>
+						<img class="profilePicture" src="@routes.Assets.at(u.imagePath)" alt="" />
+					</div>				
+					
+					<div class="addImage" >
+				  		<form id="imgs"  action="@routes.UserController.saveFile()" method="post" enctype="multipart/form-data" >
+							<input class="sendFile" type="file" name="image" id="image" />
+							<input class="sendFileBtn" type="submit" value="Send file" />
+						</form>
+					</div>
+					
+					<div class="categories">
+					  	<ul>
+					  	  <li><a href="#">Izbrisi sliku</a></li>
+					      <li><a href="/allMessages">Poruke</a></li>
+					      <li><a href="@routes.CreditController.showCredits()">Krediti</a></li>
+					      <li><a href="/profile">Objavljeni proizvodi</a></li>
+					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
+					      <li><a href="@routes.UserController.findSoldProducts()">Prodati proizvodi</a></li>
+					      <li><a href="@routes.StatsController.showStats()">Izvjestaj</a></li>
+						</ul>
+					</div>						  	    
+				</div>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				<div class="rightBox">
 					<h2 id="redText"><p>Korisničko ime:</p></h2>
 					<p class="blueText">@u.username</p>
@@ -52,26 +91,28 @@
 						<p class="blueText">@u.city</p>
 					
 					}
-		
-		
+				
 						<form action="/editUser/@u.id">
     						<a class="btn btn-primary btn-fontNovi" href="/editUser/@u.id" class="btn">Izmijeni profil</a>
-						</form>
-		
+						</form>				
+				</div>				
 				
-				</div>
 				
-				<div class="leftBox">
-					<div>
-						<img class="profilePicture" src="@routes.Assets.at(u.imagePath)" alt="" />
-					</div>				
+	
+	
+	
+				<div class="rightBox" style="width: 46%;">
+				
+					<br><br><br><br><br>
+				
+					<h2 id="redText"><p style="text-align: center;">
 					
-					<div class="addImage" >
-				  		<form id="imgs"  action="@routes.UserController.saveFile()" method="post" enctype="multipart/form-data" >
-							<input class="sendFile" type="file" name="image" id="image" />
-							<input class="sendFileBtn" type="submit" value="Send file" />
-						</form>
-					</div>
+					AKO BUDE VREMENA,<br><br>
+					OVDJE IMA PROSTORA ZA<br><br>
+					NEKI REKLAMNI<br><br>
+					(novo, najpovoljnije, akcija itd.)<br><br>
+					SLAJDER<br><br><br><br><br><br><br></p></h2>
+
 					
 					<div class="categories">
 					  	<ul>
@@ -88,9 +129,29 @@
 				</div>
 				
 				@if(!products.isEmpty) {
+
+				</div>						
+				
+				
+				<div class="rightBox" style="width: 69%; margin-top: 10px;">
+				
+					<br><br><br>
+				
+					<h2 id="redText"><p style="text-align: center;">
+					
+					AKO BUDE VREMENA,<br>
+					OVDJE IMA PROSTORA ZA<br>
+					NEKI SLAJDER<br>
+					(pik radnja ili nesto drugo)
+					<br><br><br><br></p></h2>
+
+					
+				</div>					
+				
+
 			<div class="section group">
 				<br>
-				<h1 class="redHeader">Objavljeni proizvodi:</h1><br> 
+				<h1 class="redHeader"><span>Objavljeni proizvodi:</h1><br> 
 			</div>			
 			<div class="section group">
 				

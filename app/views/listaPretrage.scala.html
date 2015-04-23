@@ -2,12 +2,15 @@
 
 @main("Proizvodi", "Korisnici") {
 <div class="wrap">
-  
-         <form action="@routes.ProductController.filteredSearch(Product.getIds(productList),Product.getIds(sproducts))" method="POST">
-         <div class="filter" style="margin-top:20px; margin:25px 130px;">
-            <h1 class="redHeader">Cijena od-do</h1>
-               <input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
-               <input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax"/>
+	<div class="main">
+		<div class="content">
+
+			<!-- Početak naprednog Search Box-a -->
+            <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #C8C8C8; background-color: #FFF3CF; margin: 0px 20px;">
+              <form action="@routes.ProductController.filteredSearch(Product.getIds(productList),Product.getIds(sproducts))" method="POST">
+            <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
+               <input type="number" min="1" max="9999999" step="any" value="" id="od" style="height:25px; width: 40%; font-size:18px;" name="priceMin"/>
+               <input type="number" min="1" max="9999999" step="any" value="" id="do" style="height:25px; width: 40%; font-size:18px;" name="priceMax"/>
                					
                <!-- This is css for Kategorija and availability dropdown meni -->
                <style>
@@ -33,6 +36,7 @@
                   height: 400px;
                   }
                </style>
+                              
                <script language="JavaScript">
                   var e = document.getElementById("categoryString");
                   function showHideCategoryFields() {
@@ -50,8 +54,7 @@
                   		actives[i].id = "inactive";
                   		actives[i].name = "inactive";
                   	}
-                  
-                  
+                                   
                   	var shown = document.getElementById(selected);
                   	shown.style.display = 'block';
                   	
@@ -62,9 +65,7 @@
                   	
                   	selectNode.id = "subCategoryString";
                   	selectNode.name = "subCategoryString";
-                  	
-                  	
-                  	
+                  	                 	
                   };
                   
                   e.onchange = showHideCategoryFields;
@@ -72,48 +73,49 @@
                   showHideCategoryFields();
                   
                </script>
-               <div class="dostupnost" style="margin:-45px 400px;">
-               <fieldset style="width:600px;">
-                  <label class="redHeader" for="availability" width=3px>Dostupnost</label>
-                  <select name="availabilityS" id="availabilityS">
+               
+               <br><br>
+               <fieldset>
+                  <label class="redHeaderAS" for="availability" width=3px>Dostupnost</label>
+                  <select name="availabilityS" id="availabilityS" style="height:33px; width:90%; font-size:24px;">
                      <option selected="selected">Svugdje</option>
                      <option>Unutar BiH</option>
                      <option>Sarajevo</option>
-                     <option>Unsko sanski</option>
+                     <option>Unsko-sanski</option>
                      <option>Posavski</option>
                      <option>Tuzlanski</option>
-                     <option>Zenicko-dobojski</option>
-                     <option>Bosansko-Podrinjski</option>
-                     <option>Srednjo-bosanski</option>
-                     <option>Zapadno-hercegovacki</option>
+                     <option>Zeničko-dobojski</option>
+                     <option>Bosansko-podrinjski</option>
+                     <option>Srednjobosanski</option>
+                     <option>Zapadnohercegovački</option>
                      <option>Livanjski</option>
-                     <option>Hercegovacko-neretvanski</option>
-                     <option>Distrikt Brcko</option>
-                     <option>Banjalucka</option>
+                     <option>Hercegovačko-neretvanski</option>
+                     <option>Distrikt Brčko</option>
+                     <option>Banjalučka</option>
                      <option>Dobojsko-bijeljinska</option>
-                     <option>Sarajevsko-zvornicka</option>
-                     <option>Focansko-trebinjska</option>
+                     <option>Sarajevsko-zvornička</option>
+                     <option>Fočansko-trebinjska</option>
                   </select>
                </fieldset>
-                </div>
-                <div class="opis" style="margin:-53px 710px;">
-               <h1 class="redHeader">Opis</h1>
-               <input type="text" value="" id="desc" name="desc"/>	
-               </div>
-               <input class="button" type="submit" value="Traži" style="margin:65px 730px;" />	
+               
+               <br>
+               <h1 class="redHeaderAS">Opis</h1>
+               <input type="text" value="" id="desc" name="desc" style="height:25px; width:95%; font-size:18px;" />	
+               <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px;" type="submit" value="Traži" />
+	         </form>
             </div>
-         </form>
-    
-      
-     <div class="main">
-    	<div class="content">
-    		
-				<h1 class="redHeader">Rezultati pretrage:</h1><br>  
+            </div>
+			<div class="clear"></div>
+			<!-- Kraj naprednog Search Box-a -->
+   
+    <br><br>		
+	<h1 class="redHeader">Rezultati pretrage:</h1><br>  
+		<div class="section group">
+			@if((sproducts.isEmpty())&&(productList.isEmpty())&&(userList.isEmpty())){
 				<div class="section group">
-					@if((sproducts.isEmpty())&&(productList.isEmpty())&&(userList.isEmpty())){
-						<div class="section group">
-						<h2 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za vasu pretragu</font></h2>	
+					<h2 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za vasu pretragu</font></h2>	
 					}else{
+
 					
 					<div class="section group">
             @if(!sproducts.isEmpty()) {
@@ -144,8 +146,38 @@
                }
             }
             </div>
+						<div class="section group">
+            				@if(!sproducts.isEmpty()) {
+            					<div class="content_top">
+					               <div class="heading">
+					                  <h3 class="redHeader">Izdvojeni artikli (@sproducts.size()):</h3>
+					               </div>
+					               <div class="see">
+					                  <p><a href="#">Pogledaj</a></p>
+					               </div>
+					               <div class="clear"></div>
+					            </div>
+				            <div class="section group">
+				               @for(sproduct <- sproducts) {						
+				               <div class="grid_1_of_4 images_1_of_4" >
+				                  <a href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" class="productImg"/></a>
+				                  <div class="price-details">
+				                     <div class="price-number">
+				                        <p><span class="rupees">@sproduct.price KM</span></p>
+				                     </div>
+				                     <div class="add-cart">
+				                        <h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
+				                     </div>
+				                     <div class="clear"></div>
+				                  </div>
+				               </div>
+				             </div>
+               				}
+            				}
+            			</div>
+
 						@if(!productList.isEmpty()){
-							<h3 class="redHeader2"><font size="3" style:italic color="black">Ostali Artikli (@productList.size()):</font></h3>
+							<h3 class="redHeader2"><font size="3" style:italic color="black">Ostali artikli (@productList.size()):</font></h3>
 							@for(product <- productList){
 							<div class="grid_1_of_4 images_1_of_4">
 								<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
@@ -161,15 +193,7 @@
 								</div>					 
 							</div>
 							
-							
-							
-							
-							
-							
-							
-							
-							
-							
+					
 						}
 						</div>
 						}else{
@@ -185,28 +209,27 @@
 		<div class="content">
 			<div class="section group">
 				@if(userList.size()>0){
-					<h3 class="redHeader2"><font size="3" style:italic color="black">Korisnici: (@userList.size()):</font></h3>
-		  				<div class="validateAndLogout">
-							@flash.get("delete_user_success")
-								</div>
-									<div class="listOfUsers">										
-										<div class="categories1">
-				  							<ul>
-				  							
-												@for(user <- userList) {
-				     								<li><a href="/korisnik/@user.id">@user.username</a></li>
-				     								}			     
-											</ul>
-										</div>					  	    
-										}else{
-											<h4 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za pretragu korisnika</font></h4>
-											}
-									</div>
-				</div>
+					<h3 class="redHeader2"><font size="3" style:italic color="black">Korisnici (@userList.size()):</font></h3>
+		  			<div class="validateAndLogout">
+						@flash.get("delete_user_success")
+					</div>
+					<div class="listOfUsers">										
+						<div class="categories1">
+				  			<ul>			
+								@for(user <- userList) {
+				     				<li><a href="/korisnik/@user.id">@user.username</a></li>
+				     			}			     
+							</ul>
+						</div>					  	    
+								}else{
+									<h4 class="redHeader2">
+										<font size="3" style:italic color="black">Nema rezultata za pretragu korisnika</font>
+									</h4>
+									}
+					</div>
 			</div>
 		</div>
 	</div>
-						
-
-}	
-}
+</div>
+	}	
+	}

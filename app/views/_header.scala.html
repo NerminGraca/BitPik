@@ -7,17 +7,18 @@
 			</div>
 			<div class="account_desc">
 				<ul>
+
 				<li><a href="/showBlog">Blog</a></li>
+
+				   	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">Česta pitanja i odgovori</a></li>
+				
+
 					@if(user == null || user.verified == false) {
 						<li><a href="/chooseRegistration">Registracija</a></li>
 						<li><a href="/login">Login</a></li>
 					}
 					@if(user != null && user.verified == true){
-						<!--  Da admin ne moze vidjeti Objavite oglas -->
-						@if(!user.isAdmin) {
-						<li><a href="/addProduct">Objavite oglas</a></li>
-						}
-						<li><a href="/profile">Korisnik @user.username</a></li>
+						<li><a href="/profile">Korisnik <span style="color: #2E68B2;">@user.username</span></a></li>
 						<li><a href="/logout">Logout</a></li>
 					}
 				</ul>
@@ -33,7 +34,16 @@
 	     	<div class="menu">
 	     		<ul>
 			    	<li class='@("active".when(location == "index"))'><a href="/">Početna</a></li>
-			    	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">Česta pitanja i odgovori</a></li>
+			    	
+			    	
+			    	
+					@if(user != null && user.verified == true){
+						<!--  Da admin ne moze vidjeti Objavite oglas -->
+						@if(!user.isAdmin) {
+			    			<li class='@("active".when(location == "Objavi"))'><a href="/addProduct">Objavite oglas</a></li>
+					}
+					}
+				    				    	
 			    	<li class='@("active".when(location == "Kontakt"))'><a href="/contact">Kontakt</a></li>
 			    	<li class='@("active".when(location == "pikRadnje"))'><a href="/pikRadnje">Radnje</a></li>
 			    	@if(user != null) {
@@ -50,7 +60,7 @@
 	     	</div>
 	     	<div class="menu2">
 	     		<ul>
-	     			<li class='@("active".when(location == "Nap. Pretraga"))'><a href="/newViewForFilter">Napredna Pretraga</a></li>
+	     			<li class='@("active".when(location == "NPretraga"))'><a href="/newViewForFilter">Napredna pretraga</a></li>
 	     		</ul>
 	     	</div>
 	     	<div class="search_box">
@@ -60,7 +70,7 @@
 	     			<input type="submit" value="">
 	     		</form>
 	     	</div>
-	     	
+  	
 			<!-- OBRISATI? -->
 	     	<div class="clear"></div>
 
