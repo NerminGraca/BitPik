@@ -1,4 +1,4 @@
-@(sproducts: List[Product])(products: List[Product])(mainCategoryList: List[MainCategory])
+@(sproducts: List[Product])(products: List[Product])(mainCategoryList: List[MainCategory])(pikShops : List[User])
 
 @main("BitPik", "index") {
 	
@@ -88,14 +88,15 @@
 			<p style="padding: 0px 12px 0px 0px;"><a href="/pikRadnje">Saznaj više</a></p>
 			</div>
 			</span></h2>
-			   	      
-	      				       @for(product <- products) {						
+			   	      	@if(pikShops.size() > 0) {
+	      				       @for(pikShop <- pikShops) {						
 							   
-					 			<a href="/korisnik/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" class="productImg"/ style="height: 190px; width: 151px; background-position: center center; border:1px solid #EEE;"></a>
+					 			<a href="/korisnik/@pikShop.id"><img src="@routes.Assets.at(pikShop.imagePath)" alt="" class="productImg"/ style="height: 190px; width: 151px; background-position: center center; border:1px solid #EEE;"></a>
 					 			
 												 
 							
 						}
+					}
 							</div>			
 							</div>
 					  

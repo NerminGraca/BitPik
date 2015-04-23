@@ -224,6 +224,27 @@ public class Global extends GlobalSettings {
 			Product p8 = Product.create("Snowboard", "Snow board 2012", "Snow board 2012 - Lijep dizajn od drveta", 250.00, seller, sportsub, wintersports, "Hercegovacko-neretvanski","Novo");
 			p8.productImagePath = "images/productPicture/snowboard.jpg";
 			p8.save();
+			
+			MainCategory mainCat = MainCategory.findMainCategoryByName("Nekretnine");
+			User realestate = User.createPikStore("Real Estate", "realestate", "realestate@realestate.com", "Real Estate Company d.o.o.", "Ferhadija 55", "Sarajevo",mainCat);
+			realestate.isPikStore = true;
+			realestate.verified = true;
+			realestate.imagePath = "images/profilePicture/realestate.jpg";
+			realestate.save();
+			
+			MainCategory mainCat2 = MainCategory.findMainCategoryByName("Sportska oprema");
+			User sportshop = User.createPikStore("Sport Shop", "sportshop", "sportshop@sportshop.com", "Sport Shop Company d.o.o.", "Titova 33", "Sarajevo",mainCat2);
+			sportshop.isPikStore = true;
+			sportshop.verified = true;
+			sportshop.imagePath = "images/profilePicture/sportshop.jpg";
+			sportshop.save();
+			
+			User addidasShop = User.createPikStore("Addidas Sport Shop", "addidassportshop", "addidassportshop@addidassportshop.com", "Addidas Sport Shop d.o.o.", "Dzemala Bijedica 18", "Sarajevo",mainCat2);
+			addidasShop.isPikStore = true;
+			addidasShop.verified = true;
+			addidasShop.imagePath =  "images/profilePicture/addidasshop.jpg";
+			addidasShop.save();
+			
 		}
 		
 	

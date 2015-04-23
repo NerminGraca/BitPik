@@ -7,6 +7,7 @@ import java.util.List;
 
 import models.MainCategory;
 import models.Product;
+import models.User;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -70,10 +71,11 @@ public class Application extends Controller {
 		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", false).findList();
 		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
+		List<User> pikShops = User.find.where().eq("isPikStore", true).findList();
 		if (!request().accepts("text/html")) {
 			return JsonController.indexAndroid(productList);
 		}
-		return ok(index.render(specialProductList, productList, mainCategoryList));
+		return ok(index.render(specialProductList, productList, mainCategoryList, pikShops));
 	}
 
 	public static Result newViewForFilter(){
