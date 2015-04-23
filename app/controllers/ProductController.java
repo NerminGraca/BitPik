@@ -560,8 +560,7 @@ public class ProductController extends Controller {
 			currentUser.newsletter.add(newsletter);
 			currentUser.save();
 		}
-		Logger.error("Prvi string(Product controller): " + currentUser.newsletter.get(0).searchString);
-		Logger.error("Current user: " + currentUser.username);
+		
 		List<Product>sproducts=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('true'))").findList();
 		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
 		return ok(listaPretrage.render(sproducts,products,users));	
