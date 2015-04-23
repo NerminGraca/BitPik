@@ -36,7 +36,7 @@
 					@if(user != null && user.verified == true){
 						<!--  Da admin ne moze vidjeti Objavite oglas -->
 						@if(!user.isAdmin) {
-			    			<li><a href="/addProduct">Objavite oglas</a></li>
+			    			<li class='@("active".when(location == "Objavi"))'><a href="/addProduct">Objavite oglas</a></li>
 					}
 					}
 				    				    	
@@ -55,7 +55,7 @@
 	     	</div>
 	     	<div class="menu2">
 	     		<ul>
-	     			<li class='@("active".when(location == "Nap. Pretraga"))'><a href="/newViewForFilter">Napredna Pretraga</a></li>
+	     			<li class='@("active".when(location == "NPretraga"))'><a href="/newViewForFilter">Napredna pretraga</a></li>
 	     		</ul>
 	     	</div>
 	     	<div class="search_box">

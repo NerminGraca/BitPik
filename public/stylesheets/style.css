@@ -638,7 +638,7 @@ body {
 	text-transform:uppercase;
 	color: #fff;
 	display:block;
-	padding:16px 20px;
+	padding:16px 10px;
     -webkit-transition: all .9s;
    -moz-transition: all .9s;
    -o-transition: all .9s;
@@ -699,6 +699,7 @@ body {
 }
 .categories{
 	border:1px solid #EEE;
+	-webkit-border-radius: 6px;
 }
 .categories h3{
 	font-size:1.2em;
@@ -706,7 +707,8 @@ body {
 	padding:10px;
 	background:#9C640C;
 	text-transform:uppercase;
-	font-family: 'ambleregular';	
+	font-family: 'ambleregular';
+	-webkit-border-radius: 6px;	
 }
 .categories li a{
 	display:block;
