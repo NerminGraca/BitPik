@@ -39,6 +39,14 @@ create table main_category (
   constraint pk_main_category primary key (id))
 ;
 
+create table newsletter (
+  id                        integer not null,
+  search_string             varchar(255),
+  created_date              timestamp,
+  user_id                   integer,
+  constraint pk_newsletter primary key (id))
+;
+
 create table private_message (
   id                        integer not null,
   content                   varchar(255),
@@ -134,6 +142,8 @@ create sequence img_path_seq;
 
 create sequence main_category_seq;
 
+create sequence newsletter_seq;
+
 create sequence private_message_seq;
 
 create sequence product_seq;
@@ -154,6 +164,7 @@ alter table comment add constraint fk_comment_product_3 foreign key (product_id)
 create index ix_comment_product_3 on comment (product_id);
 alter table img_path add constraint fk_img_path_product_4 foreign key (product_id) references product (id) on delete restrict on update restrict;
 create index ix_img_path_product_4 on img_path (product_id);
+<<<<<<< HEAD
 alter table private_message add constraint fk_private_message_sender_5 foreign key (sender_id) references user (id) on delete restrict on update restrict;
 create index ix_private_message_sender_5 on private_message (sender_id);
 alter table private_message add constraint fk_private_message_receiver_6 foreign key (receiver_id) references user (id) on delete restrict on update restrict;
@@ -174,6 +185,28 @@ alter table transaction_p add constraint fk_transaction_p_product_13 foreign key
 create index ix_transaction_p_product_13 on transaction_p (product_id);
 alter table user add constraint fk_user_storeCategory_14 foreign key (store_category_id) references main_category (id) on delete restrict on update restrict;
 create index ix_user_storeCategory_14 on user (store_category_id);
+=======
+alter table newsletter add constraint fk_newsletter_user_5 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_newsletter_user_5 on newsletter (user_id);
+alter table private_message add constraint fk_private_message_sender_6 foreign key (sender_id) references user (id) on delete restrict on update restrict;
+create index ix_private_message_sender_6 on private_message (sender_id);
+alter table private_message add constraint fk_private_message_receiver_7 foreign key (receiver_id) references user (id) on delete restrict on update restrict;
+create index ix_private_message_receiver_7 on private_message (receiver_id);
+alter table product add constraint fk_product_mainCategory_8 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
+create index ix_product_mainCategory_8 on product (main_category_id);
+alter table product add constraint fk_product_owner_9 foreign key (owner_id) references user (id) on delete restrict on update restrict;
+create index ix_product_owner_9 on product (owner_id);
+alter table product add constraint fk_product_subCategory_10 foreign key (sub_category_id) references sub_category (id) on delete restrict on update restrict;
+create index ix_product_subCategory_10 on product (sub_category_id);
+alter table product add constraint fk_product_buyerUser_11 foreign key (buyer_user_id) references user (id) on delete restrict on update restrict;
+create index ix_product_buyerUser_11 on product (buyer_user_id);
+alter table statistics add constraint fk_statistics_productStats_12 foreign key (product_stats_id) references product (id) on delete restrict on update restrict;
+create index ix_statistics_productStats_12 on statistics (product_stats_id);
+alter table sub_category add constraint fk_sub_category_mainCategory_13 foreign key (main_category_id) references main_category (id) on delete restrict on update restrict;
+create index ix_sub_category_mainCategory_13 on sub_category (main_category_id);
+alter table transaction_p add constraint fk_transaction_p_product_14 foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_transaction_p_product_14 on transaction_p (product_id);
+>>>>>>> 803c94ef919fdfd3b68085c8adc3c375accfb091
 
 
 
@@ -190,6 +223,8 @@ drop table if exists faq;
 drop table if exists img_path;
 
 drop table if exists main_category;
+
+drop table if exists newsletter;
 
 drop table if exists private_message;
 
@@ -214,6 +249,8 @@ drop sequence if exists faq_seq;
 drop sequence if exists img_path_seq;
 
 drop sequence if exists main_category_seq;
+
+drop sequence if exists newsletter_seq;
 
 drop sequence if exists private_message_seq;
 

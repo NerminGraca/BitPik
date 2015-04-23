@@ -2,6 +2,8 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -826,6 +828,9 @@ public class UserController extends Controller {
 	  	{
 	  		return redirect(routes.Application.index());
 	  	}
+	  	String message = "Dobili ste privatnu poruku od korisnika " + sender.username + 
+	  			": \n" + content;
+	  	MailHelper.sendNewsletter(receiver.email, message);
    	  	return redirect("/allMessages");
 	}
 	
@@ -893,5 +898,43 @@ public class UserController extends Controller {
 		}
 		return redirect(OURHOST + "/buyingAProduct/" +id +"/"+ token);
 	}	
+	
+	public static Result newsletter() throws ParseException{
+		String message = "<h2>Novosti sa BitPik-a!</h2><br><h3>Novi oglasi koji bi vas mogli zanimati:</h3><br>";
+		List<User> users = User.find.all();
+		for(User u: users){
+			List<Product>newsletterProducts = new ArrayList<Product>();
+			for (Newsletter n: u.newsletter){
+				Product p =  Product.find.where("(UPPER(name) LIKE UPPER('%"+n.searchString+"%')) AND ((isSold) LIKE (false))").findUnique();
+				newsletterProducts.add(p);
+				/*	SimpleDateFormat sdf = new SimpleDateFormat();
+				Date pDate;
+				Date nDate;
+				
+				
+					pDate = sdf.parse(p.publishedDate);
+					nDate = sdf.parse(n.createdDate.toString());
+					Logger.error("Datum 1: " + pDate);
+					Logger.error("Datum 2: " + nDate);
+					if(pDate.compareTo(nDate)==0){
+						newsletterProducts.add(p);
+					}
+				*/
+			}
+		
+			if(newsletterProducts!=null)
+			{
+				for(Product p: newsletterProducts){
+				
+					message += p.name + ", opis: " + p.description + 
+							", cijena <strong>" + p.price + "</strong> " + ", objavio korisnik " +
+							p.owner.username + " dana " + p.publishedDate.toString() + "<br>";
+					
+				}
+			}
+			MailHelper.sendNewsletter(u.email, message);
+		}
+		return redirect("/korisnici");
+	}
 
 }

@@ -5,6 +5,7 @@ import helpers.MailHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -75,6 +76,9 @@ public class User extends Model {
 	@OneToMany(mappedBy="sender", cascade=CascadeType.ALL)
 	public List<PrivateMessage> privateMessage;
 	
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	public List<Newsletter> newsletter;
+	
 	/**
 	 * @author Gordan Sajevic
 	 * Constructor with default values
@@ -131,7 +135,6 @@ public class User extends Model {
 		this.confirmation = null;
 		this.emailVerified = true;
 		this.imagePath = "images/profilePicture/profileimg.png";
-
 	}
 
 	/**
@@ -328,5 +331,6 @@ public class User extends Model {
 			throw new IllegalArgumentException("Password too short!");
 		}
 		this.password = password;
-	}	
+	}
+
 }

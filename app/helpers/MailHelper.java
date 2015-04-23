@@ -115,4 +115,17 @@ public class MailHelper {
 		MailerPlugin.send(mail);
 		}
 	}
+	
+	public static void sendNewsletter(String email, String message){
+		Email mail = new Email();
+		mail.setSubject("Novosti sa BitPik-a");
+		mail.setFrom("bitpikgroup@gmail.com");
+		mail.addTo("bitpikgroup@gmail.com");
+
+		mail.addTo(email);
+		mail.setBodyText(message);
+		mail.setBodyHtml(message);
+
+		MailerPlugin.send(mail);
+	}
 }
