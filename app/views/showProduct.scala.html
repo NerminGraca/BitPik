@@ -27,9 +27,9 @@
 	
 	<div class="main">
 	<div class="content">
-	<div class="cont-desc span_1_of_2">
-	<p style="font-size:30px;">@p.name</p>
-	</div>
+					<div class="cont-desc span_1_of_2">
+					<p style="font-size:30px;">@p.name</p>
+					</div>
 	    	<div class="section group">
 	    	<div class="cont-desc span_1_of_2">
 	    			<div class="product-details">
@@ -149,7 +149,7 @@
 			    	    
 			    	   @if(user != null) {
 			    	    	<div class="leftBox">					
-							<div class="categories">
+					<!--	<div class="categories">      -->	
 							
 					  		<ul>
 							  		@if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p) && !user.isAdmin && !user.isPikStore) {
@@ -174,7 +174,7 @@
 		                			 <li><a href="@routes.CreditController.makeProductNotSpecial(p.id)" onclick="return confirm('Da li ste sigurni da zelite skinuti proizvod sa izdvojenih proizvoda?');">Skini izdvojen oglas</a></li>
 		                			 }
 							</ul>
-							</div>						  	    
+					<!--	</div>		    -->					  	    
 							</div>
 							<br><br>
 							
