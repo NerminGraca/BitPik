@@ -245,6 +245,7 @@ box-sizing: border-box;
 	padding: 0px;
 	background: #FCFCFC;
 	width: 25%;
+	-webkit-border-radius: 6px;
 }
 
 .listOfUsers{
@@ -270,6 +271,7 @@ box-sizing: border-box;
 	width: 30%;
 	padding: 0px;
 	background-color: whitesmoke;
+	-webkit-border-radius: 6px;
 }
 
 /* this is for editProfile red and blue text
@@ -2101,12 +2103,6 @@ body {
 	.filter{
 	display: inline-block;
 	float: left;
-	AAposition: relative;
-	AApadding: 2px;
-	AAwidth: 1070px;
-	AAheight: 100px;
-	AAbackground-color: #FDF4F4;
-	AAborder: solid 1px grey;
 	}
 	
 	#reg-desno{
