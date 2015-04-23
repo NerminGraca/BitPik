@@ -28,10 +28,6 @@
 					}
 					<h2 id="redText">Datum registracije:</h2>
 					<p class="blueText">@user.createdDate</p>
-		
-					@if(userSes != null) {
-						<a href="/message/@user.id" class="btn btn-primary btn-fontNovi">Pošalji privatnu poruku</a>
-					}
 									
 					@if(user.isPikStore){
 						
@@ -49,7 +45,13 @@
 						<p class="blueText">@user.storeCategory.name</p>
 					
 					}
-
+					<br>
+					<br>
+				@if(userSes != null) {
+						<a href="/message/@user.id" class="btn btn-primary btn-fontNovi">Pošalji privatnu poruku</a>
+				}
+					<br>
+					<br>
 			@if(userSes != null) {
 					@helper.form(routes.UserController.changeAdmin(user.id),'id->"adminForm") {
 						@if(userSes.isAdmin && !user.isProtectedAdmin){
@@ -109,8 +111,9 @@
 				</div>
 					
 				<div id="productsOnProfile">
-							
+					
 					@if(!products.isEmpty) {
+						<h1 class="redHeader">Objavljeni proizvodi:</h1><br> 
 						@for(product <- products) {
 									
 						<div class="grid_1_of_4 images_1_of_4">

@@ -252,7 +252,8 @@ public class User extends Model {
 	 * @param id
 	 */
 	public static void delete(int id) {
-		findInt.ref(id).delete();
+		User.find(id).delete();
+		//findInt.ref(id).delete();
 	}
 	
 	/**

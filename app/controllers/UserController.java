@@ -905,6 +905,7 @@ public class UserController extends Controller {
 		for(User u: users){
 			List<Product>newsletterProducts = new ArrayList<Product>();
 			for (Newsletter n: u.newsletter){
+				Logger.error("n.string" + n.searchString);
 				Product p =  Product.find.where("(UPPER(name) LIKE UPPER('%"+n.searchString+"%')) AND ((isSold) LIKE (false))").findUnique();
 				newsletterProducts.add(p);
 				/*	SimpleDateFormat sdf = new SimpleDateFormat();
@@ -921,18 +922,23 @@ public class UserController extends Controller {
 					}
 				*/
 			}
-		
-			if(newsletterProducts!=null)
+			
+			if(newsletterProducts.size() > 0)
 			{
+				Logger.error("prviString" + newsletterProducts.get(0).name);
 				for(Product p: newsletterProducts){
-				
+				if (p != null) {
 					message += p.name + ", opis: " + p.description + 
 							", cijena <strong>" + p.price + "</strong> " + ", objavio korisnik " +
 							p.owner.username + " dana " + p.publishedDate.toString() + "<br>";
-					
+					} else {
+						return redirect("/korisnici");
+					}
 				}
 			}
-			MailHelper.sendNewsletter(u.email, message);
+			if (u.newsletter.size() > 0) {
+				MailHelper.sendNewsletter(u.email, message);
+			}
 		}
 		return redirect("/korisnici");
 	}
