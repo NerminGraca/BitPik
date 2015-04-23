@@ -366,6 +366,7 @@ public class UserController extends Controller {
 	   	 return ok(korisnici.render(userList));
 	}
 	
+
 	public static Result allPikStores() {
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();

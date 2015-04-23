@@ -75,6 +75,7 @@ create table product (
   price                     double,
   published_date            varchar(255),
   owner_id                  integer,
+  exchange                  varchar(255),
   is_sold                   boolean,
   is_refunding              boolean,
   refund_reason             varchar(255),

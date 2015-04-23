@@ -2,44 +2,14 @@
 @import helper._
 @main("Kategorija", "") {
 <div class="wrap">
-	<div class="main">
-		<div class="content">
-			<div class="section group">     
-				<div class="header_slide">
-   					<div class="leftBoxCat">
-      					<div class="categories">
-         					<ul>
-					            <h3>Kategorije</h3>
-					            @if(mainCategoryList.size() > 0 ) {
-					            @for(mCategory <- mainCategoryList) {
-					            <li><a href="/kategorija/@mCategory.id">@mCategory.name</a></li>
-					            }
-					            }
-         					</ul>
-						</div>
-					</div>
-					<div class="subCatBox">
-						<div class="categories">
-							<ul id="listOfCategory">
-								<!-- Podkategorije kategorije -->
-					            <h3>@mainCategory.name</h3>
-					            @if(mainCategory.subCategories.size() > 0 ) {
-					            @for(subCategory <- mainCategory.subCategories) {
-					            <li>
-					               <a href="/podKategorija/@subCategory.id">@subCategory.name</a>
-					            </li>
-					            }
-					            }
-							</ul>
-						</div>
-					</div>
-
-			<!-- Početak naprednog Search Box-a -->
-            <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #C8C8C8; background-color: #FFF3CF; margin: 0px 20px;">
-              <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
-            <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
-               <input type="number" min="1" max="9999999" step="any" value="" id="od" style="height:25px; width: 40%; font-size:18px;" name="priceMin"/>
-               <input type="number" min="1" max="9999999" step="any" value="" id="do" style="height:25px; width: 40%; font-size:18px;" name="priceMax"/>
+<div class="main">
+<div class="content">
+<div class="section group">
+  <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
+         <div class="filter" style="margin-top:20px; margin:25px 130px;">
+            <h1 class="redHeader">Cijena od-do</h1>
+               <input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
+               <input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax"/>
                					
                <!-- This is css for Kategorija and availability dropdown meni -->
                <style>
@@ -65,7 +35,6 @@
                   height: 400px;
                   }
                </style>
-                              
                <script language="JavaScript">
                   var e = document.getElementById("categoryString");
                   function showHideCategoryFields() {
@@ -83,7 +52,8 @@
                   		actives[i].id = "inactive";
                   		actives[i].name = "inactive";
                   	}
-                                    
+                  
+                  
                   	var shown = document.getElementById(selected);
                   	shown.style.display = 'block';
                   	
@@ -94,7 +64,9 @@
                   	
                   	selectNode.id = "subCategoryString";
                   	selectNode.name = "subCategoryString";
-                  	                 	                 	
+                  	
+                  	
+                  	
                   };
                   
                   e.onchange = showHideCategoryFields;
@@ -102,41 +74,59 @@
                   showHideCategoryFields();
                   
                </script>
-
-               
-               <br><br>
-               <fieldset>
-                  <label class="redHeaderAS" for="availability" width=3px>Dostupnost</label>
-                 
-
                <div class="dostupnost" style="margin:-45px 400px;">
                <fieldset style="width:600px;">
                   <label class="redHeader" for="availability" width=3px>Dostupnost</label>
                   <select name="availabilityS" id="availabilityS">
                      <option selected="selected">Sarajevo</option>
-						<option>Mostar</option>
-						<option>Zenica</option>
-						<option>Tuzla</option>
-						<option>Stolac</option>
-						<option>Bihać</option>
-						<option>Banja Luka</option>
-						<option>Bijeljina</option>
-						<option>Trebinjei</option>
-						<option>Livno</option>
-
+									      			<option>Mostar</option>
+									    			<option>Zenica</option>
+									    			<option>Tuzla</option>
+									     			<option>Stolac</option>
+									     			<option>Bihać</option>
+											    	<option>Banja Luka</option>
+									   				<option>Bijeljina</option>
+									    			<option>Trebinjei</option>
+									    			<option>Livno</option>
                   </select>
                </fieldset>
-               
-               <br>
-               <h1 class="redHeaderAS">Opis</h1>
-               <input type="text" value="" id="desc" name="desc" style="height:25px; width:95%; font-size:18px;" />	
-               <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px;" type="submit" value="Traži" />
-	         </form>
+                </div>
+                <div class="opis" style="margin:-53px 710px;">
+               <h1 class="redHeader">Opis</h1>
+               <input type="text" value="" id="desc" name="desc"/>	
+               </div>
+               <input class="button" type="submit" value="Traži" style="margin:65px 730px;" />	
             </div>
-            </div>
-			<div class="clear"></div>
-			<!-- Kraj naprednog Search Box-a -->
-        
+         </form>
+<div class="header_slide">
+   <div class="leftBoxCat">
+      <div class="categories">
+         <ul>
+            <h3>Kategorije</h3>
+            @if(mainCategoryList.size() > 0 ) {
+            @for(mCategory <- mainCategoryList) {
+            <li><a href="/kategorija/@mCategory.id">@mCategory.name</a></li>
+            }
+            }
+         </ul>
+      </div>
+   </div>
+   <div class="subCatBox">
+      <div class="categories">
+         <ul id="listOfCategory">
+         	<!-- Podkategorije kategorije -->
+            <h3>@mainCategory.name</h3>
+            @if(mainCategory.subCategories.size() > 0 ) {
+            @for(subCategory <- mainCategory.subCategories) {
+            <li>
+               <a href="/podKategorija/@subCategory.id">@subCategory.name</a>
+            </li>
+            }
+            }
+         </ul>
+      </div>
+   </div>
+   <div class="clear"></div>
    <div class="content_top">
       <div class="heading">
          <h3>Artikli PodKategorije - @subCatName</h3>
@@ -167,10 +157,8 @@
                   <a href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" class="productImg"/></a>
                   <div class="price-details">
                      <div class="price-number">
-                        <p style="padding-top:33px;"><span class="rupees">@sproduct.getPriceString() KM</span></p>
-					   					 </div>
-					   					  <div>
-					   					 <p style="float:initial; display:inline-block; padding-right:87px;">Objavljen:@sproduct.publishedDate<p></div>
+                        <p><span class="rupees">@sproduct.price KM</span></p>
+                     </div>
                      <div class="add-cart">
                         <h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
                      </div>
@@ -189,10 +177,8 @@
                   <h2>@product.name </h2>
                   <div class="price-details">
                      <div class="price-number">
-                        <p style="padding-top:33px;"><span class="rupees">@product.getPriceString() KM</span></p>
-					   					 </div>
-					   					  <div>
-					   					 <p style="float:initial; display:inline-block; padding-right:87px;">Objavljen:@product.publishedDate<p></div>
+                        <p><span class="rupees">@product.price KM</span></p>
+                     </div>
                      <div class="add-cart">
                         <h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
                      </div>

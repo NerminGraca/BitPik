@@ -199,7 +199,7 @@ public class JsonController extends Controller{
 			ObjectNode message = Json.newObject();
 			return badRequest(message.put("error", "Availability not valid."));
 		}
-		Product p = Product.create(name, desc, longDesc, price, u, mainCategory, subCategory, location,null);
+		Product p = Product.create(name, desc, longDesc, price, u, mainCategory, subCategory, location,null,null);
 		p.save();
 		return ok();
 	}

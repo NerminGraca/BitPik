@@ -38,6 +38,8 @@ public class Product extends Model {
 	@ManyToOne
 	public User owner;
 	
+	public String exchange;
+	
 	public boolean isSold;
 	
 	public boolean isRefunding;
@@ -88,6 +90,7 @@ public class Product extends Model {
 		this.price = -1;
 		publishedDate = getDate();
 		this.owner = null;
+		this.exchange=null;
 		this.isSold = false;
 		this.isRefunding = false;
 		this.refundReason = "None";
@@ -107,12 +110,13 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public Product(String name, String desc, String longDesc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String location,String condition) {
+	public Product(String name, String desc, String longDesc, double price, User owner, MainCategory mainCategory, SubCategory subCategory, String location,String condition,String exchange) {
 		this.name = name;
 		this.description = desc;
 		this.longDescription = longDesc;
 		this.price = price;
 		this.owner = owner;
+		this.exchange=exchange;
 		this.isSold = false;
 		this.isRefunding = false;
 		this.refundReason = "None";
@@ -152,7 +156,9 @@ public class Product extends Model {
 		this.condition=condition;
 	}
 
-	
+	public void setExchange(String exchange){
+		this.exchange=exchange;
+	}
 	/**
 	 * Gets the information whether the product is sold or not;
 	 * @return boolean isSold;
@@ -279,7 +285,7 @@ public class Product extends Model {
 	public boolean isSpecial() {
 		return isSpecial;
 	}
-
+	
 	/**
 	 * We set the true boolean for the isSpecial only when the
 	 * owner User as spent and used their credits to use them
@@ -364,8 +370,8 @@ public class Product extends Model {
 	 * @param desc
 	 * @param price
 	 */
-	public static Product create(String name, String desc, String longDesc, double price, User owner, MainCategory category, SubCategory subCategory, String location,String condition) {
-		Product newProduct = new Product(name, desc, longDesc,price, owner, category, subCategory, location,condition);
+	public static Product create(String name, String desc, String longDesc, double price, User owner, MainCategory category, SubCategory subCategory, String location,String condition,String exchange) {
+		Product newProduct = new Product(name, desc, longDesc,price, owner, category, subCategory, location,condition,exchange);
 		if(owner.isPikStore){
 			newProduct.setSpecial(true);
 			Calendar c = Calendar.getInstance();

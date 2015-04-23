@@ -286,9 +286,9 @@ header h1 {
 .cd-faq-group .cd-faq-title h2 {
   text-transform: uppercase;
   font-size: 12px;
-  font-size: 0.75rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: #bbbbc7;
+  color: #243B5D;
 }
 .no-js .cd-faq-group {
   display: block;
@@ -326,12 +326,14 @@ header h1 {
 }
 @media only screen and (min-width: 768px) {
   .cd-faq-trigger {
-    font-size: 24px;
-    font-size: 1.5rem;
+    font-size: 13px;
+    font-size: 1.1rem;
     font-weight: 300;
     margin: 0;
     padding: 24px 72px 24px 24px;
-	color: #634142;
+
+    color:rgb(36, 59, 93);
+
   }
   .cd-faq-trigger::before, .cd-faq-trigger::after {
     /* arrow icon on the right */
@@ -384,9 +386,9 @@ header h1 {
 
 .cd-faq-content p {
   font-size: 14px;
-  font-size: 0.875rem;
+  font-size: 1.0rem;
   line-height: 1.4;
-  color: #6c7d8e;
+  color: #243B5D;
 }
 @media only screen and (min-width: 768px) {
   .cd-faq-content {

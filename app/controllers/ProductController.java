@@ -145,6 +145,7 @@ public class ProductController extends Controller {
 		String subCategory;
 		String location;
 		String condition;
+		String exchange;
 		
 		try {
 			name = newProduct.bindFromRequest().get().name;
@@ -155,6 +156,8 @@ public class ProductController extends Controller {
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
 			location = newProduct.bindFromRequest().get().location;
 			condition=newProduct.bindFromRequest().get().condition;
+			exchange=newProduct.bindFromRequest().get().exchange;
+			
 		} catch(IllegalStateException e) {
 			flash("add_product_null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.addProduct());
@@ -175,7 +178,7 @@ public class ProductController extends Controller {
 			}
 		}
 
-		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, location,condition);
+		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, location,condition,exchange);
 
 		Logger.of("product").info("User "+ u.username +" added a new product '" + p.name + "'");
 		return redirect("/addPictureProduct/" + p.id);
@@ -249,6 +252,7 @@ public class ProductController extends Controller {
 		String subCategory;
 		String location;
 		String condition;
+		String exchange;
 		
 		try {
 			name = newProduct.bindFromRequest().get().name;
@@ -259,6 +263,7 @@ public class ProductController extends Controller {
 			subCategory = newProduct.bindFromRequest().get().subCategoryString;
 			location = newProduct.bindFromRequest().get().location;
 			condition=newProduct.bindFromRequest().get().condition;
+			exchange=newProduct.bindFromRequest().get().exchange;
 		} catch(IllegalStateException e) {		
 			flash("edit_product_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.editProduct(id));
@@ -289,6 +294,7 @@ public class ProductController extends Controller {
 		p.setSubCategory(sc);
 		p.setLocation(location);
 		p.setCondition(condition);
+		p.setExchange(exchange);
 		p.save();
 		 
 		Logger.of("product").info("User "+ u.username + " updated the info of product " + oldname + ", NAME : ["+p.name+"]");

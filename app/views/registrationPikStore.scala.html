@@ -39,7 +39,7 @@
 
 							<fieldset>
 	    						<label id="editProfileText" for="category">Kategorija djelatnosti:</label>
-	    							<select name="categoryString" id="categoryString" style="width:323px;">
+	    							<select name="categoryString" id="categoryString" style="width:335px;">
 		    							@if(mainCategoryList.size() > 0 ) {
 						  					@for(mainCategory <- mainCategoryList) {
 						  						<option value="@mainCategory.name">@mainCategory.name</option>
@@ -51,6 +51,7 @@
 							<h5 class="redHeaderReq">Molimo popunite sva polja oznacena sa *</h5>
 							<br><br>
 							<input class="btn btn-primary btn-fontNovi" type="submit" value="Registruj" />
+
 					</div>
 				</div>		
          	</div> 
