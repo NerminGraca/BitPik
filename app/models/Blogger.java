@@ -104,6 +104,7 @@ public class Blogger extends Model{
 	
 	public static Blogger create(String name, String description, String longDescription){
 		Blogger newBlogger =  new Blogger(name, description, longDescription);
+		
 		newBlogger.save();
 		return newBlogger;
 	}

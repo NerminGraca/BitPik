@@ -2,11 +2,14 @@ package controllers;
 
 import helpers.JsonHelper;
 import helpers.MailHelper;
+import helpers.SessionHelper;
 
 import java.util.List;
 
+import models.Blogger;
 import models.MainCategory;
 import models.Product;
+import models.User;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -66,7 +69,11 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", false).findList();
 		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
@@ -77,16 +84,31 @@ public class Application extends Controller {
 	}
 
 	public static Result newViewForFilter(){
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", false).findList();
 		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
 		return ok(newViewForFilter.render(specialProductList,productList,MainCategory.allMainCategories()));
 	}
 	
 	public static Result chooseRegistration(){
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		return ok(chooseRegistration.render("",""));
 	}
 	
 	public static Result registrationPikStore(){
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		return ok(registrationPikStore.render("",""));
 	}
 	
@@ -96,6 +118,11 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result registration() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		if (!request().accepts("text/html")) {
 			return JsonController.registration();
 		}
@@ -108,6 +135,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result login() {
+		
 		if (!request().accepts("text/html")) {
 			return JsonController.login();
 		}
@@ -120,6 +148,7 @@ public class Application extends Controller {
 	 * @return redirect to index.html
 	 */
 	public static Result logout() {
+		
 		Logger.info("User "+ session("username") +" loged out");
 		session().clear();
 		flash("logout", Messages.get("Odjavili ste se."));
@@ -132,6 +161,11 @@ public class Application extends Controller {
 	* @return
 	*/
 	public static Result contact() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		return ok(contact.render(new Form<Contact>(Contact.class)));
 	}
 
@@ -143,6 +177,7 @@ public class Application extends Controller {
 	 *         sent.
 	 */
 	public static Promise<Result> sendMail() {
+		
 		// need this to get the google recapctha value
 		final DynamicForm temp = DynamicForm.form().bindFromRequest();
 		/*

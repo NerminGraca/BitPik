@@ -1,6 +1,7 @@
 package controllers;
 
 import helpers.AdminFilter;
+import helpers.SessionHelper;
 
 import java.util.List;
 
@@ -26,6 +27,11 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result categories(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		MainCategory mc = MainCategory.findMainCategory(id);
 		List<Product> productList = ProductController.findProduct.where().eq("mainCategory", mc).eq("isSold", false).eq("isSpecial", false).findList();
@@ -40,6 +46,11 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result subCategoriesView(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		SubCategory sc = SubCategory.findSubCategory(id);
 		MainCategory mc = sc.mainCategory;
@@ -53,7 +64,12 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	@Security.Authenticated(AdminFilter.class)
-	public static Result allCategory() {		
+	public static Result allCategory() {	
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		return ok(listaKategorija.render(mainCategoryList));
 	}
@@ -65,6 +81,11 @@ public class CategoryController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result subCategories(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		MainCategory mc = MainCategory.findMainCategory(id);
 		return ok(listaPodKategorija.render(mc));
 	}
@@ -76,6 +97,11 @@ public class CategoryController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editMainCategory(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		MainCategory mc = findMainCategory.byId(id);
 				
 		return ok(editMainCategory.render(mc));
@@ -88,6 +114,11 @@ public class CategoryController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editSubCategory(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		SubCategory sc = SubCategory.findSubCategory(id);
 				
 		return ok(editSubCategory.render(sc));
@@ -100,6 +131,11 @@ public class CategoryController extends Controller {
 	 * @return to view of all categories
 	 */
 	public static Result saveEditMainCategory(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		//takes the new attributes that are entered in the form;
 		String name;
 		MainCategory mc = findMainCategory.byId(id);
@@ -135,7 +171,11 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result saveEditSubCategory(int id) {
-		
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		String name;
 		SubCategory sc = SubCategory.findSubCategory(id);
 		try {
@@ -169,6 +209,11 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result deleteMainCategory(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		MainCategory mc = findMainCategory.byId(id);
 		if(mc.name.equals("Ostalo")) {
 			return redirect(routes.CategoryController.allCategory());
@@ -192,6 +237,11 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result deleteSubCategory(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		SubCategory sc = SubCategory.findSubCategory(id);
 		MainCategory mc = sc.mainCategory;
 		if(sc.name.equals("Ostalo")) {
@@ -215,6 +265,11 @@ public class CategoryController extends Controller {
 	 * @return to the view of all categories with new list shown
 	 */
 	public static Result addMainCategory() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		String name;
 		try {
 			name = newMainCategory.bindFromRequest().get().name;
@@ -242,6 +297,11 @@ public class CategoryController extends Controller {
 	 * @return
 	 */
 	public static Result addSubCategory(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		MainCategory mc = MainCategory.findMainCategory(id);
 		String name;
 		try {

@@ -24,6 +24,7 @@ GET     /showOneBlog/:id					controllers.BloggerController.showOneBlog(id: Integ
 GET     /editBlog/:id						controllers.BloggerController.editBlog(id: Integer)
 POST    /saveEditedBlog/:id/change			controllers.BloggerController.saveEditedBlog(id: Integer)
 GET     /deleteBlog/:id						controllers.BloggerController.deleteBlog(id: Integer)
+GET     /searchBlog							controllers.BloggerController.searchBlog(q: String)
 
 
 

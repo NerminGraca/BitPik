@@ -5,6 +5,9 @@ import helpers.SessionHelper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +36,7 @@ import views.html.*;
 
 public class BloggerController extends Controller{
 	
+	
 	static Form<Blogger> newBlogger = new Form<Blogger>(Blogger.class);
 	static Finder<Integer, Blogger> findBlogger = new Finder<Integer, Blogger>(Integer.class, Blogger.class);
 
@@ -43,21 +47,43 @@ public class BloggerController extends Controller{
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
 		
 		List<Blogger> bloggerList = Blogger.find.all();
-		for(Blogger blog : bloggerList){
-			System.out.println(blog.blogImagePath);
-		}
 		
-		return ok(blog.render(bloggerList,u));
+		Blogger[] array = new Blogger[bloggerList.size()];
+		int count = bloggerList.size()-1;
+		Iterator<Blogger> iter = bloggerList.iterator();
+		while (iter.hasNext()) {
+			
+			array[count] = iter.next();
+			count--;
+			
+		}
+		List<Blogger> correct = Arrays.asList(array);
+		
+		
+		
+		return ok(blog.render(correct,u));
 	}
 	
 	public static Result showOneBlog(int id) {
-		User u = helpers.SessionHelper.getCurrentUser(ctx());
+User u = helpers.SessionHelper.getCurrentUser(ctx());
+		
 		List<Blogger> bloggerList = Blogger.find.all();
+		
+		Blogger[] array = new Blogger[bloggerList.size()];
+		int count = bloggerList.size()-1;
+		Iterator<Blogger> iter = bloggerList.iterator();
+		while (iter.hasNext()) {
+			//Blogger current = 
+			array[count] = iter.next();
+			count--;
+		}
+		List<Blogger> correct = Arrays.asList(array);
+		
 		Blogger b = findBlogger.byId(id);
 		
 		
 		
-		return ok(oneBlog.render(b,u,bloggerList));
+		return ok(oneBlog.render(b,u,correct));
 	}
 	
 	
@@ -102,7 +128,17 @@ public static Result saveFile(int id){
 		
 	   	Blogger b = findBlogger.byId(id);
 	   	User u = SessionHelper.getCurrentUser(ctx());
-	   	 			
+	   	
+	  //checks if picture exists in base, if it does deletes it then uploads new picture
+	  		final String deletePath = "." + File.separator 
+	  				+ "public" + File.separator;
+	  		String s = findBlogger.byId(id).blogImagePath;
+	  		String defaultPic = "images" + File.separator + "profilePicture" + File.separator + "profileimg.png";
+	  		
+	  		if (s != null && !s.equals(defaultPic)){
+	  			File d = new File(deletePath + s);
+	  			d.delete();
+	  		}
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 
 				+ "public" + File.separator + "images" 
@@ -239,6 +275,11 @@ public static Result saveFile(int id){
 					file.delete();
 								
 			}			
+		}
+		public static Result searchBlog(String q){
+			User u = helpers.SessionHelper.getCurrentUser(ctx());
+			List<Blogger>bloggerList=Blogger.find.where("UPPER(name) LIKE UPPER('%"+q+"%')").findList();
+			return ok(blog.render(bloggerList,u));	
 		}
 	
 		

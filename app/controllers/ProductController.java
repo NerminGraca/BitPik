@@ -3,16 +3,16 @@ package controllers;
 import helpers.JsonHelper;
 import helpers.MailHelper;
 import helpers.SessionHelper;
+
 import java.util.Date;
-
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Iterator;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import models.Blogger;
 import models.Comment;
 import models.ImgPath;
 import models.MainCategory;
@@ -70,7 +70,11 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result showProduct(int id) {
-		User u = helpers.SessionHelper.getCurrentUser(ctx());
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		Product p = ProductController.findProduct.byId(id);
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		List<Comment> commentList = Comment.find.all();
@@ -95,6 +99,11 @@ public class ProductController extends Controller {
 	 * to be filled in order to add the Product;
 	 */
 	public static Result addProduct() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// Unregistred user check
@@ -121,6 +130,11 @@ public class ProductController extends Controller {
 	 * @return showProducts.html with the necessary variables;
 	 */
 	public static Result createProduct() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		
 		String name;
 		String desc;
@@ -157,7 +171,7 @@ public class ProductController extends Controller {
 				break;
 			}
 		}
-		User u = SessionHelper.getCurrentUser(ctx());
+		
 		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, availability);
 		Logger.of("product").info("User "+ u.username +" added a new product '" + p.name + "'");
 		return redirect("/addPictureProduct/" + p.id);
@@ -172,6 +186,11 @@ public class ProductController extends Controller {
 	* @return
 	*/
 	public static Result editProduct(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		 User currentUser = SessionHelper.getCurrentUser(ctx());
 	   	 Product p = findProduct.byId(id);
 	   	 
@@ -213,7 +232,11 @@ public class ProductController extends Controller {
 	*/
 	public static Result saveEditedProduct(int id) {
 		// takes the new attributes that are entered in the form;
-		
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		String name;
 		String desc;
 		String longDesc;
@@ -260,7 +283,7 @@ public class ProductController extends Controller {
 		p.setSubCategory(sc);
 		p.setAvailability(availability);
 		p.save();
-		User u = SessionHelper.getCurrentUser(ctx());
+		 
 		Logger.of("product").info("User "+ u.username + " updated the info of product " + oldname + ", NAME : ["+p.name+"]");
 		oldname = null;
 		flash("edit_product_success", Messages.get("Uspješno ste izmijenili oglas"));
@@ -274,6 +297,11 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result deleteProduct(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		deletePicture(id);
 		String toBeDeleted = Product.find.byId(id).name;
 		Product.delete(id);
@@ -288,6 +316,7 @@ public class ProductController extends Controller {
 	 * @param id
 	 */
 	public static void deletePicture(int id){
+		
 		final String deletePath = "." + File.separator 
 				+ "public" + File.separator;
 		String defaultPic = "images" + File.separator + "productPicture" + File.separator + "no-img.jpg";
@@ -330,6 +359,11 @@ public class ProductController extends Controller {
 	 * @return redirect to html for adding picture
 	 */
 	public static Result productPicture(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		Product p = findProduct.byId(id);
 		return ok(addPictureProduct.render(p));
 	}
@@ -343,8 +377,13 @@ public class ProductController extends Controller {
 	
 	public static Result saveFile(int id){
 		
+		
 	   	Product p = findProduct.byId(id);
 	   	User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 	   	 			
    	  	//creating path where we are going to save image
 		final String savePath = "." + File.separator 
@@ -418,6 +457,11 @@ public class ProductController extends Controller {
 	 * @return Result redirect("/showProduct/"+p.id);
 	 */
 	public static Result saveNoFile(int id){
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 			Product p = findProduct.byId(id);
 			flash("add_product_success", Messages.get("Uspješno ste objavili oglas"));
 			return redirect("/showProduct/"+p.id);
@@ -432,6 +476,11 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result buyProductSuccess(int product_id, String token) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		User buyerUser = SessionHelper.getCurrentUser(ctx());
 		//1. No permission for unregistered user;
 		if (buyerUser == null) {
@@ -488,6 +537,11 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result searchUsers(String q){
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		List<Product>products=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('false'))").findList();
 		List<Product>sproducts=Product.find.where("(UPPER(name) LIKE UPPER('%"+q+"%')) AND ((isSold) LIKE (false)) AND (isSpecial LIKE ('true'))").findList();
 		List<User>users=User.findInt.where("UPPER(username) LIKE UPPER('%"+q+"%')").findList();
@@ -501,6 +555,11 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result refundProduct(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		String refundReason;
 		try {
 			refundReason = newProduct.bindFromRequest().get().refundReason;
@@ -535,6 +594,11 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result denyRefund(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		Product p = Product.find.byId(id);
 		p.isRefunding = false;
 		p.refundable = false;
@@ -559,6 +623,11 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result leaveBCommentTransaction(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// If no User is logged in;
 		if (currentUser == null) {
@@ -591,6 +660,11 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result leaveSCommentTransaction(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		// If no User is logged in;
 		if (currentUser == null) {
@@ -620,6 +694,11 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result filteredSearch(String ids1,String ids2){
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		Logger.debug(ids1);
 		Logger.debug(ids2);
 		String[] productsIDs1 = ids1.split(",");		

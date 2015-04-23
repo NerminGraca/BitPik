@@ -7,6 +7,8 @@ import java.util.List;
 
 
 
+
+import models.Blogger;
 import models.Comment;
 import models.Product;
 import models.User;
@@ -14,6 +16,7 @@ import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.blog;
 
 
 public class CommentController extends Controller{
@@ -29,9 +32,13 @@ public class CommentController extends Controller{
 	 * @param idProduct
 	 */
 	
-	public static Result addComment(int idProduct)
-	{
+	public static Result addComment(int idProduct){
+		
 		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		usernameSes = session(SESSION_USERNAME);
 		if(u.equals(null))
 		{
@@ -72,7 +79,12 @@ public class CommentController extends Controller{
 	
 	public static Result editComment(int idComment, int idProduct)
 	{
+		
 		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		usernameSes = session(SESSION_USERNAME);
 		Comment comment = Comment.find(idComment);
 		if(!comment.author.equals(u))
@@ -111,6 +123,10 @@ public class CommentController extends Controller{
 	public static Result deleteComment(int idComment, int idProduct)
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
 		usernameSes = session(SESSION_USERNAME);
 		Comment comment = Comment.find(idComment);
 		if(!comment.author.equals(u))
