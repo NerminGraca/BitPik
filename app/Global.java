@@ -26,11 +26,13 @@ public class Global extends GlobalSettings {
 			//Seller entry
 			User seller = User.create("seller", "seller", "seller@seller.com");
 			seller.verified = true;
+			seller.imagePath = "images/profilePicture/sherlock.png";
 			seller.save();
 			
 			//Buyer entry
 			User buyer = User.create("buyer", "buyer", "buyer@buyer.com");
 			buyer.verified = true;
+			buyer.imagePath = "images/profilePicture/rust.png";
 			buyer.save();
 			
 			//Blogger entry
