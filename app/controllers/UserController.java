@@ -349,14 +349,13 @@ public class UserController extends Controller {
 	* @param id
 	* @return
 	*/
-	@Security.Authenticated(CurrentUserFilter.class)
 	public static Result singleUser(int id) {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		User u = findUser.byId(id);
 		List <Product> productList = ProductController.findProduct.where().eq("owner.username", u.username).findList();
-		if(currentUser==null){
-			return redirect(routes.Application.index());
-		}
+//		if(currentUser==null){
+//			return redirect(routes.Application.index());
+//		}
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
 			array.add(JsonHelper.jsonUser(currentUser));

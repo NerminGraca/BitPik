@@ -245,6 +245,13 @@ public class Global extends GlobalSettings {
 			addidasShop.imagePath =  "images/profilePicture/addidasshop.jpg";
 			addidasShop.save();
 			
+			MainCategory mainCat3 = MainCategory.findMainCategoryByName("Biznis i industrija");
+			User eslc = User.createPikStore("Eslc", "eslc", "eslc@eslc.com", "English Skills Learning Center", "Safeta B. Basagica 32", "Sarajevo", mainCat3);
+			eslc.isPikStore = true;
+			eslc.verified = true;
+			eslc.imagePath = "images/profilePicture/eslc.jpg";
+			eslc.save();
+			
 		}
 		
 	

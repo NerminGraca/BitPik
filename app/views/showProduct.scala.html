@@ -254,7 +254,12 @@
 							<ul class="resp-tabs-list">
 								<li>Detaljni opis</li>
 								<li>Komentari</li>
-								<li>Dojmovi i refundacija</li>
+								
+									@if(user != null && p.buyerUser != null) {	
+										@if( (user.username.equals(p.buyerUser.username)) || (user.username.equals(p.owner.username) )) {
+												<li>Dojmovi i refundacija</li>
+										}
+									}
 								<div class="clear"></div>
 							</ul>
 			<!--  responsive containeri koje mijenjas -->
@@ -355,8 +360,10 @@
 								</div>
 								}
 							}
+							<div>
 			@if(user != null && p.buyerUser != null) {	
-						@if( (user == p.buyerUser || user == p.owner) ) {
+						@if( (user.username.equals(p.buyerUser.username)) || (user.username.equals(p.owner.username) )) {
+						
 							<div class="availablefortrans">
 								<p>Sifra Transakcije :</p>
 									<ul>
@@ -364,7 +371,7 @@
 									</ul>
 							</div>
 							
-							<div class="availablefortrans">
+					 		<div class="availablefortrans"> 
 								<p>Datum Transakcije :</p>
 									<ul>
 										@p.purchaseTransaction.dateTransaction
