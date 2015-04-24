@@ -44,7 +44,7 @@ public class ProductController extends Controller {
 		public String priceMin;
 		public String priceMax;
 		public String desc;
-		public String locationS;
+		public String availabilityS;
 		
 		public FilteredSearch(){
 					
@@ -718,11 +718,6 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result filteredSearch(String ids1,String ids2){
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
 		Logger.debug(ids1);
 		Logger.debug(ids2);
 		String[] productsIDs1 = ids1.split(",");		
@@ -765,7 +760,7 @@ public class ProductController extends Controller {
 		List<Product>sproductList=new ArrayList<Product>();
 	    double priceMin = 0;
 	    double priceMax = 999999999;
-		String location ;
+		String availability ;
 		String descr;
 		if(filteredSearch.hasErrors()){
 			Logger.info("Error in form");
@@ -775,7 +770,7 @@ public class ProductController extends Controller {
 		String min=filteredSearch.bindFromRequest().get().priceMin;
 		String max=filteredSearch.bindFromRequest().get().priceMax;
 		descr=filteredSearch.bindFromRequest().get().desc;
-		location= filteredSearch.bindFromRequest().get().locationS;
+		availability=filteredSearch.bindFromRequest().get().availabilityS;
 		if(!min.isEmpty()){
 			priceMin=Double.parseDouble(min);
 		}
@@ -783,12 +778,12 @@ public class ProductController extends Controller {
 			priceMax=Double.parseDouble(max);
 		}
 		if(descr.isEmpty()){
-			productList=Product.find.where("(location LIKE '"+location+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
-			sproductList=Product.find.where("(location LIKE '"+location+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
+			productList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
+			sproductList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
 	    }else{
 
-		productList=Product.find.where("(location LIKE '"+location+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
-		sproductList=Product.find.where("(location LIKE '"+location+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
+		productList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
+		sproductList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
 		 }
 		
 		List<Product>filteredProducts=new ArrayList<Product>();
@@ -806,5 +801,4 @@ public class ProductController extends Controller {
 		}
 		return ok(newViewForFilter.render(sfilteredProducts,filteredProducts,MainCategory.allMainCategories()));
 	}
-	
 }

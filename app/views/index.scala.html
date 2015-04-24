@@ -1,10 +1,11 @@
-@(sproducts: List[Product])(products: List[Product])(mainCategoryList: List[MainCategory])(pikShops : List[User])
+@(sproducts: List[Product])(products: List[Product])(mainCategoryList: List[MainCategory])(shops: List[User])
 
 @main("BitPik", "index") {
 	
 	<link rel="stylesheet" media="all" href="@routes.Assets.at("stylesheets/slider.css")">
 
 <div class="wrap">
+<body>
 <div class="header">
 	<div class="validateAndLogout">
 		@flash.get("validate")
@@ -35,7 +36,7 @@
 								<a href="#"><img src="@routes.Assets.at("images/slide-1-image.png")" alt="learn more" /></a>									    
 							</div>
 						    <div class="slider-text">
-		                    	<h1>Reklama<br><span>VAšA</span></h1>
+		                    	<h1>Reklama<br><span>VAŠA</span></h1>
 		                   		<h2>Popust 20%</h2>
 								<div class="features_list">
 									<h4>Da saznate više kontaktirajte našu marketing službu na linku ispod</h4>						               
@@ -43,10 +44,10 @@
 							    <a href="#" class="button">Kontaktirajte odmah!</a>
 					       </div>			               
 							<div class="clear"></div>				
-				        </div>		        
+				        </div>	
 						<div class="slide">
 							<div class="slider-text">
-		                    	<h1>Reklama<br><span>VAšA</span></h1>
+		                    	<h1>Reklama<br><span>VAŠA</span></h1>
 		                    	<h2>Popust 40%</h2>
 								<div class="features_list">
 									<h4>Da saznate više kontaktirajte našu marketing službu na linku ispod</h4>							               
@@ -63,49 +64,37 @@
 								<a href="#"><img src="@routes.Assets.at("images/slide-2-image.jpg")" alt="learn more" /></a>
 							</div>
 							<div class="slider-text">
-		                    	<h1>Reklama<br><span>VAšA</span></h1>
+		                    	<h1>Reklama<br><span>VAŠA</span></h1>
 		                    	<h2>Popust 10%</h2>
 								<div class="features_list">
 									<h4>Da saznate više kontaktirajte našu marketing službu na linku ispod</h4>							               
 								</div>
 							    <a href="#" class="button">Kontaktirajte odmah!</a>
 					   		</div>	
-
 							<div class="clear"></div>				
 				        </div>												
 			        </div>		
 		        </div>
 			<div class="clear"></div>	
 				
-
-							<div class="clear"></div>											
-				        </div>				        												
-			        </div>				              
-		        </div>       
-			<div class="clear"></div>					       
-
 	  		</div>
-	  		<br>
-		
+	  		
+		   <p>Ekskluzivne PIK radnje >>><a href="/pikRadnje">Saznaj više</a></p>
 			
-		<div class="izdvojeni-index radnje">
-			<div style="overflow:hidden;margin-top:-4px;min-width:500px;display:block;">
-			<h2 style="height:15px;line-height:0;font-size:18px;color:gray; padding-top:15px;">Ekskluzivne PIK radnje<span style="float:right;">
-			<div style="float:left;display:block;overflow:hidden;max-height:190px;width:1100px; "> 
-			<div class="see">
-			<p style="padding: 0px 12px 0px 0px;"><a href="/pikRadnje">Saznaj više</a></p>
-			</div>
+		   <div class="izdvojeni-index radnje">
+			
+			<div style="float:left;display:block;overflow:hidden;max-height:180px;width:1100px; border:1px solid #EEE;"> 
+			
 			
 			</span></h2>
-			   	      	@if(pikShops.size() > 0) {
-	      				       @for(pikShop <- pikShops) {						
+			   	      @if(shops.size() > 0) {
+	      				       @for(shop <- shops) {						
 							   
-					 			<a href="/korisnik/@pikShop.id"><img src="@routes.Assets.at(pikShop.imagePath)" alt="" class="productImg"/ style="height: 190px; width: 190px; background-position: center center; border:1px solid #EEE;"></a>
+					 			<a href="/korisnik/@shop.id"><img src="@routes.Assets.at(shop.imagePath)" alt="" class="productImg"/ style="height: 190px; width: 190px; background-position: center center; border:1px solid #EEE;"></a>
 					 			
-												 
+								}				 
 							
 						}
-					}
 							</div>			
 							</div>
 					  
@@ -114,7 +103,7 @@
 		
 		<div class="clear"></div>	
 	</div>
-</div>
+
 	<div class="clear"></div>
 	<div class="main">
 		<div class="content">
@@ -131,6 +120,7 @@
 			    </div>
 			    <div class="clear"></div>
 			</div>
+			
 				<div class="section group">	      	      
 	      
 				
@@ -167,6 +157,7 @@
 			    </div>
 			    <div class="clear"></div>
 			</div>
+			
 				<div class="section group">	      	      
 	      
 					@if(products.size() > 0 ) {
@@ -193,11 +184,13 @@
 					}
 				</div>
 
+</body>
 		<!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
 			
     	</div>
 	</div>
 </div>
 </div>
+
    
 }

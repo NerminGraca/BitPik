@@ -593,6 +593,7 @@ body {
 .menu {
 	float: left;
 	background-color: #85B80C;
+	height: 48px;
 }
 .menu li {
 	float:left;
@@ -660,6 +661,18 @@ body {
 	margin-top:11px;
 	margin-right: 5px;
 	width:28%;
+}
+.search_box-blog{
+	float: inherit;
+	border: 1px solid #3C3C3C;
+	background: #FFF;
+	border-radius: 0.3em;
+	-webkit-border-radius: 0.3em;
+	-moz-border-radius: 0.3em;
+	-o-border-radius: 0.3em;
+	position: relative;
+	margin-top:11px;
+	margin-right: 5px;
 }
 .search_box form input[type="text"] {
 	border: none;
@@ -746,6 +759,7 @@ body {
 	padding: 15px 20px;
 	border: 1px solid #EBE8E8;
 	border-radius: 3px;
+	width:1340px;
 }
 .content_top1{
 	border-bottom: 1px solid #EBE8E8;
