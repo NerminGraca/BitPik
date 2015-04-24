@@ -251,14 +251,14 @@ public class Global extends GlobalSettings {
 			User addidasShop = User.createPikStore("Addidas Sport Shop", "addidassportshop", "addidassportshop@addidassportshop.com", "Addidas Sport Shop d.o.o.", "Dzemala Bijedica 18", "Sarajevo",mainCat2);
 			addidasShop.isPikStore = true;
 			addidasShop.verified = true;
-			addidasShop.imagePath =  "images/profilePicture/addidasshop.jpg";
+			addidasShop.imagePath =  "images/profilePicture/adidasshop.jpg";
 			addidasShop.save();
 			
 			MainCategory mainCat3 = MainCategory.findMainCategoryByName("Biznis i industrija");
 			User eslc = User.createPikStore("Eslc", "eslc", "eslc@eslc.com", "English Skills Learning Center", "Safeta B. Basagica 32", "Sarajevo", mainCat3);
 			eslc.isPikStore = true;
 			eslc.verified = true;
-			eslc.imagePath = "images/profilePicture/ecls.png";
+			eslc.imagePath = "images/profilePicture/ecls.jpg";
 			eslc.save();
 			
 			Blogger b = new Blogger("BitPik Stranica", "Pokrenuta je BitPik stranica", "Nakon dugih 5 mjeseci, konacno, pokrenuta je Bitpik web stranica. Napravili su je skupina sjajnih Java Developera sa ciljem da prekinu dominaciju i monopol pik.ba sadasnjeg olx.ba, koja je kao sto znate veoma popularna bh. stranica. Skupina pomenutih Java Developera cine : Mirza Becic, Hikmet Durgutovic, Selma Tabakovic, Adnan Spahic, Gordan Sajevic i Nedzad Hamzic. ");

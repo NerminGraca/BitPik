@@ -2,12 +2,10 @@
 
 @main("Proizvodi", "Korisnici") {
 <div class="wrap">
-	<div class="main">
-		<div class="content">
-
-			<!-- Početak naprednog Search Box-a -->
-            <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #C8C8C8; background-color: #FFF3CF; margin: 0px 20px;">
-              <form action="@routes.ProductController.filteredSearch(Product.getIds(productList),Product.getIds(sproducts))" method="POST">
+  
+         <form action="@routes.ProductController.filteredSearch(Product.getIds(productList),Product.getIds(sproducts))" method="POST">
+             <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #E1E4E1; background-color: #F2F2F2; margin: 0px 20px;">
+             
             <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
                <input type="number" min="1" max="9999999" step="any" value="" id="od" style="height:25px; width: 40%; font-size:18px;" name="priceMin"/>
                <input type="number" min="1" max="9999999" step="any" value="" id="do" style="height:25px; width: 40%; font-size:18px;" name="priceMax"/>
@@ -36,7 +34,7 @@
                   height: 400px;
                   }
                </style>
-                              
+                           
                <script language="JavaScript">
                   var e = document.getElementById("categoryString");
                   function showHideCategoryFields() {
@@ -73,15 +71,14 @@
                   showHideCategoryFields();
                   
                </script>
-
                
                <br><br>
                <fieldset>
-                
-               <div class="dostupnost" style="margin:-45px 400px;">
-               <fieldset style="width:600px;">
-                  <label class="redHeader" for="availability" width=3px>Dostupnost</label>
-                  <select name="availabilityS" id="availabilityS">
+                  <label class="redHeaderAS" for="location" width=3px>Lokacija</label>
+
+                 
+
+                  <select name="availabilityS" id="availabilityS" style="height:33px; width:225px; font-size:24px;">
                      <option selected="selected">Sarajevo</option>
 									      			<option>Mostar</option>
 									    			<option>Zenica</option>
@@ -90,7 +87,7 @@
 									     			<option>Bihać</option>
 											    	<option>Banja Luka</option>
 									   				<option>Bijeljina</option>
-									    			<option>Trebinjei</option>
+									    			<option>Trebinje</option>
 									    			<option>Livno</option>
 
                   </select>
@@ -99,27 +96,27 @@
                <br>
                <h1 class="redHeaderAS">Opis</h1>
                <input type="text" value="" id="desc" name="desc" style="height:25px; width:95%; font-size:18px;" />	
-               <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px;" type="submit" value="Traži" />
+               <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px; background-color:#85B80C; border-color:#283B5E;" type="submit" value="Traži" />
 	         </form>
             </div>
-            </div>
-			<div class="clear"></div>
-			<!-- Kraj naprednog Search Box-a -->
-   
-    <br><br>		
-	<h1 class="redHeader">Rezultati pretrage:</h1><br>  
-		<div class="section group">
-			@if((sproducts.isEmpty())&&(productList.isEmpty())&&(userList.isEmpty())){
+         </form>
+    
+      
+     <div class="main">
+    	<div class="content">
+    		
+				<h1 class="redHeader">Rezultati pretrage:</h1><br>  
 				<div class="section group">
-					<h2 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za vasu pretragu</font></h2>	
+					@if((sproducts.isEmpty())&&(productList.isEmpty())&&(userList.isEmpty())){
+						<div class="section group">
+						<h2 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za vasu pretragu</font></h2>	
 					}else{
-
 					
 					<div class="section group">
             @if(!sproducts.isEmpty()) {
             <div class="content_top">
                <div class="heading">
-                  <h3 class="redHeader">Izdvojeni artikli (@sproducts.size()):</h3>
+                  <h3 class="redHeader">Izdvojeni Artikli (@sproducts.size()):</h3>
                </div>
                <div class="see">
                   <p><a href="#">Pogledaj</a></p>
@@ -137,45 +134,15 @@
                      <div class="add-cart">
                         <h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
                      </div>
-                     <div class="clear"></div>   
+                     <div class="clear"></div>
                   </div>
                </div>
                </div>
                }
             }
             </div>
-						<div class="section group">
-            				@if(!sproducts.isEmpty()) {
-            					<div class="content_top">
-					               <div class="heading">
-					                  <h3 class="redHeader">Izdvojeni artikli (@sproducts.size()):</h3>
-					               </div>
-					               <div class="see">
-					                  <p><a href="#">Pogledaj</a></p>
-					               </div>
-					               <div class="clear"></div>
-					            </div>
-				            <div class="section group">
-				               @for(sproduct <- sproducts) {						
-				               <div class="grid_1_of_4 images_1_of_4" >
-				                  <a href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" class="productImg"/></a>
-				                  <div class="price-details">
-				                     <div class="price-number">
-				                        <p><span class="rupees">@sproduct.price KM</span></p>
-				                     </div>
-				                     <div class="add-cart">
-				                        <h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
-				                     </div>
-				                     <div class="clear"></div>
-				                  </div>
-				               </div>
-				             </div>
-               				}
-            				}
-            			</div>
-
 						@if(!productList.isEmpty()){
-							<h3 class="redHeader2"><font size="3" style:italic color="black">Ostali artikli (@productList.size()):</font></h3>
+							<h3 class="redHeader2"><font size="3" style:italic color="black">Ostali Artikli (@productList.size()):</font></h3>
 							@for(product <- productList){
 							<div class="grid_1_of_4 images_1_of_4">
 								<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
@@ -184,14 +151,12 @@
 									<div class="price-number2">
 										<span class="price-number2">@product.getPriceString() KM</span>
 									</div>
-									<div class="add-cart">								
-										<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+									<div class="add-cart2">								
+										<h5><a href="/showProduct/@product.id">Pogledaj</a></h5>
 							     	</div>
 							 		<div class="clear"></div>
 								</div>					 
 							</div>
-							
-					
 						}
 						</div>
 						}else{
@@ -207,27 +172,28 @@
 		<div class="content">
 			<div class="section group">
 				@if(userList.size()>0){
-					<h3 class="redHeader2"><font size="3" style:italic color="black">Korisnici (@userList.size()):</font></h3>
-		  			<div class="validateAndLogout">
-						@flash.get("delete_user_success")
-					</div>
-					<div class="listOfUsers">										
-						<div class="categories1">
-				  			<ul>			
-								@for(user <- userList) {
-				     				<li><a href="/korisnik/@user.id">@user.username</a></li>
-				     			}			     
-							</ul>
-						</div>					  	    
-								}else{
-									<h4 class="redHeader2">
-										<font size="3" style:italic color="black">Nema rezultata za pretragu korisnika</font>
-									</h4>
-									}
-					</div>
+					<h3 class="redHeader2"><font size="3" style:italic color="black">Korisnici: (@userList.size()):</font></h3>
+		  				<div class="validateAndLogout">
+							@flash.get("delete_user_success")
+								</div>
+									<div class="listOfUsers">										
+										<div class="categories1">
+				  							<ul>
+				  							
+												@for(user <- userList) {
+				     								<li><a href="/korisnik/@user.id">@user.username</a></li>
+				     								}			     
+											</ul>
+										</div>					  	    
+										}else{
+											<h4 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za pretragu korisnika</font></h4>
+											}
+									</div>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-	}	
-	}
+						
+
+}	
+}

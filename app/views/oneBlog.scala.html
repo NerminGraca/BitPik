@@ -37,8 +37,8 @@
 
 						 @if(u != null) {
 					@if(u.username.equals("blogger")) {
-                <a class="btn btn-primary" href="/editBlog/@b.id">Edituj blog <span class="glyphicon glyphicon-chevron-right"></span></a>
-                 <a class="btn btn-primary" href="/deleteBlog/@b.id">Izbrisi blog <span class="glyphicon glyphicon-chevron-right"></span></a>
+                <a class="btn btn-primary" href="/editBlog/@b.id">Edituj blog </a>
+                 <a class="btn btn-primary" href="/deleteBlog/@b.id">Izbrisi blog </a>
                				 }
                			 }
                 	
@@ -52,6 +52,10 @@
             </div>
 
              <!-- Blog Sidebar Widgets Column -->
+ 
+
+		<div class="row">
+
             <div class="col-md-4">
 
                 <!-- Blog Search Well -->
@@ -59,12 +63,12 @@
                     <h4>Blog Search</h4>
                     
 	     		<form action="/searchBlog" method="GET">
-	     			<input id="q" name="q" type="text" placeholder="Traži FAQ..." required/>
-	     			 <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
-                                <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                        </span>
+	     			<input class="search_box-blog" id="q" name="q" type="text" placeholder="Traži Blog..." required/>
+
+    <!--<input id="q" name="q" type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">-->
+
+    <input class = "glyphicon glyphicon-search" type="submit" value="">
+	     			 
 	     		</form>
 	     	
                     <!-- /.input-group -->
