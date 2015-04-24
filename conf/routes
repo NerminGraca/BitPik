@@ -27,6 +27,7 @@ GET     /deleteBlog/:id						controllers.BloggerController.deleteBlog(id: Intege
 GET     /searchBlog							controllers.BloggerController.searchBlog(q: String)
 
 
+GET		/terms								controllers.UserController.terms()
 
 POST	/adduser							controllers.UserController.addUser()
 POST    /addPikStore                        controllers.UserController.addPikStore()

@@ -10,7 +10,8 @@
 
 				<li><a href="/showBlog">Blog</a></li>
 
-				   	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">Česta pitanja i odgovori</a></li>
+				   	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">FAQ</a></li>
+				   	<li class='@("active".when(location == "terms"))'><a href="/terms">Uslovi koristenja</a></li>
 				
 
 					@if(user == null || user.verified == false) {

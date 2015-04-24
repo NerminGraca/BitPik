@@ -1,5 +1,6 @@
 import java.io.File;
 
+import models.Blogger;
 import models.FAQ;
 import models.ImgPath;
 import models.MainCategory;
@@ -171,8 +172,8 @@ public class Global extends GlobalSettings {
 			// the list of adequate answers;
 					"Kliknite na Registracija, nakon toga popunite formular sa vašim podacima i kliknite Registruj. Tad vam je proslijeđen mail sa konfirmacijskim linkom, kojeg kliknete, i time ste se registrovali.",
 					"Nakon registracije, kliknete na dugme Objavite oglas. Zatim popunite podatke o vašem proizvodu kojeg objavljujete i kliknete na dugme Objavi. Te ste time uspješno objavili proizvod.",
-					"Delete product - description to be added",
-					"Edit product - description to be added",
+					"Kliknite na artikl koji zelite obrisati, i na desnoj strani ce biti prikazano dugme Izbrisi proizvod.",
+					"Kliknite na artikl koji zelite editovati, i na desnoj strani ce biti prikazano dugme Izmijeni artikl. Popunite formular sa novim podacima i kliknite na dugme Spasi izmjene.",
 					"Nakon što ste se registrovali i log-ovali na naš website, u gornjem desnom uglu će biti prikazano dugme Korisnik i vaš username. Kliknite na to dugme i to će vas odvesti na stranicu sa vašim podacima i listom vaših objavljenih proizvoda."
 					};
 			for (int i = 0; i < questions.length; i++) {
@@ -208,28 +209,28 @@ public class Global extends GlobalSettings {
 			
 			// Prodavac published the ikea Lamp product;
 			SubCategory lamps = SubCategory.findSubCategoryByName("Lampe i rasvjeta");
-			Product p5 = Product.create("Ikea Lampa", "Ikea Lampa 2013", "Nova Ikea Lampa - Proizvodnja 2013 godina", 60.00, seller, mc, lamps, "Hercegovacko-neretvanski","Novo","Da");
+			Product p5 = Product.create("Ikea Lampa", "Ikea Lampa 2013", "Nova Ikea Lampa - Proizvodnja 2013 godina", 60.00, seller, mc, lamps, "Mostar","Novo","Da");
 			p5.productImagePath = "images/productPicture/ikealamp.jpg";
 			p5.save();
 			
 			// Prodavac published the headphones product;	
 			MainCategory tehnika = MainCategory.findMainCategoryByName("Tehnika");
 			SubCategory multimedija = SubCategory.findSubCategoryByName("Multimedija");
-			Product p6 = Product.create("Slusalice", "Crne slusalice", "Bass slusalice, Sensibilitet: 95 -3dB, Frek.: 20-2000Hz ", 50.00, seller, tehnika, multimedija, "Hercegovacko-neretvanski","Korišteno","Ne");
+			Product p6 = Product.create("Slusalice", "Crne slusalice", "Bass slusalice, Sensibilitet: 95 -3dB, Frek.: 20-2000Hz ", 50.00, seller, tehnika, multimedija, "Mostar","Korišteno","Ne");
 			p6.productImagePath = "images/productPicture/headphones.jpg";
 			p6.save();
 			
 			// Prodavac published the tires and rims product;	
 			MainCategory vozilad = MainCategory.findMainCategoryByName("Vozila");
 			SubCategory doo = SubCategory.findReturnSubCategoryByNameAndMainCategory("Dijelovi i oprema", vozilad);
-			Product p7 = Product.create("Felge i Gume", "Felge 19 inch-i i Gume", "Rally Gume, Sirina: 30mm, Heksagonalna duzina: 12mm, Tezina: 139g/4komada", 450.00, seller, vozilad, doo, "Hercegovacko-neretvanski","Korišteno","Da");
+			Product p7 = Product.create("Felge i Gume", "Felge 19 inch-i i Gume", "Rally Gume, Sirina: 30mm, Heksagonalna duzina: 12mm, Tezina: 139g/4komada", 450.00, seller, vozilad, doo, "Mostar","Korišteno","Da");
 			p7.productImagePath = "images/productPicture/rims.jpg";
 			p7.save();
 			
 			// Prodavac published the red car toy product;	
 			MainCategory sportsub = MainCategory.findMainCategoryByName("Sportska oprema");
 			SubCategory wintersports = SubCategory.findReturnSubCategoryByNameAndMainCategory("Zimski sportovi", sportsub);
-			Product p8 = Product.create("Snowboard", "Snow board 2012", "Snow board 2012 - Lijep dizajn od drveta", 250.00, seller, sportsub, wintersports, "Hercegovacko-neretvanski","Novo","Ne");
+			Product p8 = Product.create("Snowboard", "Snow board 2012", "Snow board 2012 - Lijep dizajn od drveta", 250.00, seller, sportsub, wintersports, "Mostar","Novo","Ne");
 			p8.productImagePath = "images/productPicture/snowboard.jpg";
 			p8.save();
 			
@@ -259,6 +260,11 @@ public class Global extends GlobalSettings {
 			eslc.verified = true;
 			eslc.imagePath = "images/profilePicture/ecls.png";
 			eslc.save();
+			
+			Blogger b = new Blogger("BitPik Stranica", "Pokrenuta je BitPik stranica", "Nakon dugih 5 mjeseci, konacno, pokrenuta je Bitpik web stranica. Napravili su je skupina sjajnih Java Developera sa ciljem da prekinu dominaciju i monopol pik.ba sadasnjeg olx.ba, koja je kao sto znate veoma popularna bh. stranica. Skupina pomenutih Java Developera cine : Mirza Becic, Hikmet Durgutovic, Selma Tabakovic, Adnan Spahic, Gordan Sajevic i Nedzad Hamzic. ");
+			b.setBlogImagePath("images/blogPicture/blogone.png");
+			b.publishedDate = Blogger.getDate();
+			b.save();
 			
 		}
 		
