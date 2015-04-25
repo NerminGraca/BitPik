@@ -8,19 +8,19 @@
 			<div class="account_desc">
 				<ul>
 
-				<li><a href="/showBlog">Blog</a></li>
+				<li><a href="/showBlog">@Messages("Blog")</a></li>
 
-				   	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">FAQ</a></li>
-				   	<li class='@("active".when(location == "terms"))'><a href="/terms">Uslovi koristenja</a></li>
+				   	<li class='@("active".when(location == "FAQs"))'><a href="/faqs">@Messages("FAQ")</a></li>
+				   	<li class='@("active".when(location == "terms"))'><a href="/terms">@Messages("UsloviKoristenja")</a></li>
 				
 
 					@if(user == null || user.verified == false) {
-						<li><a href="/chooseRegistration">Registracija</a></li>
-						<li><a href="/login">Login</a></li>
+						<li><a href="/chooseRegistration">@Messages("Registracija")</a></li>
+						<li><a href="/login">@Messages("Login")</a></li>
 					}
 					@if(user != null && user.verified == true){
-						<li><a href="/profile">Korisnik <span style="color: #2E68B2;">@user.username</span></a></li>
-						<li><a href="/logout">Logout</a></li>
+						<li><a href="/profile">@Messages("Korisnik") <span style="color: #2E68B2;">@user.username</span></a></li>
+						<li><a href="/logout">@Messages("Logout")</a></li>
 					}
 				</ul>
 			</div>
@@ -34,23 +34,23 @@
 		<div class="header_bottom">
 	     	<div class="menu">
 	     		<ul>
-			    	<li class='@("active".when(location == "index"))'><a href="/">Početna</a></li>
+			    	<li class='@("active".when(location == "index"))'><a href="/">@Messages("Pocetna")</a></li>
 			    	
 			    	
 			    	
 					@if(user != null && user.verified == true){
 						<!--  Da admin ne moze vidjeti Objavite oglas -->
 						@if(!user.isAdmin) {
-			    			<li class='@("active".when(location == "Objavi"))'><a href="/addProduct">Objavite oglas</a></li>
+			    			<li class='@("active".when(location == "Objavi"))'><a href="/addProduct">@Messages("ObjaviteOglas")</a></li>
 					}
 					}
 				    				    	
-			    	<li class='@("active".when(location == "Kontakt"))'><a href="/contact">Kontakt</a></li>
-			    	<li class='@("active".when(location == "pikRadnje"))'><a href="/pikRadnje">Radnje</a></li>
+			    	<li class='@("active".when(location == "Kontakt"))'><a href="/contact">@Messages("Kontakt")</a></li>
+			    	<li class='@("active".when(location == "pikRadnje"))'><a href="/pikRadnje">@Messages("Radnje")</a></li>
 			    	@if(user != null) {
-			    		<li class='@("active".when(location == "Poruke"))'><a href="/allMessages">Poruke</a></li>
+			    		<li class='@("active".when(location == "Poruke"))'><a href="/allMessages">@Messages("Poruke")</a></li>
 			    		@if(user.isAdmin == true){
-				    		<li class='@("active".when(location == "Admin Panel"))'><a href="/adminPanel">Admin Panel</a></li>
+				    		<li class='@("active".when(location == "Admin Panel"))'><a href="/adminPanel">@Messages("AdminPanel")</a></li>
 			    		}
 			    	}
 
@@ -61,7 +61,7 @@
 	     	</div>
 	     	<div class="menu2">
 	     		<ul>
-	     			<li class='@("active".when(location == "NPretraga"))'><a href="/newViewForFilter">Napredna pretraga</a></li>
+	     			<li class='@("active".when(location == "NPretraga"))'><a href="/newViewForFilter">@Messages("NaprednaPretraga")</a></li>
 	     		</ul>
 	     	</div>
 	     	<div class="search_box">

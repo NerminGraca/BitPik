@@ -16,7 +16,7 @@
 		<div class="header_bottom_left">	
 			<div class="categories">
 				<ul>
-					<h3>Kategorije</h3>
+					<h3>@Messages("Kategorije")</h3>
 				  		
 				  		@if(mainCategoryList.size() > 0 ) {
 				  			@for(mainCategory <- mainCategoryList) {
@@ -36,23 +36,23 @@
 								<a href="#"><img src="@routes.Assets.at("images/slide-1-image.png")" alt="learn more" /></a>									    
 							</div>
 						    <div class="slider-text">
-		                    	<h1>Reklama<br><span>VAŠA</span></h1>
-		                   		<h2>Popust 20%</h2>
+		                    	<h1>@Messages("reklama")<br><span>@Messages("VASA")</span></h1>
+		                   		<h2>@Messages("PopustDvadesetPosto")</h2>
 								<div class="features_list">
-									<h4>Da saznate više kontaktirajte našu marketing službu na linku ispod</h4>						               
+									<h4>@Messages("DaSaznateVise")</h4>						               
 							    </div>
-							    <a href="#" class="button">Kontaktirajte odmah!</a>
+							    <a href="#" class="button">@Messages("KontaktirajteOdmah")</a>
 					       </div>			               
 							<div class="clear"></div>				
 				        </div>	
 						<div class="slide">
 							<div class="slider-text">
-		                    	<h1>Reklama<br><span>VAŠA</span></h1>
-		                    	<h2>Popust 40%</h2>
+		                    	<h1>@Messages("reklama")<br><span>@Messages("VASA")</span></h1>
+		                    	<h2>@Messages("PopustCetrdeset")</h2>
 								<div class="features_list">
-									<h4>Da saznate više kontaktirajte našu marketing službu na linku ispod</h4>							               
+									<h4>@Messages("DaSaznateVise")</h4>							               
 								</div>
-							    <a href="#" class="button">Kontaktirajte odmah!</a>
+							    <a href="#" class="button">@Messages("KontaktirajteOdmah")</a>
 					    	</div>		
 						    <div class="slider-img">
 								<a href="#"><img src="@routes.Assets.at("images/slide-3-image.jpg")" alt="learn more" /></a>
@@ -64,12 +64,12 @@
 								<a href="#"><img src="@routes.Assets.at("images/slide-2-image.jpg")" alt="learn more" /></a>
 							</div>
 							<div class="slider-text">
-		                    	<h1>Reklama<br><span>VAŠA</span></h1>
-		                    	<h2>Popust 10%</h2>
+		                    	<h1>@Messages("reklama")<br><span>@Messages("VASA")</span></h1>
+		                    	<h2>@Messages("PopustDeset")</h2>
 								<div class="features_list">
-									<h4>Da saznate više kontaktirajte našu marketing službu na linku ispod</h4>							               
+									<h4>@Messages("DaSaznateVise")</h4>							               
 								</div>
-							    <a href="#" class="button">Kontaktirajte odmah!</a>
+							    <a href="#" class="button">@Messages("KontaktirajteOdmah")</a>
 					   		</div>	
 							<div class="clear"></div>				
 				        </div>												
@@ -79,7 +79,7 @@
 				
 	  		</div>
 	  		
-		   <p>Ekskluzivne PIK radnje >>><a href="/pikRadnje">Saznaj više</a></p>
+		   <p>@Messages("EkskluzivnePikRadnje")<a href="/pikRadnje">@Messages("SaznajVise")</a></p>
 			
 		   <div class="izdvojeni-index radnje">
 			
@@ -113,10 +113,10 @@
     		@if(sproducts.size() > 0 ) {
     		<div class="content_top">
 				<div class="heading">
-			    	<h3>Izdvojeni Artikli</h3>
+			    	<h3>@Messages("IzdvojeniArtikli")</h3>
 			    </div>
 			    <div class="see">
-			    	<p><a href="#">Pogledaj</a></p>
+			    	<p><a href="#">@Messages("Pogledaj")</a></p>
 			    </div>
 			    <div class="clear"></div>
 			</div>
@@ -130,12 +130,12 @@
 					 			
 									<div class="price-details">
 				       					<div class="price-number">
-											<p style="padding-top:33px;"><span class="rupees">@sproduct.getPriceString() KM</span></p>
+											<p style="padding-top:33px;"><span class="rupees">@sproduct.getPriceString() @Messages("KM")</span></p>
 					   					 </div>
 					   					  <div>
-					   					 <p style="float:initial; display:inline-block; padding-right:87px;">Objavljen:@sproduct.publishedDate<p></div>
+					   					 <p style="float:initial; display:inline-block; padding-right:87px;">@Messages("Objavljen"):@sproduct.publishedDate<p></div>
 					       				<div class="add-cart">								
-											<h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
+											<h4><a href="/showProduct/@sproduct.id">@Messages("Pogledaj")</a></h4>
 							    		 </div>
 										 <div class="clear"></div>
 									</div>				 
@@ -150,10 +150,10 @@
 			<!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
 			<div class="content_top">
 				<div class="heading">
-			    	<h3>Artikli</h3>
+			    	<h3>@Messages("Artikli")</h3>
 			    </div>
 			    <div class="see">
-			    	<p><a href="#">Pogledaj</a></p>
+			    	<p><a href="#">@Messages("Pogledaj")</a></p>
 			    </div>
 			    <div class="clear"></div>
 			</div>
@@ -168,12 +168,12 @@
 									<div class="price-details">
 									
 				       					<div class="price-number">
-											<p style="padding-top:33px;"><span class="rupees">@product.getPriceString() KM</span></p>
+											<p style="padding-top:33px;"><span class="rupees">@product.getPriceString() @Messages("KM")</span></p>
 					   					 </div>
 					   					  <div>
-					   					 <p style="float:left; display:inline-block; padding-right:30px;">Objavljen:@product.publishedDate<p></div>
+					   					 <p style="float:left; display:inline-block; padding-right:30px;">@Messages("Objavljen"):@product.publishedDate<p></div>
 					       					<div class="add-cart">								
-												<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+												<h4><a href="/showProduct/@product.id">@Messages("Pogledaj")</a></h4>
 							    			 </div>
 							    		
 							    			 
