@@ -21,7 +21,12 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-
+/**
+ * Class JsonController which is the main Class for the "communication" with our
+ * Android application; All data transfer is done through either Jsonobjects or
+ * JsonArrays
+ *
+ */
 public class JsonController extends Controller{
 
 	/**

@@ -752,7 +752,6 @@ public class UserController extends Controller {
 	 * it to view.
 	 * @param id
 	 */
-	
 	public static Result showPurchase(int id) {
 		if (!request().accepts("text/html")) {
 			ObjectNode num = Json.newObject();
@@ -763,13 +762,13 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * Method integrates PayPal with application, using access token.
-	 * It adds amount, currency, payer, description, intent and state
-	 * for payment. 
+	 * Method integrates PayPal with application, using access token. It adds
+	 * amount, currency, payer, description, intent and state for payment.
+	 * 
 	 * @param id
-	 * @return
+	 * @return renders the pages eeither the showProduct page or purchasesuccess
+	 *         page;
 	 */
-
 	public static Result purchaseProcessing(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();
@@ -823,11 +822,6 @@ public class UserController extends Controller {
 				Links link = itr.next();
 				if(link.getRel().equals("approval_url"))
 				{
-//					if (!request().accepts("html/text")){
-//						ObjectNode num = Json.newObject();
-//						num.put("id", id);
-//						return ok(num);
-//				   	}
 					return redirect(link.getHref());
 				}
 			}
@@ -840,12 +834,13 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * Method validates payment with existing user.
-	 * After binding from dynamic form it uses access token
-	 * to transact payment.
+	 * Method validates payment with existing user. After binding from dynamic
+	 * form it uses access token to transact payment.
+	 * 
 	 * @param id
+	 * @return Renders the page where the user has to approve the transaction
+	 *         from our site in order to finish the paypal paying process;
 	 */
-	
 	public static Result purchaseSuccess(int id ) {
 		
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -872,15 +867,13 @@ public class UserController extends Controller {
 			payerId = paypalReturn.get("PayerID");
 			token = paypalReturn.get("token");
 
-			 accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+			accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
 					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			
 			Payment payment = Payment.get(accessToken, paymentId);
-			
-
-			
+				
 			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
 			
 			apiContext.setConfigurationMap(sdkConfig);
@@ -896,12 +889,14 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * Method checks if user exists, and if does
-	 * it calls saveMessage method with same id for message
+	 * Method checks if user exists, and if does it calls saveMessage method
+	 * with same id for message
+	 * 
 	 * @param id
+	 * @return Renders the message page with the user logged in and the
+	 *         receiver;
 	 */
-	public static Result sendMessage(int id)
-	{
+	public static Result sendMessage(int id) {
 		
 		User u = SessionHelper.getCurrentUser(ctx());
 		User us = SessionHelper.getCurrentUser(ctx());
@@ -919,12 +914,13 @@ public class UserController extends Controller {
 	   	}
 		return ok(message.render(u, receiver));
 	}
-	
+
 	/**
-	 * Method that binds values from sendMessage form
-	 * and creates new message using create method
-	 * in PrivateMessage model.
+	 * Method that binds values from sendMessage form and creates new message
+	 * using create method in PrivateMessage model.
+	 * 
 	 * @param id
+	 * @return redirects to the page allMessages;
 	 */
 	public static Result saveMessage(int id)
 	{
@@ -960,17 +956,18 @@ public class UserController extends Controller {
 	}
 	
 	/**
-	 * Method sends two lists to view, list of received messages
-	 * and list of sent messages for one user.
+	 * Method sends two lists to view, list of received messages and list of
+	 * sent messages for one user.
+	 * 
+	 * @return Renders all the messages from the user;
 	 */
 	public static Result allMessages()
 	{
 		
 		User u = SessionHelper.getCurrentUser(ctx());
-		User us = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();
-		if(us != null && us.username.equals("blogger")){
-			return ok(blog.render(bloggerList,us));
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
 		}
 		if(u == null)
 	  	{
@@ -990,13 +987,15 @@ public class UserController extends Controller {
 	}
 	
 	/**
+	 * This method exectues the PayPal transaction which we have gone through
+	 * the process till now;
 	 * 
 	 * @param id
 	 * @param payerId
 	 * @param paymentId
 	 * @param token
 	 * @param accessToken
-	 * @return
+	 * @return Renders the buyingAProduct page
 	 */
 	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
 		
@@ -1006,17 +1005,14 @@ public class UserController extends Controller {
 			return ok(blog.render(bloggerList,u));
 		}
 		
-			DynamicForm paypalReturn = Form.form().bindFromRequest();
+		DynamicForm paypalReturn = Form.form().bindFromRequest();
 			
 		String payPalSecretKey1 = Play.application().configuration().getString("payPalSecretKey1");
 		String payPalSecretKey2 = Play.application().configuration().getString("payPalSecretKey2");
 		
 		try {
-			
-			//DynamicForm paypalReturn = Form.form().bindFromRequest();
-			
-			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
 
+			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
 			Map<String, String> sdkConfig = new HashMap<String, String>();
 			sdkConfig.put("mode", "sandbox");
 			APIContext apiContext = new APIContext(accessToken);
@@ -1033,6 +1029,7 @@ public class UserController extends Controller {
 		}
 		return redirect(OURHOST + "/buyingAProduct/" +id +"/"+ token);
 	}	
+	
 	
 	public static Result newsletter() throws ParseException{
 		String message = "<h2>Novosti sa BitPik-a!</h2><br><h3>Novi oglasi koji bi vas mogli zanimati:</h3><br>";

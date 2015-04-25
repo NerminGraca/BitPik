@@ -13,6 +13,11 @@ import play.mvc.Result;
 import play.*;
 import views.html.*;
 
+/**
+ * Class FAQController which contains all the handling of all the actions and
+ * function that are done for the FAQs on our portal;
+ *
+ */
 public class FAQController extends Controller{
 
 	public static Form<FAQ> newFaq = new Form<FAQ>(FAQ.class);
@@ -21,9 +26,9 @@ public class FAQController extends Controller{
 		
 	/**
 	 * Method adds a new FAQ to the list
-	 * @return Result
+	 * 
+	 * @return Result renders the faqs page;
 	 */
-	
 	public static Result addFaq() {
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();
@@ -56,9 +61,9 @@ public class FAQController extends Controller{
 	
 	/**
 	 * Method shows a list of all FAQs, visible to all users, registered or not
-	 * @return Result
+	 * 
+	 * @return Result Renders the faqs page;
 	 */
-	
 	public static Result allFaqs(){
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();
@@ -74,14 +79,14 @@ public class FAQController extends Controller{
 		return ok(faqs.render(usernameSes, faqList, currentUser));
 				
 	}
-	
+
 	/**
-	 * Method is used for editing FAQs, questions or answers.
-	 * This method is available only to admin
+	 * Method is used for editing FAQs, questions or answers. This method is
+	 * available only to admin
+	 * 
 	 * @param id
-	 * @return Result
+	 * @return Result renders the editFaq page;
 	 */
-	
 	public static Result editFaq(int id)
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -106,12 +111,11 @@ public class FAQController extends Controller{
 	
 	/**
 	 * Method that saves edited FAQ
+	 * 
 	 * @param id
-	 * @return Result
+	 * @return Result rendering the faqs page or the editFaq page;
 	 */
-	
-	public static Result saveEditedFaq(int id)
-	{
+	public static Result saveEditedFaq(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
@@ -142,12 +146,11 @@ public class FAQController extends Controller{
 	}
 	
 	/**
-	 * Method that deletes FAQ.
-	 * This method is available only to admin
+	 * Method that deletes FAQ. This method is available only to admin
+	 * 
 	 * @param id
-	 * @return Result
+	 * @return Result redirects the user to the faqs page;
 	 */
-	
 	public static Result deleteFaq(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();
@@ -171,6 +174,14 @@ public class FAQController extends Controller{
 		return redirect(routes.FAQController.allFaqs());
 	}
 	
+	/**
+	 * Method searchFaq(String q) receives the String q and by the same String
+	 * search through all the FAQs
+	 * 
+	 * @param q
+	 * @return Renders the listaFAQs with the faqs found and the currentUser
+	 *         that is logged in;
+	 */
 	public static Result searchFaq(String q){
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();

@@ -19,7 +19,11 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.blog;
 
-
+/**
+ * Class CommetnController is our class through which we control all the actions
+ * and function regarding the Comments left on products;
+ *
+ */
 public class CommentController extends Controller{
 
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);
@@ -32,7 +36,6 @@ public class CommentController extends Controller{
 	 * Comment model.
 	 * @param idProduct
 	 */
-	
 	public static Result addComment(int idProduct){
 		
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -79,7 +82,6 @@ public class CommentController extends Controller{
 	 * @param idComment
 	 * @param idProduct
 	 */
-	
 	public static Result editComment(int idComment, int idProduct)
 	{
 		
@@ -122,7 +124,6 @@ public class CommentController extends Controller{
 	 * @param idComment
 	 * @param idProduct
 	 */
-	
 	public static Result deleteComment(int idComment, int idProduct)
 	{
 		User u = SessionHelper.getCurrentUser(ctx());
