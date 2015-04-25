@@ -14,6 +14,7 @@ libraryDependencies ++= Seq(
   "org.mindrot" % "jbcrypt" % "0.3m",
   "org.webjars" %% "webjars-play" % "2.3.0-2",
   "com.typesafe.play" %% "play-mailer" % "2.4.0",
-  "com.paypal.sdk" % "rest-api-sdk" % "1.2.0"
+  "com.paypal.sdk" % "rest-api-sdk" % "1.2.0",
+  "org.apache.poi" % "poi" % "3.11"
 )
 

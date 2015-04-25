@@ -3,10 +3,10 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import models.*;
-import models.Product;
 
+import models.Product;
 import play.db.ebean.Model;
+
 
 @Entity
 public class Statistics extends Model{
@@ -110,7 +110,8 @@ public class Statistics extends Model{
 		this.noOfClicksS = noOfClicksS;
 	}
 	
-	
+
+
 	
 	
 

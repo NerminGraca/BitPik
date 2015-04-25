@@ -40,15 +40,29 @@ import com.google.common.io.Files;
 
 public class ProductController extends Controller {
 	
+	/**
+	 * Inner Class FilteredSearch
+	 *Used for the purposes of the Form of the filtered Search;
+	 */
 	public static class FilteredSearch{
 		public String priceMin;
 		public String priceMax;
 		public String desc;
 		public String availabilityS;
 		
+		/**
+		 * Constructor;
+		 */
 		public FilteredSearch(){
 					
 		}
+		
+		/**
+		 * Constructor with parameters;
+		 * @param priceMin
+		 * @param priceMax
+		 * @param availability
+		 */
 		public FilteredSearch(String priceMin,String priceMax,String availability){
 			this.priceMin = priceMin;
 			this.priceMax = priceMax;			
@@ -58,17 +72,18 @@ public class ProductController extends Controller {
 	static Form<Product> newProduct = new Form<Product>(Product.class);
 	static Form<TransactionP> newTransaction = new Form<TransactionP>(TransactionP.class);
 	static Form<FilteredSearch> filteredSearch=new Form<FilteredSearch>(FilteredSearch.class);
-	static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
+	public static Finder<Integer, Product> findProduct = new Finder<Integer, Product>(Integer.class, Product.class);
 	static Form<Comment> postComment = new Form<Comment>(Comment.class);
 	static String usernameSes;
-
 	public static final String OURHOST = Play.application().configuration().getString("OURHOST");
 
 
 	/**
+	 * Method showProduct() renders the showProduct page with the product that
+	 * has been clicked on;
 	 * 
 	 * @param id
-	 * @return
+	 * @return Renders the showProduct page;
 	 */
 	public static Result showProduct(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -98,6 +113,8 @@ public class ProductController extends Controller {
 	 * Method takes the usernameSes from the session variable and sends it to
 	 * the addProduct.html page; Where the Form for publishing the product needs
 	 * to be filled in order to add the Product;
+	 * 
+	 * @return renders the addProduct page;
 	 */
 	public static Result addProduct() {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -123,10 +140,11 @@ public class ProductController extends Controller {
 	}
 
 	/**
-	 * From the filled form takes the necessary values; And creates the object
-	 * Product using the constructor; Sends the information about the product
-	 * created to the showProduct.html page; Method creates(saves) the product
-	 * using the create method from the Product model;
+	 * From the filled form and input fields takes the necessary values; And
+	 * creates the object Product using the constructor; Sends the information
+	 * about the product created to the showProduct.html page; Method
+	 * creates(saves) the product using the create method from the Product
+	 * model;
 	 * 
 	 * @return showProducts.html with the necessary variables;
 	 */
@@ -162,10 +180,6 @@ public class ProductController extends Controller {
 			flash("add_product_null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
 			return redirect(routes.ProductController.addProduct());
 		}
-//		if(longDesc.contains("$")){
-//			flash("add_product_null_field", Messages.get("Pogresan format, molimo pokusajte ponovo"));
-//			return redirect(routes.ProductController.addProduct());
-//		} 
 		MainCategory mc = MainCategory.findMainCategoryByName(mainCategory);
 		List<SubCategory> subCats = mc.subCategories;
 		Iterator<SubCategory> iter = subCats.iterator();
@@ -177,21 +191,20 @@ public class ProductController extends Controller {
 				break;
 			}
 		}
-
 		Product p = Product.create(name, desc, longDesc, price, u, mc, sc, location,condition,exchange);
-
 		Logger.of("product").info("User "+ u.username +" added a new product '" + p.name + "'");
 		return redirect("/addPictureProduct/" + p.id);
 	}
 
 	/**
-	* Finds the product under the id number; And sends that product to the
-	* editProduct.html page on redering; Where we will have a new form that we
-	* will edit;
-	* 
-	* @param id
-	* @return
-	*/
+	 * Finds the product under the id number; And sends that product to the
+	 * editProduct.html page on redering; Where we will have a new form that we
+	 * will edit;
+	 * 
+	 * @param id
+	 * @return Renders the editProduct page with the parameters product found by
+	 *         the id and the category list;
+	 */
 	public static Result editProduct(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();
@@ -307,13 +320,13 @@ public class ProductController extends Controller {
 	 * Deletes the products found under the given id;
 	 * 
 	 * @param id
-	 * @return
+	 * @return redirects the User to the profile page;
 	 */
 	public static Result deleteProduct(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			return ok(blog.render(bloggerList, u));
 		}
 		deletePicture(id);
 		String toBeDeleted = Product.find.byId(id).name;
@@ -325,7 +338,10 @@ public class ProductController extends Controller {
 	}	
 	
 	/**
-	 * used when deleting product
+	 * The method is used when deleting product; In order for this method to
+	 * delete the picture of the product if a user is deleting the product
+	 * itself;
+	 * 
 	 * @param id
 	 */
 	public static void deletePicture(int id){
@@ -347,24 +363,30 @@ public class ProductController extends Controller {
 	}
 	
 	public static Result deleteOnePicture(int id, String imgPath){
-		/*
-		final String deletePath = "." + File.separator 
-				+ "public" + File.separator;
 		
-		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
+//		final String deletePath = "." + File.separator 
+//				+ "public" + File.separator;
+//		
+//		Product p = findProduct.byId(id);
+//		List<ImgPath> imgList= p.imgPathList;
+//		
+//		if (imgList.size() == 1) {
+//			p.imgPathList.add()
+//		}
+//		
+//		for (int i = 0; i< imgList.size() ; i++){
+//			String s = imgList.get(i).imgPath;
+//			
+//			if (!s.equals("images/no-img.jpg") && imgPath.equals(s)){
+//				File file = new File(deletePath + s);
+//				file.delete();
+//				
+//				
+//			}
+//						
+//		}
 		
-		
-		for (int i = 0; i< imgList.size() ; i++){
-			String s = imgList.get(i).imgPath;
-			
-			if (!s.equals("images/no-img.jpg") && imgPath.equals(s)){
-				File file = new File(deletePath + s);
-				file.delete();
-			}
-						
-		}
-		*/
-		return TODO;
+		return redirect("/showProduct/"+ id);
 	}
 	
 	/**

@@ -13,6 +13,11 @@ import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
 
+/**
+ * Class CategoryController is out controller through which we control all the
+ * actions and function concerning the Categories of our products
+ *
+ */
 public class CategoryController extends Controller {
 	
 	//Finders
@@ -21,10 +26,19 @@ public class CategoryController extends Controller {
 	static Finder<Integer, MainCategory> findMainCategory = new Finder<Integer, MainCategory>(Integer.class, MainCategory.class);
 	
 	/**
-	 * Method categories finds all entries in database in table Main_Category and collects them and sends
-	 * them to view which will represent them correctly
+	 * Method categories finds all entries in database in table Main_Category
+	 * and collects them and sends them to the view which will represent them
+	 * correctly Renders the folowing parameters : productsList - which are all
+	 * the products which are not sold and not special (not distinguished
+	 * products) and are from the main Category by the id received;
+	 * specialProductList - all the products that are not sold and are made
+	 * special (are distinguished products) and are from the main Category by
+	 * the id received; mainCategoryList - the list of our categories; mc - the
+	 * main category clicked on, which we have found by the id received as the
+	 * parameters;
+	 * 
 	 * @param id
-	 * @return
+	 * @return Result rendering the kategorija page;
 	 */
 	public static Result categories(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -40,10 +54,16 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * Method subCategoriesView finds all entries in database which are members of given Sub Category
-	 * and sends them to view to be showed
+	 * Method subCategoriesView finds all entries in database which are members
+	 * of given Sub Category and sends them to view to be showed; productsList -
+	 * which are all the products which are not sold and not special (not
+	 * distinguished products) and are from the sub Category by the id received;
+	 * specialProductList - all the products that are not sold and are made
+	 * special (are distinguished products) and are from the sub Category by the
+	 * id received; mainCategoryList - the list of our categories;
+	 * 
 	 * @param id
-	 * @return
+	 * @return Result rendering the podKategorija page;
 	 */
 	public static Result subCategoriesView(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -61,7 +81,8 @@ public class CategoryController extends Controller {
 	
 	/**
 	 * Method allCategory list all of present categories at single view
-	 * @return
+	 * 
+	 * @return Result renders the listaKategorija page;
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result allCategory() {	
@@ -75,9 +96,11 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * Method subCategories list all Sub Categories of given Main Category
+	 * Method subCategories list all Sub Categories of given Main Category The
+	 * method receives the id under which the MainCategory can be found;
+	 * 
 	 * @param id
-	 * @return
+	 * @return Result render the listPodKategorija page;
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result subCategories(int id) {
@@ -92,8 +115,10 @@ public class CategoryController extends Controller {
 	
 	/**
 	 * Method editMainCategory allows administrator to edit one of the category
-	 * @param id = id of category which will be edited
-	 * @return = New view in which edit is performed
+	 * 
+	 * @param id
+	 *            = id of category which will be edited
+	 * @return = New view in which the edit of the main category is performed
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editMainCategory(int id) {
@@ -108,9 +133,11 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * Method editSubCategory allows administrator to edit one of the Sub categories
+	 * Method editSubCategory allows administrator to edit one of the Sub
+	 * categories
+	 * 
 	 * @param id
-	 * @return
+	 * @return New view in which the edit of the subcategory is performed
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editSubCategory(int id) {
@@ -125,9 +152,11 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * Method saveEditMainCategory allows administrator to save changes made to category
-	 * in to the database
-	 * @param id = id of category which was edited
+	 * Method saveEditMainCategory allows administrator to save changes made to
+	 * category in to the database
+	 * 
+	 * @param id
+	 *            id of category which was edited
 	 * @return to view of all categories
 	 */
 	public static Result saveEditMainCategory(int id) {
@@ -148,7 +177,6 @@ public class CategoryController extends Controller {
 		
 		// sets all the new entered attributes as the original ones from the product;
 		// and saves();
-		
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
 		if (MainCategory.allMainCategories().contains(MainCategory.findMainCategoryByName(name))) {
@@ -166,9 +194,12 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * Method saveEditSubCategory allows administrator to save changes made to Sub Category
+	 * Method saveEditSubCategory allows administrator to save changes made to
+	 * Sub Category
+	 * 
 	 * @param id
-	 * @return
+	 *            id of category which was edited
+	 * @return to view of all sub categories;
 	 */
 	public static Result saveEditSubCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -204,9 +235,14 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * Method deleteMainCategory deletes gives category from the views and the database
-	 * @param id = id of category which was deleted
-	 * @return
+	 * Method deleteMainCategory deletes gives category from the views and the
+	 * database The deleteCategory does not delete the products deleted in that
+	 * category, it transfers all the products that are in the category about to
+	 * be deleted to the categroy "Ostalo";
+	 * 
+	 * @param id
+	 *            = id of category which was deleted
+	 * @return page that lists all of the categories;
 	 */
 	public static Result deleteMainCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -232,9 +268,13 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * Method deleteSubCategory deletes gives sub category from the views and the database
+	 * Method deleteSubCategory deletes gives sub category from the views and
+	 * the database The deleteSubCategory does not delete the products deleted
+	 * in that subcategory, it transfers all the products that are in the
+	 * subcategory about to be deleted to the subcategroy "Ostalo";
+	 * 
 	 * @param id
-	 * @return
+	 * @return page that lists all of the subcategories;
 	 */
 	public static Result deleteSubCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -260,8 +300,9 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * Method addMainCategory adds new category into the list and also in the database and
-	 * it will also check if that name is taken
+	 * Method addMainCategory adds new category into the list and also in the
+	 * database and it will also check if that name is taken;
+	 * 
 	 * @return to the view of all categories with new list shown
 	 */
 	public static Result addMainCategory() {
@@ -291,10 +332,11 @@ public class CategoryController extends Controller {
 	}
 	
 	/**
-	 * Method addSubCategory adds new sub category into the list and also in the database and
-	 * it will also check if that name is taken
+	 * Method addSubCategory adds new sub category into the list and also in the
+	 * database and it will also check if that name is taken
+	 * 
 	 * @param id
-	 * @return
+	 * @return page that lists all of the subcategories;
 	 */
 	public static Result addSubCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
