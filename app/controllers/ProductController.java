@@ -525,8 +525,8 @@ public class ProductController extends Controller {
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyerUser.username).eq("isSold", false).findList();
 		Logger.of("product").info("User "+ buyerUser.username +" bought the product '" + p.name + "'");
 		flash("buy_product_success", Messages.get("Čestitamo, uspješno ste kupili proizvod. Proizvod pogledajte pod Kupljeni proizvodi!"));
-		MailHelper.sendNewsletter(p.owner.email, "Čestitamo, uspješno ste prodali proizvod " + p.name + ", za " + p.price + " KM");
-		MailHelper.sendNewsletter(buyerUser.email, "Čestitamo, uspješno ste kupili proizvod " + p.name + ", za " + p.price + " KM");
+		MailHelper.sendNewsletterMessage(p.owner.email, "Čestitamo, uspješno ste prodali proizvod " + p.name + ", za " + p.price + " KM");
+		MailHelper.sendNewsletterMessage(buyerUser.email, "Čestitamo, uspješno ste kupili proizvod " + p.name + ", za " + p.price + " KM");
 		return ok(profile.render(l, buyerUser));
 	}
 

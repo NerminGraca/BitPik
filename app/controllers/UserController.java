@@ -955,7 +955,7 @@ public class UserController extends Controller {
 	  	}
 	  	String message = "Dobili ste privatnu poruku od korisnika " + sender.username + 
 	  			": \n" + content;
-	  	MailHelper.sendNewsletter(receiver.email, message);
+	  	MailHelper.sendNewsletterMessage(receiver.email, message);
    	  	return redirect("/allMessages");
 	}
 	
@@ -1060,19 +1060,18 @@ public class UserController extends Controller {
 			
 			if(newsletterProducts.size() > 0)
 			{
-				Logger.error("prviString" + newsletterProducts.get(0).name);
 				for(Product p: newsletterProducts){
 				if (p != null) {
-					message += p.name + ", opis: " + p.description + 
+					message += "<h4>" + p.name + ", opis: " + p.description + 
 							", cijena <strong>" + p.price + "</strong> " + ", objavio korisnik " +
-							p.owner.username + " dana " + p.publishedDate.toString() + "<br>";
+							p.owner.username + " dana " + p.publishedDate.toString() + "<br></h4>";
 					} else {
 						return redirect("/korisnici");
 					}
 				}
 			}
 			if (u.newsletter.size() > 0) {
-				MailHelper.sendNewsletter(u.email, message);
+				MailHelper.sendNewsletter(u.email, message, newsletterProducts);
 			}
 		}
 		return redirect("/korisnici");

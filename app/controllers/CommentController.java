@@ -67,7 +67,7 @@ public class CommentController extends Controller{
 		List<Comment> commentList = Comment.find.all();
 		String message = "Dobili ste komentar na oglas " + p.name + " od korisnika " + u.username + 
 	  			": \n" + content;
-	  	MailHelper.sendNewsletter(p.owner.email, message);
+		MailHelper.sendNewsletterMessage(p.owner.email, message);
 		flash("add_comment_success", Messages.get("Uspješno ste dodali komentar."));
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}
