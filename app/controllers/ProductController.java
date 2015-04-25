@@ -45,6 +45,7 @@ public class ProductController extends Controller {
 		public String priceMax;
 		public String desc;
 		public String availabilityS;
+		public String condition;
 		
 		public FilteredSearch(){
 					
@@ -524,7 +525,9 @@ public class ProductController extends Controller {
 		p.save();
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyerUser.username).eq("isSold", false).findList();
 		Logger.of("product").info("User "+ buyerUser.username +" bought the product '" + p.name + "'");
-		flash("buy_product_success", Messages.get("Čestitamo, uspješno ste kupili proizvod...Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
+		flash("buy_product_success", Messages.get("Čestitamo, uspješno ste kupili proizvod. Proizvod pogledajte pod Kupljeni proizvodi!"));
+		MailHelper.sendNewsletter(p.owner.email, "Čestitamo, uspješno ste prodali proizvod " + p.name + ", za " + p.price + " KM");
+		MailHelper.sendNewsletter(buyerUser.email, "Čestitamo, uspješno ste kupili proizvod " + p.name + ", za " + p.price + " KM");
 		return ok(profile.render(l, buyerUser));
 	}
 
@@ -712,93 +715,260 @@ public class ProductController extends Controller {
 				return redirect("/showProduct/" + id);
 	}
 	
+	public static Result filterCondition(String ids1,String ids2){
+		if(!ids1.isEmpty()&!ids2.isEmpty()){
+			Logger.info("No searched products or special products");
+			return ok(newViewForFilter.render(null,null,MainCategory.allMainCategories()));
+		}
+		List<Product>sproducts = new ArrayList<Product>();
+		List<Product>products = new ArrayList<Product>();
+		String[] productsIDs2 = ids2.split(",");
+		String[] productsIDs1 = ids1.split(",");
+		String scondition=filteredSearch.bindFromRequest().get().condition;
+		if(!ids2.isEmpty()){
+			for(String id: productsIDs2){
+				int scurrentID = Integer.parseInt(id);
+				Product scurrentProduct = Product.find.byId(scurrentID);
+				if(scondition.equals("Svi proizvodi")){
+				sproducts.add(scurrentProduct);
+				}else if(scurrentProduct.condition.equals(scondition)){
+				sproducts.add(scurrentProduct);
+				}
+			}
+		}
+		if(!ids1.isEmpty()){
+			for(String id: productsIDs1){
+				int currentID = Integer.parseInt(id);
+				Product currentProduct = Product.find.byId(currentID);
+				if(scondition.equals("Svi proizvodi")){
+				products.add(currentProduct);
+				}else if(currentProduct.condition.equals(scondition)){
+				products.add(currentProduct);
+				}
+			}
+		}
+		return ok(newViewForFilter.render(sproducts,products,MainCategory.allMainCategories()));
+		
+	}
+	
+	public static Result pikStoreProducts(String ids1,String ids2){
+		if(!ids1.isEmpty()&!ids2.isEmpty()){
+			Logger.info("No searched products or special products");
+			return ok(newViewForFilter.render(null,null,MainCategory.allMainCategories()));
+		}
+		List<Product>sproducts = new ArrayList<Product>();
+		List<Product>products = new ArrayList<Product>();
+		String[] productsIDs2 = ids2.split(",");
+		String[] productsIDs1 = ids1.split(",");
+		if(!ids2.isEmpty()){
+			for(String id: productsIDs2){
+				int scurrentID = Integer.parseInt(id);
+				Product scurrentProduct = Product.find.byId(scurrentID);
+				if(scurrentProduct.owner.isPikStore){
+				sproducts.add(scurrentProduct);
+				}
+			}
+		}
+		if(!ids1.isEmpty()){
+			for(String id: productsIDs1){
+				int currentID = Integer.parseInt(id);
+				Product currentProduct = Product.find.byId(currentID);
+				if(currentProduct.owner.isPikStore){
+				products.add(currentProduct);
+				}
+			}
+		}
+		return ok(newViewForFilter.render(sproducts,products,MainCategory.allMainCategories()));
+		
+	}
 	/**
 	 * 
 	 * @param ids
 	 * @return
 	 */
 	public static Result filteredSearch(String ids1,String ids2){
-		Logger.debug(ids1);
-		Logger.debug(ids2);
-		String[] productsIDs1 = ids1.split(",");		
-		List<Product>products = new ArrayList<Product>();
-		String temp;
-		if(!ids1.isEmpty()){
-		for(String id: productsIDs1){
-			int currentID = Integer.parseInt(id);
-			temp=""+currentID;
-			Logger.debug(temp);
-			Product currentProduct = Product.find.byId(currentID);			
-			products.add(currentProduct);
-		}
-		}
-		
-		List<Product>sproducts = new ArrayList<Product>();
-		if(!ids2.isEmpty()){
-		String[] productsIDs2 = ids2.split(",");		
-		for(String id: productsIDs2){
-			int scurrentID = Integer.parseInt(id);
-			temp=""+scurrentID;
-			Logger.debug(temp);
-			Product scurrentProduct = Product.find.byId(scurrentID);			
-			sproducts.add(scurrentProduct);
-		}
-		}
-		
-		if((products.isEmpty())&(sproducts.isEmpty())){
+		if(!ids1.isEmpty()&!ids2.isEmpty()){
 			Logger.info("No searched products or special products");
-			return ok(newViewForFilter.render(sproducts,products,MainCategory.allMainCategories()));
+			return ok(newViewForFilter.render(null,null,MainCategory.allMainCategories()));
 		}
-		else if(products.isEmpty()){
-			Logger.info("No searched products");
-		}
-		else{
-			Logger.info("No searched special products");
-		}
-		
-		List<Product>productList=new ArrayList<Product>();
-		List<Product>sproductList=new ArrayList<Product>();
-	    double priceMin = 0;
-	    double priceMax = 999999999;
-		String availability ;
-		String descr;
+		List<Product>sproducts = new ArrayList<Product>();
+		List<Product>products = new ArrayList<Product>();
+		String[] productsIDs2 = ids2.split(",");
+		String[] productsIDs1 = ids1.split(",");
 		if(filteredSearch.hasErrors()){
 			Logger.info("Error in form");
-			return ok(newViewForFilter.render(sproducts,products,MainCategory.allMainCategories()));
+			return ok(newViewForFilter.render(products,sproducts,MainCategory.allMainCategories()));
 			}
-
+		double priceMin = 0;
+	    double priceMax = 999999999;
+	    String availability ;
+		String descr;
 		String min=filteredSearch.bindFromRequest().get().priceMin;
 		String max=filteredSearch.bindFromRequest().get().priceMax;
 		descr=filteredSearch.bindFromRequest().get().desc;
 		availability=filteredSearch.bindFromRequest().get().availabilityS;
-		if(!min.isEmpty()){
-			priceMin=Double.parseDouble(min);
+		List<Product>productList=new ArrayList<>();
+		List<Product>sproductList=new ArrayList<>();
+		
+		if(ids2.isEmpty()){
+			Logger.info("No searched special products");
 		}
+			if(!min.isEmpty()){
+				priceMin=Double.parseDouble(min);
+			}
 		if(!max.isEmpty()){
 			priceMax=Double.parseDouble(max);
-		}
-		if(descr.isEmpty()){
-			productList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
-			sproductList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
-	    }else{
-
-		productList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
-		sproductList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
-		 }
-		
-		List<Product>filteredProducts=new ArrayList<Product>();
-		for(Product product: products){
-			if(productList.contains(product)){
-				filteredProducts.add(product);
 			}
-		}
-		
-		List<Product>sfilteredProducts=new ArrayList<Product>();
-		for(Product product: sproducts){
-			if(sproductList.contains(product)){
-				sfilteredProducts.add(product);
+		    if(availability.equals("Sve lokacije")){
+			if(descr.isEmpty()){
+				sproductList=Product.find.where("(price>="+priceMin+" AND price<="+priceMax+") AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
+				}
+			else{
+				sproductList=Product.find.where("(price>="+priceMin+" AND price<="+priceMax+") AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
+				}
+			
+		    }else{
+		    	if(descr.isEmpty()){
+		    	sproductList=Product.find.where("(LOCATION LIKE '"+availability+"') AND (price>="+priceMin+" AND price<="+priceMax+") AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
+		    	}else{
+			    sproductList=Product.find.where("(LOCATION LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
+			 }
+		    }
+		    if(!ids2.isEmpty()){
+				for(String id: productsIDs2){
+				int scurrentID = Integer.parseInt(id);
+				Product scurrentProduct = Product.find.byId(scurrentID);
+				if(sproductList.contains(scurrentProduct));
+				sproducts.add(scurrentProduct);
 			}
-		}
-		return ok(newViewForFilter.render(sfilteredProducts,filteredProducts,MainCategory.allMainCategories()));
-	}
+		    }
+		
+			else{
+				if(ids1.isEmpty()){
+					Logger.info("No searched special products");
+				}
+					if(!min.isEmpty()){
+						priceMin=Double.parseDouble(min);
+					}
+					if(!max.isEmpty()){
+						priceMax=Double.parseDouble(max);
+					}
+					Logger.debug(availability);
+				    if(availability.equals("Sve lokacije")){
+					if(descr.isEmpty()){
+						productList=Product.find.where("(price>="+priceMin+" AND price<="+priceMax+") AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
+						}
+						else{
+						productList=Product.find.where("(price>="+priceMin+" AND price<="+priceMax+") AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
+						}
+					
+				    }else{
+				    	if(descr.isEmpty()){
+				    	productList=Product.find.where("(LOCATION LIKE '"+availability+"') AND (price>="+priceMin+" AND price<="+priceMax+") AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
+				    	}else{
+					    productList=Product.find.where("(L LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
+					 }
+				    }
+			if(!ids1.isEmpty()){
+			for(String id: productsIDs1){
+				int currentID = Integer.parseInt(id);
+				Product currentProduct = Product.find.byId(currentID);
+				if(productList.contains(currentProduct)){
+					products.add(currentProduct);
+				}
+			}
+			}
+			}
+			
+			return ok(newViewForFilter.render(sproducts,products,MainCategory.allMainCategories()));
+		
+	
 }
+}
+//}
+//	public static Result filteredSearch(String ids1,String ids2){
+//		String[] productsIDs1 = ids1.split(",");		
+//		List<Product>products = new ArrayList<Product>();
+//		String temp;
+//		if(!ids1.isEmpty()){
+//		for(String id: productsIDs1){
+//			int currentID = Integer.parseInt(id);
+//			temp=""+currentID;
+//			Logger.debug(temp);
+//			Product currentProduct = Product.find.byId(currentID);			
+//			products.add(currentProduct);
+//		}
+//		}
+//		
+//		List<Product>sproducts = new ArrayList<Product>();
+//		if(!ids2.isEmpty()){
+//		String[] productsIDs2 = ids2.split(",");		
+//		for(String id: productsIDs2){
+//			int scurrentID = Integer.parseInt(id);
+//			temp=""+scurrentID;
+//			Logger.debug(temp);
+//			Product scurrentProduct = Product.find.byId(scurrentID);			
+//			sproducts.add(scurrentProduct);
+//		}
+//		}
+//		
+//		if((products.isEmpty())&(sproducts.isEmpty())){
+//			Logger.info("No searched products or special products");
+//			return ok(newViewForFilter.render(sproducts,products,MainCategory.allMainCategories()));
+//		}
+//		else if(products.isEmpty()){
+//			Logger.info("No searched products");
+//		}
+//		else{
+//			Logger.info("No searched special products");
+//		}
+//		
+//		List<Product>productList=new ArrayList<Product>();
+//		List<Product>sproductList=new ArrayList<Product>();
+//	    double priceMin = 0;
+//	    double priceMax = 999999999;
+//		String availability ;
+//		String descr;
+//		if(filteredSearch.hasErrors()){
+//			Logger.info("Error in form");
+//			return ok(newViewForFilter.render(sproducts,products,MainCategory.allMainCategories()));
+//			}
+//
+//		String min=filteredSearch.bindFromRequest().get().priceMin;
+//		String max=filteredSearch.bindFromRequest().get().priceMax;
+//		descr=filteredSearch.bindFromRequest().get().desc;
+//		availability=filteredSearch.bindFromRequest().get().availabilityS;
+//		if(!min.isEmpty()){
+//			priceMin=Double.parseDouble(min);
+//		}
+//		if(!max.isEmpty()){
+//			priceMax=Double.parseDouble(max);
+//		}
+//		if(descr.isEmpty()){
+//			productList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
+//			sproductList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
+//	    }else{
+//
+//		productList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('false'))").findList();
+//		sproductList=Product.find.where("(location LIKE '"+availability+"') AND ((price>="+priceMin+" AND price<="+priceMax+")) AND UPPER(description) LIKE UPPER('%"+descr+"') AND (isSold LIKE ('false')) AND (isSpecial LIKE ('true'))").findList();
+//		 }
+//		
+//		List<Product>filteredProducts=new ArrayList<Product>();
+//		for(Product product: products){
+//			if(productList.contains(product)){
+//				filteredProducts.add(product);
+//			}
+//		}
+//		
+//		List<Product>sfilteredProducts=new ArrayList<Product>();
+//		for(Product product: sproducts){
+//			if(sproductList.contains(product)){
+//				sfilteredProducts.add(product);
+//			}
+//		}
+//		return ok(newViewForFilter.render(sfilteredProducts,filteredProducts,MainCategory.allMainCategories()));
+//	}
+
+//}
+
+

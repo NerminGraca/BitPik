@@ -623,6 +623,7 @@ body {
 }
 .menu2 {
 	float: right;
+	background-color: #797774;
 }
 .menu2 li {
 	float:right;
@@ -640,11 +641,14 @@ body {
    -ms-transition: all .9s;
    transition: all .9s;
 }
+.menu2 li.active a{
+	background:#243B5D;
+}
 .menu2 li a:hover,.menu li.active a{
 	background:#243B5D;
 }
 .menu2 li:first-child  a{
-	border-radius: 0 6px 6px 0;
+	border-radius:0 6px 6px 0;
 	-webkit-border-radius:0 6px 6px 0;
 	-moz-border-rfadius:0 6px 6px 0;
 	-o-border-radius:0 6px 6px 0;
@@ -759,7 +763,7 @@ body {
 	padding: 15px 20px;
 	border: 1px solid #EBE8E8;
 	border-radius: 3px;
-	width:1340px;
+	width:1454px;
 }
 .content_top1{
 	border-bottom: 1px solid #EBE8E8;
@@ -1662,7 +1666,7 @@ body {
 .section {
 	clear: both;
 	padding: 0px;
-	margin: 0px;
+	margin-right: 13px;
 }
 .group:before, .group:after {
 	content: "";

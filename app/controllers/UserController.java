@@ -117,6 +117,10 @@ public class UserController extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
+	public static Result terms() {
+		return ok(terms.render());
+	}
+	
 	public static Result addPikStore() {
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();

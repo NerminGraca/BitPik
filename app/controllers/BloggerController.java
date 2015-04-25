@@ -133,7 +133,7 @@ public static Result saveFile(int id){
 	  		final String deletePath = "." + File.separator 
 	  				+ "public" + File.separator;
 	  		String s = findBlogger.byId(id).blogImagePath;
-	  		String defaultPic = "images" + File.separator + "profilePicture" + File.separator + "profileimg.png";
+	  		String defaultPic = "images" + File.separator + "blogPicture" + File.separator + "no-img.png";
 	  		
 	  		if (s != null && !s.equals(defaultPic)){
 	  			File d = new File(deletePath + s);

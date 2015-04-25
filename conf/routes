@@ -27,6 +27,7 @@ GET     /deleteBlog/:id						controllers.BloggerController.deleteBlog(id: Intege
 GET     /searchBlog							controllers.BloggerController.searchBlog(q: String)
 
 
+GET		/terms								controllers.UserController.terms()
 
 POST	/adduser							controllers.UserController.addUser()
 POST    /addPikStore                        controllers.UserController.addPikStore()
@@ -35,6 +36,7 @@ GET		/profile							controllers.UserController.findProfileProducts()
 GET		/boughtproducts						controllers.UserController.find_bought_products()
 GET		/soldproducts						controllers.UserController.findSoldProducts()
 GET     /pikRadnje							controllers.UserController.allPikStores()
+GET     /storesByCategory/:id               controllers.UserController.pikStoresByCategory(id: Integer)
 GET		/korisnici							controllers.UserController.allUsers()
 GET		/korisnik/:id						controllers.UserController.singleUser(id: Integer)
 POST    /korisnik/:id/delete       			controllers.UserController.deleteUser(id: Integer)
@@ -82,6 +84,8 @@ POST 	/leavecommentbuyer/:id				controllers.ProductController.leaveBCommentTrans
 POST 	/leavecommentseller/:id				controllers.ProductController.leaveSCommentTransaction(id: Integer)
 GET		/denyRefund/:id						controllers.ProductController.denyRefund(id: Integer)
 POST    /filteredSearch                     controllers.ProductController.filteredSearch(ids1: String, ids2: String)
+POST    /filterCondition                    controllers.ProductController.filterCondition(ids1: String, ids2: String)
+#POST    /pikStoreProducts                   controllers.ProductController.pikStoreProducts(ids1: String, ids2: String)
 
 GET		/kategorija/:id						controllers.CategoryController.categories(id: Integer)
 GET		/listaKategorija 					controllers.CategoryController.allCategory()

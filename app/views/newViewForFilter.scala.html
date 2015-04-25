@@ -26,7 +26,8 @@
 		   </div>
 			
 			<!-- Početak naprednog Search Box-a -->
-            <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #E1E4E1; background-color: #F2F2F2; margin: 0px 20px;">
+			<div>
+            <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #E1E4E1; background-color: #F2F2F2; margin: 0px 10px;">
               <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
             <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
                <input type="number" min="1" max="9999999" step="any" value="" id="od" style="height:25px; width: 40%; font-size:18px;" name="priceMin"/>
@@ -100,8 +101,9 @@
 
                  
 
-                  <select name="availabilityS" id="availabilityS" style="height:33px; width:225px; font-size:24px;">
-                     <option selected="selected">Sarajevo</option>
+                  <select name="availabilityS" id="availabilityS" style="height:33px; width:200px; font-size:24px;">
+                     <option selected="selected">Sve lokacije</option>
+                     								<option>Sarajevo</option>
 									      			<option>Mostar</option>
 									    			<option>Zenica</option>
 									    			<option>Tuzla</option>
@@ -121,10 +123,23 @@
                <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px; background-color:#85B80C; border-color:#283B5E;" type="submit" value="Traži" />
 	         </form>
             </div>
-            </div>
+             <div class="filter col-xs-2 pull-left" style="padding: 15px; border: 3px solid #E1E4E1; background-color: #F2F2F2; margin: 0px 5px; display:inline;float:right;">
+         <form action="@routes.ProductController.filterCondition(Product.getIds(products),Product.getIds(sproducts))" method="POST">
+         <fieldset>
+                  <label class="redHeaderAS" for="location" width=3px style="padding-bottom:3px;">Stanje</label>
+                   <select name="condition" id="condition" style="height:15px; width:112px; font-size:24px;">
+                     <option selected="selected">Svi proizvodi</option>
+                     								<option>Novo</option>
+									      			<option>Korišteno</option>
+									      			</select>
+									      			</fieldset>
+         <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px; background-color:#85B80C; border-color:#283B5E; display:inline;" type="submit" value="Traži" />
+         </form>
+         </div>
+   
 			<div class="clear"></div>
-			<!-- Kraj naprednog Search Box-a -->
-
+			
+         </div> 
 		 <div class="main">
 		  <div class="content">
 		   <div class="clear"></div>
@@ -181,7 +196,7 @@
                        <p style="padding-top:33px;"><span class="rupees">@product.getPriceString() KM</span></p>
 					   					 </div>
 					   					  <div>
-					   					 <p style="float:initial; display:inline-block; padding-right:87px;">Objavljen:@product.publishedDate<p></div>
+					   					 <p style="float:initial; display:inline-block; padding-right:30px;">Objavljen:@product.publishedDate<p></div>
                      <div class="add-cart">
                         <h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
                      </div>

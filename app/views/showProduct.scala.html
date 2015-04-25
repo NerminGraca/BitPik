@@ -4,6 +4,22 @@
 
 @main("showProduct", "") {
 		
+		<div id="fb-root"></div>
+
+<script>(function(d, s, id) {
+
+  	var js, fjs = d.getElementsByTagName(s)[0];
+
+  	if (d.getElementById(id)) return;
+
+  	js = d.createElement(s); js.id = id;
+
+  	js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=876028449099824";
+
+  	fjs.parentNode.insertBefore(js, fjs);
+
+}(document, 'script', 'facebook-jssdk'));</script>
+		
 <div class="wrap">	
 	<div class="validateAndLogout">
 		@flash.get("add_product_success")
@@ -115,7 +131,7 @@
 	    					<p style="font-size:20px;">Kategorija</p>
 	    					<br>
 			    			<div class="AAback-links">
-			    			<p style="font-size:20px;background-color:#FAF8F2;color:black; margin-bottom: 10px;"><a href="/kategorija/@p.mainCategory.id" style=" color:#243B5D">@p.mainCategory.name</a> >>>> <a href="/podKategorija/@p.subCategory.id" style=" color:#243B5D">@p.subCategory.name</a></p
+			    			<p style="font-size:20px;background-color:#FFFFFF; color:black; margin-bottom: 10px;"><a href="/kategorija/@p.mainCategory.id" style=" color:#243B5D">@p.mainCategory.name</a> >>>> <a href="/podKategorija/@p.subCategory.id" style=" color:#243B5D">@p.subCategory.name</a></p
 
 			    	    	<br><br><br></div>
 							<div style="font-size:20px;background-color:white;color:black; margin-bottom: 20px;float: left;border: 2px solid #c0c0c0;  border-radius: 5px; height: 50px; margin-right:20px;">
@@ -137,7 +153,7 @@
 							<p style="font-size:20px;">Zamjena</p>
 	    					<br>
 			    			<div class="AAback-links">
-			    			<p style="font-size:20px;background-color:#FAF8F2;color:black; margin-bottom: 10px; border-radius: 5px;">@p.exchange</p
+			    			<p style="font-size:20px;background-color:#FFFFFF;color:black; margin-bottom: 10px; border-radius: 5px;">@p.exchange</p
 
 			    	    	<br></br></div>
 			    	    	</div>
@@ -237,8 +253,7 @@
 								<div class="share">
 									<p>Podijeli artikal :</p>
 									<ul>
-										<li><a href="#"><img src="@routes.Assets.at("images/facebook.png")" alt="" /></a></li>
-										<li><a href="#"><img src="@routes.Assets.at("images/twitter.png")" alt="" /></a></li>					    
+										<div class="fb-share-button" data-href="http://localhost:9000/showProduct/" data-layout="button"></div>			    
 									</ul>
 								</div>
 								<div class="clear"></div>
