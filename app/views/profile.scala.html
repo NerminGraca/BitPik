@@ -116,13 +116,13 @@
 					
 					<div class="categories">
 					  	<ul>
-					  	  <li><a href="#">Izbrisi sliku</a></li>
-					      <li><a href="/allMessages">Poruke</a></li>
-					      <li><a href="@routes.CreditController.showCredits()">Krediti</a></li>
-					      <li><a href="/profile">Objavljeni proizvodi</a></li>
-					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
-					      <li><a href="@routes.UserController.findSoldProducts()">Prodati proizvodi</a></li>
-					      <li><a href="@routes.StatsController.showStats()">Izvjestaj</a></li>
+					  	  <li><a href="#">@Messages("IzbrisiSliku")</a></li>
+					      <li><a href="/allMessages">@Messages("Poruke")</a></li>
+					      <li><a href="@routes.CreditController.showCredits()">@Messages("Krediti")</a></li>
+					      <li><a href="/profile">@Messages("ObjavljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.find_bought_products()">@Messages("KupljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.findSoldProducts()">@Messages("ProdatiProizvodi")</a></li>
+					      <li><a href="@routes.StatsController.showStats()">@Messages("Izvjestaj")</a></li>
 						</ul>
 					</div>					
 	  	    
@@ -151,7 +151,7 @@
 
 			<div class="section group">
 				<br>
-				<h1 class="redHeader"><span>Objavljeni proizvodi:</h1><br> 
+				<h1 class="redHeader"><span>@Messages("ObjavljeniProizvodi")</h1><br> 
 			</div>			
 			<div class="section group">
 				
@@ -167,7 +167,7 @@
 									<p><span class="rupees">@product.getPriceString() KM</span></p>
 					    		</div>
 					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+									<h4><a href="/showProduct/@product.id">@Messages("Pogledaj")</a></h4>
 								</div>
 								<div class="clear"></div>
 							</div>
