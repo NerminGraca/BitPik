@@ -1,4 +1,4 @@
-@(stores: List[User])
+@(user: User)(stores: List[User])
 
 @main("BitPik", "pikRadnje") {
 	
@@ -13,9 +13,8 @@
 	</div>
 	</div>
 	<body style="background-color:#FAF7F5;">
+		<h3 style="font-size:20px; padding:5px; margin-left:160px;">Pik radnje u kategorijama</h3>
 		<div class="container" style="background-color: #FFF;">
-			
-					<h3 style="font-size:20px; padding:5px;">Pik radnje u kategorijama</h3>
 				  		<div style="padding:5px;overflow:hidden;width:62%;float:left;">
 				  		
 				  		     <ul class="radnje">
@@ -45,14 +44,18 @@
 							Komercijalni profil sa vlastitom poddomenom, promocijom, izvještajima i još mnogo toga. Idealno za sva pravna i fizička lica koja se bave trgovinom.
 							Prvih 30 dana korištenja je potpuno besplatno! </p>
 							<br>
-							
+							@if((user==null)||(!user.isPikStore)){
 				  			<div class="btn btn-primary btn-fontNovi" style="background-color:#9DAB50; padding-top:3px; border-color:#9DAB50;"><span><a href="/registrationPikStore" style="color:white;">REGISTRUJ SE</a></span></div>
+				  			}else{
+				  			<div class="btn btn-primary btn-fontNovi" style="background-color:#9DAB50; padding-top:3px; border-color:#9DAB50;"><span><a href="/registrationPikStore" style="color:white;">KUPI PAKET</a></span></div>
+				  			}
 				  			</div>
 				  			</div>
 				  			<br></br>
+				  			<h3 style="font-size:20px; padding:5px; margin-left:160px;">@stores.size() trenutno aktivnih Pik radnji</h3>
 				  			<div class="container" style="padding-bottom:20px; background-color: #FFF; height:900px;">
 				  			<div style="background-color: #FFF; position:relative; box-shadow:0px 3px 3px 1px rgba(0,0,0,0.1); border:1px solid #ccc; border-color: #e4e4e4; width:100%; box-sizinf:border-box; left:auto; right:auto; margin:0 0 20px 0; float:left;">
-				  			<h3 style="font-size:20px; padding:5px;">@stores.size() trenutno aktivnih Pik radnji</h3>
+				  			
 				  		<div class="section group">	      	      
 	      				@for(store <- stores) {						
 							<div class="grid_1_of_4 images_1_of_4" >

@@ -195,15 +195,17 @@ box-sizing: border-box;
 
 .validateAndLogout{
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
-	background-color: #F3E2A9;
-    color: #132030;
+	background-color: rgb(230, 239, 232);
+    color: #2E4264;
 	font-size: 20px;
 	text-align: center;
-	width: 45%;
+	width: 100%;
 	margin: 5px;
 	margin-left: auto;
     margin-right: auto;
 	box-sizing: border-box;
+	margin-top:10px;
+	font-style:oblique;
 	
 }
 
@@ -594,6 +596,7 @@ body {
 	float: left;
 	background-color: #85B80C;
 	height: 48px;
+    -webkit-border-radius: 6px 0 0 6px;
 }
 .menu li {
 	float:left;
@@ -648,10 +651,11 @@ body {
 	background:#243B5D;
 }
 .menu2 li:first-child  a{
-	border-radius:0 6px 6px 0;
-	-webkit-border-radius:0 6px 6px 0;
-	-moz-border-rfadius:0 6px 6px 0;
-	-o-border-radius:0 6px 6px 0;
+	border-radius:6px 0 0 6px;
+	-webkit-border-radius:6px 0 0 6px;
+	-moz-border-rfadius:6px 0 0 6px;
+	-o-border-radius:6px 0 0 6px;
+	
 }
 .search_box {
 	float: right;

@@ -2,13 +2,11 @@
 
 @main("Proizvodi", "Korisnici") {
 <div class="wrap">
-  
-         <form action="@routes.ProductController.filteredSearch(Product.getIds(productList),Product.getIds(sproducts))" method="POST">
-             <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #E1E4E1; background-color: #F2F2F2; margin: 0px 20px;">
-<<<<<<< HEAD
-=======
-             
->>>>>>> cade02550f324e0318cf9bc229b375acb42e832d
+<div class="content">
+  <div class="section group">   
+        
+			<div class="filter col-xs-2" style="padding: 15px; border: 3px solid #E1E4E1; background-color: #FCFCFC; margin: 0px 10px; -webkit-border-radius: 6px;">
+              <form action="@routes.ProductController.filteredSearch(Product.getIds(productList),Product.getIds(sproducts))" method="POST">
             <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
                <input type="number" min="1" max="9999999" step="any" value="" id="od" style="height:25px; width: 40%; font-size:18px;" name="priceMin"/>
                <input type="number" min="1" max="9999999" step="any" value="" id="do" style="height:25px; width: 40%; font-size:18px;" name="priceMax"/>
@@ -81,12 +79,9 @@
 
                  
 
-<<<<<<< HEAD
-                  <select name="availabilityS" id="availabilityS" style="height:33px; width:225px; font-size:24px;">
-=======
                   <select name="availabilityS" id="availabilityS" style="height:33px; width:200px; font-size:24px;">
->>>>>>> cade02550f324e0318cf9bc229b375acb42e832d
-                     <option selected="selected">Sarajevo</option>
+                     <option selected="selected">Sve lokacije</option>
+                     								<option>Sarajevo</option>
 									      			<option>Mostar</option>
 									    			<option>Zenica</option>
 									    			<option>Tuzla</option>
@@ -106,16 +101,25 @@
                <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px; background-color:#85B80C; border-color:#283B5E;" type="submit" value="Traži" />
 	         </form>
             </div>
+            
+             <div class="filter col-xs-2 pull-left" style="padding: 15px; border: 3px solid #E1E4E1; background-color: #FCFCFC; margin: 0px 5px; display:inline;float:right; -webkit-border-radius: 6px;">
+         <form action="@routes.ProductController.filterCondition(Product.getIds(productList),Product.getIds(sproducts))" method="POST">
+         <fieldset>
+                  <label class="redHeaderAS" for="location" width=3px style="padding-bottom:3px;">Stanje</label>
+                   <select name="condition" id="condition" style="height:15px; width:112px; font-size:24px;">
+                     <option selected="selected">Svi proizvodi</option>
+                     								<option>Novo</option>
+									      			<option>Korišteno</option>
+									      			</select>
+									      			</fieldset>
+         <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px; background-color:#85B80C; border-color:#283B5E; display:inline;" type="submit" value="Traži" />
          </form>
+         </div>
+    <div class="clear"></div>
+         <div class="clear"></div>
     
-      
-     <div class="main">
-    	<div class="content">
-    		
-				<h1 class="redHeader">Rezultati pretrage:</h1><br>  
 				<div class="section group">
 					@if((sproducts.isEmpty())&&(productList.isEmpty())&&(userList.isEmpty())){
-						<div class="section group">
 						<h2 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za vasu pretragu</font></h2>	
 					}else{
 					
@@ -148,8 +152,10 @@
                }
             }
             </div>
+             <div class="clear"></div>
+             	<br></br>	
 						@if(!productList.isEmpty()){
-							<h3 class="redHeader2"><font size="3" style:italic color="black">Ostali Artikli (@productList.size()):</font></h3>
+							<h3 class="redHeader2"><font size="3" style:italic color="black">@productList.size() artikala</font></h3>
 							@for(product <- productList){
 							<div class="grid_1_of_4 images_1_of_4">
 								<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
@@ -169,17 +175,11 @@
 						}else{
 						<h3 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za pretragu proizvoda</font></h3>
 							}	
-			</div>
-		</div>
-	</div>
-</div>
-							
-<div class="wrap">
-	<div class="main">
-		<div class="content">
+	<br></br>		
+ <div class="clear"></div>
 			<div class="section group">
 				@if(userList.size()>0){
-					<h3 class="redHeader2"><font size="3" style:italic color="black">Korisnici: (@userList.size()):</font></h3>
+					<h3 class="redHeader2"><font size="3" style:italic color="black">@userList.size() korisnika</font></h3>
 		  				<div class="validateAndLogout">
 							@flash.get("delete_user_success")
 								</div>
@@ -196,11 +196,11 @@
 											<h4 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za pretragu korisnika</font></h4>
 											}
 									</div>
-				</div>
-			</div>
+		</div>
 		</div>
 	</div>
-						
-
+	</div>
+	
+	
 }	
 }
