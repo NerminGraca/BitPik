@@ -381,13 +381,14 @@ public class UserController extends Controller {
 	   	if (!request().accepts("text/html")) {
 		 	 return ok(JsonHelper.jsonUserList(stores));
 	   	 }
-	   	 return ok(pikRadnje.render(stores));
+	   	 return ok(pikRadnje.render(u,stores));
 	}
 	
 	public static Result pikStoresByCategory(int categoryId){
+		User u = SessionHelper.getCurrentUser(ctx());
 		MainCategory mainCategory=MainCategory.findMainCategory(categoryId);
 		List<User>stores=findUser.where().eq("storeCategory.name", mainCategory.name).findList();
-		return ok(pikRadnje.render(stores));
+		return ok(pikRadnje.render(u,stores));
 	}
 	 
 	/**

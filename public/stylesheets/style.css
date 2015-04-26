@@ -195,15 +195,17 @@ box-sizing: border-box;
 
 .validateAndLogout{
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
-	background-color: #F3E2A9;
-    color: #132030;
+	background-color: rgb(230, 239, 232);
+    color: #2E4264;
 	font-size: 20px;
 	text-align: center;
-	width: 45%;
+	width: 100%;
 	margin: 5px;
 	margin-left: auto;
     margin-right: auto;
 	box-sizing: border-box;
+	margin-top:10px;
+	font-style:oblique;
 	
 }
 
@@ -556,7 +558,7 @@ body {
 }
 .account_desc{
 	float:right;
-	padding: 39px 20px 0 0;
+	padding: 89px 20px 0 0;
 }
 .account_desc li{
 	display:inline;
@@ -594,6 +596,7 @@ body {
 	float: left;
 	background-color: #85B80C;
 	height: 48px;
+    -webkit-border-radius: 6px 0 0 6px;
 }
 .menu li {
 	float:left;
@@ -623,6 +626,7 @@ body {
 }
 .menu2 {
 	float: right;
+	background-color: #797774;
 }
 .menu2 li {
 	float:right;
@@ -640,14 +644,18 @@ body {
    -ms-transition: all .9s;
    transition: all .9s;
 }
+.menu2 li.active a{
+	background:#243B5D;
+}
 .menu2 li a:hover,.menu li.active a{
 	background:#243B5D;
 }
 .menu2 li:first-child  a{
-	border-radius: 0 6px 6px 0;
-	-webkit-border-radius:0 6px 6px 0;
-	-moz-border-rfadius:0 6px 6px 0;
-	-o-border-radius:0 6px 6px 0;
+	border-radius:6px 0 0 6px;
+	-webkit-border-radius:6px 0 0 6px;
+	-moz-border-rfadius:6px 0 0 6px;
+	-o-border-radius:6px 0 0 6px;
+	
 }
 .search_box {
 	float: right;
@@ -759,7 +767,7 @@ body {
 	padding: 15px 20px;
 	border: 1px solid #EBE8E8;
 	border-radius: 3px;
-	width:1340px;
+	width:1454px;
 }
 .content_top1{
 	border-bottom: 1px solid #EBE8E8;
@@ -1662,7 +1670,7 @@ body {
 .section {
 	clear: both;
 	padding: 0px;
-	margin: 0px;
+	margin-right: 13px;
 }
 .group:before, .group:after {
 	content: "";

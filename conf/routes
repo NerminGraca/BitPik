@@ -94,6 +94,8 @@ POST 	/leavecommentbuyer/:id				controllers.ProductController.leaveBCommentTrans
 POST 	/leavecommentseller/:id				controllers.ProductController.leaveSCommentTransaction(id: Integer)
 GET		/denyRefund/:id						controllers.ProductController.denyRefund(id: Integer)
 POST    /filteredSearch                     controllers.ProductController.filteredSearch(ids1: String, ids2: String)
+POST    /filterCondition                    controllers.ProductController.filterCondition(ids1: String, ids2: String)
+#POST    /pikStoreProducts                   controllers.ProductController.pikStoreProducts(ids1: String, ids2: String)
 
 # Category Controller
 
