@@ -36,15 +36,19 @@
                  
 
 						 @if(u != null) {
-					@if(u.username.equals("blogger")) {
+					@if(u.username.equals("blogger") || u.username.equals("admin")) {
                 <a class="btn btn-primary" href="/editBlog/@b.id">Edituj blog </a>
                  <a class="btn btn-primary" href="/deleteBlog/@b.id">Izbrisi blog </a>
                				 }
                			 }
-                	
-				
+                				
                 <hr>
-
+						
+                    <h5>
+                    <a href="/searchTag/@b.tag"><strong>@b.tag</strong></a>
+                        </h5>
+                    
+                <hr>
                 
 
                 
@@ -52,26 +56,25 @@
             </div>
 
              <!-- Blog Sidebar Widgets Column -->
- 
-
-		<div class="row">
-
+ 				<div class="row">
             <div class="col-md-4">
 
                 <!-- Blog Search Well -->
                 <div class="well">
                     <h4>Blog Search</h4>
-                    
+                    <div class="search_box-blog">
 	     		<form action="/searchBlog" method="GET">
-	     			<input class="search_box-blog" id="q" name="q" type="text" placeholder="Traži Blog..." required/>
 
-    <!--<input id="q" name="q" type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">-->
-
-    <input class = "glyphicon glyphicon-search" type="submit" value="">
-	     			 
+	     		  <form action="/searchBlog" method="GET">
+	     			<input id="q" name="q" type="text" placeholder="Traži FAQ..." required/>
+	     			 <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        </span>
 	     		</form>
 	     	
-                    <!-- /.input-group -->
+                    
                 </div>
 
                 <!-- Blog Categories Well -->
@@ -81,7 +84,7 @@
                     @if(bloggerList.size() > 0){
 					@for(blogger <- bloggerList){
                     <h5>
-                    <a href="/showOneBlog/@blogger.id"><strong>@blogger.name</strong></a>
+                    <a href="/showOneBlog/@blogger.id">@blogger.name</a>
                         </h5>
                         	}
                         }

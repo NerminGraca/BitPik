@@ -30,23 +30,37 @@ public class Blogger extends Model{
 	
 	public String publishedDate;
 	
+	public String tag;
+	
 	public Blogger(){
 		this.name="Unknown";
 		this.description = "Unknown";
 		this.longDescription = "Unknown";
 		this.blogImagePath = "images/blogPicture/no-img.jpg";
 		this.publishedDate=getDate();
+		this.tag = "Unknown";
 	}
 	
-	public Blogger(String name, String description, String longDescription){
+	public Blogger(String name, String description, String longDescription,String tag){
 		this.name = name;
 		this.description = description;
 		this.longDescription = longDescription;
 		this.blogImagePath = "images/blogPicture/no-img.jpg";
 		this.publishedDate=getDate();
+		this.tag = tag;
 	}
 	
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
 	public static Finder<Integer, Blogger> find = new Finder<Integer, Blogger>(Integer.class, Blogger.class);
+	
+	
 
 	public int getId() {
 		return id;
@@ -102,8 +116,8 @@ public class Blogger extends Model{
 		return formatter.format(date);
 	}
 	
-	public static Blogger create(String name, String description, String longDescription){
-		Blogger newBlogger =  new Blogger(name, description, longDescription);
+	public static Blogger create(String name, String description, String longDescription, String tag){
+		Blogger newBlogger =  new Blogger(name, description, longDescription, tag);
 		
 		newBlogger.save();
 		return newBlogger;
