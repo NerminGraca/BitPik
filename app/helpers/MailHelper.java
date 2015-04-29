@@ -1,5 +1,17 @@
 package helpers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.Scanner;
+
+import models.Product;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import play.Logger;
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerPlugin;
 
@@ -116,7 +128,7 @@ public class MailHelper {
 		}
 	}
 	
-	public static void sendNewsletter(String email, String message){
+	public static void sendNewsletterMessage(String email, String message){
 		Email mail = new Email();
 		mail.setSubject("Novosti sa BitPik-a");
 		mail.setFrom("bitpikgroup@gmail.com");
@@ -125,7 +137,46 @@ public class MailHelper {
 		mail.addTo(email);
 		mail.setBodyText(message);
 		mail.setBodyHtml(message);
-
 		MailerPlugin.send(mail);
 	}
+	
+	public static void sendNewsletter(String email, String message, List<Product> products){
+		Email mail = new Email();
+		mail.setSubject("Novosti sa BitPik-a");
+		mail.setFrom("bitpikgroup@gmail.com");
+		mail.addTo("bitpikgroup@gmail.com");
+
+		mail.addTo(email);
+		mail.setBodyText(message);
+		mail.setBodyHtml(message);
+		
+		Scanner input = null;
+		try {
+			input = new Scanner(new File("./public/templates/newsletter.html"));			
+			while(input.hasNextLine()){
+				message +=input.nextLine();
+			}
+		} catch (FileNotFoundException e) {
+			Logger.error("Error");
+		}finally{
+			input.close();
+		}
+		Document doc = getHTML(email, message, products);
+		doc.getElementById("appendableText").append("newsletter");
+		mail.setBodyHtml(doc.toString());
+		MailerPlugin.send(mail);
+	}
+	
+	private static Document getHTML(String email,String html, List<Product> products){
+		
+		Document doc = Jsoup.parse(html);
+
+		
+		
+		return doc;
+	}
+	
+	
+	
+	
 }

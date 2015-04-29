@@ -61,7 +61,7 @@
 									  			@for(imgPath <- p.imgPathList) {
 									  			<div class="imageWrap">	
 									  				<a class="fancybox" rel="gallery1" href="@routes.Assets.at(imgPath.imgPath)">
-									  					<img src="@routes.Assets.at(imgPath.imgPath)" alt="" />	
+									  					<img style="max-width:250px; max-height:250px;" src="@routes.Assets.at(imgPath.imgPath)" alt="" />	
 									  				</a>
 									  				@if(user != null) {
 									  					@if(user.username.equals(p.owner.username)) {

@@ -31,7 +31,6 @@ import com.paypal.base.rest.PayPalRESTException;
  * to subtract them when used on certain products;
  * Basically everything and every actions one with the Credits (which are simple integers),
  * is done with this class CreditControllers;
- * @author Necko
  *
  */
 public class CreditController extends Controller{
@@ -39,11 +38,11 @@ public class CreditController extends Controller{
 	public static Form<BPCredit> creditForm = new Form<BPCredit>(BPCredit.class);
 	
 	/**
-	 * Main page for the BitPikCredits of the User;
-	 * On which we give the amount of the BitPikcredits the User has;
-	 * and give him the option to either use the Credits he has on 
-	 * certain products or an option to buy more Credits;
-	 * @return Result mainCredits.html page;
+	 * Main page for the BitPikCredits of the User; On which we give the amount
+	 * of the BitPikcredits the User has; and give him the option to either use
+	 * the Credits he has on certain products or an option to buy more Credits;
+	 * 
+	 * @return Result rendering the credits.html page;
 	 */
 	public static Result showCredits() {
 		
@@ -66,9 +65,10 @@ public class CreditController extends Controller{
 	}
 	
 	/**
-	 * This method shows the User the page, where he should enter
-	 * in the form the amount of Credits that he wants to buy;
-	 * @return
+	 * This method shows the User the page, where he should enter in the form
+	 * the amount of Credits that he wants to buy;
+	 * 
+	 * @return Rendering the addcredits page;
 	 */
 	public static Result addCredits() {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
@@ -88,26 +88,29 @@ public class CreditController extends Controller{
 	
 	/**
 	 * Transfers from the Credits to the amount in KM
+	 * 
 	 * @param credit
-	 * @return
+	 * @return KM value number
 	 */
 	public static double creditToCost(int credit) {
 		return (double)(credit*0.5);
 	}
 	
 	/**
-	 * Transfers the double amount from KM to 
-	 * USD first then puts them in a String format;
+	 * Transfers the double amount from KM to USD first then puts them in a
+	 * String format;
+	 * 
 	 * @param costKM
-	 * @return
+	 * @return a String format;
 	 */
 	public static String converterToStringUSD(double costKM) {
 		double priceInUSD = costKM * 0.56;
 		return String.format("%1.2f",priceInUSD);
 	}
-	
+
 	/**
-	 * Cost in Strings for printing;
+	 * Method transfers to Costs in String format for printing;
+	 * 
 	 * @return formated price with two decimals
 	 */
 	public static String getPriceString(double creditD) {
@@ -116,9 +119,11 @@ public class CreditController extends Controller{
 	
 	
 	/**
-	 * Method should take the amount entered in the form
-	 * as the amount of Credit that the User wants to buy' 
-	 * @return
+	 * Method should take the amount entered in the form as the amount of Credit
+	 * that the User wants to buy'
+	 * 
+	 * @return Rendering the purchasecredit page with the parameter
+	 *         creditString;
 	 */
 	public static Result addCreditsProcess() {
 		int credit;
@@ -143,7 +148,7 @@ public class CreditController extends Controller{
 	 * a product;
 	 * Sets the attribute isSpecial of a product clicked on, to false;   
 	 * @param id
-	 * @return 
+	 * @return  Renders the showProduct page;
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result makeProductNotSpecial(int id) {
@@ -160,12 +165,14 @@ public class CreditController extends Controller{
 	}
 	
 	/**
-	 * Starting of the paypal process for the purchase of the bitpik credits;
-	 * In case that the User presses Cancel he is redirected to the page addcredits.html
-	 * and in the case that the User goes through, he is redirected to the next page
-	 * "/purchaseSuccessCredits/"html page with the cost of the credits in USD;
+	 * Starting of the paypal process for the purchase of the bitpik credits; In
+	 * case that the User presses Cancel he is redirected to the page
+	 * addcredits.html and in the case that the User goes through, he is
+	 * redirected to the next page "/purchaseSuccessCredits/"html page with the
+	 * cost of the credits in USD;
+	 * 
 	 * @param priceKMString
-	 * @return
+	 * @return Renders either the /addcredits page or the /purchaseSuccessCredits page;
 	 */
 	public static Result purchaseCredit(String priceKMString) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -220,20 +227,19 @@ public class CreditController extends Controller{
 					return redirect(link.getHref());
 				}
 			}
-			
 		} catch(PayPalRESTException e)
 		{
 			Logger.warn(e.getMessage());
 		}
+		// part of the code which will never be executed - because of CancelURL and the ReturnURL;
 		return TODO;
-
-
 	}
 	
 	/**
 	 * Successfull paypal process for the purchase of the bitpik credits;
+	 * 
 	 * @param priceInUSD
-	 * @return
+	 * @return Redirecting to the buycreditsuccess page;
 	 */
 	public static Result purchaseSuccessCredits(String priceInUSD) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -270,11 +276,12 @@ public class CreditController extends Controller{
 		
 	
 	/**
-	 * After the paypal process of buying the bitpik credits;
-	 * We set the value of the bitpik credits to the user
-	 * adding them to the bitpik credits he has already had;
+	 * After the paypal process of buying the bitpik credits; We set the value
+	 * of the bitpik credits to the user adding them to the bitpik credits he
+	 * has already had;
+	 * 
 	 * @param priceInUSD
-	 * @return
+	 * @return Rendering the credits page;
 	 */
 	public static Result buyCreditSuccess(String priceInUSD) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -312,10 +319,11 @@ public class CreditController extends Controller{
 	// Halftime - now the using of the credits;
 	
 	/**
-	 * The GET redirection for the page where the user enters the amount
-	 * of bitpik credits he wants to use;
+	 * The GET redirection for the page where the user enters the amount of
+	 * bitpik credits he wants to use;
+	 * 
 	 * @param id
-	 * @return
+	 * @return Rendering the makespecialproduct.html page
 	 */
 	public static Result useCredits( int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -335,12 +343,13 @@ public class CreditController extends Controller{
 	}
 	
 	/**
-	 * After entering the amount of credits to be used by the user
-	 * we take the amounts entered here with the POST method;
-	 * And add them to the product the User has choosen,
-	 * And as well make the product special ("izdvojen oglas");
+	 * After entering the amount of credits to be used by the user we take the
+	 * amounts entered here with the POST method; And add them to the product
+	 * the User has choosen, And as well make the product special
+	 * ("izdvojen oglas");
+	 * 
 	 * @param id
-	 * @return
+	 * @return Rendering the profile page
 	 */
 	public static Result useCreditsProcess(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -385,9 +394,10 @@ public class CreditController extends Controller{
 	}
 	
 	/**
-	 * Redirecting to the page where the user enters the amount of Credits 
-	 * he wants to update to the artical that is already made special (izdvojen);
-	 * @return
+	 * Redirecting to the page where the user enters the amount of Credits he
+	 * wants to update to the artical that is already made special (izdvojen);
+	 * 
+	 * @return Rendering the updatecredits page;
 	 */
 	public static Result updateCredits(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -408,14 +418,15 @@ public class CreditController extends Controller{
 	}
 	
 	/**
-	 * Updating the amount of the credits that we add to the product;
-	 * As the method of using the credits on a product for the first time
-	 * this method as well sets the users bpcredits to the new amount 
-	 * subtracting the used amount from the old amount;
-	 * And now we set the products credit to the new amount which is the previous
-	 * amount of credits that the product had plus the new amount we had just updated for; 
+	 * Updating the amount of the credits that we add to the product; As the
+	 * method of using the credits on a product for the first time this method
+	 * as well sets the users bpcredits to the new amount subtracting the used
+	 * amount from the old amount; And now we set the products credit to the new
+	 * amount which is the previous amount of credits that the product had plus
+	 * the new amount we had just updated for;
+	 * 
 	 * @param id
-	 * @return
+	 * @return Rendering the profile page;
 	 */
 	public static Result updateCreditsProcess(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());

@@ -30,9 +30,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
-
+/**
+ * Application Class; Contains our main methods and one inner class Contact;
+ * Methods contained in the class are : - index(); - newViewForFilter(); -
+ * chooseRegistration(); - registrationPikStore(); - registration(); - login();
+ * - logout(); - contact(); - sendMail();
+ */
 public class Application extends Controller {
 
+	/**
+	 * Inner private class used for the Contact function; The function to send
+	 * the message to the bitpikgroup@gmail.com which is the admins and the
+	 * bitpik portal official email;
+	 *
+	 */
 	public static class Contact {
 		
 		@Required
@@ -51,7 +62,7 @@ public class Application extends Controller {
 			this.message = "Unknown";
 		}
 		/**
-		 * Constructor
+		 * Constructor with parameters;
 		 * @param email
 		 * @param message
 		 */
@@ -64,9 +75,14 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Method index renders the index.html page
-	 * 
-	 * @return
+	 * Method index() renders the index.html page with the following parameters,
+	 * productsList - which are all the products which are not sold and not
+	 * special (not distinguished products)
+	 * specialProductList - all the products that are not sold and are made special
+	 * (are distinguished products);
+	 * mainCategoryList - the list of our categories;
+	 * pikShops - list of all of our registered pikShops;
+	 * @return Result rendering the index.html
 	 */
 	public static Result index() {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -84,6 +100,15 @@ public class Application extends Controller {
 		return ok(index.render(specialProductList, productList, mainCategoryList, pikShops));
 	}
 
+	/**
+	 * Method newViewForFiler() renders the newViewForFilter.html page with the
+	 * folowing parameters, productsList - which are all the products which are
+	 * not sold and not special (not distinguished products) specialProductList
+	 * - all the products that are not sold and are made special (are
+	 * distinguished products); mainCategoryList - the list of our categories;
+	 * 
+	 * @return Result rendering the newViewForFilter.html
+	 */
 	public static Result newViewForFilter(){
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();
@@ -95,6 +120,12 @@ public class Application extends Controller {
 		return ok(newViewForFilter.render(specialProductList,productList,MainCategory.allMainCategories()));
 	}
 	
+	/**
+	 * Method chooseRegistration() renders the chooseRegistration.html page;
+	 * Where the user will choose to register as a regular User or a pikShop;
+	 * 
+	 * @return Result rendering the chooseRegistration.html
+	 */
 	public static Result chooseRegistration(){
 		User u = SessionHelper.getCurrentUser(ctx());
 		List<Blogger> bloggerList = Blogger.find.all();
@@ -104,6 +135,15 @@ public class Application extends Controller {
 		return ok(chooseRegistration.render("",""));
 	}
 	
+	/**
+	 * Method registrationPikStore() renders the registrationPikStore.html page;
+	 * Where we give the user the forms to enter and fill to register as a
+	 * pikShop; MainCategory.allMainCategories() - is the list that is rendered
+	 * on the page where the one who is about to register as a pikShop will
+	 * choose which of the categories will his pikShop do business in;
+	 * 
+	 * @return Result rendering the chooseRegistration.html
+	 */
 	public static Result registrationPikStore(){
 
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -115,9 +155,9 @@ public class Application extends Controller {
 	}
 	
 	/**
-	 * Method registration renders the registration.html page;
+	 * Method registration() renders the registration.html page;
 	 * 
-	 * @return
+	 * @return Result rendering the registration.html
 	 */
 	public static Result registration() {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -132,9 +172,10 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Method login renders the login.html page;
+	 * Method login() renders the login.html page; Where we give the User the
+	 * proper forms to fill in in order for the User to the web page;
 	 * 
-	 * @return
+	 * @return Result rendering the login.html
 	 */
 	public static Result login() {
 		
@@ -146,8 +187,10 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Method Logout - clears current session and redirects to index.html
-	 * @return redirect to index.html
+	 * Method Logout() is the method that clears the current session and
+	 * redirects to index.html
+	 * 
+	 * @return Redirecting the user to index.html
 	 */
 	public static Result logout() {
 		
@@ -160,7 +203,7 @@ public class Application extends Controller {
 	/**
 	* Method contact renders the contact.html page;
 	* 
-	* @return
+	* @return Result rendering the contact.html
 	*/
 	public static Result contact() {
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -172,6 +215,7 @@ public class Application extends Controller {
 	}
 
 	/**
+	 * The "recaptcha metod() www.google.com";
 	 * We return whatever the promise returns, so the return value is changed
 	 * from Result to Promise<Result>
 	 *
