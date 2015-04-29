@@ -21,31 +21,31 @@
     	<div class="content">
     		<div class="section group">
 				<div class="rightBox">
-					<h2 id="redText"><p>Korisničko ime:</p></h2>
+					<h2 id="redText"><p>@Messages("KorisnickoIme")</p></h2>
 					<p class="blueText">@u.username</p>
 					
-					<h2 id="redText"><p>Email: </p></h2>		
+					<h2 id="redText"><p>@Messages("Email") </p></h2>		
 					<p class="blueText">@u.email</p>
 		
 					<h2 id="redText"><ep>Admin: </p></h2>
 		
 						@if(u.isAdmin){
-							<p class="blueText">Da</p>
+							<p class="blueText">@Messages("Da")</p>
 						}else{
-							<p class="blueText">Ne</p>			
+							<p class="blueText">@Messages("ne"9</p>			
 						}
 					
-					<h2 id="redText"><p>Datum registracije:</p></h2>
+					<h2 id="redText"><p>@Message("DatumRegistracije")</p></h2>
 					<p class="blueText">@u.createdDate</p><br>	
 					
 					<br>
 					<br>
-					<h1 class="redHeader">BITPIK KREDITI:</h1><br> 
+					<h1 class="redHeader">@Messages("BitpikKrediti")</h1><br> 
 						
-						<h2>Trenutno imate : @ac kredita </h2>
+						<h2>@Messages("TrenutnoImate") @ac kredita </h2>
 					  	
 						<form action="@routes.CreditController.addCredits()"> 
-    						<a class="btn btn-primary btn-fontNovi" href="@routes.CreditController.addCredits()" class="btn">Kupite još Kredita</a>  
+    						<a class="btn btn-primary btn-fontNovi" href="@routes.CreditController.addCredits()" class="btn">@Messages("KupiteJosKredita")</a>  
 						</form> 
 						<br>
 	
@@ -66,13 +66,13 @@
 					
 					<div class="categories">
 					  	<ul>
-					  	  <li><a href="#">Izbriši sliku</a></li>
-					      <li><a href="#">Poruke</a></li>
-					      <li><a href="#">Blokirani korisnici</a></li>
-					      <li><a href="#">Javna pitanja</a></li>
-					      <li><a href="/profile">Objavljeni proizvodi</a></li>
-					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
-					      <li><a href="@routes.UserController.findSoldProducts()">Prodati proizvodi</a></li>
+					  	  <li><a href="#">@Messages("IzbrisiSliku")</a></li>
+					      <li><a href="#">@Messages("Poruke")</a></li>
+					      <li><a href="#">@Messages("BlokiraniKorisnici")</a></li>
+					      <li><a href="#">@Messages("JavnaPitanja")</a></li>
+					      <li><a href="/profile">@Messages("ObjavljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.find_bought_products()">@Messages("KupljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.findSoldProducts()">@Messages("ProdatiProizvodi")</a></li>
 					      
 						</ul>
 					</div>					

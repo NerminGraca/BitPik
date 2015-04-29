@@ -8,13 +8,13 @@
        		<div class="section group">
 				<div class="col span_2_of_3">
 					<div class="contact-form">
-				  		<h1 class="redHeader">Molimo Vas unesite iznos BitPik Kredita </h1>
+				  		<h1 class="redHeader">@Messages("UnesitePikKredit") </h1>
 				  		<br>
-				  			<p> Iskoristite Kredit na @p.name oglasu. </p>
+				  			<p> @Messages("IskoristiteKredit") @p.name @Messages("oglasu") </p>
 				  			
 								@helper.form(routes.CreditController.useCreditsProcess(p.id), 'id->"creditForm") {
 																
-									<h5 id="editProfileText">Količina BitPik Kredita koje želite izdvojiti na oglas :</h5>			
+									<h5 id="editProfileText">@Messages("KolicinaKredita")</h5>			
 									<input type="number" min="1" max="500" step="any" value="" id="credit" name="credit" required/>
 									
 									<input class="btn btn-primary btn-fontNovi" type="submit" value="ISKORISTI KREDITE" />					
@@ -23,8 +23,8 @@
 								<br>
 								<br>
 								<div>					
-								<h4 class="napomene">Napomena :</h4>
-								<p>Cijena jednog BitPik kredita je 0.5 BAM.</p>
+								<h4 class="napomene">@Messages("Napomena")</h4>
+								<p>@Messages("CijenaKredita")</p>
 								<p>Jedan BitPik kredit Vam obezbjeđuje da Vam oglas bude izdvojen na jedan dan.</p>		
 								</div>
 		

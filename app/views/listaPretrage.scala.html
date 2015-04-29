@@ -6,7 +6,7 @@
          <form action="@routes.ProductController.filteredSearch(Product.getIds(productList),Product.getIds(sproducts))" method="POST">
              <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #E1E4E1; background-color: #F2F2F2; margin: 0px 20px;">
              
-            <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
+            <h1 class="redHeaderAS">@Messages("RasponCijene")</h1>
                <input type="number" min="1" max="9999999" step="any" value="" id="od" style="height:25px; width: 40%; font-size:18px;" name="priceMin"/>
                <input type="number" min="1" max="9999999" step="any" value="" id="do" style="height:25px; width: 40%; font-size:18px;" name="priceMax"/>
                					
@@ -74,7 +74,7 @@
                
                <br><br>
                <fieldset>
-                  <label class="redHeaderAS" for="location" width=3px>Lokacija</label>
+                  <label class="redHeaderAS" for="location" width=3px>@Messages("Lokacija")</label>
 
                  
 
@@ -94,7 +94,7 @@
                </fieldset>
                
                <br>
-               <h1 class="redHeaderAS">Opis</h1>
+               <h1 class="redHeaderAS">@Messages("Opis")</h1>
                <input type="text" value="" id="desc" name="desc" style="height:25px; width:95%; font-size:18px;" />	
                <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px; background-color:#85B80C; border-color:#283B5E;" type="submit" value="Traži" />
 	         </form>
@@ -105,21 +105,21 @@
      <div class="main">
     	<div class="content">
     		
-				<h1 class="redHeader">Rezultati pretrage:</h1><br>  
+				<h1 class="redHeader">@Messages("RezultatiPretrage"):</h1><br>  
 				<div class="section group">
 					@if((sproducts.isEmpty())&&(productList.isEmpty())&&(userList.isEmpty())){
 						<div class="section group">
-						<h2 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za vasu pretragu</font></h2>	
+						<h2 class="redHeader2"><font size="3" style:italic color="black">@Messages("NemaRezultata")</font></h2>	
 					}else{
 					
 					<div class="section group">
             @if(!sproducts.isEmpty()) {
             <div class="content_top">
                <div class="heading">
-                  <h3 class="redHeader">Izdvojeni Artikli (@sproducts.size()):</h3>
+                  <h3 class="redHeader">@Messages("IzdvojeniArtikli") (@sproducts.size()):</h3>
                </div>
                <div class="see">
-                  <p><a href="#">Pogledaj</a></p>
+                  <p><a href="#">@Messages("Pogledaj")</a></p>
                </div>
                <div class="clear"></div>
             </div>
@@ -132,7 +132,7 @@
                         <p><span class="rupees">@sproduct.price KM</span></p>
                      </div>
                      <div class="add-cart">
-                        <h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
+                        <h4><a href="/showProduct/@sproduct.id">@Messages("Pogledaj")</a></h4>
                      </div>
                      <div class="clear"></div>
                   </div>
@@ -142,7 +142,7 @@
             }
             </div>
 						@if(!productList.isEmpty()){
-							<h3 class="redHeader2"><font size="3" style:italic color="black">Ostali Artikli (@productList.size()):</font></h3>
+							<h3 class="redHeader2"><font size="3" style:italic color="black">@Messages("OstaliArtikli") (@productList.size()):</font></h3>
 							@for(product <- productList){
 							<div class="grid_1_of_4 images_1_of_4">
 								<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
@@ -152,7 +152,7 @@
 										<span class="price-number2">@product.getPriceString() KM</span>
 									</div>
 									<div class="add-cart2">								
-										<h5><a href="/showProduct/@product.id">Pogledaj</a></h5>
+										<h5><a href="/showProduct/@product.id">@Messages("Pogledaj")</a></h5>
 							     	</div>
 							 		<div class="clear"></div>
 								</div>					 
@@ -160,7 +160,7 @@
 						}
 						</div>
 						}else{
-						<h3 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za pretragu proizvoda</font></h3>
+						<h3 class="redHeader2"><font size="3" style:italic color="black">@Messages("NemaRezultata")</font></h3>
 							}	
 			</div>
 		</div>
@@ -172,7 +172,7 @@
 		<div class="content">
 			<div class="section group">
 				@if(userList.size()>0){
-					<h3 class="redHeader2"><font size="3" style:italic color="black">Korisnici: (@userList.size()):</font></h3>
+					<h3 class="redHeader2"><font size="3" style:italic color="black">@Messages("Korisnici"): (@userList.size()):</font></h3>
 		  				<div class="validateAndLogout">
 							@flash.get("delete_user_success")
 								</div>
@@ -186,7 +186,7 @@
 											</ul>
 										</div>					  	    
 										}else{
-											<h4 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za pretragu korisnika</font></h4>
+											<h4 class="redHeader2"><font size="3" style:italic color="black">@Messages("NemaRezultata")</font></h4>
 											}
 									</div>
 				</div>

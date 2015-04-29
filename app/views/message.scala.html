@@ -23,7 +23,7 @@
 		-->
 	@helper.form(routes.UserController.saveMessage(receiver.id), 'id->"nameForm"){
 	
-					<h5>Privatna poruka:</h5>
+					<h5>@Messages("PrivatnaPoruka")</h5>
 					<textarea maxlength="250" nameForm' 
       				name="content" id="content" placeholder="Write something nice" required> </textarea>
 					<br>
