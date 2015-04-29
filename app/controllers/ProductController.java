@@ -829,8 +829,8 @@ public class ProductController extends Controller {
 		String max=filteredSearch.bindFromRequest().get().priceMax;
 		descr=filteredSearch.bindFromRequest().get().desc;
 		availability=filteredSearch.bindFromRequest().get().availabilityS;
-		List<Product>productList=new ArrayList<>();
-		List<Product>sproductList=new ArrayList<>();
+		List<Product>productList=new ArrayList<Product>();
+		List<Product>sproductList=new ArrayList<Product>();
 		
 		if(ids2.isEmpty()){
 			Logger.info("No searched special products");

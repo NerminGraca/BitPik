@@ -17,6 +17,7 @@ create table blogger (
   long_description          TEXT,
   blog_image_path           varchar(255),
   published_date            varchar(255),
+  tag                       varchar(255),
   constraint pk_blogger primary key (id))
 ;
 
