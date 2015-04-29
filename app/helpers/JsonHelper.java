@@ -58,6 +58,9 @@ public class JsonHelper {
 		product.put("price", p.price);
 		product.put("isSold", p.isSold);
 		product.put("isSpecial", p.isSpecial);
+		product.put("longDescription", p.longDescription);
+		product.put("publishedDate", p.publishedDate);
+		product.put("location", p.location);
 		product.put("productImagePath", p.productImagePath);
 		product.put("ownerUsername", p.owner.username);
 		product.put("ownerId", p.owner.id);
