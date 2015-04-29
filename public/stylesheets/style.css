@@ -618,6 +618,27 @@ body {
 .menu li a:hover,.menu li.active a{
 	background:#243B5D;
 }
+
+div.grid_1_of_4:hover{
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+
+div.images_1_of_4:hover{
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+
+img.productImg:hover{
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+
+.radnje li:hover{
+    opacity: 0.4;
+    filter: alpha(opacity=40);    
+}
+
 .menu li:first-child  a{
 	border-radius:6px 0 0 6px;
 	-webkit-border-radius:6px 0 0 6px;
@@ -765,7 +786,6 @@ body {
 }
 .content_top{
 	padding: 15px 20px;
-	border: 1px solid #EBE8E8;
 	border-radius: 3px;
 	width:1454px;
 }
@@ -783,10 +803,23 @@ body {
 }
 .heading h3 {
 	font-family: 'ambleregular';
-	font-size:22px;
+	font-size:14px;
 	color:#383838;
 	text-transform: uppercase;
 }
+
+
+
+.wrap h3 {
+	font-family: 'ambleregular';
+	font-size:14px;
+	color:#383838;
+	text-transform: uppercase;
+}
+
+
+
+
 .see {
 	float: right;
 	padding-top:8px;
@@ -2148,5 +2181,21 @@ body {
 	 padding-right:87px;
 	 }
 
-	
+	.badge {
+    background: radial-gradient( 5px -9px, circle, white 8%, red 26px );
+    background: -moz-radial-gradient( 5px -9px, circle, white 8%, red 26px );
+    background: -ms-radial-gradient( 5px -9px, circle, white 8%, red 26px );
+    background: -o-radial-gradient( 5px -9px, circle, white 8%, red 26px );
+    background: -webkit-radial-gradient( 5px -9px, circle, white 8%, red 26px );
+    background-color: #FF0B0B;
+    border: 2px solid white;
+    border-radius: 12px; /* one half of ( (border * 2) + height + padding ) */
+    box-shadow: 1px 1px 1px black;
+    color: white;
+    font: bold 15px/13px Helvetica, Verdana, Tahoma;
+    height: 16px; 
+    padding: 4px 3px 0px 3px;
+    text-align: center;
+    min-width: 14px;
+	}
 

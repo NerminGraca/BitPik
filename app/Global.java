@@ -170,11 +170,11 @@ public class Global extends GlobalSettings {
 					"Kako da vidim svoje podatke i gdje mogu vidjeti svoje proizvode?" };
 			String[] answers = new String[] {
 			// the list of adequate answers;
-					"Kliknite na Registracija, nakon toga popunite formular sa vašim podacima i kliknite Registruj. Tad vam je proslijeđen mail sa konfirmacijskim linkom, kojeg kliknete, i time ste se registrovali.",
-					"Nakon registracije, kliknete na dugme Objavite oglas. Zatim popunite podatke o vašem proizvodu kojeg objavljujete i kliknete na dugme Objavi. Te ste time uspješno objavili proizvod.",
-					"Kliknite na artikl koji zelite obrisati, i na desnoj strani ce biti prikazano dugme Izbrisi proizvod.",
-					"Kliknite na artikl koji zelite editovati, i na desnoj strani ce biti prikazano dugme Izmijeni artikl. Popunite formular sa novim podacima i kliknite na dugme Spasi izmjene.",
-					"Nakon što ste se registrovali i log-ovali na naš website, u gornjem desnom uglu će biti prikazano dugme Korisnik i vaš username. Kliknite na to dugme i to će vas odvesti na stranicu sa vašim podacima i listom vaših objavljenih proizvoda."
+					"Kliknite na REGISTRACIJA, nakon toga popunite formular sa Vašim podacima i kliknite REGISTRUJ. Tad vam je proslijeđen mail sa konfirmacijskim linkom, kojeg kliknete, i time ste se registrovali.",
+					"Nakon registracije, kliknete na dugme OBJAVITE OGLAS. Zatim popunite podatke o Vašem proizvodu kojeg objavljujete i kliknete na dugme OBJAVI. Te ste time uspješno objavili proizvod.",
+					"Kliknite na artikl koji želite obrisati, i na desnoj strani će biti prikazano dugme IZBRIŠI PROIZVOD.",
+					"Kliknite na artikl koji želite editovati, i na desnoj strani će biti prikazano dugme IZMIJENI ARTIKL. Popunite formular sa novim podacima i kliknite na dugme SPASI IZMJENE.",
+					"Nakon što ste se registrovali i logovali na naš website, u gornjem desnom uglu će biti prikazano dugme KORISNIK i Vaš username. Kliknite na to dugme i to će vas odvesti na stranicu sa Vašim podacima i listom Vaših objavljenih proizvoda."
 					};
 			for (int i = 0; i < questions.length; i++) {
 				FAQ.create(questions[i], answers[i]);
@@ -182,14 +182,14 @@ public class Global extends GlobalSettings {
 			// Seller vec objavio WhiteChair product;
 			MainCategory mc = MainCategory.findMainCategoryByName("Moj dom");
 			SubCategory sc = SubCategory.findSubCategoryByName("Namještaj");
-			Product p1 = Product.create("Stolica", "Stolica Bijela Nova", "Nova Stolica kupljena 2013, Savrsena!", 70.00, seller, mc, sc, "Sarajevo","Novo","Da");
+			Product p1 = Product.create("Stolica", "Stolica Bijela Nova", "Nova Stolica kupljena 2013, Savršena!", 70.00, seller, mc, sc, "Sarajevo","Novo","Da");
 			p1.productImagePath = "images/productPicture/whitechair.jpg";
 			p1.save();
 			
 			// Seller vec objavio MacBookPro product;
 			MainCategory mcw2 = MainCategory.findMainCategoryByName("Kompjuteri");
 			SubCategory scw2 = SubCategory.findSubCategoryByName("Laptopi");
-			Product p2 = Product.create("Mac Book Pro 13", "Nov Mac Book Pro 13", "Savrsen, Prelijep, Nov Mac Book Pro 13!", 3500.00, seller, mcw2, scw2, "Sarajevo","Novo","Ne");
+			Product p2 = Product.create("Mac Book Pro 13", "Nov Mac Book Pro 13", "Savršen, Prelijep, Nov Mac Book Pro 13!", 3500.00, seller, mcw2, scw2, "Sarajevo","Novo","Ne");
 			p2.productImagePath = "images/productPicture/macbookpro.jpg";
 			p2.save();
 			
@@ -216,14 +216,14 @@ public class Global extends GlobalSettings {
 			// Prodavac published the headphones product;	
 			MainCategory tehnika = MainCategory.findMainCategoryByName("Tehnika");
 			SubCategory multimedija = SubCategory.findSubCategoryByName("Multimedija");
-			Product p6 = Product.create("Slusalice", "Crne slusalice", "Bass slusalice, Sensibilitet: 95 -3dB, Frek.: 20-2000Hz ", 50.00, seller, tehnika, multimedija, "Mostar","Korišteno","Ne");
+			Product p6 = Product.create("Slušalice", "Crne slušalice", "Bass slušalice, Sensibilitet: 95 -3dB, Frek.: 20-2000Hz ", 50.00, seller, tehnika, multimedija, "Mostar","Korišteno","Ne");
 			p6.productImagePath = "images/productPicture/headphones.jpg";
 			p6.save();
 			
 			// Prodavac published the tires and rims product;	
 			MainCategory vozilad = MainCategory.findMainCategoryByName("Vozila");
 			SubCategory doo = SubCategory.findReturnSubCategoryByNameAndMainCategory("Dijelovi i oprema", vozilad);
-			Product p7 = Product.create("Felge i Gume", "Felge 19 inch-i i Gume", "Rally Gume, Sirina: 30mm, Heksagonalna duzina: 12mm, Tezina: 139g/4komada", 450.00, seller, vozilad, doo, "Mostar","Korišteno","Da");
+			Product p7 = Product.create("Felge i Gume", "Felge 19 incha i Gume", "Rally Gume, Širina: 30mm, Heksagonalna dužina: 12mm, Težina: 139g/4komada", 450.00, seller, vozilad, doo, "Mostar","Korišteno","Da");
 			p7.productImagePath = "images/productPicture/rims.jpg";
 			p7.save();
 			
@@ -248,20 +248,20 @@ public class Global extends GlobalSettings {
 			sportshop.imagePath = "images/profilePicture/sportshop.jpg";
 			sportshop.save();
 			
-			User addidasShop = User.createPikStore("Addidas Sport Shop", "addidassportshop", "addidassportshop@addidassportshop.com", "Addidas Sport Shop d.o.o.", "Dzemala Bijedica 18", "Sarajevo",mainCat2);
+			User addidasShop = User.createPikStore("Addidas Sport Shop", "addidassportshop", "addidassportshop@addidassportshop.com", "Addidas Sport Shop d.o.o.", "Džemala Bijedića 18", "Sarajevo",mainCat2);
 			addidasShop.isPikStore = true;
 			addidasShop.verified = true;
 			addidasShop.imagePath =  "images/profilePicture/adidasshop.jpg";
 			addidasShop.save();
 			
 			MainCategory mainCat3 = MainCategory.findMainCategoryByName("Biznis i industrija");
-			User eslc = User.createPikStore("Eslc", "eslc", "eslc@eslc.com", "English Skills Learning Center", "Safeta B. Basagica 32", "Sarajevo", mainCat3);
+			User eslc = User.createPikStore("Eslc", "eslc", "eslc@eslc.com", "English Skills Learning Center", "Safeta B. Bašagića 32", "Sarajevo", mainCat3);
 			eslc.isPikStore = true;
 			eslc.verified = true;
 			eslc.imagePath = "images/profilePicture/ecls.jpg";
 			eslc.save();
 			
-			Blogger b = new Blogger("BitPik Stranica", "Pokrenuta je BitPik stranica", "Nakon dugih 5 mjeseci, konacno, pokrenuta je Bitpik web stranica. Napravili su je skupina sjajnih Java Developera sa ciljem da prekinu dominaciju i monopol pik.ba sadasnjeg olx.ba, koja je kao sto znate veoma popularna bh. stranica. Skupina pomenutih Java Developera cine : Mirza Becic, Hikmet Durgutovic, Selma Tabakovic, Adnan Spahic, Gordan Sajevic i Nedzad Hamzic. ");
+			Blogger b = new Blogger("BitPik Stranica", "Pokrenuta je BitPik stranica", "Nakon dugih 5 mjeseci, konačno, pokrenuta je BitPik web stranica. Napravila je skupina sjajnih Java Developera sa ciljem da prekinu dominaciju i monopol pik.ba, sadašnjeg olx.ba, koja je, kao što znate, veoma popularna bh. stranica. Skupinu pomenutih Java Developera čine : Mirza Bečić, Hikmet Durgutović, Selma Tabaković, Adnan Spahić, Gordan Sajević i Nedžad Hamzić. ");
 			b.setBlogImagePath("images/blogPicture/blogone.png");
 			b.publishedDate = Blogger.getDate();
 			b.save();

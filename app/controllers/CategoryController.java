@@ -326,7 +326,7 @@ public class CategoryController extends Controller {
 		} else {
 			MainCategory.createMainCategory(name);
 			Logger.of("category").info("Admin added main category " + name);
-			flash("add_maincat_success", Messages.get("Uspjesno ste dodali novu kategoriju."));
+			flash("add_maincat_success", Messages.get("Uspješno ste dodali novu kategoriju."));
 			return redirect(routes.CategoryController.allCategory());
 		}			
 	}

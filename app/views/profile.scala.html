@@ -39,13 +39,13 @@
 					
 					<div class="categories">
 					  	<ul>
-					  	  <li><a href="#">Izbrisi sliku</a></li>
+					  	  <li><a href="#">Izbriši sliku</a></li>
 					      <li><a href="/allMessages">Poruke</a></li>
 					      <li><a href="@routes.CreditController.showCredits()">Krediti</a></li>
 					      <li><a href="/profile">Objavljeni proizvodi</a></li>
 					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
 					      <li><a href="@routes.UserController.findSoldProducts()">Prodati proizvodi</a></li>
-					      <li><a href="@routes.StatsController.showStats()">Izvjestaj</a></li>
+					      <li><a href="@routes.StatsController.showStats()">Izvještaj</a></li>
 						</ul>
 					</div>						  	    
 				</div>
@@ -116,13 +116,13 @@
 					
 					<div class="categories">
 					  	<ul>
-					  	  <li><a href="#">Izbrisi sliku</a></li>
+					  	  <li><a href="#">Izbriši sliku</a></li>
 					      <li><a href="/allMessages">Poruke</a></li>
 					      <li><a href="@routes.CreditController.showCredits()">Krediti</a></li>
 					      <li><a href="/profile">Objavljeni proizvodi</a></li>
 					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
 					      <li><a href="@routes.UserController.findSoldProducts()">Prodati proizvodi</a></li>
-					      <li><a href="@routes.StatsController.showStats()">Izvjestaj</a></li>
+					      <li><a href="@routes.StatsController.showStats()">Izvještaj</a></li>
 						</ul>
 					</div>					
 	  	    
@@ -133,7 +133,7 @@
 				</div>						
 				
 				
-				<div class="rightBox" style="width: 69%; margin-top: 10px;">
+				<div class="rightBox" style="width: 93%; margin-top: 10px;">
 				
 					<br><br><br>
 				
@@ -160,7 +160,7 @@
 						<div class="grid_1_of_4 images_1_of_4">
 							<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>					 		 <h2>@product.name </h2>
 							@form(routes.ProductController.deleteProduct(product.id)) {
-                    			<input class="btnDelete" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                    			<input class="btnDelete" type="submit" value="Izbriši proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
                 			}
 							<div class="price-details">
 				       			<div class="price-number">

@@ -171,7 +171,7 @@ public class BloggerController extends Controller{
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("image");
 		if (filePart == null){
-			 flash("error",  Messages.get("Niste uploadovali sliku"));
+			 flash("error",  Messages.get("Niste uploadovali sliku."));
 			 return redirect("/addBlogPicture/" + id);
 		}
 		File image = filePart.getFile();
@@ -185,7 +185,7 @@ public class BloggerController extends Controller{
 			&& !extension.equalsIgnoreCase(".jpg")
 			&& !extension.equalsIgnoreCase(".png") ){
 		
-			flash("error",  Messages.get("Niste unijeli sliku"));
+			flash("error",  Messages.get("Niste unijeli sliku."));
 			Logger.of("product").warn( u.username + " tried to upload an image that is not valid.");
 			return redirect("/addBlogPicture/" + id);
 		}
@@ -194,10 +194,10 @@ public class BloggerController extends Controller{
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
 
-			flash("error",  Messages.get("Slika ne smije biti veca od 2 MB"));
+			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB."));
 			Logger.of("blog").warn( u.username + " tried to upload an image that is bigger than 2MB.");
 
-			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB"));
+			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB."));
 			Logger.of("blog").warn( u.username + " tried to upload an image that is bigger than 2MB.");
 
 			return redirect("/addBlogPicture/" + id);
@@ -218,8 +218,8 @@ public class BloggerController extends Controller{
 			e.printStackTrace();
 		}
 	
-		flash("add_product_success", Messages.get("Uspjesno ste uploadali sliku"));
-		flash("add_product_success", Messages.get("Uspješno ste objavili oglas"));
+		flash("add_product_success", Messages.get("Uspješno ste uploadali sliku."));
+		flash("add_product_success", Messages.get("Uspješno ste objavili oglas."));
 
 		return redirect("/showBlog");
 	}
@@ -289,7 +289,7 @@ public class BloggerController extends Controller{
 			b.save();
 			Logger.of("product").info("User "+ u.username + " updated the info of product " + oldName + ", NAME : ["+b.name+"]");
 			oldName = null;
-			flash("edit_blog_success", Messages.get("Uspješno ste izmijenili blog"));
+			flash("edit_blog_success", Messages.get("Uspješno ste izmijenili blog."));
 			//return redirect("/showProduct/" + id);	
 			return redirect("/addBlogPicture/" + b.id);
 		}
@@ -304,7 +304,7 @@ public class BloggerController extends Controller{
 		public static Result deleteBlog(int id){
 			deletePicture(id);
 			Blogger.delete(id);
-			flash("delete_blog_success",  Messages.get("Uspješno ste izbrisali blog"));
+			flash("delete_blog_success",  Messages.get("Uspješno ste izbrisali blog."));
 			  if (!request().accepts("text/html")) {
 					return ok();
 			  }
