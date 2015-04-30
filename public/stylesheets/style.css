@@ -269,6 +269,7 @@ box-sizing: border-box;
 }
 
 .subCatBox{
+	margin-left: 5px;
 	display: inline-block;
 	float: left;
 	width: 30%;
@@ -634,6 +635,11 @@ img.productImg:hover{
     filter: alpha(opacity=40);
 }
 
+h3.linkovan:hover{
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+}
+
 .radnje li:hover{
     opacity: 0.4;
     filter: alpha(opacity=40);    
@@ -786,6 +792,8 @@ img.productImg:hover{
 }
 .content_top{
 	padding: 15px 20px;
+	margin-top: 10px;
+	border: 1px solid #EBE8E8;
 	border-radius: 3px;
 	width:1454px;
 }
@@ -803,22 +811,10 @@ img.productImg:hover{
 }
 .heading h3 {
 	font-family: 'ambleregular';
-	font-size:14px;
+	font-size:20px;
 	color:#383838;
 	text-transform: uppercase;
 }
-
-
-
-.wrap h3 {
-	font-family: 'ambleregular';
-	font-size:14px;
-	color:#383838;
-	text-transform: uppercase;
-}
-
-
-
 
 .see {
 	float: right;
