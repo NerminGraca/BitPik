@@ -116,6 +116,10 @@ create table transaction_p (
   token                     varchar(255),
   seller_comment            varchar(255),
   buyer_comment             varchar(255),
+  buyer_value               double,
+  buyer_string_value        varchar(255),
+  seller_value              double,
+  seller_string_value       varchar(255),
   date_transaction          varchar(255),
   product_id                integer,
   constraint pk_transaction_p primary key (id))

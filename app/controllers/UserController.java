@@ -1075,4 +1075,25 @@ public class UserController extends Controller {
 		return redirect("/korisnici");
 	}
 
+	public static Result allUsersComment(int id){
+		User user=User.find(id);
+		List<TransactionP>transactionBuyers=new ArrayList<TransactionP>();
+		List<TransactionP> transactionSellers=new ArrayList<TransactionP>();
+		List<Product>soldProducts=new ArrayList<Product>();
+		for(Product product: user.products){
+			if(product.isSold){
+				soldProducts.add(product);
+			}
+		}
+		for(Product product: soldProducts)
+		{
+			transactionBuyers.add(product.purchaseTransaction);
+		}
+		for(Product product: user.bought_products)
+		{
+			transactionSellers.add(product.purchaseTransaction);
+		}
+		return ok(dojmovi.render(user,transactionBuyers,transactionSellers));
+	}
+	
 }

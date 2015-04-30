@@ -59,6 +59,7 @@ GET     /payPalValidation/:id/:payerId/:paymentId/:token/:accessToken           
 GET		/thepurchase/:id					controllers.UserController.showPurchase(id: Integer)
 POST	/thepurchase/:id					controllers.UserController.purchaseProcessing(id: Integer)
 GET		/purchasesuccess/:id				controllers.UserController.purchaseSuccess(id: Integer)
+GET     /dojmovi                            controllers.UserController.allUsersComment(id: Integer)
 
 # Json Controller
 
@@ -97,6 +98,7 @@ GET		/denyRefund/:id						controllers.ProductController.denyRefund(id: Integer)
 POST    /filteredSearch                     controllers.ProductController.filteredSearch(ids1: String, ids2: String)
 POST    /filterCondition                    controllers.ProductController.filterCondition(ids1: String, ids2: String)
 #POST    /pikStoreProducts                   controllers.ProductController.pikStoreProducts(ids1: String, ids2: String)
+
 
 # Category Controller
 

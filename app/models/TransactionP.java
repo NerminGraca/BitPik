@@ -21,6 +21,14 @@ public class TransactionP extends Model {
 	
 	public String buyer_comment;
 	
+	public double buyer_value;
+	
+	public String buyer_stringValue;
+	
+	public double seller_value;
+	
+	public String seller_stringValue;
+	
 	public String dateTransaction;
 	
 	@OneToOne
@@ -34,6 +42,8 @@ public class TransactionP extends Model {
 		this.token = "this is not a transaction";
 		this.seller_comment = "Ne postoji";
 		this.buyer_comment = "Ne postoji";
+		this.buyer_value=0;
+		this.seller_value=0;
 		this.dateTransaction = getDate();
 		this.product = null;
 	}
@@ -47,6 +57,8 @@ public class TransactionP extends Model {
 		this.token = token;
 		this.seller_comment = "Ne postoji";
 		this.buyer_comment = "Ne postoji";
+		this.buyer_value=0;
+		this.seller_value=0;
 		this.dateTransaction = getDate();
 		this.product = product;
 	}
@@ -115,6 +127,22 @@ public class TransactionP extends Model {
 		this.buyer_comment = buyer_comment;
 	}
 	
+	public double getBuyer_value(){
+		return buyer_value;
+	}
+	
+	public void setBuyer_value(double buyer_value){
+		this.buyer_value=buyer_value;
+	}
+	
+	public double getSeller_value(){
+		return seller_value;
+	}
+	
+	public void setSeller_value(double seller_value){
+		this.seller_value=seller_value;
+	}
+	
 	/**
 	 * After the item has been sold/bought we create the transaction and 
 	 * put the date into that transaction when has the transaction taken
@@ -134,4 +162,47 @@ public class TransactionP extends Model {
 	public Product getProductId() {
 		return product;
 	}	
-}
+	
+	public double setValue(String stringValue){
+		double value=0;
+		if(stringValue.equals("Pozitivan")){
+			value=1;
+			}
+		else if(stringValue.equals("Negativan")){
+			value=-1;
+		}
+		return value;
+		}
+	
+	public void setBuyer_StringValue(double value){
+		String stringValue="Neutralan";
+		if(value>0){
+			stringValue="Pozitivan";
+			}
+			else if(value<0){
+				stringValue="Negativan";
+			}
+		 buyer_stringValue=stringValue;
+		}
+	
+	public void setSellerStringValue(double value){
+		String stringValue="Neutralan";
+		if(value>0){
+			stringValue="Pozitivan";
+			}
+			else if(value<0){
+				stringValue="Negativan";
+			}
+		 seller_stringValue=stringValue;
+		}
+	
+	public String getBuyer_StringValue(){
+		return buyer_stringValue;
+	}
+	
+	public String getSeller_StringValue(){
+		return seller_stringValue;
+	}
+	}
+	
+
