@@ -12,13 +12,15 @@
     	<div class="content">
     		<div class="section group">
 				<div class="rightBox">
+
 					<h2 id="redText"><p>@Messages("KorisnickoIme"):</p></h2>
+
 					<p class="blueText">@u.username</p>
 					
 					<h2 id="redText"><p>@Messages("Email") </p></h2>		
 					<p class="blueText">@u.email</p>
 		
-					<h2 id="redText"><ep>@Messages("adminn"): </p></h2>
+					<h2 id="redText"><ep>@Messages("admin"): </p></h2>
 		
 						@if(u.isAdmin){
 							<p class="blueText">@Messages("Da")</p>
@@ -53,12 +55,14 @@
 					<div class="categories">
 					  	<ul>
 					  		
+
 					      <li><a href="/allMessages">@Messages("Poruke")</a></li>
 					      <li><a href="@routes.CreditController.showCredits()">@Messages("Krediti")</a></li>
 				     	  <li><a href="/profile">@Messages("ObjavljeniProizvodi")</a></li>
 				     	  <li><a href="@routes.UserController.find_bought_products()">@Messages("KupljeniProizvodi")</a></li>
 				     	  <li><a href="@routes.UserController.findSoldProducts()">@Messages("ProdatiProizvodi")</a></li>
 				     	  <li><a href="@routes.StatsController.showStats()">@Messages("Izvjestaj")</a></li>
+
 					     
 					      
 						</ul>

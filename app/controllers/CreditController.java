@@ -367,7 +367,7 @@ public class CreditController extends Controller{
 		int oldAmount = currentUser.bpcredit.getCredit();
 		// If the User wants to use more credits than he actually has we redirect him;
 		if (credit > oldAmount) {
-			flash("use_credit_poor", Messages.get("Žao nam je, nemate dovoljno kredita. Molim vas da kupite još kredita"));
+			flash("use_credit_poor", Messages.get("Žao nam je, nemate dovoljno kredita. Molimo Vas da kupite još kredita."));
 			return redirect(routes.CreditController.showCredits());
 		}
 		
@@ -387,7 +387,7 @@ public class CreditController extends Controller{
 		p.setExpirySpecial(c.getTime()); // We set the Date/Time as the expiry Date for the speciality of the prodcut;
 		p.save();
 	
-		flash("use_credit_success", Messages.get("Čestitamo, uspješno ste izdvojili oglas i iskoristili BitPik Kredite"));
+		flash("use_credit_success", Messages.get("Čestitamo, uspješno ste izdvojili oglas i iskoristili BitPik Kredite."));
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		return ok(profile.render(l, currentUser));
 		
@@ -444,7 +444,7 @@ public class CreditController extends Controller{
 		int oldAmount = currentUser.bpcredit.getCredit();
 		// If the User wants to update more credits than he actually has we redirect him;
 		if (credit > oldAmount) {
-			flash("update_credit_poor", Messages.get("Žao nam je, nemate dovoljno kredita. Molim vas da kupite jos kredita"));
+			flash("update_credit_poor", Messages.get("Žao nam je, nemate dovoljno kredita. Molimo Vas da kupite još kredita."));
 			return redirect(routes.CreditController.showCredits());
 		}
 		
@@ -467,7 +467,7 @@ public class CreditController extends Controller{
 		p.setExpirySpecial(c.getTime()); // We set the Date/Time as the expiry Date for the speciality of the prodcut;
 		p.save();
 				
-		flash("update_credit_success", Messages.get("Čestitamo, uspješno ste dopunili BitPik Kredite na oglasu"));
+		flash("update_credit_success", Messages.get("Čestitamo, uspješno ste dopunili BitPik Kredite na oglasu."));
 		
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		return ok(profile.render(l, currentUser));
