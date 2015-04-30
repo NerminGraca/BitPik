@@ -67,6 +67,20 @@ public class JsonHelper {
 		return product;
 	}
 	
+
+	/**
+	 * Used this simple one for now!.
+	 *
+	 * @param c the c
+	 * @return the object node
+	 */
+	public static ObjectNode jsonSimpleCategory(MainCategory c) {
+		ObjectNode category = Json.newObject();
+		category.put("id", c.id);
+		category.put("name", c.name);
+		return category;
+	}
+
 	
 	public static ObjectNode jsonCategory(MainCategory c){
 		ObjectNode category = Json.newObject();

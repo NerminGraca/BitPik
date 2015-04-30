@@ -66,6 +66,8 @@ GET     /dojmovi                            controllers.UserController.allUsersC
 GET		/profileAndroid						controllers.JsonController.profileAndroid()
 POST	/api/userforAnd						controllers.JsonController.getUserForAndroid()
 POST 	/api/editUserAndroid				controllers.JsonController.editUser()
+GET		/api/allcategoriesAndroid			controllers.JsonController.getAllCategories()
+POST	/api/getproductfromCategory			controllers.JsonController.getProductsFromCategory()
 
 # FAQ Controller
 

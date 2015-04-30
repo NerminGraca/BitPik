@@ -66,6 +66,53 @@ public class JsonController extends Controller{
 	}
 	
 	
+	/**
+	 * Used this simple one with id and name for now!
+	 * Check JsonHelper for bigger ;.
+	 *
+	 * @return the all categories
+	 */
+	public static Result getAllCategories() {
+		List<MainCategory> mainCategoryList = MainCategory.find.all();
+		
+		ArrayNode arrayNode = new ArrayNode(JsonNodeFactory.instance);
+		for(MainCategory category: mainCategoryList) {
+			ObjectNode categ = JsonHelper.jsonSimpleCategory(category);
+			arrayNode.add(categ);
+		}
+		return ok(arrayNode);
+		
+	}
+	
+	/**
+	 * This method receives the id of the Category
+	 * and should return us the list of the products
+	 * from that category;
+	 * @return
+	 */
+	public static Result getProductsFromCategory() {
+		JsonNode json = request().body().asJson();
+		Logger.info("json primljeni je " + json);
+		
+		String idAsString = json.findPath("id").asText();  
+		Logger.info("idAsString je (C) : " + idAsString);
+	
+		int id = Integer.valueOf(idAsString);
+		Logger.info("json convertovani je (C) : " + id);
+		
+		MainCategory mc = MainCategory.findMainCategory(id);
+		List<Product> productList = ProductController.findProduct.where().eq("mainCategory", mc).eq("isSold", false).findList();
+			
+		if (productList == null) {
+			return badRequest();
+		}
+		
+		ArrayNode arr = JsonHelper.jsonProductList(productList);
+		return ok(arr);
+		
+	}
+	
+	
 	
 	
 	public static Result registration(){
