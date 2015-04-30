@@ -16,25 +16,25 @@
     		<div class="section group">
 				<div class="col span_2_of_3">
 					<div class="contact-form">
-				  		<h1 class="redHeader">PROMIJENI PODATKE</h1>
+				  		<h1 class="redHeader">@Messages("PromjeniPodatke")</h1>
 						<div>
 							@helper.form(routes.UserController.saveEditedUser(u.id),'id->"nameForm") {
-								<h5 id="editProfileText">Ime:*</h5>
+								<h5 id="editProfileText">@Messages("Ime")*</h5>
 								<input pattern=".{3,20}" required title="Od 3 do 20 karaktera" type="text" value="@u.username" id="username" name="username" required/>								
 								
-								<h5 id="editProfileText">Email:*</h5>			
+								<h5 id="editProfileText">@Messages("Email")*</h5>			
 								<input type="email" value="@u.email" id="email" name="email" required/>
-								<h5 class="redHeaderReq">Molimo popunite sva polja oznacena sa *</h5>
+								<h5 class="redHeaderReq">@Messages("PopunitePolja") *</h5>
 								<br>
-								<input class="btn btn-primary btn-fontNovi" type="submit" value="Spasi promjene" />
+								<input class="btn btn-primary btn-fontNovi" type="submit" value="@Messages("SpasiPromjene")" />
 							}	
 						</div>
 						<br><br>
-						<h1 class="redHeader">PROMIJENI LOZINKU</h1>								
+						<h1 class="redHeader">@Messages("PromjeniLozinku")</h1>								
 						<br>
 						<div>	
 							@if(userCurrent.equals(u)){
-								<a class="btn btn-primary btn-fontNovi" href="/changePassword">Promijeni lozinku</a>
+								<a class="btn btn-primary btn-fontNovi" href="/changePassword">@Messages("PromjeniLozinkum")</a>
 							}
 						</div>								
 					</div>

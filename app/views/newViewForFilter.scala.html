@@ -13,7 +13,7 @@
 		         <div class="header_bottom_left">
 		            <div class="categories">
 		               <ul>
-		                  <h3>Kategorije</h3>
+		                  <h3>@Messages("Kategorije")</h3>
 		                  @if(mainCategoryList.size() > 0 ) {
 		                  @for(mainCategory <- mainCategoryList) {
 		                  <li><a href="kategorija/@mainCategory.id">@mainCategory.name</a></li>
@@ -29,7 +29,7 @@
 			<div>
            <div class="filter col-xs-2" style="padding: 15px; border: 3px solid #E1E4E1; background-color: #FCFCFC; margin: 0px 10px; -webkit-border-radius: 6px">
               <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
-            <h1 class="redHeaderAS">Raspon cijene (od-do)</h1>
+            <h1 class="redHeaderAS">@Messages("RasponCijene")</h1>
                <input type="number" min="1" max="9999999" step="any" value="" id="od" style="height:25px; width: 40%; font-size:18px;" name="priceMin"/>
                <input type="number" min="1" max="9999999" step="any" value="" id="do" style="height:25px; width: 40%; font-size:18px;" name="priceMax"/>
                					
@@ -97,7 +97,7 @@
                
                <br><br>
                <fieldset>
-                  <label class="redHeaderAS" for="location" width=3px>Lokacija</label>
+                  <label class="redHeaderAS" for="location" width=3px>@Messages("Lokacija")</label>
 
                  
 
@@ -118,7 +118,7 @@
                </fieldset>
                
                <br>
-               <h1 class="redHeaderAS">Opis</h1>
+               <h1 class="redHeaderAS">@Messages("Opis")</h1>
                <input type="text" value="" id="desc" name="desc" style="height:25px; width:95%; font-size:18px;" />	
                <input class="btn btn-primary btn-fontNovi" style="margin-left: 1%; margin-top: 15px; background-color:#85B80C; border-color:#283B5E;" type="submit" value="Traži" />
 	         </form>
@@ -148,10 +148,10 @@
             @if(!sproducts.isEmpty()) {
             <div class="content_top">
                <div class="heading">
-                  <h3>Izdvojeni artikli</h3>
+                  <h3>@Messages("IzdvojeniArtikli")</h3>
                </div>
                <div class="see">
-                  <p><a href="#">Pogledaj</a></p>
+                  <p><a href="#">@Messages("Pogledaj")</a></p>
                </div>
                <div class="clear"></div>
             </div>
@@ -164,9 +164,9 @@
                         <p style="padding-top:33px;"><span class="rupees">@sproduct.getPriceString() KM</span></p>
 					   					 </div>
 					   					  <div>
-					   					 <p style="float:initial; display:inline-block; padding-right:87px;">Objavljen:@sproduct.publishedDate<p></div>
+					   					 <p style="float:initial; display:inline-block; padding-right:87px;">@Messages("Objavljen")@sproduct.publishedDate<p></div>
                      <div class="add-cart">
-                        <h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
+                        <h4><a href="/showProduct/@sproduct.id">@Messages("Pogledaj")</a></h4>
                      </div>
                      <div class="clear"></div>
                   </div>
@@ -179,10 +179,10 @@
             <!-- Ovo je jedan red od cetiri boxa proizvoda - pocetak -->
             <div class="content_top">
                <div class="heading">
-                  <h3>Artikli</h3>
+                  <h3>@Messages("Artikli")</h3>
                </div>
                <div class="see">
-                  <p><a href="#">Pogledaj</a></p>
+                  <p><a href="#">@Messages("Pogledaj")</a></p>
                </div>
                <div class="clear"></div>
             </div>
@@ -197,9 +197,11 @@
                        <p style="padding-top:33px;"><span class="rupees">@product.getPriceString() KM</span></p>
 					   					 </div>
 					   					  <div>
-					   					 <p style="float:initial; display:inline-block; padding-right:30px;">Objavljen:@product.publishedDate<p></div>
+
+					   					 <p style="float:initial; display:inline-block; padding-right:87px;">@Messages("Objavljen")@product.publishedDate<p></div>
+
                      <div class="add-cart">
-                        <h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+                        <h4><a href="/showProduct/@product.id">@Messages("Pogledaj")</a></h4>
                      </div>
                      <div class="clear"></div>
                   </div>

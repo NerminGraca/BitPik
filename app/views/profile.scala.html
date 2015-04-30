@@ -39,15 +39,16 @@
 					
 					<div class="categories">
 					  	<ul>
-					  	  <li><a href="#">Izbrisi sliku</a></li>
-					      <li><a href="/allMessages">Poruke</a></li>
-					      <li><a href="@routes.CreditController.showCredits()">Krediti</a></li>
-					      <li><a href="/profile">Objavljeni proizvodi</a></li>
-					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
-					      <li><a href="@routes.UserController.findSoldProducts()">Prodati proizvodi</a></li>
-					      <li><a href="@routes.StatsController.showStats()">Izvjestaj</a></li>
+
+
+					  	  <li><a href="#">@Messages("IzbrisiSliku")</a></li>
+					      <li><a href="/allMessages">@Messages("Poruke")</a></li>
+					      <li><a href="@routes.CreditController.showCredits()">@Messages("Krediti")</a></li>
+					      <li><a href="/profile">@Messages("ObjavljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.find_bought_products()">@Messages("KupljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.findSoldProducts()">@Messages("ProdatiProizvodi")</a></li>
+					      <li><a href="@routes.StatsController.showStats()">@Messages("Izvjestaj")</a></li>
 					      <li><a href="@routes.UserController.allUsersComment(u.id)">Dojmovi</a></li>
-					      
 						</ul>
 					</div>						  	    
 				</div>
@@ -62,10 +63,10 @@
 				
 				
 				<div class="rightBox">
-					<h2 id="redText"><p>Korisničko ime:</p></h2>
+					<h2 id="redText"><p>@Messages("KorisnickoIme")</p></h2>
 					<p class="blueText">@u.username</p>
 					
-					<h2 id="redText"><p>Email: </p></h2>		
+					<h2 id="redText"><p>@Messages("Email")</p></h2>		
 					<p class="blueText">@u.email</p>
 					
 					@if(!u.isPikStore){
@@ -73,29 +74,29 @@
 					<h2 id="redText"><ep>Admin: </p></h2>
 		
 						@if(u.isAdmin){
-							<p class="blueText">Da</p>
+							<p class="blueText">@Messages("Da")</p>
 						}else{
-							<p class="blueText">Ne</p>			
+							<p class="blueText">@Messages("Ne")</p>			
 						}
 					}
-					<h2 id="redText"><p>Datum registracije:</p></h2>
+					<h2 id="redText"><p>@Messages("DatumRegistracije")</p></h2>
 					<p class="blueText">@u.createdDate</p><br>	
 					
 					@if(u.isPikStore){
 						
-						<h2 id="redText">Naziv firme:</h2>
+						<h2 id="redText">@Messages("NazivFirme")</h2>
 						<p class="blueText">@u.storeName</p>
 					
-						<h2 id="redText">Adressa:</h2>
+						<h2 id="redText">@Messages("Adresa")</h2>
 						<p class="blueText">@u.address</p>
 						
-						<h2 id="redText">Grad:</h2>
+						<h2 id="redText">@Messages("Grad")</h2>
 						<p class="blueText">@u.city</p>
 					
 					}
 				
 						<form action="/editUser/@u.id">
-    						<a class="btn btn-primary btn-fontNovi" href="/editUser/@u.id" class="btn">Izmijeni profil</a>
+    						<a class="btn btn-primary btn-fontNovi" href="/editUser/@u.id" class="btn">@Messages("IzmijeniProfil")</a>
 						</form>				
 				</div>				
 				
@@ -118,13 +119,13 @@
 					
 					<div class="categories">
 					  	<ul>
-					  	  <li><a href="#">Izbrisi sliku</a></li>
-					      <li><a href="/allMessages">Poruke</a></li>
-					      <li><a href="@routes.CreditController.showCredits()">Krediti</a></li>
-					      <li><a href="/profile">Objavljeni proizvodi</a></li>
-					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
-					      <li><a href="@routes.UserController.findSoldProducts()">Prodati proizvodi</a></li>
-					      <li><a href="@routes.StatsController.showStats()">Izvjestaj</a></li>
+					  	  <li><a href="#">@Messages("IzbrisiSliku")</a></li>
+					      <li><a href="/allMessages">@Messages("Poruke")</a></li>
+					      <li><a href="@routes.CreditController.showCredits()">@Messages("Krediti")</a></li>
+					      <li><a href="/profile">@Messages("ObjavljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.find_bought_products()">@Messages("KupljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.findSoldProducts()">@Messages("ProdatiProizvodi")</a></li>
+					      <li><a href="@routes.StatsController.showStats()">@Messages("Izvjestaj")</a></li>
 						</ul>
 					</div>					
 	  	    
@@ -153,7 +154,7 @@
 
 			<div class="section group">
 				<br>
-				<h1 class="redHeader"><span>Objavljeni proizvodi:</h1><br> 
+				<h1 class="redHeader"><span>@Messages("ObjavljeniProizvodi")</h1><br> 
 			</div>			
 			<div class="section group">
 				
@@ -169,7 +170,7 @@
 									<p><span class="rupees">@product.getPriceString() KM</span></p>
 					    		</div>
 					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+									<h4><a href="/showProduct/@product.id">@Messages("Pogledaj")</a></h4>
 								</div>
 								<div class="clear"></div>
 							</div>

@@ -13,13 +13,13 @@
 				<div class="section group">
 					<div class="col span_2_of_3">
 						<div class="contact-form">
-						<h1 id="BigTextCatgory">Izmijeni ime podkategorije:</h1><br>
+						<h1 id="BigTextCatgory">@Messages("IzmijeniPodkategoriju")</h1><br>
 						
 						@helper.form(routes.CategoryController.saveEditSubCategory(sc.id),'id->"productForm") {
 		
 							<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="@sc.name" id="name" name="name" required/>
 							<div id="buttonPossition">
-								<input type="submit" value="Spasi" />
+								<input type="submit" value="@Messages("Spasi")" />
 							</div>
 						}
 						</div>

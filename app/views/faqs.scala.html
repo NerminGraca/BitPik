@@ -25,7 +25,7 @@
 
 	
 		<ul id="faqs" class="cd-faq-group">
-			<li class="cd-faq-title"><h2>FAQs Pitanja & Odgovori</h2></li>
+			<li class="cd-faq-title"><h2>@Messages("FaqsPitanjaOdgovori")</h2></li>
 			
 	 @if(faqList.size() > 0 ) {
 		@for(faq <- faqList) {
@@ -35,8 +35,8 @@
 					<p>@faq.answer</p><!-- content here -->
 					@if(user != null) {	
 						@if(user.isAdmin) {
-							<button id="link"><a href="/editFaq/@faq.id">Edituj</a></button>
-							<button id="link1"><a href="/deleteFaq/@faq.id">Izbriši</a></button>
+							<button id="link"><a href="/editFaq/@faq.id">@Messages("Edituj")</a></button>
+							<button id="link1"><a href="/deleteFaq/@faq.id">@Messages("Izbrisi")</a></button>
 						}
 					}
 				</div> 
@@ -89,17 +89,17 @@
 				 
  		 @if(user.isAdmin) {
 			 				<br><br>
-			 				<h1 class="redHeader">Dodaj Pitanje & Odgovor:</h1><br>
+			 				<h1 class="redHeader">@Messages("DodajPitanje")</h1><br>
 		 						<div>
 										@helper.form(routes.FAQController.addFaq(), 'id -> "faqForm") {
-											<h5 id="editProfileText">Pitanje :</h5>
+											<h5 id="editProfileText">@Messages("Pitanje")</h5>
 											<input pattern=".{3,250}" type="text" value="" id="question" name="question" size="25" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" required/>
 											
-											<h5 id="editProfileText">Odgovor :</h5>
+											<h5 id="editProfileText">@Messages("Odgovor")</h5>
 											<input pattern=".{3,250}" type="text" value="" id="answer" name="answer" size="25" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" required/>
 											
 										<br>	
-		 									<input class="buttonRed" type="submit" value="Add a FAQ" />
+		 									<input class="buttonRed" type="submit" value="@Messages("DodajFaq")" />
 		 						</div>
 		 							}
 							}

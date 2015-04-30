@@ -9,21 +9,21 @@
     		<div class="section group">	
     			<div style="padding-left: 9%">
     			
-					  <h2>Izvjestaj korisnika : @u.username </h2>
+					  <h2>@Messages("IzvjestajKorisnika") : @u.username </h2>
 					  
 		
 		@if(!products.isEmpty) {
-					  		<h2>Objavljeni proizvodi :</h2>
+					  		<h2>@Messages("ObjavljeniProizvodi") :</h2>
 					  
 						 				   <div class="row">
-											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Bitpik id</strong></div>
-											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Ime proizvoda</strong></div>
-											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Cijena</strong></div>
-											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Datum objave</strong></div>
-											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Prodat artikal</strong></div>
-											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Izdvojen</strong></div>
-											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Br. pregleda</strong></div>
-											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>Br. komentara</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("BitpikId")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("ImeProizvoda")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("Cijena")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("DatumObjave")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("ProdatArtikal")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("Izdvojen")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("BrPregleda")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("BrKomentara")</strong></div>
 										  </div>
 				
 							
@@ -44,7 +44,7 @@
 							  	  <a href="@routes.StatsController.downloadStatistics()" class="btn btn-primary btn-fontNovi"> Download (Excel format) </a> 
 							  	  
 							} else {
-							<h2> Vi još uvijek nemate artikala</h2>							
+							<h2> @Messages("NemateArtikala")</h2>							
 							}
 								  
 				</div>

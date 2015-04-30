@@ -13,7 +13,7 @@
     		<div class="section group">
 				<div class="col span_2_of_3">
 					<div class="contact-form">
-				  		<h1 class="redHeader">KORAK 1 : Dodaj proizvod:</h1><br>
+				  		<h1 class="redHeader">@Messages("DodajProizvod")</h1><br>
 							
 							<!--	NAŠ HELPER 
 									MINIMUM of three characters is here!! 
@@ -21,18 +21,18 @@
 							
 								@helper.form(routes.ProductController.createProduct(),'id->"productForm") {
 									
-									<h5 id="editProfileText">Naziv proizvoda:*</h5>
-									<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="" id="name" name="name" required/>
+									<h5 id="editProfileText">@Messages("NazivProizvoda")</h5>
+									<input pattern=".{3,30}" required title="@Messages("tridotridesetKaraktera")" type="text" value="" id="name" name="name" required/>
 									
 									<h5 id="editProfileText">Kratki opis:*</h5>
-									<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="description" name="description" required/>
+									<input pattern=".{3,140}" required title="@Messages("tridostocetrdesetKaraktera")" type="text" value="" id="description" name="description" required/>
 									
 									
 									
 									<h5 id="editProfileText">Cijena:*</h5>			
 									<input type="number" min="1" max="9999999" step="any" value="" id="price" name="price" required/>
 									
-									<h5 class="redHeaderReq">Molimo popunite sva polja oznacena sa *</h5>	
+									<h5 class="redHeaderReq">@Messages("PopuniteSvaPolja")</h5>	
 														
 						  			<!-- This is css for Kategorija and availability dropdown meni -->
 					
@@ -69,7 +69,7 @@
 									<div class="demo">
 										<form action="#">
   											<fieldset>
-	    										<label id="editProfileText" for="category">Kategorija:</label>
+	    										<label id="editProfileText" for="category">@Messages("Kategorija:")</label>
 	    										<select name="categoryString" id="categoryString">
 		    										@if(mainCategoryList.size() > 0 ) {
 						  								@for(mainCategory <- mainCategoryList) {
@@ -84,7 +84,7 @@
  													@if(mainCategory.subCategories.size > 0) {
  														<div id="@mainCategory.name" class="fieldsetToHide">
  															<fieldset>
-						  										<label id="editProfileText" for="subcategory">Podkategorija:</label>
+						  										<label id="editProfileText" for="subcategory">@Messages("Podkategorija")</label>
 						  										<select name="inactive" id="inactive">
 						  											@for(subCategory <- mainCategory.subCategories) {
  																		<option value="@subCategory.name">@subCategory.name</option>
@@ -142,7 +142,7 @@
 						 					</script>
 	
 											<fieldset>
-			   									<label id="editProfileText" for="location">Lokacija:</label>
+			   									<label id="editProfileText" for="location">@Messages("Lokacija")</label>
 			    								<select name="location" id="location">
 			     									<option selected="selected">Sarajevo</option>
 									      			<option>Mostar</option>
@@ -158,15 +158,15 @@
 									   		 </fieldset> 
 									   		 
 									   		 <fieldset>
-			   									<label id="editProfileText" for="exchange">Prihvatate li zamjenu za ovaj proizvod?</label>
+			   									<label id="editProfileText" for="exchange">@Messages("PrihvatateLiZamjenu")</label>
 			    								<select name="exchange" id="exchange"  style="width:270px;">
-			     									<option selected="selected">Da</option>
-									      			<option>Ne</option>
+			     									<option selected="selected">@Messages("Da")</option>
+									      			<option>@Messages("Ne")</option>
 									      			</select>
 									      			</fieldset>
 										</form>
 
-										<h5 id="editProfileText">Detaljni opis:</h5>
+										<h5 id="editProfileText">@Messages("DetaljniOpis")</h5>
 									<textarea maxlength="250" value="" id="longDescription" name="longDescription" ></textarea>
 
 									<script>
@@ -174,7 +174,7 @@
 									CKEDITOR.replace('longDescription');
 									</script>
 
-									<input class="btn btn-primary btn-odmak btn-fontNovi" type="submit" value="Objavi" />
+									<input class="btn btn-primary btn-odmak btn-fontNovi" type="submit" value="@Messages("Objavi")" />
 						</div>
 					</div>
   				</div>			
