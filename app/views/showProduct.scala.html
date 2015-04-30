@@ -415,9 +415,17 @@
 									<!--  Ovaj formular za ostavljanje komentara vidi samo prodavac, i ako nije vec ostavio komentar -->					
 									 @if(user == p.owner) {				
 										@if(p.purchaseTransaction.seller_comment.equals("Ne postoji")) {
-											<p>Upisite Vas komentar na transakciju</p>
+											<p>Upisite Vas komentar na transakciju i ocijenite kupca</p>
 											@form(routes.ProductController.leaveSCommentTransaction(p.id),'id->"transactionForm") {					
 													<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="seller_comment" name="seller_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
+													<fieldset>
+			   									<label id="editProfileText" for="seller_stringValue">Dojam:</label>
+			    								<select name="seller_stringValue" id="seller_stringValue">
+			     									<option selected="selected" style="background-color:yellow">Neutralan</option>
+									      			<option style="background-color:green">Pozitivan</option>
+									    			<option style="background-color:red">Negativan</option>
+									    			</select>
+									    			</fieldset>
 												<div class="button">
 													<input type="submit" value="Ostavi Komentar"/>				
 												</div>
@@ -436,9 +444,17 @@
 										@if(user == p.buyerUser) {				
 											@if(p.purchaseTransaction.buyer_comment.equals("Ne postoji")) {
 												<br>
-											 	<p>Upisite Vas komentar na transakciju</p>
+											 	<p>Upisite Vas komentar na transakciju i ocijenite prodavača</p>
 													@form(routes.ProductController.leaveBCommentTransaction(p.id),'id->"transactionForm") {
 															<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="buyer_comment" name="buyer_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
+															<fieldset>
+			   									<label id="editProfileText" for="buyer_stringValue">Dojam:</label>
+			    								<select name="buyer_stringValue" id="buyer_stringValue">
+			     									<option selected="selected">Neutralan</option>
+									      			<option>Pozitivan</option>
+									    			<option>Negativan</option>
+									    			</select>
+									    			</fieldset>
 														<div class="button">
 															<span>
 																<input type="submit" value="Ostavi Komentar"/>

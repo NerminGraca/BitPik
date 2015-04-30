@@ -684,9 +684,12 @@ public class ProductController extends Controller {
 		}
 	
 		String comment;
+		double value;
+		String stringValue;
 		// In the case, when the Buyer, leaves a comment to the transaction;
 				try {
 					comment = newTransaction.bindFromRequest().get().buyer_comment;
+					stringValue=newTransaction.bindFromRequest().get().buyer_stringValue;
 				} catch(IllegalStateException e) {
 					return redirect("/showProduct/" + id);
 				}
@@ -696,6 +699,9 @@ public class ProductController extends Controller {
 					}
 				Product p = Product.find.byId(id);
 				p.purchaseTransaction.setBuyer_comment(comment);
+				value=p.purchaseTransaction.setValue(stringValue);
+				p.purchaseTransaction.setBuyer_value(value);
+				p.purchaseTransaction.setBuyer_StringValue(value);
 				p.save();
 				return redirect("/showProduct/" + id);
 	}
@@ -721,9 +727,12 @@ public class ProductController extends Controller {
 		}
 	
 		String comment;
+		double value;
+		String stringValue;
 		// In the case, when the Seller, leaves a comment to the transaction;
 				try {
 					comment = newTransaction.bindFromRequest().get().seller_comment;
+					stringValue=newTransaction.bindFromRequest().get().seller_stringValue;
 				} catch(IllegalStateException e) {
 					return redirect("/showProduct/" + id);
 				}
@@ -733,6 +742,9 @@ public class ProductController extends Controller {
 					}
 				Product p = Product.find.byId(id);
 				p.purchaseTransaction.setSeller_comment(comment);
+				value=p.purchaseTransaction.setValue(stringValue);
+				p.purchaseTransaction.setSeller_value(value);
+				p.purchaseTransaction.setSellerStringValue(value);
 				p.save();
 				return redirect("/showProduct/" + id);
 	}

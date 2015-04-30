@@ -58,6 +58,7 @@ GET     /payPalValidation/:id/:payerId/:paymentId/:token/:accessToken           
 GET		/thepurchase/:id					controllers.UserController.showPurchase(id: Integer)
 POST	/thepurchase/:id					controllers.UserController.purchaseProcessing(id: Integer)
 GET		/purchasesuccess/:id				controllers.UserController.purchaseSuccess(id: Integer)
+GET     /dojmovi                            controllers.UserController.allUsersComment(id: Integer)
 
 # Json Controller
 

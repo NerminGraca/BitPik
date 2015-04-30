@@ -333,5 +333,51 @@ public class User extends Model {
 		}
 		this.password = password;
 	}
+	
+	public String userSellerValue(){
+		double value=0;
+		double sum=0;
+		try {
+			for(Product product: products){
+				if(product.isSold){
+				sum+=product.purchaseTransaction.getBuyer_value();
+				}
+			}
+		} catch (NullPointerException e) {
+			sum=0;
+		}
+		value=sum/products.size();
+		
+		if(value<0){
+			return "Negativan";
+		}
+		else if(value>0){
+			return "Pozitivan";
+		}
+		return "Neutralan";
+	}
+	
+	public String userBuyerValue(){
+		double value=0;
+		double sum=0;
+		try {
+			for(Product product: bought_products){
+				
+				sum+=product.purchaseTransaction.getSeller_value();
+			}
+		} catch (NullPointerException e) {
+			
+			sum=0;
+		}
+		value=sum/bought_products.size();
+		
+		if(value<0){
+			return "Negativan";
+		}
+		else if(value>0){
+			return "Pozitivan";
+		}
+		return "Neutralan";
+	}
 
 }
