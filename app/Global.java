@@ -21,19 +21,20 @@ public class Global extends GlobalSettings {
 			User ad = User
 					.createAdmin("admin", "admin", "admin@admin.ba", true);
 			ad.verified = true;
-			ad.imagePath = "images/profilePicture/adminpic.png";
+			ad.imagePathOne = ImgPath.create("kbys61izv7mgfdzqeqqc", "http://res.cloudinary.com/bitpik/image/upload/v1430740280/kbys61izv7mgfdzqeqqc.png", "https://res.cloudinary.com/bitpik/image/upload/v1430740280/kbys61izv7mgfdzqeqqc.png", ad);
+			
 			ad.save();
 			
 			//Seller entry
 			User seller = User.create("seller", "seller", "seller@seller.com");
 			seller.verified = true;
-			seller.imagePath = "images/profilePicture/sherlock.png";
+			seller.imagePathOne = ImgPath.create("sherlock_bnoec0", "http://res.cloudinary.com/bitpik/image/upload/v1430754032/sherlock_bnoec0.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430754032/sherlock_bnoec0.jpg", seller);
 			seller.save();
 			
 			//Buyer entry
 			User buyer = User.create("buyer", "buyer", "buyer@buyer.com");
 			buyer.verified = true;
-			buyer.imagePath = "images/profilePicture/rust.png";
+			buyer.imagePathOne = ImgPath.create("matthew_r0muw2", "http://res.cloudinary.com/bitpik/image/upload/v1430755246/matthew_r0muw2.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430755246/matthew_r0muw2.jpg", buyer);
 			buyer.save();
 			
 			//Blogger entry
@@ -183,82 +184,83 @@ public class Global extends GlobalSettings {
 			MainCategory mc = MainCategory.findMainCategoryByName("Moj dom");
 			SubCategory sc = SubCategory.findSubCategoryByName("Namještaj");
 			Product p1 = Product.create("Stolica", "Stolica Bijela Nova", "Nova Stolica kupljena 2013, Savršena!", 70.00, seller, mc, sc, "Sarajevo","Novo","Da");
-			p1.productImagePath = "images/productPicture/whitechair.jpg";
+			ImgPath i1 = ImgPath.create("whitechair_oq6pn9", "http://res.cloudinary.com/bitpik/image/upload/v1430753379/whitechair_oq6pn9.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430753379/whitechair_oq6pn9.jpg", p1);
 			p1.save();
+			
 			
 			// Seller vec objavio MacBookPro product;
 			MainCategory mcw2 = MainCategory.findMainCategoryByName("Kompjuteri");
 			SubCategory scw2 = SubCategory.findSubCategoryByName("Laptopi");
 			Product p2 = Product.create("Mac Book Pro 13", "Nov Mac Book Pro 13", "Savršen, Prelijep, Nov Mac Book Pro 13!", 3500.00, seller, mcw2, scw2, "Sarajevo","Novo","Ne");
-			p2.productImagePath = "images/productPicture/macbookpro.jpg";
+			ImgPath i2 = ImgPath.create("macbookpro_rx4mye", "http://res.cloudinary.com/bitpik/image/upload/v1430753379/macbookpro_rx4mye.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430753379/macbookpro_rx4mye.jpg", p2);
 			p2.save();
 			
 			// Seller vec objavio Parfem product;
 			MainCategory mcw3 = MainCategory.findMainCategoryByName("Ljepota i zdravlje");
 			SubCategory scw3 = SubCategory.findSubCategoryByName("Parfemi");
 			Product p3 = Product.create("Gucci Parfem", "Nov Gucci Parfem", "Nov Gucci Parfem, Pour Home", 120.00, seller, mcw3, scw3, "Sarajevo","Novo","Ne");
-			p3.productImagePath = "images/productPicture/gucciperfume.jpg";
+			ImgPath i3 = ImgPath.create("gucciperfume_uoktpl", "http://res.cloudinary.com/bitpik/image/upload/v1430753378/gucciperfume_uoktpl.png", "https://res.cloudinary.com/bitpik/image/upload/v1430753378/gucciperfume_uoktpl.png", p3);;
 			p3.save();
 			
-			// Seller vec objavio MacBookPro product;
+			// Seller vec objavio iphone product;
 			MainCategory mcw4 = MainCategory.findMainCategoryByName("Mobilni uređaji");
 			SubCategory scw4 = SubCategory.findSubCategoryByName("Mobiteli");
 			Product p4 = Product.create("iPhone 6", "iPhone 6", "iPhone 6 - Dual-core 1.4 GHz Cyclone", 900.00, seller, mcw4, scw4, "Sarajevo","Korišteno","Da");
-			p4.productImagePath = "images/productPicture/iphone6.jpg";
+			ImgPath i4 = ImgPath.create("iphone6_d2vqg3", "http://res.cloudinary.com/bitpik/image/upload/v1430753378/iphone6_d2vqg3.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430753378/iphone6_d2vqg3.jpg", p4);;
 			p4.save();
 			
 			// Prodavac published the ikea Lamp product;
 			SubCategory lamps = SubCategory.findSubCategoryByName("Lampe i rasvjeta");
 			Product p5 = Product.create("Ikea Lampa", "Ikea Lampa 2013", "Nova Ikea Lampa - Proizvodnja 2013 godina", 60.00, seller, mc, lamps, "Mostar","Novo","Da");
-			p5.productImagePath = "images/productPicture/ikealamp.jpg";
+			ImgPath i5 = ImgPath.create("ikealamp_gsv69v", "http://res.cloudinary.com/bitpik/image/upload/v1430753377/ikealamp_gsv69v.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430753377/ikealamp_gsv69v.jpg", p5);;
 			p5.save();
 			
 			// Prodavac published the headphones product;	
 			MainCategory tehnika = MainCategory.findMainCategoryByName("Tehnika");
 			SubCategory multimedija = SubCategory.findSubCategoryByName("Multimedija");
 			Product p6 = Product.create("Slušalice", "Crne slušalice", "Bass slušalice, Sensibilitet: 95 -3dB, Frek.: 20-2000Hz ", 50.00, seller, tehnika, multimedija, "Mostar","Korišteno","Ne");
-			p6.productImagePath = "images/productPicture/headphones.jpg";
+			ImgPath i6 = ImgPath.create("headphones_oixpmm", "http://res.cloudinary.com/bitpik/image/upload/v1430753378/headphones_oixpmm.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430753378/headphones_oixpmm.jpg", p6);;
 			p6.save();
 			
 			// Prodavac published the tires and rims product;	
 			MainCategory vozilad = MainCategory.findMainCategoryByName("Vozila");
 			SubCategory doo = SubCategory.findReturnSubCategoryByNameAndMainCategory("Dijelovi i oprema", vozilad);
 			Product p7 = Product.create("Felge i Gume", "Felge 19 incha i Gume", "Rally Gume, Širina: 30mm, Heksagonalna dužina: 12mm, Težina: 139g/4komada", 450.00, seller, vozilad, doo, "Mostar","Korišteno","Da");
-			p7.productImagePath = "images/productPicture/rims.jpg";
+			ImgPath i7 = ImgPath.create("rims_byz1qr", "http://res.cloudinary.com/bitpik/image/upload/v1430753379/rims_byz1qr.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430753379/rims_byz1qr.jpg", p7);;
 			p7.save();
 			
-			// Prodavac published the red car toy product;	
+			// Prodavac published the snowboard;	
 			MainCategory sportsub = MainCategory.findMainCategoryByName("Sportska oprema");
 			SubCategory wintersports = SubCategory.findReturnSubCategoryByNameAndMainCategory("Zimski sportovi", sportsub);
 			Product p8 = Product.create("Snowboard", "Snow board 2012", "Snow board 2012 - Lijep dizajn od drveta", 250.00, seller, sportsub, wintersports, "Mostar","Novo","Ne");
-			p8.productImagePath = "images/productPicture/snowboard.jpg";
+			ImgPath i8 = ImgPath.create("snowboard_lgkgfd", "http://res.cloudinary.com/bitpik/image/upload/v1430753378/snowboard_lgkgfd.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430753378/snowboard_lgkgfd.jpg", p8);;
 			p8.save();
 			
 			MainCategory mainCat = MainCategory.findMainCategoryByName("Nekretnine");
 			User realestate = User.createPikStore("Real Estate", "realestate", "realestate@realestate.com", "Real Estate Company d.o.o.", "Ferhadija 55", "Sarajevo",mainCat);
 			realestate.isPikStore = true;
 			realestate.verified = true;
-			realestate.imagePath = "images/profilePicture/realestate.png";
+			realestate.imagePathOne = ImgPath.create("m6e6irxrf2gtgecpizko", "http://res.cloudinary.com/bitpik/image/upload/v1430739418/m6e6irxrf2gtgecpizko.png", "https://res.cloudinary.com/bitpik/image/upload/v1430739418/m6e6irxrf2gtgecpizko.png", realestate);;
 			realestate.save();
 			
 			MainCategory mainCat2 = MainCategory.findMainCategoryByName("Sportska oprema");
 			User sportshop = User.createPikStore("Sport Shop", "sportshop", "sportshop@sportshop.com", "Sport Shop Company d.o.o.", "Titova 33", "Sarajevo",mainCat2);
 			sportshop.isPikStore = true;
 			sportshop.verified = true;
-			sportshop.imagePath = "images/profilePicture/sportshop.jpg";
+			sportshop.imagePathOne = ImgPath.create("01-Sports-Shop_gkpghw", "http://res.cloudinary.com/bitpik/image/upload/v1430755667/01-Sports-Shop_gkpghw.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430755667/01-Sports-Shop_gkpghw.jpg", sportshop);;
 			sportshop.save();
 			
 			User addidasShop = User.createPikStore("Addidas Sport Shop", "addidassportshop", "addidassportshop@addidassportshop.com", "Addidas Sport Shop d.o.o.", "Džemala Bijedića 18", "Sarajevo",mainCat2);
 			addidasShop.isPikStore = true;
 			addidasShop.verified = true;
-			addidasShop.imagePath =  "images/profilePicture/adidasshop.jpg";
+			addidasShop.imagePathOne =  ImgPath.create("fgufpzeffzulkslpsk19", "http://res.cloudinary.com/bitpik/image/upload/v1430738310/fgufpzeffzulkslpsk19.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430738310/fgufpzeffzulkslpsk19.jpg", addidasShop);;
 			addidasShop.save();
 			
 			MainCategory mainCat3 = MainCategory.findMainCategoryByName("Biznis i industrija");
 			User eslc = User.createPikStore("Eslc", "eslc", "eslc@eslc.com", "English Skills Learning Center", "Safeta B. Bašagića 32", "Sarajevo", mainCat3);
 			eslc.isPikStore = true;
 			eslc.verified = true;
-			eslc.imagePath = "images/profilePicture/ecls.jpg";
+			eslc.imagePathOne = ImgPath.create("ggifejbcqyao5i6gywvg", "http://res.cloudinary.com/bitpik/image/upload/v1430741095/ggifejbcqyao5i6gywvg.png", "https://res.cloudinary.com/bitpik/image/upload/v1430741095/ggifejbcqyao5i6gywvg.png", eslc);;
 			eslc.save();
 
 			Blogger b = new Blogger("BitPik Stranica", "Pokrenuta je BitPik stranica", "Nakon dugih 5 mjeseci, konacno, pokrenuta je Bitpik web stranica. Napravili su je skupina sjajnih Java Developera sa ciljem da prekinu dominaciju i monopol pik.ba sadasnjeg olx.ba, koja je kao sto znate veoma popularna bh. stranica. Skupina pomenutih Java Developera cine : Mirza Becic, Hikmet Durgutovic, Selma Tabakovic, Adnan Spahic, Gordan Sajevic i Nedzad Hamzic. ","BitCamp");

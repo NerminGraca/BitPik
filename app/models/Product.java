@@ -57,8 +57,6 @@ public class Product extends Model {
 	public SubCategory subCategory;
 	
 	public String subCategoryString;
-
-	public String productImagePath;
 	
 	@ManyToOne
 	public User buyerUser;
@@ -98,7 +96,6 @@ public class Product extends Model {
 		this.location = "Unknown";
 		this.subCategory = null;
 		this.subCategoryString = "Unknown";
-		this.productImagePath = "images/productPicture/no-img.jpg";
 		this.buyerUser = null;
 		this.credit = 0;
 		this.isSpecial = false;
@@ -126,7 +123,6 @@ public class Product extends Model {
 		this.location = location;
 		this.condition=condition;
 		publishedDate = getDate();
-		this.productImagePath = "images/productPicture/no-img.jpg";
 		this.buyerUser = null;
 		this.credit = 0;
 		this.isSpecial = false;

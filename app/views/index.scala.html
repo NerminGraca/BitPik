@@ -99,7 +99,7 @@
 			   	      @if(shops.size() > 0) {
 	      				       @for(shop <- shops) {						
 							   
-					 			<a href="/korisnik/@shop.id"><img src="@routes.Assets.at(shop.imagePath)" alt="" class="productImg"/ style="height: 190px; width: 190px; background-position: center center; border:1px solid #EEE;"></a>
+					 			<a href="/korisnik/@shop.id"><img src="@shop.imagePathOne.getSize(200,200)" alt="" class="productImg"/ style="height: 190px; width: 190px; background-position: center center; border:1px solid #EEE;"></a>
 					 			
 								}				 
 							
@@ -135,7 +135,7 @@
 				
 						@for(sproduct <- sproducts) {						
 							<div class="grid_1_of_4 images_1_of_4" >
-					 			<a href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" class="productImg"/></a>
+					 			<a href="/showProduct/@sproduct.id"><img src="@sproduct.imgPathList.get(0).getSize(200, 200)" alt="" class="productImg"/></a>
 					 			
 									<div class="price-details">
 				       					<div class="price-number">
@@ -172,7 +172,7 @@
 					@if(products.size() > 0 ) {
 						@for(product <- products) {						
 							<div class="grid_1_of_4 images_1_of_4">
-					 			<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
+					 			<a class="productImg" href="/showProduct/@product.id"><img src="@product.imgPathList.get(0).getSize(200, 200)" alt="" /></a>
 					 			<h2>@product.name </h2>
 									<div class="price-details">
 									

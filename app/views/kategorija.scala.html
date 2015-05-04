@@ -177,7 +177,7 @@
                         <div class="section group">
                            @for(sproduct <- sproducts) {						
                            <div class="grid_1_of_4 images_1_of_4" >
-                              <a href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" class="productImg"/></a>
+                              <a href="/showProduct/@sproduct.id"><img src="@sproduct.imgPathList.get(0).getSize(200, 200)" alt="" class="productImg"/></a>
                               <div class="price-details">
                                  <div class="price-number">
                                  <p style="padding-top:33px;"><span class="rupees">@sproduct.getPriceString() KM</span></p>
@@ -200,7 +200,7 @@
                            @if(products.size() > 0 ) {
                            @for(product <- products) {						
                            <div class="grid_1_of_4 images_1_of_4">
-                              <a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
+                              <a class="productImg" href="/showProduct/@product.id"><img src="@product.imgPathList.get(0).getSize(200, 200)" alt="" /></a>
                               <h2>@product.name </h2>
                               <div class="price-details">
                                  <div class="price-number">

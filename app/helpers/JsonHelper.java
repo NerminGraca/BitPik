@@ -61,7 +61,7 @@ public class JsonHelper {
 		product.put("longDescription", p.longDescription);
 		product.put("publishedDate", p.publishedDate);
 		product.put("location", p.location);
-		product.put("productImagePath", p.productImagePath);
+		product.put("productImagePath", p.imgPathList.get(0).image_url);
 		product.put("ownerUsername", p.owner.username);
 		product.put("ownerId", p.owner.id);
 		return product;

@@ -435,7 +435,7 @@ public class ProductController extends Controller {
 		}
 		File image = filePart.getFile();
 		// NOVO!!!
-		ImageController.create(image);
+	
 		
 		//it takes extension from image that is uploaded
 		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
@@ -464,25 +464,26 @@ public class ProductController extends Controller {
 			return redirect("/addPictureProduct/" + id);
 		}
 		
+		ImageController.create(image, p);
+		
 		//creating image name from user id, and take image extension, than move image to new location
-		try {
-			File profile = new File(savePath + UUID.randomUUID().toString() + extension);
-			Files.move(image, profile );		
-			String assetsPath = "images" 
-					+ File.separator + "productPicture" + File.separator + profile.getName();
-			p.productImagePath = assetsPath;
-			ImgPath imp = new ImgPath(assetsPath, p);
-			p.imgPathList.add(imp);
-			
-			p.save();
-		} catch (IOException e) {
-			Logger.of("product").error( u.username + " failed to upload an image to the product " +p.name);
-			e.printStackTrace();
-		}
+//		try {
+//			File profile = new File(savePath + UUID.randomUUID().toString() + extension);
+//			Files.move(image, profile );		
+//			String assetsPath = "images" 
+//					+ File.separator + "productPicture" + File.separator + profile.getName();
+//			p.productImagePath = assetsPath;
+//			ImgPath imp = new ImgPath(assetsPath, p);
+//			p.imgPathList.add(imp);
+//			
+//			p.save();
+//		} catch (IOException e) {
+//			Logger.of("product").error( u.username + " failed to upload an image to the product " +p.name);
+//			e.printStackTrace();
+//		}
 		
 
 		flash("add_product_success", Messages.get("Uspješno ste uploadali sliku."));
-
 		flash("add_product_success", Messages.get("Uspješno ste objavili oglas."));
 
 

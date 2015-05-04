@@ -1,15 +1,27 @@
 package controllers;
 
 import java.io.File;
+
 import models.ImgPath;
+import models.Product;
+import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 
 public class ImageController  extends Controller  {
 
-	public static void create(File image){
-		ImgPath.create(image);
+	public static void create(File image, Object obj){
+		
+		if (obj instanceof Product) {
+			Product p = (Product) obj;
+			ImgPath.create(image, p);
+		} else if (obj instanceof User) {
+			User u = (User) obj;
+			ImgPath.create(image, u);
+		}
+		
+		//TODO;
 		
 	}
 	

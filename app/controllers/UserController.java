@@ -729,19 +729,21 @@ public class UserController extends Controller {
 			return redirect("/profile");
 		}
 		
-		//creating image name from user id, and take image extension, than move image to new location
-		try {
-			File profile = new File(savePath + userID + extension);
-			Files.move(image, profile );		
-			String assetsPath = "images" 
-					+ File.separator + "profilePicture" + File.separator + profile.getName();
-			u.imagePath = assetsPath;
-			ImageController.create(image);
-			u.save();
-		} catch (IOException e) {
-			Logger.of("user").error( u.username + " failed to upload an image to his profile page.");
-			e.printStackTrace();
-		}
+		ImageController.create(image , u);
+		
+//		//creating image name from user id, and take image extension, than move image to new location
+//		try {
+//			File profile = new File(savePath + userID + extension);
+//			Files.move(image, profile );		
+//			String assetsPath = "images" 
+//					+ File.separator + "profilePicture" + File.separator + profile.getName();
+//			u.imagePath = assetsPath;
+//			
+//			u.save();
+//		} catch (IOException e) {
+//			Logger.of("user").error( u.username + " failed to upload an image to his profile page.");
+//			e.printStackTrace();
+//		}
 		flash("upload_img_success",  Messages.get("Uspješno ste objavili sliku."));
 		if (!request().accepts("text/html")) {
 			return ok(JsonHelper.jsonUser(u));

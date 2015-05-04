@@ -69,6 +69,9 @@ public class User extends Model {
 	
 	public String imagePath;
 	
+	@OneToOne(mappedBy="userImage", cascade=CascadeType.ALL)
+	public ImgPath imagePathOne;
+	
 	@OneToMany(mappedBy="buyerUser", cascade=CascadeType.ALL)
 	public List<Product> bought_products;
 
@@ -269,6 +272,14 @@ public class User extends Model {
 	{
 		this.isPikStore=true;
 		save();
+	}
+	
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 	
 	public void setStoreCategory(MainCategory storeCategory){

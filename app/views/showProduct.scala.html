@@ -60,8 +60,8 @@
 	    									@if(p.imgPathList.size() > 0  ) {
 									  			@for(imgPath <- p.imgPathList) {
 									  			<div class="imageWrap">	
-									  				<a class="fancybox" rel="gallery1" href="@routes.Assets.at(imgPath.image_url)">
-									  					<img style="max-width:250px; max-height:250px;" src="@routes.Assets.at(imgPath.image_url)" alt="" />	
+									  				<a class="fancybox" rel="gallery1" href="@imgPath.getSize(200, 200)">
+									  					<img style="max-width:250px; max-height:250px;" src="@imgPath.getSize(200, 200)" alt="" />	
 									  				</a>
 									  				@if(user != null) {
 									  					@if(user.username.equals(p.owner.username)) {
@@ -74,7 +74,7 @@
 									  			</div>				  			
 									  			}
 									  		} else {
-									  			<img src="@routes.Assets.at(p.productImagePath)" alt="" />
+									  			<img src="@p.imgPathList.get(0).getSize(200, 200)" alt="" />
 									  		}
 	    									
 										</div>
