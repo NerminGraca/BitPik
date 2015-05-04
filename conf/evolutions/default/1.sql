@@ -39,7 +39,9 @@ create table faq (
 
 create table img_path (
   id                        integer not null,
-  img_path                  varchar(255),
+  public_id                 varchar(255),
+  image_url                 varchar(255),
+  secret_image_url          varchar(255),
   product_id                integer,
   constraint pk_img_path primary key (id))
 ;

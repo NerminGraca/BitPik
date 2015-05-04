@@ -736,6 +736,7 @@ public class UserController extends Controller {
 			String assetsPath = "images" 
 					+ File.separator + "profilePicture" + File.separator + profile.getName();
 			u.imagePath = assetsPath;
+			ImageController.create(image);
 			u.save();
 		} catch (IOException e) {
 			Logger.of("user").error( u.username + " failed to upload an image to his profile page.");

@@ -354,7 +354,7 @@ public class ProductController extends Controller {
 		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
 		
 		for (int i = 0; i< imgList.size() ; i++){
-			String s = imgList.get(i).imgPath;
+			String s = imgList.get(i).image_url;
 			
 			if (!s.equals(defaultPic)) {
 				File file = new File(deletePath + s);
@@ -434,6 +434,8 @@ public class ProductController extends Controller {
 			 return redirect("/addPictureProduct/" + id);
 		}
 		File image = filePart.getFile();
+		// NOVO!!!
+		ImageController.create(image);
 		
 		//it takes extension from image that is uploaded
 		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
@@ -471,6 +473,7 @@ public class ProductController extends Controller {
 			p.productImagePath = assetsPath;
 			ImgPath imp = new ImgPath(assetsPath, p);
 			p.imgPathList.add(imp);
+			
 			p.save();
 		} catch (IOException e) {
 			Logger.of("product").error( u.username + " failed to upload an image to the product " +p.name);

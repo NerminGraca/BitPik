@@ -60,12 +60,12 @@
 	    									@if(p.imgPathList.size() > 0  ) {
 									  			@for(imgPath <- p.imgPathList) {
 									  			<div class="imageWrap">	
-									  				<a class="fancybox" rel="gallery1" href="@routes.Assets.at(imgPath.imgPath)">
-									  					<img style="max-width:250px; max-height:250px;" src="@routes.Assets.at(imgPath.imgPath)" alt="" />	
+									  				<a class="fancybox" rel="gallery1" href="@routes.Assets.at(imgPath.image_url)">
+									  					<img style="max-width:250px; max-height:250px;" src="@routes.Assets.at(imgPath.image_url)" alt="" />	
 									  				</a>
 									  				@if(user != null) {
 									  					@if(user.username.equals(p.owner.username)) {
-									  						@form(routes.ProductController.deleteOnePicture(p.id, imgPath.imgPath)) {
+									  						@form(routes.ProductController.deleteOnePicture(p.id, imgPath.image_url)) {
 									  						<input class="btnDelete" type="submit" value="Izbriši sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati sliku?');"> 
 									  						}
 									  					}
@@ -84,7 +84,7 @@
 										
 											@if(p.imgPathList.size() > 0  ) {
 									  			@for(imgPath <- p.imgPathList) {
-									  				<li><a href=""@routes.Assets.at(imgPath.imgPath)""><img src="@routes.Assets.at(imgPath.imgPath)" alt=" " /></a></li>
+									  				<li><a href=""@routes.Assets.at(imgPath.image_url)""><img src="@routes.Assets.at(imgPath.image_url)" alt=" " /></a></li>
 									  			}
 									  		}
 											
