@@ -1903,6 +1903,14 @@ h3.linkovan:hover{
 		padding:0;
 	}	
 	
+	.account_desc{
+		padding: 30px 20px 0 0;
+		height: 20px;
+	}
+	
+	.header_top{
+		padding:2px;
+	}	
 	
 }
 
@@ -1978,13 +1986,11 @@ h3.linkovan:hover{
 		width:97%;
 	}
 	
-	
-	
 	img{
 		width:70px;
 	}
 	.account_desc{
-		height:70px;
+		height:20px;
 		padding:30px 0 0 0;
 		font-size: 13px;
 	}
@@ -1992,9 +1998,7 @@ h3.linkovan:hover{
 		height:70px;
 		padding:0;
 	}		
-	
-	
-	
+		
 	
 }
 @media only screen and (max-width: 480px) {
@@ -2109,15 +2113,17 @@ h3.linkovan:hover{
 		width:60px;
 	}
 	.account_desc{
-		height:70px;
-		padding:10px 0 0 0;
+		height:20px;
+		padding:30px 0 0 0;
 		font-size: 11px;
 	}
 	.headertop_desc{
 		height:70px;
 		padding:0;
+	}			
+	.categories{
+		margin-top:50px;
 	}		
-	
 	
 	
 	
