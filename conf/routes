@@ -58,6 +58,7 @@ GET		/newsletter							controllers.UserController.newsletter()
 GET     /payPalValidation/:id/:payerId/:paymentId/:token/:accessToken           controllers.UserController.showSellingProduct(id: Integer, payerId: String, paymentId: String, token: String, accessToken: String)
 GET		/thepurchase/:id					controllers.UserController.showPurchase(id: Integer)
 POST	/thepurchase/:id					controllers.UserController.purchaseProcessing(id: Integer)
+GET		/thepurchaseAndroid/:id				controllers.UserController.showPurchaseAndroid(id: Integer)
 GET		/purchasesuccess/:id				controllers.UserController.purchaseSuccess(id: Integer)
 GET     /dojmovi                            controllers.UserController.allUsersComment(id: Integer)
 

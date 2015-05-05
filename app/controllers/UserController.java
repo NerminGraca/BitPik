@@ -765,6 +765,15 @@ public class UserController extends Controller {
 		return ok(purchase.render(id));
 	}
 	
+	public static Result showPurchaseAndroid(int id) {
+		if (!request().accepts("text/html")) {
+			ObjectNode num = Json.newObject();
+			num.put("id", id);
+			return ok(num);
+	   	}
+		return ok(purchaseForAndroid.render(id));
+	}
+	
 	/**
 	 * Method integrates PayPal with application, using access token. It adds
 	 * amount, currency, payer, description, intent and state for payment.
