@@ -1143,7 +1143,11 @@ h3.linkovan:hover{
 	border-top: 1px solid #CD1F25;
 }
 .availablefortrans {
-	padding:20px 0;
+	padding:10px 0;
+}
+
+.availablefortrans2 {
+	padding:10px 0;
 }
 
 .available p {
