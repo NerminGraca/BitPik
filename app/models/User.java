@@ -50,6 +50,12 @@ public class User extends Model {
 	public MainCategory storeCategory;
 	
 	public boolean isProtectedAdmin;
+	
+	public int positiveReview;
+	
+	public int neutralReview;
+	
+	public int negativeReview;
 
 	public String createdDate;
 	
@@ -159,6 +165,9 @@ public class User extends Model {
 	public static User create(String username, String password, String email) {
 		User user = new User(username, password, email);
 		user.setCredits(new BPCredit(user));
+		user.positiveReview=0;
+		user.negativeReview=0;
+		user.neutralReview=0;
 		user.save();
 		return user;
 	}
@@ -173,6 +182,9 @@ public class User extends Model {
 	public static User createSaveUser(String username, String password,String email) {
 		User newUser = new User(username, password,email);
 		newUser.setCredits(new BPCredit(newUser));
+		newUser.positiveReview=0;
+		newUser.negativeReview=0;
+		newUser.neutralReview=0;
 		newUser.save();
 		
 		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
@@ -187,6 +199,9 @@ public class User extends Model {
 		newUser.city=city;
 		newUser.setCredits(new BPCredit(300, newUser));
 		newUser.setStoreCategory(storeCategory);
+		newUser.positiveReview=0;
+		newUser.neutralReview=0;
+		newUser.negativeReview=0;
 		newUser.save();
 		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
 		return newUser;
@@ -351,7 +366,12 @@ public class User extends Model {
 		try {
 			for(Product product: products){
 				if(product.isSold){
-				sum+=product.purchaseTransaction.getBuyer_value();
+					
+					if(!product.purchaseTransaction.buyer_comment.equals("Ne postoji")){
+				    sum+=product.purchaseTransaction.getBuyer_value();
+				    
+					}
+
 				}
 			}
 		} catch (NullPointerException e) {

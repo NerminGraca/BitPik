@@ -1164,7 +1164,9 @@ public static Result purchaseSuccessAndroid(int id ) {
 		}
 		for(Product product: soldProducts)
 		{
+
 			transactionBuyers.add(product.purchaseTransaction);
+
 		}
 		for(Product product: user.bought_products)
 		{
