@@ -1886,6 +1886,32 @@ h3.linkovan:hover{
 	.span_1_of_4 h4{
 		font-size:1em;
 	}
+	
+	
+	
+	
+	img{
+		width:70px;
+	}
+	.account_desc{
+		height:70px;
+		padding:30px 0 0 0;
+		font-size: 13px;
+	}
+	.headertop_desc{
+		height:70px;
+		padding:0;
+	}	
+	
+	.account_desc{
+		padding: 30px 20px 0 0;
+		height: 20px;
+	}
+	
+	.header_top{
+		padding:2px;
+	}	
+	
 }
 
 @media only screen and (max-width: 640px) {
@@ -1960,22 +1986,36 @@ h3.linkovan:hover{
 		width:97%;
 	}
 	
+	img{
+		width:70px;
+	}
+	.account_desc{
+		height:20px;
+		padding:30px 0 0 0;
+		font-size: 13px;
+	}
+	.headertop_desc{
+		height:70px;
+		padding:0;
+	}		
+		
+	
 }
 @media only screen and (max-width: 480px) {
 	.wrap {
 		width: 95%;
 	}
 	.call,.account_desc{
-		float:none;
-		text-align:center;
+		AAfloat:none;
+		AAtext-align:center;
 	}
 	.call{
 		margin-bottom:10px;
 	}
 	.account_desc li a{
-		padding:0 10px;
+		AApadding:0 10px;
 	}
-	.logo,.cart{
+	.AAlogo,.cart{
 		float:none;
 		text-align:center;
 	}
@@ -1987,13 +2027,33 @@ h3.linkovan:hover{
 		float:none;
 		width:100%;
 	}
+	
+	.menu2 li:first-child a {
+		height: 20px;
+		padding: 5px;
+	}
+
+	.menu2 {
+		margin: 10px;
+	}
+
+	.filter.col-xs-2 {
+		width: 90%;
+		padding: 25px;
+	}
+	
+	.filter.col-xs-2.pull-left {
+		float:left;
+		margin: 5px;
+	}
+	
 	.search_box{
-		float:none;
-		width:95%;
-		margin:8px 10px 0 10px;
+		float:left;
+		width:50%;
+		AAmargin:8px 10px 0 10px;
 	}
 	.header_bottom{
-		padding-bottom:10px;
+		AApadding-bottom:10px;
 	}
 	.menu li a{
 		padding:15px 20px;
@@ -2004,11 +2064,7 @@ h3.linkovan:hover{
 	}
 	.add-cart{
 		float:none;
-	}
-	
-	
-	
-	
+	}	
 	.span_2_of_3 {
 		width:96%;
 		padding:2%; 
@@ -2050,6 +2106,29 @@ h3.linkovan:hover{
 	.contact-form input[type="text"],.contact-form textarea{
 		width:96%;
 	}
+	
+	
+	
+	img{
+		width:60px;
+	}
+	.account_desc{
+		height:20px;
+		padding:30px 0 0 0;
+		font-size: 11px;
+	}
+	.headertop_desc{
+		height:70px;
+		padding:0;
+	}			
+	.categories{
+		margin-top:50px;
+	}		
+	
+	
+	
+	
+	
 }
 @media only screen and (max-width: 320px) {
 	.wrap {
@@ -2067,6 +2146,7 @@ h3.linkovan:hover{
 	.search_box form input[type="text"]{
 		width:85%;
 	}
+		
 	.images_1_of_4{
 		width:96.8%;
 	}
@@ -2117,7 +2197,7 @@ h3.linkovan:hover{
 	.contact-form input[type="text"],.contact-form textarea{
 		width:93%;
 	}
-
+}
 	.izdvojeni{
 		margin:10px;
 		padding: 20px;
