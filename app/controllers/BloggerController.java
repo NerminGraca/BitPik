@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.io.Files;
 
+import models.BlogTag;
 import models.Blogger;
 import models.Comment;
 import models.ImgPath;
@@ -41,7 +42,8 @@ public class BloggerController extends Controller{
 	
 	static Form<Blogger> newBlogger = new Form<Blogger>(Blogger.class);
 	static Finder<Integer, Blogger> findBlogger = new Finder<Integer, Blogger>(Integer.class, Blogger.class);
-	static Finder<String, Blogger> findTag = new Finder<String,Blogger>(String.class, Blogger.class);
+	static Finder<Integer, BlogTag> findBlogTag = new Finder<Integer, BlogTag>(Integer.class, BlogTag.class);
+	static Form<BlogTag> newBlogTag = new Form<BlogTag>(BlogTag.class);
 
 	/**
 	 * Method showBlog() renders the blog.html page with the following
@@ -52,18 +54,18 @@ public class BloggerController extends Controller{
 	 */
 	public static Result showBlog() {
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
+		List<BlogTag> tagList= BlogTag.find.where("UPPER(tag) LIKE UPPER('%"+"%')").findList();
+		List<Blogger> bloggerList = Blogger.find.setMaxRows(3).orderBy("id DESC").findList();
 		
-		List<Blogger> bloggerList = Blogger.find.all();
+		return ok(blog.render(bloggerList,u));
+	}
+	
+	public static Result showBlogAll(){
+		User u = helpers.SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.order("id DESC").findList();
+		List<BlogTag> tagList= BlogTag.find.where("UPPER(tag) LIKE UPPER('%"+"%')").findList();
 		
-		Blogger[] array = new Blogger[bloggerList.size()];
-		int count = bloggerList.size()-1;
-		Iterator<Blogger> iter = bloggerList.iterator();
-		while (iter.hasNext()) {
-			array[count] = iter.next();
-			count--;
-			}
-		List<Blogger> correct = Arrays.asList(array);
-		return ok(blog.render(correct,u));
+		return ok(blog.render(bloggerList,u));
 	}
 	
 	/**
@@ -77,20 +79,13 @@ public class BloggerController extends Controller{
 	 */
 	public static Result showOneBlog(int id) {
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
-		Blogger tag = findBlogger.byId(id);
+		BlogTag tag = findBlogTag.byId(id);
 		
-		List<Blogger> bloggerList = Blogger.find.all();
-		Blogger[] array = new Blogger[bloggerList.size()];
-		int count = bloggerList.size()-1;
-		Iterator<Blogger> iter = bloggerList.iterator();
-		while (iter.hasNext()) {
-			//Blogger current = 
-			array[count] = iter.next();
-			count--;
-		}
-		List<Blogger> correct = Arrays.asList(array);
+		List<Blogger> bloggerList = Blogger.find.order("id DESC").findList();
+		//List<BlogTag> tagList = (List<BlogTag>) BlogTag.find.byId(id);
+		
 		Blogger b = findBlogger.byId(id);
-		return ok(oneBlog.render(b,u,correct));
+		return ok(oneBlog.render(b,u,bloggerList,tag));
 	}
 
 	/**
@@ -130,15 +125,36 @@ public class BloggerController extends Controller{
 		name = newBlogger.bindFromRequest().get().name;
 		desc = newBlogger.bindFromRequest().get().description;
 		longDesc = newBlogger.bindFromRequest().get().longDescription;
-		tag = newBlogger.bindFromRequest().get().tag;
+		tag = newBlogTag.bindFromRequest().get().tag;
 		} catch(IllegalStateException e) {
 			flash("add_product_null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
 			return redirect(routes.BloggerController.addBlog());
 		}
 		User u = SessionHelper.getCurrentUser(ctx());
-		Blogger b = Blogger.create(name, desc, longDesc,tag);
+		BlogTag bTag = new BlogTag(tag);
+		Blogger b = Blogger.create(name, desc, longDesc,bTag);
+		
 		return redirect("/addBlogPicture/" + b.id);
 	}
+//	public static Result skipPicture(){
+//		String name;
+//		String desc;
+//		String longDesc;
+//		String tag;
+//		try{
+//		name = newBlogger.bindFromRequest().get().name;
+//		desc = newBlogger.bindFromRequest().get().description;
+//		longDesc = newBlogger.bindFromRequest().get().longDescription;
+//		tag = newBlogTag.bindFromRequest().get().tag;
+//		} catch(IllegalStateException e) {
+//			flash("add_product_null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
+//			return redirect(routes.BloggerController.addBlog());
+//		}
+//		User u = SessionHelper.getCurrentUser(ctx());
+//		Blogger b = Blogger.create(name, desc, longDesc,tag);
+//		return redirect("/showBlog");
+//	}
+	
 	
 	/**
 	 * Method saveFile() i called if the blogger has choosen to upload a picture
@@ -247,6 +263,7 @@ public class BloggerController extends Controller{
 				 User currentUser = SessionHelper.getCurrentUser(ctx());
 				 Blogger b = findBlogger.byId(id);
 				 List<Blogger> bloggerList = Blogger.find.all();
+				// List<BlogTag> blogList	 = BlogTag.find.all();
 				 if (b == null) {
 				 		Logger.of("product").warn("Failed try to update a product which doesnt exist");
 				   		return redirect(routes.Application.index());
@@ -281,17 +298,22 @@ public class BloggerController extends Controller{
 				name = newBlogger.bindFromRequest().get().name;
 				desc = newBlogger.bindFromRequest().get().description;
 				longDesc = newBlogger.bindFromRequest().get().longDescription;
-				tag = newBlogger.bindFromRequest().get().tag;
+				tag = newBlogTag.bindFromRequest().get().tag;
 			} catch(IllegalStateException e) {		
 				flash("edit_blog_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 				return redirect(routes.BloggerController.editBlog(id));
 			}
 			Blogger b = findBlogger.byId(id);
+//			List<BlogTag> bt = findBlogTag.byId(id);
+			
 			String oldName = b.name;
 			b.setName(name);
 			b.setDescription(desc);
 			b.setLongDescription(longDesc);
-			b.setTag(tag);
+			//bt.setTag(tag);
+			//b.setTag(bt);
+			
+			//b.setTag(tag);
 			User u = SessionHelper.getCurrentUser(ctx());
 			b.save();
 			Logger.of("product").info("User "+ u.username + " updated the info of product " + oldName + ", NAME : ["+b.name+"]");
@@ -351,11 +373,15 @@ public class BloggerController extends Controller{
 		public static Result searchBlog(String q){
 			User u = helpers.SessionHelper.getCurrentUser(ctx());
 			List<Blogger>bloggerList=Blogger.find.where("UPPER(name) LIKE UPPER('%"+q+"%')").findList();
+			List<BlogTag> tagList= BlogTag.find.where("UPPER(tag) LIKE UPPER('%"+q+"%')").findList();
 			return ok(blog.render(bloggerList,u));	
 		}
+		
 		public static Result searchTag(String q){
 			User u = helpers.SessionHelper.getCurrentUser(ctx());
-			List<Blogger> bloggerList= Blogger.find.where("UPPER(tag) LIKE UPPER('%"+q+"%')").findList();
+			List<BlogTag> tagList= BlogTag.find.where("UPPER(tag) LIKE UPPER('%"+q+"%')").findList();
+			List<Blogger> bloggerList = Blogger.find.order("id DESC").findList();
+			
 			
 			
 			return ok(blog.render(bloggerList,u));

@@ -261,11 +261,11 @@ public class Global extends GlobalSettings {
 			eslc.imagePath = "images/profilePicture/ecls.jpg";
 			eslc.save();
 
-			Blogger b = new Blogger("BitPik Stranica", "Pokrenuta je BitPik stranica", "Nakon dugih 5 mjeseci, konacno, pokrenuta je Bitpik web stranica. Napravili su je skupina sjajnih Java Developera sa ciljem da prekinu dominaciju i monopol pik.ba sadasnjeg olx.ba, koja je kao sto znate veoma popularna bh. stranica. Skupina pomenutih Java Developera cine : Mirza Becic, Hikmet Durgutovic, Selma Tabakovic, Adnan Spahic, Gordan Sajevic i Nedzad Hamzic. ","BitCamp");
-
-			b.setBlogImagePath("images/blogPicture/blogone.png");
-			b.publishedDate = Blogger.getDate();
-			b.save();
+//			Blogger b = new Blogger("BitPik Stranica", "Pokrenuta je BitPik stranica", "Nakon dugih 5 mjeseci, konacno, pokrenuta je Bitpik web stranica. Napravili su je skupina sjajnih Java Developera sa ciljem da prekinu dominaciju i monopol pik.ba sadasnjeg olx.ba, koja je kao sto znate veoma popularna bh. stranica. Skupina pomenutih Java Developera cine : Mirza Becic, Hikmet Durgutovic, Selma Tabakovic, Adnan Spahic, Gordan Sajevic i Nedzad Hamzic. ","BitCamp");
+//
+//			b.setBlogImagePath("images/blogPicture/blogone.png");
+//			b.publishedDate = Blogger.getDate();
+//			b.save();
 			
 		}
 		

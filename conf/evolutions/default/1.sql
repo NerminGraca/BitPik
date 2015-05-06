@@ -10,6 +10,12 @@ create table bpcredit (
   constraint pk_bpcredit primary key (id))
 ;
 
+create table blog_tag (
+  id                        integer not null,
+  tag                       varchar(255),
+  constraint pk_blog_tag primary key (id))
+;
+
 create table blogger (
   id                        integer not null,
   name                      varchar(255),
@@ -17,7 +23,6 @@ create table blogger (
   long_description          TEXT,
   blog_image_path           varchar(255),
   published_date            varchar(255),
-  tag                       varchar(255),
   constraint pk_blogger primary key (id))
 ;
 
@@ -148,7 +153,15 @@ create table user (
   constraint pk_user primary key (id))
 ;
 
+
+create table blog_tag_blogger (
+  blog_tag_id                    integer not null,
+  blogger_id                     integer not null,
+  constraint pk_blog_tag_blogger primary key (blog_tag_id, blogger_id))
+;
 create sequence bpcredit_seq;
+
+create sequence blog_tag_seq;
 
 create sequence blogger_seq;
 
@@ -207,11 +220,19 @@ create index ix_user_storeCategory_15 on user (store_category_id);
 
 
 
+alter table blog_tag_blogger add constraint fk_blog_tag_blogger_blog_tag_01 foreign key (blog_tag_id) references blog_tag (id) on delete restrict on update restrict;
+
+alter table blog_tag_blogger add constraint fk_blog_tag_blogger_blogger_02 foreign key (blogger_id) references blogger (id) on delete restrict on update restrict;
+
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists bpcredit;
+
+drop table if exists blog_tag;
+
+drop table if exists blog_tag_blogger;
 
 drop table if exists blogger;
 
@@ -240,6 +261,8 @@ drop table if exists user;
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists bpcredit_seq;
+
+drop sequence if exists blog_tag_seq;
 
 drop sequence if exists blogger_seq;
 

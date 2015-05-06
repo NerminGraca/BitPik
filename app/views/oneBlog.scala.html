@@ -1,4 +1,4 @@
-@(b: Blogger)(u: User)(bloggerList: List[Blogger])
+@(b: Blogger)(u: User)(bloggerList: List[Blogger])(tag: BlogTag)
 
 
 @main("blog", "") {
@@ -47,7 +47,7 @@
                 <hr>
 						
                     <h5>
-                    <a href="/searchTag/@b.tag"><strong>@b.tag</strong></a>
+                    <a href="/searchTag/@b.tag"><strong>@tag.tag</strong></a>
                         </h5>
                     
                 <hr>
