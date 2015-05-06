@@ -2,13 +2,8 @@ package controllers;
 
 import helpers.MailHelper;
 import helpers.SessionHelper;
-
 import java.util.Date;
 import java.util.List;
-
-
-
-
 import models.Blogger;
 import models.Comment;
 import models.Product;
@@ -17,6 +12,7 @@ import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.*;
 import views.html.blog;
 
 /**
@@ -37,16 +33,13 @@ public class CommentController extends Controller{
 	 * @param idProduct
 	 */
 	public static Result addComment(int idProduct){
-		
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
-		usernameSes = session(SESSION_USERNAME);
-		if(u.equals(null))
-		{
+		if (u.equals(null)) {
 			return redirect(routes.Application.index());
+		}
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		String content;
 		Date date;
@@ -54,24 +47,23 @@ public class CommentController extends Controller{
 			content = postComment.bindFromRequest().get().content;
 			date = postComment.bindFromRequest().get().createdAt;
 		} catch (Exception e) {
-			flash("add_comment_fail", Messages.get("Greška. Niste postavili komentar."));
+			flash("add_comment_fail",
+					Messages.get("Greška. Niste postavili komentar."));
 			return redirect(routes.ProductController.showProduct(idProduct));
 		}
 		Product p = Product.find.byId(idProduct);
-
+		// Updating the statistics of the product;
 		p.statsProducts.setNoOfComments(p.statsProducts.getNoOfComments() + 1);
 		p.statsProducts.save();
 		p.save();
 
 		Comment newComment = Comment.create(content, date, u, p);
-
 		newComment.save();
-
-		List<Comment> commentList = Comment.find.all();
-		String message = "Dobili ste komentar na oglas " + p.name + " od korisnika " + u.username + 
-	  			": \n" + content;
+		String message = "Dobili ste komentar na oglas " + p.name
+				+ " od korisnika " + u.username + ": \n" + content;
 		MailHelper.sendNewsletterMessage(p.owner.email, message);
-		flash("add_comment_success", Messages.get("Uspješno ste dodali komentar."));
+		flash("add_comment_success",
+				Messages.get("Uspješno ste dodali komentar."));
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}
 	
@@ -82,39 +74,31 @@ public class CommentController extends Controller{
 	 * @param idComment
 	 * @param idProduct
 	 */
-	public static Result editComment(int idComment, int idProduct)
-	{
-		
+	public static Result editComment(int idComment, int idProduct) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
-		usernameSes = session(SESSION_USERNAME);
 		Comment comment = Comment.find(idComment);
-		if(!comment.author.equals(u))
-		{
+		if (!comment.author.equals(u)) {
 			return redirect(routes.Application.index());
 		}
 		String content;
 		Date date;
-		
+
 		try {
 			content = postComment.bindFromRequest().get().content;
 			date = postComment.bindFromRequest().get().createdAt;
 		} catch (Exception e) {
-			flash("update_comment_fail", Messages.get("Greška. Niste izmijenili komentar."));
+			flash("update_comment_fail",
+					Messages.get("Greška. Niste izmijenili komentar."));
 			return redirect(routes.ProductController.showProduct(idProduct));
 		}
 		comment.setContent(content);
 		comment.setCreatedAt(date);
-
-		List<Comment> commentList = Comment.find.all();
-
-
-
-		flash("update_comment_success", Messages.get("Uspješno ste izmijenili komentar."));
-		
+		flash("update_comment_success",
+				Messages.get("Uspješno ste izmijenili komentar."));
 		return redirect(routes.ProductController.showProduct(idProduct));
 	}
 	
@@ -124,20 +108,18 @@ public class CommentController extends Controller{
 	 * @param idComment
 	 * @param idProduct
 	 */
-	public static Result deleteComment(int idComment, int idProduct)
-	{
+	public static Result deleteComment(int idComment, int idProduct) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
-		usernameSes = session(SESSION_USERNAME);
 		Comment comment = Comment.find(idComment);
-		if(!comment.author.equals(u))
-		{
+		if (!comment.author.equals(u)) {
 			return redirect(routes.Application.index());
 		}
 		Comment.delete(idComment);
+		// Updating the statistics of the product;
 		Product p = Product.find.byId(idProduct);
 		p.statsProducts.setNoOfComments(p.statsProducts.getNoOfComments() - 1);
 		p.statsProducts.save();

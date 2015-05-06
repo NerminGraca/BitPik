@@ -85,13 +85,16 @@ public class ImgPath extends Model{
 		this.product = product;
 	}
 	
-	
-	
 	// NOVO!!!
 	public static Cloudinary cloudinary = new Cloudinary(Play.application().configuration().getString("cloudKey"));
 	
 	public static Finder<Integer, ImgPath> find = new Finder<Integer, ImgPath>(Integer.class, ImgPath.class);
 	
+	/**
+	 * Creates the default image for the product;
+	 * @param p
+	 * @return
+	 */
 	public static ImgPath createDefault(Product p){
 		ImgPath i= new ImgPath();
 		i.public_id = "no-img_mqapfa";
@@ -104,6 +107,14 @@ public class ImgPath extends Model{
 		return i;
 	}
 	
+	/**
+	 * Creates the image for the product;
+	 * @param public_id
+	 * @param image_url
+	 * @param secret_image_url
+	 * @param p
+	 * @return
+	 */
 	public static ImgPath create(String public_id, String image_url, String secret_image_url, Product p){
 		ImgPath i = new ImgPath();
 		i.public_id = public_id;
@@ -116,6 +127,14 @@ public class ImgPath extends Model{
 		return i;
 	}
 	
+	/**
+	 * Creates the image for the User;
+	 * @param public_id
+	 * @param image_url
+	 * @param secret_image_url
+	 * @param u
+	 * @return
+	 */
 	public static ImgPath create(String public_id, String image_url, String secret_image_url, User u){
 		ImgPath i = new ImgPath();
 		i.public_id = public_id;
@@ -129,17 +148,25 @@ public class ImgPath extends Model{
 		return i;
 	}
 	
-	
+	/**
+	 * Uploads the image to our cloudinary and later using the create method
+	 * assigns the image to the product;
+	 * 
+	 * @param image
+	 * @param p
+	 * @return
+	 */
 	public static ImgPath create(File image, Product p){
 		Map result;
 		try {
-			// null moze bit sa parametrima, da slika ima tu velicinu, svasta nesto...
-			//cloudinary vraca result; Json - tj. MAPU! (id, url, secret_url and more meta data;)
+			// null moze bit sa parametrima, da slika ima tu velicinu, svasta
+			// nesto...
+			// cloudinary vraca result; Json - tj. MAPU! (id, url, secret_url
+			// and more meta data;)
 			result = cloudinary.uploader().upload(image, null);
 			return create(result, p);
-			
+
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -168,8 +195,13 @@ public class ImgPath extends Model{
 		return i;
 	}
 	
-	
-	
+	/**
+	 * Uploads the image to our cloudinary and later using the create method
+	 * assigns the image to the User;
+ 	 * @param image
+	 * @param u
+	 * 
+	 */
 	public static ImgPath create(File image, User u){
 		Map result;
 		try {
@@ -203,20 +235,28 @@ public class ImgPath extends Model{
 		Logger.debug(i.secret_image_url);
 		u.setImagePath(i.image_url);
 		u.imagePathOne = i;
-		i.userImage = u; //zamijeniri sa setterom;
-		//u.imagePath = i.image_url;
+		i.userImage = u; 
 		i.save();
 		u.save();
 		return i;
 	}
 
-	
-	
+	/**
+	 * Gets the picture from cloudinary, and transforms it into the parameters
+	 * which are the height and width
+	 * 
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	public String getSize(int width, int height){
-		String url = cloudinary.url().format("jpg")
-				  .transformation(new Transformation().width(width).height(height))
-				  .generate(public_id);
-		
+		String url = cloudinary
+				.url()
+				.format("jpg")
+				.transformation(
+						new Transformation().width(width).height(height))
+				.generate(public_id);
+
 		return url;
 	}
 

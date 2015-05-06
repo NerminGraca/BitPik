@@ -23,7 +23,6 @@ public class FAQ extends Model {
 	/**
 	 * Default constructor
 	 */
-	
 	public FAQ(){
 		this.question = "Pitanje";
 		this.answer  = "Odgovor";
@@ -34,20 +33,17 @@ public class FAQ extends Model {
 	 * @param question
 	 * @param answer
 	 */
-	
 	public FAQ(String question, String answer){
 		this.question = question;
 		this.answer  = answer;
 	}
 	
 	public static Finder<Integer, FAQ> find = new Finder<Integer, FAQ>(Integer.class, FAQ.class);
-
 	
 	/**
 	 * Getter for question
 	 * @return question
 	 */
-	
 	public String getQuestion()
 	{
 		return this.question;
@@ -57,7 +53,6 @@ public class FAQ extends Model {
 	 * Getter for answer
 	 * @return answer
 	 */
-	
 	public String getAnswer()
 	{
 		return this.answer;
@@ -67,7 +62,6 @@ public class FAQ extends Model {
 	 * Setter for question
 	 * @param question
 	 */
-	
 	public void setQuestion(String question)
 	{
 		this.question = question;
@@ -77,7 +71,6 @@ public class FAQ extends Model {
 	 * Setter for answer
 	 * @param answer
 	 */
-	
 	public void setAnswer(String answer)
 	{
 		this.answer = answer;
@@ -89,7 +82,6 @@ public class FAQ extends Model {
 	 * @param answer
 	 * @return newFaq
 	 */
-	
 	public static FAQ create(String question, String answer)
 	{
 		FAQ newFaq = new FAQ(question, answer);
@@ -102,7 +94,6 @@ public class FAQ extends Model {
 	 * @param id
 	 * @return FAQ
 	 */
-	
 	public static FAQ finder(int id) {
 		return find.where().eq("id", id).findUnique();
 	}
@@ -111,7 +102,6 @@ public class FAQ extends Model {
 	 * Method deletes FAQ with given id
 	 * @param id
 	 */
-	
 	public static void delete(int id) {
 		FAQ.finder(id).delete();
 	}

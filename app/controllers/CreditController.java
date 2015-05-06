@@ -45,23 +45,16 @@ public class CreditController extends Controller{
 	 * @return Result rendering the credits.html page;
 	 */
 	public static Result showCredits() {
-		
 		User currentUser = SessionHelper.getCurrentUser(ctx());
-		
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (currentUser != null && currentUser.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, currentUser));
 		}
-		// 1.1 If the User is not Logged in;
-		// 1.2 or if the User is an Admin; 
-		// we redirect these kind of Users to the index.html page;
-		if (currentUser == null || currentUser.isAdmin==true) {
+		if (currentUser == null || currentUser.isAdmin == true) {
 			return redirect(routes.Application.index());
 		}
 		int actualCredits = currentUser.bpcredit.getCredit();
 		return ok(credits.render(currentUser, actualCredits));
-		
 	}
 	
 	/**
@@ -72,16 +65,12 @@ public class CreditController extends Controller{
 	 */
 	public static Result addCredits() {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
-		// 1.1 If the User is not Logged in;
-		// 1.2 or if the User is an Admin; 
-		// we redirect these kind of Users to the index.html page;
 		if (currentUser == null || currentUser.isAdmin==true) {
 			return redirect(routes.Application.index());
+		}
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
 		}
 		return ok(addcredits.render(currentUser));
 	}
@@ -128,19 +117,18 @@ public class CreditController extends Controller{
 	public static Result addCreditsProcess() {
 		int credit;
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		try {
 			credit = creditForm.bindFromRequest().get().credit;
-			} catch(IllegalStateException e) {
+		} catch (IllegalStateException e) {
 			return redirect(routes.CreditController.showCredits());
-			}
+		}
 		double creditD = creditToCost(credit);
 		String creditString = getPriceString(creditD);
 		return ok(purchasecredit.render(creditString));
-	
 	}
 	
 	/**
@@ -153,9 +141,9 @@ public class CreditController extends Controller{
 	@Security.Authenticated(AdminFilter.class)
 	public static Result makeProductNotSpecial(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		Product p = Product.find.byId(id);
 		p.setSpecial(false);
@@ -163,7 +151,7 @@ public class CreditController extends Controller{
 		p.save();
 		return redirect(routes.ProductController.showProduct(id));
 	}
-	
+
 	/**
 	 * Starting of the paypal process for the purchase of the bitpik credits; In
 	 * case that the User presses Cancel he is redirected to the page
@@ -176,8 +164,8 @@ public class CreditController extends Controller{
 	 */
 	public static Result purchaseCredit(String priceKMString) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		double priceCostKM = Double.parseDouble(priceKMString);
@@ -222,13 +210,11 @@ public class CreditController extends Controller{
 			Iterator<Links> itr = links.iterator();
 			while(itr.hasNext()){
 				Links link = itr.next();
-				if(link.getRel().equals("approval_url"))
-				{
+				if(link.getRel().equals("approval_url")) {
 					return redirect(link.getHref());
 				}
 			}
-		} catch(PayPalRESTException e)
-		{
+		} catch(PayPalRESTException e)	{
 			Logger.warn(e.getMessage());
 		}
 		// part of the code which will never be executed - because of CancelURL and the ReturnURL;
@@ -243,13 +229,15 @@ public class CreditController extends Controller{
 	 */
 	public static Result purchaseSuccessCredits(String priceInUSD) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		DynamicForm paypalReturn = Form.form().bindFromRequest();
 		String paymentId = paypalReturn.get("paymentId");
 		String payerId = paypalReturn.get("PayerID");
+		// Currently not used - As we do not track transaction made when
+		// purchasing BitPikCredits
 		String token = paypalReturn.get("token");
 				
 		Map<String, String> sdkConfig = new HashMap<String, String>();
@@ -268,7 +256,6 @@ public class CreditController extends Controller{
 			
 			payment.execute(apiContext, paymentExecution);
 		} catch (PayPalRESTException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return redirect(UserController.OURHOST + "/buycreditsuccess/"+priceInUSD);
@@ -284,34 +271,36 @@ public class CreditController extends Controller{
 	 * @return Rendering the credits page;
 	 */
 	public static Result buyCreditSuccess(String priceInUSD) {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
 		User buyerUser = SessionHelper.getCurrentUser(ctx());
-		//1. No permission for unregistered user;
+		if (buyerUser != null && buyerUser.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, buyerUser));
+		}
+		// 1. No permission for unregistered user;
 		if (buyerUser == null) {
 			return redirect(routes.Application.index());
 		}
-		//2. No permission for an admin user;
+		// 2. No permission for an admin user;
 		if (buyerUser.isAdmin) {
 			return redirect(routes.Application.index());
 		}
 		double priceinDB = Double.parseDouble(priceInUSD);
 		double priceinKM = priceinDB / 0.56;
 		double numCreditsinD = priceinKM * 2;
-		//New amount of credits bought; (so that the rounding to the int works)
-		int numCredits = (int)Math.floor(numCreditsinD + 0.5);
-		// The amount of credits that the User already has; 
+		// New amount of credits bought; (so that the rounding to the int works)
+		int numCredits = (int) Math.floor(numCreditsinD + 0.5);
+		// The amount of credits that the User already has;
 		int currentCredits = buyerUser.getCredits().getCredit();
 		// New overall updated amount of credits for the new user;
 		int newNumCredits = numCredits + currentCredits;
 		buyerUser.bpcredit.setCredit(newNumCredits);
 		buyerUser.save();
-	//	if later we choose to archive everytransaction for every bitpik bought
-	//  TransactionP temp = new TransactionP(token, p); *(+token to be sent here; product attribute?)
-		flash("buy_credit_success", Messages.get("Čestitamo, uspješno ste kupili BitPik Kredite"));
+		// if later we choose to archive everytransaction for every bitpik
+		// bought
+		// TransactionP temp = new TransactionP(token, p); *(+token to be sent
+		// here; product attribute?)
+		flash("buy_credit_success",
+				Messages.get("Čestitamo, uspješno ste kupili BitPik Kredite"));
 		int actualCredits = buyerUser.bpcredit.getCredit();
 		return ok(credits.render(buyerUser, actualCredits));
 	}
@@ -326,19 +315,15 @@ public class CreditController extends Controller{
 	 * @return Rendering the makespecialproduct.html page
 	 */
 	public static Result useCredits( int id) {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
-		Product p = Product.find.byId(id);
 		User currentUser = SessionHelper.getCurrentUser(ctx());
-		// 1.1 If the User is not Logged in;
-		// 1.2 or if the User is an Admin; 
-		// we redirect these kind of Users to the index.html page;
-		if (currentUser == null || currentUser.isAdmin==true) {
+		if (currentUser == null || currentUser.isAdmin == true) {
 			return redirect(routes.Application.index());
 		}
+		if (currentUser != null && currentUser.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, currentUser));
+		}
+		Product p = Product.find.byId(id);
 		return ok(makespecialproduct.render(p));
 	}
 	
@@ -352,43 +337,50 @@ public class CreditController extends Controller{
 	 * @return Rendering the profile page
 	 */
 	public static Result useCreditsProcess(int id) {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
+		if (currentUser != null && currentUser.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, currentUser));
+		}
 		int credit;
 		try {
 			credit = creditForm.bindFromRequest().get().credit;
-		} catch(IllegalStateException e) {
+		} catch (IllegalStateException e) {
 			return redirect(routes.CreditController.showCredits());
 		}
 		int oldAmount = currentUser.bpcredit.getCredit();
-		// If the User wants to use more credits than he actually has we redirect him;
+		// If the User wants to use more credits than he actually has, we
+		// redirect him;
 		if (credit > oldAmount) {
-			flash("use_credit_poor", Messages.get("Žao nam je, nemate dovoljno kredita. Molimo Vas da kupite još kredita."));
+			flash("use_credit_poor",
+					Messages.get("Žao nam je, nemate dovoljno kredita. Molimo Vas da kupite još kredita."));
 			return redirect(routes.CreditController.showCredits());
 		}
-		
 		int newAmount = oldAmount - credit;
-		// We set the amount of credit to the new amount, after subtracting the used credits from the old amount
+		// We set the amount of credit to the new amount, after subtracting the
+		// used credits from the old amount
 		currentUser.bpcredit.setCredit(newAmount);
 		currentUser.save();
 		Product p = Product.find.byId(id);
 		p.setCredit(credit);
 		p.setSpecial(true);
-				
-		//Setting the expiryDate;
+
+		// Setting the expiryDate;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date()); // We use todays date.
-		c.add(Calendar.DATE, credit); // We add the number of credits - as the number of days (1 credit - 1 day); 
-		p.setExpirySpecial(c.getTime()); // We set the Date/Time as the expiry Date for the speciality of the prodcut;
+		c.add(Calendar.DATE, credit); // We add the number of credits - as the
+										// number of days (1 credit - 1 day);
+		p.setExpirySpecial(c.getTime()); // We set the Date/Time as the expiry
+											// Date for the speciality of the
+											// prodcut;
 		p.save();
-	
-		flash("use_credit_success", Messages.get("Čestitamo, uspješno ste izdvojili oglas i iskoristili BitPik Kredite."));
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
+
+		flash("use_credit_success",
+				Messages.get("Čestitamo, uspješno ste izdvojili oglas i iskoristili BitPik Kredite."));
+		List<Product> l = ProductController.findProduct.where()
+				.eq("owner.username", currentUser.username).eq("isSold", false)
+				.findList();
 		return ok(profile.render(l, currentUser));
 		
 	}
@@ -400,19 +392,18 @@ public class CreditController extends Controller{
 	 * @return Rendering the updatecredits page;
 	 */
 	public static Result updateCredits(int id) {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
-		Product p = Product.find.byId(id);
 		User currentUser = SessionHelper.getCurrentUser(ctx());
-		// 1.1 If the User is not Logged in;
-		// 1.2 or if the User is an Admin; 
-		// we redirect these kind of Users to the index.html page;
 		if (currentUser == null || currentUser.isAdmin==true) {
 			return redirect(routes.Application.index());
 		}
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
+		}
+		Product p = Product.find.byId(id);
+		// 1.1 If the User is not Logged in;
+		// 1.2 or if the User is an Admin; 
+		// we redirect these kind of Users to the index.html page;
 		return ok(updatecredits.render(p));
 	
 	}
@@ -429,47 +420,54 @@ public class CreditController extends Controller{
 	 * @return Rendering the profile page;
 	 */
 	public static Result updateCreditsProcess(int id) {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
+		if (currentUser != null && currentUser.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, currentUser));
+		}
 		int credit;
 		try {
 			credit = creditForm.bindFromRequest().get().credit;
-		} catch(IllegalStateException e) {
+		} catch (IllegalStateException e) {
 			return redirect(routes.CreditController.showCredits());
 		}
 		int oldAmount = currentUser.bpcredit.getCredit();
-		// If the User wants to update more credits than he actually has we redirect him;
+		// If the User wants to update more credits than he actually has we
+		// redirect him;
 		if (credit > oldAmount) {
-			flash("update_credit_poor", Messages.get("Žao nam je, nemate dovoljno kredita. Molimo Vas da kupite još kredita."));
+			flash("update_credit_poor",
+					Messages.get("Žao nam je, nemate dovoljno kredita. Molimo Vas da kupite još kredita."));
 			return redirect(routes.CreditController.showCredits());
 		}
-		
 		int newAmount = oldAmount - credit;
-		// We set the amount of credit to the new amount, after subtracting the used credits from the old amount
+		// We set the amount of credit to the new amount, after subtracting the
+		// used credits from the old amount
 		currentUser.bpcredit.setCredit(newAmount);
 		currentUser.save();
 		Product p = Product.find.byId(id);
 		int previousAmountP = p.getCredit();
 		int newAmountProduct = previousAmountP + credit;
 		p.setCredit(newAmountProduct);
-		
-		//Setting the expiryDate;
+
+		// Setting the expiryDate;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		//kasnije 
-		//String output = sdf.format(c.getTime());
+		// String output = sdf.format(c.getTime());
 		Calendar c = Calendar.getInstance();
-		c.setTime(p.getExpirySpecial()); // We use the date of the expiry that has already been set;
-		c.add(Calendar.DATE, credit); // We add the number of credits - as the number of days (1 credit - 1 day); 
-		p.setExpirySpecial(c.getTime()); // We set the Date/Time as the expiry Date for the speciality of the prodcut;
+		c.setTime(p.getExpirySpecial()); // We use the date of the expiry that
+											// has already been set;
+		c.add(Calendar.DATE, credit); // We add the number of credits - as the
+										// number of days (1 credit - 1 day);
+		p.setExpirySpecial(c.getTime()); // We set the Date/Time as the expiry
+											// Date for the speciality of the
+											// prodcut;
 		p.save();
-				
-		flash("update_credit_success", Messages.get("Čestitamo, uspješno ste dopunili BitPik Kredite na oglasu."));
-		
-		List <Product> l = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
+
+		flash("update_credit_success",
+				Messages.get("Čestitamo, uspješno ste dopunili BitPik Kredite na oglasu."));
+
+		List<Product> l = ProductController.findProduct.where()
+				.eq("owner.username", currentUser.username).eq("isSold", false)
+				.findList();
 		return ok(profile.render(l, currentUser));
 	}
 }

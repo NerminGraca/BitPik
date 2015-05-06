@@ -48,7 +48,6 @@ public class MainCategory extends Model {
 		new MainCategory(name).save();
 	}
 
-	
 	public static Finder<Integer, MainCategory> find = new Finder<Integer, MainCategory>(Integer.class, MainCategory.class);
 	public static Finder<String, MainCategory> findByName = new Finder<String, MainCategory>(String.class, MainCategory.class);
 	

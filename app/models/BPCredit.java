@@ -14,9 +14,7 @@ import javax.persistence.OneToOne;
 public class BPCredit {
 	@Id
 	public int id;
-	
 	public int credit;
-	
 	@OneToOne
 	public User creditOwner;
 	

@@ -2,9 +2,7 @@ package controllers;
 
 import helpers.AdminFilter;
 import helpers.SessionHelper;
-
 import java.util.List;
-
 import models.*;
 import play.Logger;
 import play.data.Form;
@@ -42,8 +40,8 @@ public class CategoryController extends Controller {
 	 */
 	public static Result categories(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
@@ -67,16 +65,21 @@ public class CategoryController extends Controller {
 	 */
 	public static Result subCategoriesView(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		SubCategory sc = SubCategory.findSubCategory(id);
 		MainCategory mc = sc.mainCategory;
-		List<Product> productList = ProductController.findProduct.where().eq("subCategory", sc).eq("isSold", false).eq("isSpecial", false).findList();
-		List<Product> sproductList = ProductController.findProduct.where().eq("subCategory", sc).eq("isSold", false).eq("isSpecial", true).findList();
-		return ok(podKategorija.render(sproductList,productList, mainCategoryList, mc, sc.name));
+		List<Product> productList = ProductController.findProduct.where()
+				.eq("subCategory", sc).eq("isSold", false)
+				.eq("isSpecial", false).findList();
+		List<Product> sproductList = ProductController.findProduct.where()
+				.eq("subCategory", sc).eq("isSold", false)
+				.eq("isSpecial", true).findList();
+		return ok(podKategorija.render(sproductList, productList,
+				mainCategoryList, mc, sc.name));
 	}
 	
 	/**
@@ -87,9 +90,9 @@ public class CategoryController extends Controller {
 	@Security.Authenticated(AdminFilter.class)
 	public static Result allCategory() {	
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		return ok(listaKategorija.render(mainCategoryList));
@@ -105,9 +108,9 @@ public class CategoryController extends Controller {
 	@Security.Authenticated(AdminFilter.class)
 	public static Result subCategories(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		MainCategory mc = MainCategory.findMainCategory(id);
 		return ok(listaPodKategorija.render(mc));
@@ -123,12 +126,11 @@ public class CategoryController extends Controller {
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editMainCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		MainCategory mc = findMainCategory.byId(id);
-				
 		return ok(editMainCategory.render(mc));
 	}
 	
@@ -142,12 +144,11 @@ public class CategoryController extends Controller {
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editSubCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		SubCategory sc = SubCategory.findSubCategory(id);
-				
 		return ok(editSubCategory.render(sc));
 	}
 	
@@ -161,34 +162,38 @@ public class CategoryController extends Controller {
 	 */
 	public static Result saveEditMainCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
-		//takes the new attributes that are entered in the form;
+		// takes the new attributes that are entered in the form;
 		String name;
 		MainCategory mc = findMainCategory.byId(id);
 		try {
 			name = newMainCategory.bindFromRequest().get().name;
-		} catch(IllegalStateException e) {
-			flash("change_maincat_null_field", Messages.get("Molim Vas popunite polje u formi."));
+		} catch (IllegalStateException e) {
+			flash("change_maincat_null_field",
+					Messages.get("Molim Vas popunite polje u formi."));
 			return ok(editMainCategory.render(mc));
 		}
-		
-		// sets all the new entered attributes as the original ones from the product;
+
+		// sets all the new entered attributes as the original ones from the
+		// product;
 		// and saves();
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
-		if (MainCategory.allMainCategories().contains(MainCategory.findMainCategoryByName(name))) {
+		if (MainCategory.allMainCategories().contains(
+				MainCategory.findMainCategoryByName(name))) {
 			return redirect(routes.CategoryController.editMainCategory(id));
 		} else {
-			
 			String oldname = mc.name;
 			mc.setName(name);
 			mc.save();
-			Logger.of("category").info("Admin updated category " +oldname+" to " + name);
+			Logger.of("category").info(
+					"Admin updated category " + oldname + " to " + name);
 			oldname = null;
-			flash("change_maincat_success", Messages.get("Uspješno promijenjen naziv kategorije."));
+			flash("change_maincat_success",
+					Messages.get("Uspješno promijenjen naziv kategorije."));
 			return redirect(routes.CategoryController.allCategory());
 		}		
 	}
@@ -203,33 +208,34 @@ public class CategoryController extends Controller {
 	 */
 	public static Result saveEditSubCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		String name;
 		SubCategory sc = SubCategory.findSubCategory(id);
 		try {
 			name = newSubCategory.bindFromRequest().get().name;
-		} catch(IllegalStateException e) {
-			flash("change_sub_null_field", Messages.get("Molim Vas popunite polje u formi."));
+		} catch (IllegalStateException e) {
+			flash("change_sub_null_field",
+					Messages.get("Molim Vas popunite polje u formi."));
 			return ok(editSubCategory.render(sc));
 		}
-		
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
-				
+
 		MainCategory mc = sc.mainCategory;
-		
 		if (SubCategory.findSubCategoryByNameAndMainCategory(name, mc)) {
 			return redirect(routes.CategoryController.editSubCategory(id));
 		} else {
 			String oldname = sc.name;
 			sc.setName(name);
 			sc.save();
-			Logger.of("category").info("Admin updated subcategory "+oldname+" to " + sc.name);
+			Logger.of("category").info(
+					"Admin updated subcategory " + oldname + " to " + sc.name);
 			oldname = null;
-			flash("change_sub_success", Messages.get("Uspješno promijenjen naziv podkategorije."));
+			flash("change_sub_success",
+					Messages.get("Uspješno promijenjen naziv podkategorije."));
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}
 	}
@@ -246,12 +252,12 @@ public class CategoryController extends Controller {
 	 */
 	public static Result deleteMainCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		MainCategory mc = findMainCategory.byId(id);
-		if(mc.name.equals("Ostalo")) {
+		if (mc.name.equals("Ostalo")) {
 			return redirect(routes.CategoryController.allCategory());
 		}
 		List<Product> products = mc.products;
@@ -278,16 +284,17 @@ public class CategoryController extends Controller {
 	 */
 	public static Result deleteSubCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		SubCategory sc = SubCategory.findSubCategory(id);
 		MainCategory mc = sc.mainCategory;
-		if(sc.name.equals("Ostalo")) {
+		if (sc.name.equals("Ostalo")) {
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}
-		SubCategory various = SubCategory.findReturnSubCategoryByNameAndMainCategory("Ostalo", mc);
+		SubCategory various = SubCategory
+				.findReturnSubCategoryByNameAndMainCategory("Ostalo", mc);
 		List<Product> products = sc.products;
 		for (Product product : products) {
 			product.setSubCategory(various);
@@ -296,7 +303,6 @@ public class CategoryController extends Controller {
 		SubCategory.delete(id);
 		Logger.of("category").info("Admin deleted subcategory " + sc.name);
 		return redirect(routes.CategoryController.subCategories(mc.id));
-
 	}
 	
 	/**
@@ -307,26 +313,28 @@ public class CategoryController extends Controller {
 	 */
 	public static Result addMainCategory() {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		String name;
 		try {
 			name = newMainCategory.bindFromRequest().get().name;
-		} catch(IllegalStateException e) {
-			flash("add_maincat_null_field", Messages.get("Molim Vas popunite polje u formi."));
+		} catch (IllegalStateException e) {
+			flash("add_maincat_null_field",
+					Messages.get("Molim Vas popunite polje u formi."));
 			return redirect(routes.CategoryController.allCategory());
 		}
-
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
-		if (MainCategory.allMainCategories().contains(MainCategory.findMainCategoryByName(name))) {
+		if (MainCategory.allMainCategories().contains(
+				MainCategory.findMainCategoryByName(name))) {
 			return redirect(routes.CategoryController.allCategory());
 		} else {
 			MainCategory.createMainCategory(name);
 			Logger.of("category").info("Admin added main category " + name);
-			flash("add_maincat_success", Messages.get("Uspješno ste dodali novu kategoriju."));
+			flash("add_maincat_success",
+					Messages.get("Uspješno ste dodali novu kategoriju."));
 			return redirect(routes.CategoryController.allCategory());
 		}			
 	}
@@ -340,27 +348,29 @@ public class CategoryController extends Controller {
 	 */
 	public static Result addSubCategory(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		if (u != null && u.username.equals("blogger")) {
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList, u));
 		}
 		MainCategory mc = MainCategory.findMainCategory(id);
 		String name;
 		try {
 			name = newSubCategory.bindFromRequest().get().name;
-		} catch(IllegalStateException e) {
-			flash("add_sub_null_field", Messages.get("Molim Vas popunite polje u formi."));
+		} catch (IllegalStateException e) {
+			flash("add_sub_null_field",
+					Messages.get("Molim Vas popunite polje u formi."));
 			return ok(listaPodKategorija.render(mc));
 		}
 		name = name.toLowerCase();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
-		
+
 		if (SubCategory.findSubCategoryByNameAndMainCategory(name, mc)) {
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		} else {
 			SubCategory.createSubCategory(name, mc);
 			Logger.of("category").info("Admin added subcategory " + name);
-			flash("add_sub_success", Messages.get("Uspješno ste dodali novu podkategoriju."));
+			flash("add_sub_success",
+					Messages.get("Uspješno ste dodali novu podkategoriju."));
 			return redirect(routes.CategoryController.subCategories(mc.id));
 		}			
 	}	

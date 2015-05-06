@@ -25,12 +25,22 @@ public class Newsletter extends Model{
 	@ManyToOne
 	public User user;
 
+	/**
+	 * Constructor 
+	 * No parameters;
+	 */
 	public Newsletter(){
 		this.searchString = "no content";
 		this.createdDate = null;
 		this.user = null;
 	}
 	
+	/**
+	 * Constructor with all parameters;
+	 * @param searchString
+	 * @param createdDate
+	 * @param user
+	 */
 	public Newsletter(String searchString, Date createdDate, User user) {
 		this.searchString = searchString;
 		this.createdDate = createdDate;
