@@ -1087,7 +1087,10 @@ public class UserController extends Controller {
 		}
 		for(Product product: soldProducts)
 		{
+			if(!product.purchaseTransaction.buyer_comment.equals("Ne postoji")){
 			transactionBuyers.add(product.purchaseTransaction);
+			user.
+		}
 		}
 		for(Product product: user.bought_products)
 		{
