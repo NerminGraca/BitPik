@@ -503,6 +503,7 @@ public class ProductController extends Controller {
 			return ok(blog.render(bloggerList,u));
 		}
 			Product p = findProduct.byId(id);
+			ImgPath.createDefault(p);
 			flash("add_product_success", Messages.get("Uspješno ste objavili oglas."));
 			return redirect("/showProduct/"+p.id);
 	}

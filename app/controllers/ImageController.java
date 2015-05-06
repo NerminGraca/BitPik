@@ -15,6 +15,7 @@ public class ImageController  extends Controller  {
 		
 		if (obj instanceof Product) {
 			Product p = (Product) obj;
+			
 			ImgPath.create(image, p);
 		} else if (obj instanceof User) {
 			User u = (User) obj;

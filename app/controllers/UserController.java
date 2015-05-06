@@ -707,6 +707,9 @@ public class UserController extends Controller {
 			 return redirect("/profile");
 		}
 		File image = filePart.getFile();
+		if(image==null){
+			image = new File(defaultPic);
+		}
 		//it takes extension from image that is uploaded
 		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
 		extension.trim();

@@ -92,6 +92,17 @@ public class ImgPath extends Model{
 	
 	public static Finder<Integer, ImgPath> find = new Finder<Integer, ImgPath>(Integer.class, ImgPath.class);
 	
+	public static ImgPath createDefault(Product p){
+		ImgPath i= new ImgPath();
+		i.public_id = "no-img_mqapfa";
+		i.image_url = "http://res.cloudinary.com/bitpik/image/upload/v1430753378/no-img_mqapfa.jpg";
+		i.secret_image_url = "https://res.cloudinary.com/bitpik/image/upload/v1430753378/no-img_mqapfa.jpg";
+		i.setProduct(p);
+		i.save();
+		p.imgPathList.add(i);
+		p.save();
+		return i;
+	}
 	
 	public static ImgPath create(String public_id, String image_url, String secret_image_url, Product p){
 		ImgPath i = new ImgPath();

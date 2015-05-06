@@ -74,7 +74,11 @@
 									  			</div>				  			
 									  			}
 									  		} else {
-									  			<img src="@p.imgPathList.get(0).getSize(200, 200)" alt="" />
+									  			@if(p.imgPathList.get(0)!=null){
+						 							<img src="@p.imgPathList.get(0).getSize(200, 200)" alt="" />
+						 						}else{
+						 							<img src="@routes.Assets.at("images/no-img_mqapfa")" alt="" />
+						 						}
 									  		}
 	    									
 										</div>
