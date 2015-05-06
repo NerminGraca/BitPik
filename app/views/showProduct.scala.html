@@ -7,17 +7,11 @@
 		<div id="fb-root"></div>
 
 <script>(function(d, s, id) {
-
   	var js, fjs = d.getElementsByTagName(s)[0];
-
   	if (d.getElementById(id)) return;
-
   	js = d.createElement(s); js.id = id;
-
   	js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=876028449099824";
-
   	fjs.parentNode.insertBefore(js, fjs);
-
 }(document, 'script', 'facebook-jssdk'));</script>
 		
 <div class="wrap">	
@@ -339,21 +333,22 @@
 										
 									</div>				
 								</div>
+								
 				@if(user != null) {
 						@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {		
 							<!--  Transakcija i sve o je ovdje! -->
 								<div>
-						
-										<p style="padding-bottom:7px;">Navedite razlog za refundaciju</p>
+								<p style="padding-bottom:7px;">Navedite razlog za refundaciju</p>
 										@form(routes.ProductController.refundProduct(p.id),'id->"productForm") {
 											<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="refundReason" name="refundReason" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
-											<div class="button">
+											
 												<span>
 													<input type="submit" value="Zatrazi refundaciju" class="btn btn-primary btn-fontNovi" style="background:#85B80C;" onclick="return confirm('Da li ste sigurni da zelite refundirati proizvod?');"/>
 												</span>
 											</div>
 										}			
 									} 
+									
 									@if(p.isRefunding) {
 										
 											@if(user.isAdmin){
@@ -381,9 +376,11 @@
 												
 												<span color="red">Artikal poslan na refundiranje!</span>
 											}
+											
 										}
+								
 							}
-							</div>
+							
 							
 			@if(user != null && p.buyerUser != null) {	
 						@if( (user.username.equals(p.buyerUser.username)) || (user.username.equals(p.owner.username) )) {
@@ -415,7 +412,7 @@
 													<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="seller_comment" name="seller_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
 													<fieldset>
 			   									<p style="padding-top:7px;" for="buyer_stringValue">Dojam:</p>
-			    								<select name="seller_stringValue" id="seller_stringValue">
+			    								<select name="seller_stringValue" id="seller_stringValue" style="font-size:15px; margin-top:7px;">
 			     									<option selected="selected" style="background-color:yellow">Neutralan</option>
 									      			<option style="background-color:green">Pozitivan</option>
 									    			<option style="background-color:red">Negativan</option>
@@ -428,6 +425,7 @@
 										}
 									} 
 									
+							</div>
 							</div>
 							
 							<div class="availablefortrans">
@@ -445,7 +443,7 @@
 															<fieldset>
 			   									<p style="padding-top:7px;" for="buyer_stringValue">Dojam:</p>
 			   								
-			    								<select name="buyer_stringValue" id="buyer_stringValue" style="font-size:30px; margin-top:7px;"">
+			    								<select name="buyer_stringValue" id="buyer_stringValue" style="font-size:15px; margin-top:7px;">
 			     									<option selected="selected">Neutralan</option>
 									      			<option>Pozitivan</option>
 									    			<option>Negativan</option>
@@ -460,9 +458,10 @@
 											}	
 										}
 							</div>
+							</div>	
 						}
 					}	
-					</div>	
+				
 				
 			</div>
 		</div>
@@ -511,5 +510,4 @@
 	    	</div>
 			</div>
 	</div>
-
 }
