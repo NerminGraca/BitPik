@@ -16,6 +16,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-mailer" % "2.4.0",
   "com.paypal.sdk" % "rest-api-sdk" % "1.2.0",
   "org.jsoup" % "jsoup" % "1.8.1",
-  "org.apache.poi" % "poi" % "3.11"
+  "org.apache.poi" % "poi" % "3.11",
+  "com.cloudinary" % "cloudinary" % "1.0.2"
 )
 

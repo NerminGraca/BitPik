@@ -48,7 +48,7 @@ public class FAQController extends Controller{
 			question = newFaq.bindFromRequest().get().question;
 			answer = newFaq.bindFromRequest().get().answer;
 		} catch(IllegalStateException e) {
-			flash("add_faq_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
+			flash("add_faq_null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
 			return redirect(routes.FAQController.allFaqs());
 		}
 		
@@ -133,7 +133,7 @@ public class FAQController extends Controller{
 			question = newFaq.bindFromRequest().get().question;
 			answer = newFaq.bindFromRequest().get().answer;
 		} catch(IllegalStateException e) {
-			flash("edit_faq__null_field", Messages.get("Molim Vas popunite sva polja u formi."));
+			flash("edit_faq__null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
 			return ok(editFaq.render(usernameSes, faq, currentUser));
 		}
 		
@@ -170,7 +170,7 @@ public class FAQController extends Controller{
 		}
 		FAQ.delete(id);
 		Logger.of("faq").info("Admin deleted a FAQ");
-		flash("delete_faq_success",  Messages.get("Uspješno ste izbrisali FAQ"));
+		flash("delete_faq_success",  Messages.get("Uspješno ste izbrisali FAQ."));
 		return redirect(routes.FAQController.allFaqs());
 	}
 	

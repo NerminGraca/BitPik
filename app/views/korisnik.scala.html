@@ -12,43 +12,44 @@
     		<div class="section group">
 				<div class="rightBox">
 			
-					<h2 id="redText">Korisničko ime:</h2>
+					<h2 id="redText">@Messages("KorisnickoIme")</h2>
 					<p class="blueText">@user.username</p>
 				
-					<h2 id="redText">Email:</h2>
+					<h2 id="redText">@Messages("Email")</h2>
 					<p class="blueText">@user.email</p>
 					
 					@if(!user.isPikStore){
 					<h2 id="redText">Admin:</h2>
 						@if(user.isAdmin){
-							<p class="blueText">Da</p>
+							<p class="blueText">@Messages("Da")</p>
 						}else{
-							<p class="blueText">Ne</p>				
+							<p class="blueText">@Messages("Ne")</p>				
 						}
 					}
-					<h2 id="redText">Datum registracije:</h2>
+					<h2 id="redText">@Messages("DatumRegistracije")</h2>
 					<p class="blueText">@user.createdDate</p>
 									
 					@if(user.isPikStore){
 						
 					
-						<h2 id="redText">Naziv firme:</h2>
+						<h2 id="redText">@Messages("NazivFirme"):</h2>
 						<p class="blueText">@user.storeName</p>
-					
-						<h2 id="redText">Adressa:</h2>
+
+						<h2 id="redText">@Messages("Adresa"):</h2>
+
 						<p class="blueText">@user.address</p>
 						
-						<h2 id="redText">Grad:</h2>
+						<h2 id="redText">@Messages("Grad"):</h2>
 						<p class="blueText">@user.city</p>
 						
-						<h2 id="redText">Djelatnost:</h2>
+						<h2 id="redText">@Messages("Djelatnost"):</h2>
 						<p class="blueText">@user.storeCategory.name</p>
 					
 					}
 					<br>
 					<br>
 				@if(userSes != null) {
-						<a href="/message/@user.id" class="btn btn-primary btn-fontNovi">Pošalji privatnu poruku</a>
+						<a href="/message/@user.id" class="btn btn-primary btn-fontNovi">@Messages("PosaljiPoruku")</a>
 				}
 					<br>
 					<br>
@@ -78,7 +79,7 @@
 						@if(!userSes.username.equals(user.username)){
 							@if(userSes.isAdmin && !user.isAdmin && !user.isProtectedAdmin){
 								@form(routes.UserController.deleteUser(user.id)) {
-									<input class="btnRed" type="submit" value="Izbrisi korisnika"  onclick="return confirm('Da li ste sigurni da zelite izbrisati korisnika?');">
+									<input class="btnRed" type="submit" value="Izbriši korisnika"  onclick="return confirm('Da li ste sigurni da želite izbrisati korisnika?');">
 	                    		}
 	                    		
 	                  		} 
@@ -87,7 +88,7 @@
 					<!-- change profile info -->
 					@if(userSes.username.equals(user.username)){
 						<form action="/editUser/@user.id">
-    						<a href="/editUser/@user.id" class="btn2">Izmijeni profil</a>
+    						<a href="/editUser/@user.id" class="btn2">@Messages("IzmijeniProfil")</a>
 						</form>
 
 					}	
@@ -96,16 +97,19 @@
 				</div>
 			
 				<div class="leftBox">
-					<div><a class="profilePicture" ><img src="@routes.Assets.at(user.imagePath)" alt="" /></a></div>
+					<div><a class="profilePicture" ><img src="@user.imagePathOne.getSize(200,200)" alt="" /></a></div>
 										
 					<div class="categories">
 					  <ul>
-					      <li><a href="#">Moj pik</a></li>
-					      <li><a href="#">Poruke</a></li>
-					      <li><a href="#">Blokirani korisnici</a></li>
-					      <li><a href="#">Javna pitanja</a></li>
+
+
+					      <li><a href="#">@Messages("MojPik")</a></li>
+					      <li><a href="#">@Messages("Poruke")</a></li>
+					      <li><a href="#">@Messages("BlokiraniKorisnici")</a></li>
+					      <li><a href="#">@Messages("JavnaPitanja")</a></li>
 					      <li><a href="@routes.UserController.allUsersComment(user.id)">Dojmovi</a></li>
-					      <li><a href="#">Spaseni proizvodi</a></li>
+					      <li><a href="#">@Messages("SpaseniProizvodi")</a></li>
+
 					  </ul>
 					</div>					
 	  	 
@@ -114,23 +118,23 @@
 				<div id="productsOnProfile">
 					
 					@if(!products.isEmpty) {
-						<h1 class="redHeader">Objavljeni proizvodi:</h1><br> 
+						<h1 class="redHeader">@Messages("ObjavljeniProizvodi"):</h1><br> 
 						@for(product <- products) {
 									
 						<div class="grid_1_of_4 images_1_of_4">
-							 <a href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
+							 <a href="/showProduct/@product.id"><img src="@product.imgPathList.get(0).getSize(200, 200)" alt="" /></a>
 					 		 <h2>@product.name </h2>
-					 	@if(userSes != null) {	 
-							@if(userSes.equals(user)){
-								@form(routes.ProductController.deleteProduct(product.id)) {
-                   					 <input class="btnDelete" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
-                				}
-                			}
-                		}
+						 	@if(userSes != null) {	 
+										@if(userSes.equals(user)){
+												@form(routes.ProductController.deleteProduct(product.id)) {
+				                   					 <input class="btnDelete" type="submit" value="Izbriši proizvod" onclick="return confirm('Da li ste sigurni da želite izbrisati proizvod?');">
+				                				}
+			                			}
+		                		}
 							<div class="price-details">
 				       		
 				       			<div class="price-number"><p><span class="rupees">@product.price KM</span></p></div>
-					       		<div class="add-cart"><h4><a href="/showProduct/@product.id">Pogledaj</a></h4></div>
+					       		<div class="add-cart"><h4><a href="/showProduct/@product.id">@Messages("Pogledaj")</a></h4></div>
 								<div class="clear"></div>
 							</div>
 					

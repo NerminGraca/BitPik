@@ -58,12 +58,29 @@ public class JsonHelper {
 		product.put("price", p.price);
 		product.put("isSold", p.isSold);
 		product.put("isSpecial", p.isSpecial);
-		product.put("productImagePath", p.productImagePath);
+		product.put("longDescription", p.longDescription);
+		product.put("publishedDate", p.publishedDate);
+		product.put("location", p.location);
+		product.put("productImagePath", p.imgPathList.get(0).image_url);
 		product.put("ownerUsername", p.owner.username);
 		product.put("ownerId", p.owner.id);
 		return product;
 	}
 	
+
+	/**
+	 * Used this simple one for now!.
+	 *
+	 * @param c the c
+	 * @return the object node
+	 */
+	public static ObjectNode jsonSimpleCategory(MainCategory c) {
+		ObjectNode category = Json.newObject();
+		category.put("id", c.id);
+		category.put("name", c.name);
+		return category;
+	}
+
 	
 	public static ObjectNode jsonCategory(MainCategory c){
 		ObjectNode category = Json.newObject();

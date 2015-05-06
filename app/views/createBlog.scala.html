@@ -13,14 +13,16 @@
 						
 					
 						@helper.form(routes.BloggerController.createBlog(),'id->"blogForm") {
-					<h5 id="editProfileText">Naziv Bloga:</h5>
+					<h5 id="editProfileText">@Messages("NazivBloga")</h5>
 									<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="" id="name" name="name" required/>
 									
-									<h5 id="editProfileText">Kratki opis:</h5>
+									<h5 id="editProfileText">@Messages("KratkiOpis")</h5>
 									<input  style= "width: 750px; height: 30px".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="" id="description" name="description" required/>
                 					
+                					<h5 id="editProfileText">Tag:</h5>
+									<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="" id="tag" name="tag" required/>
                 					
-                					<h5 id="editProfileText">Detaljni opis:</h5>
+                					<h5 id="editProfileText">@Messages("DetaljniOpis")</h5>
 									<textarea maxlength="250" value="" id="longDescription" name="longDescription" required></textarea>
 
 									<script>

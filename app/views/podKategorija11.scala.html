@@ -7,7 +7,7 @@
 <div class="section group">
   <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
          <div class="filter" style="margin-top:20px; margin:25px 130px;">
-            <h1 class="redHeader">Cijena od-do</h1>
+            <h1 class="redHeader">@Messages("CijenaOdDo")</h1>
                <input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
                <input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax"/>
                					
@@ -76,7 +76,7 @@
                </script>
                <div class="dostupnost" style="margin:-45px 400px;">
                <fieldset style="width:600px;">
-                  <label class="redHeader" for="availability" width=3px>Dostupnost</label>
+                  <label class="redHeader" for="availability" width=3px>@Messages("Dostupnost")</label>
                   <select name="availabilityS" id="availabilityS">
                      <option selected="selected">Sarajevo</option>
 									      			<option>Mostar</option>
@@ -92,7 +92,7 @@
                </fieldset>
                 </div>
                 <div class="opis" style="margin:-53px 710px;">
-               <h1 class="redHeader">Opis</h1>
+               <h1 class="redHeader">@Messages("Opis")</h1>
                <input type="text" value="" id="desc" name="desc"/>	
                </div>
                <input class="button" type="submit" value="Traži" style="margin:65px 730px;" />	
@@ -102,7 +102,7 @@
    <div class="leftBoxCat">
       <div class="categories">
          <ul>
-            <h3>Kategorije</h3>
+            <h3>@Messages("Kategorije")</h3>
             @if(mainCategoryList.size() > 0 ) {
             @for(mCategory <- mainCategoryList) {
             <li><a href="/kategorija/@mCategory.id">@mCategory.name</a></li>
@@ -129,10 +129,10 @@
    <div class="clear"></div>
    <div class="content_top">
       <div class="heading">
-         <h3>Artikli PodKategorije - @subCatName</h3>
+         <h3>@Messages("ArtikliPodkategorije") @subCatName</h3>
       </div>
       <div class="see">
-         <p><a href="#">Pogledaj</a></p>
+         <p><a href="#">@Messages("Pogledaj")</a></p>
       </div>
       <div class="clear"></div>
    </div>
@@ -144,23 +144,23 @@
             @if(sproducts.size() > 0 ) {
             <div class="content_top">
                <div class="heading">
-                  <h3>Izdvojeni Artikli</h3>
+                  <h3>@Messages("IzdvojeniArtikli")</h3>
                </div>
                <div class="see">
-                  <p><a href="#">Pogledaj</a></p>
+                  <p><a href="#">@Messages("Pogledaj")</a></p>
                </div>
                <div class="clear"></div>
             </div>
             <div class="section group">
                @for(sproduct <- sproducts) {						
                <div class="grid_1_of_4 images_1_of_4" >
-                  <a href="/showProduct/@sproduct.id"><img src="@routes.Assets.at(sproduct.productImagePath)" alt="" class="productImg"/></a>
+                  <a href="/showProduct/@sproduct.id"><img src="@sproduct.imgPathList.get(0).getSize(200, 200)" alt="" class="productImg"/></a>
                   <div class="price-details">
                      <div class="price-number">
                         <p><span class="rupees">@sproduct.price KM</span></p>
                      </div>
                      <div class="add-cart">
-                        <h4><a href="/showProduct/@sproduct.id">Pogledaj</a></h4>
+                        <h4><a href="/showProduct/@sproduct.id">@Messages("Pogledaj")</a></h4>
                      </div>
                      <div class="clear"></div>
                   </div>
@@ -173,14 +173,14 @@
                @if(products.size() > 0 ) {
                @for(product <- products) {						
                <div class="grid_1_of_4 images_1_of_4">
-                  <a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>
+                  <a class="productImg" href="/showProduct/@product.id"><img src="@product.imgPathList.get(0).getSize(200, 200)" alt="" /></a>
                   <h2>@product.name </h2>
                   <div class="price-details">
                      <div class="price-number">
                         <p><span class="rupees">@product.price KM</span></p>
                      </div>
                      <div class="add-cart">
-                        <h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+                        <h4><a href="/showProduct/@product.id">@Messages("Pogledaj")</a></h4>
                      </div>
                      <div class="clear"></div>
                   </div>

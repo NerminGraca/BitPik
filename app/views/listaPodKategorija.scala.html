@@ -14,7 +14,7 @@
 			<div class="leftBoxCategory">
 				<div class="categories">
 					<ul id="listOfCategory">
-				  	<h3>Podkategorije kategorije @mainCategory.name</h3>
+				  	<h3>@Messages("PodkategorijeKategorije") @mainCategory.name</h3>
 				  		
 				  		@if(mainCategory.subCategories.size() > 0 ) {
 				  			@for(subCategory <- mainCategory.subCategories) {
@@ -43,7 +43,7 @@
 				<div class="categories">
 					<div class="addCategoryFill">
 						@helper.form(routes.CategoryController.addSubCategory(mainCategory.id), 'id->"subCsategoryForm") {
-					  			<h5 id="editProfileText">Naziv podkategorije:</h5>
+					  			<h5 id="editProfileText">@Messages("NazivPodkategorije"):</h5>
 					  			<input id="addCategoryFill"  pattern="[A-Za-z\s]{3,30}" required title="Od 3 do 30 karaktera, samo slova" type="text" value="" id="name" name="name" required/>
 					  			<input class="buttonRed" type="submit" value="Dodaj podkategoriju" />
 					  		}

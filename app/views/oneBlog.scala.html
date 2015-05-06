@@ -21,9 +21,9 @@
                     <a href="#"><strong>@b.name</strong></a>
                  </h2>
                 <p class="lead">
-                    by <a href="index.php">Blogger</a>
+                    by <a href="index.php">@Messages("Blogger")</a>
                 </p>
-                <p><span class="glyphicon glyphicon-time"></span> Postano: @b.publishedDate</p>
+                <p><span class="glyphicon glyphicon-time"></span> @Messages("Postano"): @b.publishedDate</p>
                 
                 <img class="img-responsive" src="@routes.Assets.at(b.blogImagePath)"  alt="">
                 
@@ -32,19 +32,25 @@
                 <hr>
                 
                 <p>@Html(b.longDescription)</p>
-                <a class="btn btn-primary" href="/showBlog">Nazad </a>
+                <a class="btn btn-primary" href="/showBlog">@Messages("Nazad") </a>
                  
 
 						 @if(u != null) {
-					@if(u.username.equals("blogger")) {
-                <a class="btn btn-primary" href="/editBlog/@b.id">Edituj blog </a>
-                 <a class="btn btn-primary" href="/deleteBlog/@b.id">Izbrisi blog </a>
+
+					@if(u.username.equals("blogger") || u.username.equals("admin")) {
+                <a class="btn btn-primary" href="/editBlog/@b.id">@Messages("EditujBlog") </a>
+                 <a class="btn btn-primary" href="/deleteBlog/@b.id">@Messages("IzbrisiBlog") </a>
+
                				 }
                			 }
-                	
-				
+                				
                 <hr>
-
+						
+                    <h5>
+                    <a href="/searchTag/@b.tag"><strong>@b.tag</strong></a>
+                        </h5>
+                    
+                <hr>
                 
 
                 
@@ -52,36 +58,35 @@
             </div>
 
              <!-- Blog Sidebar Widgets Column -->
- 
-
-		<div class="row">
-
+ 				<div class="row">
             <div class="col-md-4">
 
                 <!-- Blog Search Well -->
                 <div class="well">
-                    <h4>Blog Search</h4>
-                    
-	     		<form action="/searchBlog" method="GET">
-	     			<input class="search_box-blog" id="q" name="q" type="text" placeholder="Traži Blog..." required/>
 
-    <!--<input id="q" name="q" type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">-->
+                    <h4>@Messages("BlogSearch")</h4>
+                    <div class="search_box-blog">   		
 
-    <input class = "glyphicon glyphicon-search" type="submit" value="">
-	     			 
+	     		  <form action="/searchBlog" method="GET">
+	     			<input id="q" name="q" type="text" placeholder="Traži FAQ..." required/>
+	     			 <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        </span>
 	     		</form>
 	     	
-                    <!-- /.input-group -->
+                    
                 </div>
 
                 <!-- Blog Categories Well -->
                 <div class="well">
-                    <h4>Lista najnovijih blogova </h4>
+                    <h4>@Messages("ListaNovihBlogova") </h4>
                                            
                     @if(bloggerList.size() > 0){
 					@for(blogger <- bloggerList){
                     <h5>
-                    <a href="/showOneBlog/@blogger.id"><strong>@blogger.name</strong></a>
+                    <a href="/showOneBlog/@blogger.id">@blogger.name</a>
                         </h5>
                         	}
                         }
@@ -93,22 +98,22 @@
 
                 <!-- Side Widget Well -->
                 <div class="well">
-                    <h4>Korisnička podrška:</h4>
+                    <h4>@Messages("KorisnickaPodrska")</h4>
                     <h5> <a href="/contact">www.Bit-Pik.ba/kontakt</a> </h5>
                     <h5> 062 087 254 </h5>
-                    <h5> Ponedjeljak - Petak </h5>
+                    <h5> @Messages("PonedeljakPetak") </h5>
                     <h5> 9 - 20h </h5>
                     <hr>
-                    <h5> Vikend </h5>
+                    <h5> @Messages("Vikend") </h5>
                     <h5> 10 - 16h </h5>
                     <hr>
-                    <h4>Podrška za PIK radnje:</h4>
+                    <h4>@Messages("PodrskaZaRadnje")</h4>
                     <h5> <a href="/contact">www.Bit-Pik.ba/kontakt</a> </h5>
                     <h5> 062 087 254 </h5>
-                    <h5> Ponedjeljak - Petak </h5>
+                    <h5> @Messages("PonedeljakPetak") </h5>
                     <h5> 8 - 21h </h5>
                     <hr>
-                    <h5> Vikend </h5>
+                    <h5> @Messages("Vikend") </h5>
                     <h5> 10 - 16h </h5>
                     <hr>
                         	

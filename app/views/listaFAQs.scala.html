@@ -21,12 +21,14 @@
 	     		<input type="submit" value="">
 	     		</form>
 	     	</div>
-	     			<h1 class="redHeader">Rezultati pretrage:</h1><br>  
+	     			<h1 class="redHeader">@Messages("RezultatiPretrage"):</h1><br>  
 	     			@if(faqList.isEmpty()){
 						<div class="section group">
-						<h2 class="redHeader2"><font size="3" style:italic color="black">Nema rezultata za vasu pretragu</font></h2>	
+
+						<h2 class="redHeader2"><font size="3" style:italic color="black">@Messages("NemaRezultata")</font></h2>	
+
 					}else{
-					<h1 class="redHeader">FAQs Pitanja & Odgovori:</h1><br>
+					<h1 class="redHeader">@Messages("FaqsPitanjaOdgovori"):</h1><br>
 					</div>
 		                  @if(faqList.size() > 0 ) {
 		@for(faq <- faqList) {
@@ -36,8 +38,8 @@
 					<p>@faq.answer</p><!-- content here -->
 				@if(user != null) {	
 						@if(user.isAdmin) {
-							<button id="link"><a href="/editFaq/@faq.id">Edituj</a></button>
-							<button id="link1"><a href="/deleteFaq/@faq.id">Izbriši</a></button>
+							<button id="link"><a href="/editFaq/@faq.id">@Messages("Edituj")</a></button>
+							<button id="link1"><a href="/deleteFaq/@faq.id">@Messages("Izbrisi")</a></button>
 						}
 					}
 				</div> 
@@ -92,13 +94,13 @@
 				 
  		 @if(user.isAdmin) {
 			 				<br><br>
-			 				<h1 class="redHeader">Dodaj Pitanje & Odgovor:</h1><br>
+			 				<h1 class="redHeader">@Messages("DodajPitanje"):</h1><br>
 		 						<div>
 										@helper.form(routes.FAQController.addFaq(), 'id -> "faqForm") {
-											<h5 id="editProfileText">Pitanje :</h5>
+											<h5 id="editProfileText">@Messages("Pitanje") :</h5>
 											<input pattern=".{3,250}" type="text" value="" id="question" name="question" size="25" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" required/>
 											
-											<h5 id="editProfileText">Odgovor :</h5>
+											<h5 id="editProfileText">@Messages("Odgovor") :</h5>
 											<input pattern=".{3,250}" type="text" value="" id="answer" name="answer" size="25" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" required/>
 											
 										<br>	

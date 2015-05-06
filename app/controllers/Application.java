@@ -92,6 +92,7 @@ public class Application extends Controller {
 		}
 		List<Product> productList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", false).findList();
 		List<Product> specialProductList = ProductController.findProduct.where().eq("isSold", false).eq("isSpecial", true).findList();
+
 		List<MainCategory> mainCategoryList = MainCategory.find.all();
 		List<User> pikShops = User.find.where().eq("isPikStore", true).findList();
 		if (!request().accepts("text/html")) {
@@ -254,15 +255,15 @@ public class Application extends Controller {
 							String message = newMessage.message;
 							// BE-Security -if the message is not entered; 
 							if (message.equals("")) {
-								flash("fail", Messages.get("Molim vas popunite dio za poruku"));
+								flash("fail", Messages.get("Molim Vas popunite dio za poruku."));
 								return redirect("/contact");
 							}
-							flash("success", Messages.get("Poruka je poslana"));
+							flash("success", Messages.get("Poruka je poslata."));
 							MailHelper.sendContactMessage(email, message);
 							Logger.of("user").info("Sending email with ContactForm successfull ["+ email +"]");
 							return redirect("/contact");
 						} else {
-							flash("error", "Desila se greska pri slanju poruke");
+							flash("error", "Desila se greška pri slanju poruke.");
 							Logger.of("user").info("Error sending email with ContactForm");
 							return ok(contact.render(submit));
 						}

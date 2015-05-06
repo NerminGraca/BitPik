@@ -313,7 +313,7 @@ public class ProductController extends Controller {
 		 
 		Logger.of("product").info("User "+ u.username + " updated the info of product " + oldname + ", NAME : ["+p.name+"]");
 		oldname = null;
-		flash("edit_product_success", Messages.get("Uspješno ste izmijenili oglas"));
+		flash("edit_product_success", Messages.get("Uspješno ste izmijenili oglas."));
 		return redirect("/showProduct/" + id);	
 	}
 
@@ -334,7 +334,7 @@ public class ProductController extends Controller {
 		Product.delete(id);
 		Logger.of("product").info( session("username") + " deleted the product " + toBeDeleted);
 		toBeDeleted = null;
-		flash("delete_product_success",  Messages.get("Uspješno ste izbrisali oglas"));
+		flash("delete_product_success",  Messages.get("Uspješno ste izbrisali oglas."));
 		return redirect(routes.UserController.findProfileProducts());
 	}	
 	
@@ -354,7 +354,7 @@ public class ProductController extends Controller {
 		List<ImgPath> imgList= findProduct.byId(id).imgPathList;
 		
 		for (int i = 0; i< imgList.size() ; i++){
-			String s = imgList.get(i).imgPath;
+			String s = imgList.get(i).image_url;
 			
 			if (!s.equals(defaultPic)) {
 				File file = new File(deletePath + s);
@@ -430,10 +430,12 @@ public class ProductController extends Controller {
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("image");
 		if (filePart == null){
-			 flash("error",  Messages.get("Niste uploadovali sliku"));
+			 flash("error",  Messages.get("Niste uploadovali sliku."));
 			 return redirect("/addPictureProduct/" + id);
 		}
 		File image = filePart.getFile();
+		// NOVO!!!
+	
 		
 		//it takes extension from image that is uploaded
 		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
@@ -444,7 +446,7 @@ public class ProductController extends Controller {
 			&& !extension.equalsIgnoreCase(".jpg")
 			&& !extension.equalsIgnoreCase(".png") ){
 		
-			flash("error",  Messages.get("Niste unijeli sliku"));
+			flash("error",  Messages.get("Niste unijeli sliku."));
 			Logger.of("product").warn( u.username + " tried to upload an image that is not valid.");
 			return redirect("/addPictureProduct/" + id);
 		}
@@ -453,34 +455,36 @@ public class ProductController extends Controller {
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
 
-			flash("error",  Messages.get("Slika ne smije biti veca od 2 MB"));
+			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB."));
 			Logger.of("product").warn( u.username + " tried to upload an image that is bigger than 2MB.");
 
-			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB"));
+			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB."));
 			Logger.of("product").warn( u.username + " tried to upload an image that is bigger than 2MB.");
 
 			return redirect("/addPictureProduct/" + id);
 		}
 		
+		ImageController.create(image, p);
+		
 		//creating image name from user id, and take image extension, than move image to new location
-		try {
-			File profile = new File(savePath + UUID.randomUUID().toString() + extension);
-			Files.move(image, profile );		
-			String assetsPath = "images" 
-					+ File.separator + "productPicture" + File.separator + profile.getName();
-			p.productImagePath = assetsPath;
-			ImgPath imp = new ImgPath(assetsPath, p);
-			p.imgPathList.add(imp);
-			p.save();
-		} catch (IOException e) {
-			Logger.of("product").error( u.username + " failed to upload an image to the product " +p.name);
-			e.printStackTrace();
-		}
+//		try {
+//			File profile = new File(savePath + UUID.randomUUID().toString() + extension);
+//			Files.move(image, profile );		
+//			String assetsPath = "images" 
+//					+ File.separator + "productPicture" + File.separator + profile.getName();
+//			p.productImagePath = assetsPath;
+//			ImgPath imp = new ImgPath(assetsPath, p);
+//			p.imgPathList.add(imp);
+//			
+//			p.save();
+//		} catch (IOException e) {
+//			Logger.of("product").error( u.username + " failed to upload an image to the product " +p.name);
+//			e.printStackTrace();
+//		}
 		
 
-		flash("add_product_success", Messages.get("Uspjesno ste uploadali sliku"));
-
-		flash("add_product_success", Messages.get("Uspješno ste objavili oglas"));
+		flash("add_product_success", Messages.get("Uspješno ste uploadali sliku."));
+		flash("add_product_success", Messages.get("Uspješno ste objavili oglas."));
 
 
 		return redirect("/showProduct/"+p.id);
@@ -499,7 +503,7 @@ public class ProductController extends Controller {
 			return ok(blog.render(bloggerList,u));
 		}
 			Product p = findProduct.byId(id);
-			flash("add_product_success", Messages.get("Uspješno ste objavili oglas"));
+			flash("add_product_success", Messages.get("Uspješno ste objavili oglas."));
 			return redirect("/showProduct/"+p.id);
 	}
 
@@ -547,7 +551,7 @@ public class ProductController extends Controller {
 		p.save();
 		List <Product> l = ProductController.findProduct.where().eq("owner.username", buyerUser.username).eq("isSold", false).findList();
 		Logger.of("product").info("User "+ buyerUser.username +" bought the product '" + p.name + "'");
-		flash("buy_product_success", Messages.get("Čestitamo, uspješno ste kupili proizvod. Proizvod pogledajte pod Kupljeni proizvodi!"));
+		flash("buy_product_success", Messages.get("Čestitamo, uspješno ste kupili proizvod. Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
 		MailHelper.sendNewsletterMessage(p.owner.email, "Čestitamo, uspješno ste prodali proizvod " + p.name + ", za " + p.price + " KM");
 		MailHelper.sendNewsletterMessage(buyerUser.email, "Čestitamo, uspješno ste kupili proizvod " + p.name + ", za " + p.price + " KM");
 		return ok(profile.render(l, buyerUser));
@@ -841,8 +845,8 @@ public class ProductController extends Controller {
 		String max=filteredSearch.bindFromRequest().get().priceMax;
 		descr=filteredSearch.bindFromRequest().get().desc;
 		availability=filteredSearch.bindFromRequest().get().availabilityS;
-		List<Product>productList=new ArrayList<>();
-		List<Product>sproductList=new ArrayList<>();
+		List<Product>productList=new ArrayList<Product>();
+		List<Product>sproductList=new ArrayList<Product>();
 		
 		if(ids2.isEmpty()){
 			Logger.info("No searched special products");

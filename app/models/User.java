@@ -75,6 +75,9 @@ public class User extends Model {
 	
 	public String imagePath;
 	
+	@OneToOne(mappedBy="userImage", cascade=CascadeType.ALL)
+	public ImgPath imagePathOne;
+	
 	@OneToMany(mappedBy="buyerUser", cascade=CascadeType.ALL)
 	public List<Product> bought_products;
 
@@ -286,6 +289,14 @@ public class User extends Model {
 		save();
 	}
 	
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+	
 	public void setStoreCategory(MainCategory storeCategory){
 		this.storeCategory=storeCategory;
 	}
@@ -355,10 +366,12 @@ public class User extends Model {
 		try {
 			for(Product product: products){
 				if(product.isSold){
+					
 					if(!product.purchaseTransaction.buyer_comment.equals("Ne postoji")){
 				    sum+=product.purchaseTransaction.getBuyer_value();
 				    
 					}
+
 				}
 			}
 		} catch (NullPointerException e) {

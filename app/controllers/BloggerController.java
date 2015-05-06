@@ -41,6 +41,7 @@ public class BloggerController extends Controller{
 	
 	static Form<Blogger> newBlogger = new Form<Blogger>(Blogger.class);
 	static Finder<Integer, Blogger> findBlogger = new Finder<Integer, Blogger>(Integer.class, Blogger.class);
+	static Finder<String, Blogger> findTag = new Finder<String,Blogger>(String.class, Blogger.class);
 
 	/**
 	 * Method showBlog() renders the blog.html page with the following
@@ -76,6 +77,7 @@ public class BloggerController extends Controller{
 	 */
 	public static Result showOneBlog(int id) {
 		User u = helpers.SessionHelper.getCurrentUser(ctx());
+		Blogger tag = findBlogger.byId(id);
 		
 		List<Blogger> bloggerList = Blogger.find.all();
 		Blogger[] array = new Blogger[bloggerList.size()];
@@ -123,16 +125,18 @@ public class BloggerController extends Controller{
 		String name;
 		String desc;
 		String longDesc;
+		String tag;
 		try{
 		name = newBlogger.bindFromRequest().get().name;
 		desc = newBlogger.bindFromRequest().get().description;
 		longDesc = newBlogger.bindFromRequest().get().longDescription;
+		tag = newBlogger.bindFromRequest().get().tag;
 		} catch(IllegalStateException e) {
 			flash("add_product_null_field", Messages.get("Molimo Vas popunite sva polja u formi."));
 			return redirect(routes.BloggerController.addBlog());
 		}
 		User u = SessionHelper.getCurrentUser(ctx());
-		Blogger b = Blogger.create(name, desc, longDesc);
+		Blogger b = Blogger.create(name, desc, longDesc,tag);
 		return redirect("/addBlogPicture/" + b.id);
 	}
 	
@@ -171,7 +175,7 @@ public class BloggerController extends Controller{
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("image");
 		if (filePart == null){
-			 flash("error",  Messages.get("Niste uploadovali sliku"));
+			 flash("error",  Messages.get("Niste uploadovali sliku."));
 			 return redirect("/addBlogPicture/" + id);
 		}
 		File image = filePart.getFile();
@@ -185,7 +189,7 @@ public class BloggerController extends Controller{
 			&& !extension.equalsIgnoreCase(".jpg")
 			&& !extension.equalsIgnoreCase(".png") ){
 		
-			flash("error",  Messages.get("Niste unijeli sliku"));
+			flash("error",  Messages.get("Niste unijeli sliku."));
 			Logger.of("product").warn( u.username + " tried to upload an image that is not valid.");
 			return redirect("/addBlogPicture/" + id);
 		}
@@ -194,10 +198,10 @@ public class BloggerController extends Controller{
 		double megabyteSize = (image.length() / 1024) / 1024;
 		if(megabyteSize > 2){
 
-			flash("error",  Messages.get("Slika ne smije biti veca od 2 MB"));
+			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB."));
 			Logger.of("blog").warn( u.username + " tried to upload an image that is bigger than 2MB.");
 
-			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB"));
+			flash("error",  Messages.get("Slika ne smije biti veća od 2 MB."));
 			Logger.of("blog").warn( u.username + " tried to upload an image that is bigger than 2MB.");
 
 			return redirect("/addBlogPicture/" + id);
@@ -218,8 +222,8 @@ public class BloggerController extends Controller{
 			e.printStackTrace();
 		}
 	
-		flash("add_product_success", Messages.get("Uspjesno ste uploadali sliku"));
-		flash("add_product_success", Messages.get("Uspješno ste objavili oglas"));
+		flash("add_product_success", Messages.get("Uspješno ste uploadali sliku."));
+		flash("add_product_success", Messages.get("Uspješno ste objavili oglas."));
 
 		return redirect("/showBlog");
 	}
@@ -272,10 +276,12 @@ public class BloggerController extends Controller{
 			String name;
 			String desc;
 			String longDesc;
+			String tag;
 			try{
 				name = newBlogger.bindFromRequest().get().name;
 				desc = newBlogger.bindFromRequest().get().description;
 				longDesc = newBlogger.bindFromRequest().get().longDescription;
+				tag = newBlogger.bindFromRequest().get().tag;
 			} catch(IllegalStateException e) {		
 				flash("edit_blog_null_field", Messages.get("Molim Vas popunite sva polja u formi."));
 				return redirect(routes.BloggerController.editBlog(id));
@@ -285,11 +291,12 @@ public class BloggerController extends Controller{
 			b.setName(name);
 			b.setDescription(desc);
 			b.setLongDescription(longDesc);
+			b.setTag(tag);
 			User u = SessionHelper.getCurrentUser(ctx());
 			b.save();
 			Logger.of("product").info("User "+ u.username + " updated the info of product " + oldName + ", NAME : ["+b.name+"]");
 			oldName = null;
-			flash("edit_blog_success", Messages.get("Uspješno ste izmijenili blog"));
+			flash("edit_blog_success", Messages.get("Uspješno ste izmijenili blog."));
 			//return redirect("/showProduct/" + id);	
 			return redirect("/addBlogPicture/" + b.id);
 		}
@@ -304,7 +311,7 @@ public class BloggerController extends Controller{
 		public static Result deleteBlog(int id){
 			deletePicture(id);
 			Blogger.delete(id);
-			flash("delete_blog_success",  Messages.get("Uspješno ste izbrisali blog"));
+			flash("delete_blog_success",  Messages.get("Uspješno ste izbrisali blog."));
 			  if (!request().accepts("text/html")) {
 					return ok();
 			  }
@@ -345,6 +352,13 @@ public class BloggerController extends Controller{
 			User u = helpers.SessionHelper.getCurrentUser(ctx());
 			List<Blogger>bloggerList=Blogger.find.where("UPPER(name) LIKE UPPER('%"+q+"%')").findList();
 			return ok(blog.render(bloggerList,u));	
+		}
+		public static Result searchTag(String q){
+			User u = helpers.SessionHelper.getCurrentUser(ctx());
+			List<Blogger> bloggerList= Blogger.find.where("UPPER(tag) LIKE UPPER('%"+q+"%')").findList();
+			
+			
+			return ok(blog.render(bloggerList,u));
 		}
 	
 	
