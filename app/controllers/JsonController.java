@@ -39,18 +39,26 @@ public class JsonController extends Controller{
 		return ok(arr);
 	}
 	
+	/**
+	 * Profile page for android
+	 * @return
+	 */
+	
 	public static Result profileAndroid() {
 		User u = User.find(2);
 		ObjectNode user = JsonHelper.jsonUser(u);
 		return ok(user);
 	}
 	
+	/**
+	 * Method sends user in json format 
+	 * @return
+	 */
 	
 	public static Result getUserForAndroid() {
 		JsonNode json = request().body().asJson();  //// {"id" : "3"}
 		Logger.info("json primljeni je : " + json);
-//		String jsonString = json.toString();
-//		Logger.info("json convertovani je  : " + id);
+
 		String idAsString = json.findPath("id").asText();  
 		Logger.info("idAsString je : " + idAsString);
 	
@@ -112,8 +120,10 @@ public class JsonController extends Controller{
 		
 	}
 	
-	
-	
+	/**
+	 * Registration for android
+	 * @return
+	 */
 	
 	public static Result registration(){
 		
@@ -147,6 +157,11 @@ public class JsonController extends Controller{
 		return ok();
 	}
 	
+	/**
+	 * Login for android
+	 * @return
+	 */
+	
 	public static Result login(){
 				
 		JsonNode json = request().body().asJson();
@@ -171,6 +186,12 @@ public class JsonController extends Controller{
 		return ok(JsonHelper.jsonUser(u));
 	}
 	
+	/**
+	 * Method for editing user for android
+	 * Returns user in json format
+	 * @return
+	 */
+	
 	public static Result editUser(){
 		JsonNode json = request().body().asJson();
 		String password = json.findPath("password").textValue();
@@ -194,21 +215,10 @@ public class JsonController extends Controller{
 		return ok(JsonHelper.jsonUser(u));
 	}
 	
-	public static Result sendMessage(int id){
-		User sender = SessionHelper.getCurrentUser(ctx());
-		JsonNode json = request().body().asJson();
-		String content = json.findPath("content").textValue();
-		User receiver = User.find(id);
-		if(content.equals(null) || content.isEmpty()){
-			Logger.info("Login error, content not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Content not valid."));
-		}
-		ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
-		array.add(JsonHelper.jsonUser(sender));
-		array.add(JsonHelper.jsonUser(receiver));
-		return ok(array);
-	}
+	/**
+	 * Method for adding products in android
+	 * @return
+	 */
 	
 	public static Result addProduct(){
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -252,58 +262,6 @@ public class JsonController extends Controller{
 			return badRequest(message.put("error", "Availability not valid."));
 		}
 		Product p = Product.create(name, desc, longDesc, price, u, mainCategory, subCategory, location,null,null);
-		p.save();
-		return ok();
-	}
-	
-	public static Result editProduct(int id){
-		User u = SessionHelper.getCurrentUser(ctx());
-		JsonNode json = request().body().asJson();
-		String name = json.findPath("name").textValue();
-		String desc = json.findPath("desc").textValue();
-		String longDesc = json.findPath("longDesc").textValue();
-		String priceStr = json.findPath("price").textValue();
-		double price = Double.parseDouble(priceStr);
-		MainCategory mainCategory = new MainCategory(json.findPath("mainCategory").textValue());
-		SubCategory subCategory = new SubCategory(json.findPath("subCategory").textValue(), mainCategory);
-		String location = json.findPath("location").textValue();
-		if(name.equals(null) || name.isEmpty()){
-			Logger.info("Login error, username not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Name not valid."));
-		}
-		if(desc.equals(null) || desc.isEmpty()){
-			Logger.info("Login error, password not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Description not valid."));
-		}
-		if(longDesc.equals(null) || longDesc.isEmpty()){
-			Logger.info("Login error, description not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Description cofirmation error."));
-		}
-		if(mainCategory.equals(null)){
-			Logger.info("Login error, category not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Category not valid."));
-		}
-		if(subCategory.equals(null)){
-			Logger.info("Login error, subcategory not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Subcategory not valid."));
-		}
-		if(location.equals(null)){
-			Logger.info("Login error, availability not valid");
-			ObjectNode message = Json.newObject();
-			return badRequest(message.put("error", "Availability not valid."));
-		}
-		Product p = Product.find.byId(id);
-		p.setName(name);
-		p.setDesc(longDesc);
-		p.setCategory(mainCategory);
-		p.setLocation(location);
-		p.setPrice(price);
-		p.setSubCategory(subCategory);
 		p.save();
 		return ok();
 	}

@@ -59,12 +59,12 @@ public class UserController extends Controller {
 	 * database, we redirect to the "/registration.html" 3. Creates the User
 	 * using the User.create() method; 4. And redirects to the index.html page;
 	 * 
-	 * @return
+	 * @return index
 	 */
 	public static Result addUser() {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 				
@@ -117,14 +117,26 @@ public class UserController extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
+	/**
+	 * Terms of service
+	 * @return terms
+	 */
+	
 	public static Result terms() {
 		return ok(terms.render());
 	}
 	
+	/**
+	 * Method that creates new PikStore
+	 * using method createPikStore in model
+	 * @return index
+	 */
+	
 	public static Result addPikStore() {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
+
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		
@@ -199,7 +211,7 @@ public class UserController extends Controller {
 	 * 6. If the password is correct - redirecting to Index.html page; Note*
 	 * Store the username in session variable if the Login is successful;
 	 * 
-	 * @return
+	 * @return index
 	 */
 	public static Result findUser() {
 		
@@ -265,14 +277,14 @@ public class UserController extends Controller {
 	* And renders the profile.html page;
 	* @return renders the profile.html page with the list of products mentioned;
 	*/
-	//@Security.Authenticated(SessionHelper.class)
+
 	public static Result findProfileProducts(){
-		User us = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(us != null && us.username.equals("blogger")){
-			return ok(blog.render(bloggerList,us));
-		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
+		
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
+		}
 		
 		// Null Catching
 		if (currentUser == null) {
@@ -282,7 +294,6 @@ public class UserController extends Controller {
 		List <Product> productList = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		User u = User.finder(currentUser.username);
 
-		
 		return ok(profile.render(productList, u));
 
 	}	
@@ -291,15 +302,16 @@ public class UserController extends Controller {
 	* This method lists all the bought items of the User logged in;
 	* If no products where bought by the user we inform him about it; 
 	* 
-	* @return Result;
+	* @return boughtproducts;
 	*/
 	public static Result find_bought_products() {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());		
+		
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
+		}
+		
 		//Null Catching
 		if (currentUser == null) {
 			return redirect(routes.Application.index());
@@ -327,8 +339,9 @@ public class UserController extends Controller {
 	 */
 	public static Result findSoldProducts() {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
+		
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
@@ -354,13 +367,14 @@ public class UserController extends Controller {
 	
 	/**
 	* Method list all users registered in database
-	* @return
+	* @return korisnici
 	*/
 	@Security.Authenticated(AdminFilter.class)
 	public static Result allUsers() {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
+		
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 	   	 List<User> userList = findUser.all();
@@ -370,11 +384,16 @@ public class UserController extends Controller {
 	   	 return ok(korisnici.render(userList));
 	}
 	
+	/**
+	 * Method returns list of PikStores
+	 * @return pikRadnje
+	 */
 
 	public static Result allPikStores() {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
+		
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 	   	 List<User> stores = findUser.where().eq("isPikStore",true).findList();
@@ -383,6 +402,12 @@ public class UserController extends Controller {
 	   	 }
 	   	 return ok(pikRadnje.render(u,stores));
 	}
+	
+	/**
+	 * Returns list of PikStores with same category
+	 * @param categoryId
+	 * @return pikRadnje
+	 */
 	
 	public static Result pikStoresByCategory(int categoryId){
 		User u = SessionHelper.getCurrentUser(ctx());
@@ -394,39 +419,37 @@ public class UserController extends Controller {
 	/**
 	* Method shows profile view of single user
 	* @param id
-	* @return
+	* @return korisnik
 	*/
 	public static Result singleUser(int id) {
-		User us = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(us != null && us.username.equals("blogger")){
-			return ok(blog.render(bloggerList,us));
-		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
-		User u = findUser.byId(id);
-		List <Product> productList = ProductController.findProduct.where().eq("owner.username", u.username).findList();
-//		if(currentUser==null){
-//			return redirect(routes.Application.index());
-//		}
+		
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
+		}
+	
+		List <Product> productList = ProductController.findProduct.where().eq("owner.username", currentUser.username).findList();
 		if (!request().accepts("text/html")) {
 			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
 			array.add(JsonHelper.jsonUser(currentUser));
-			array.add(JsonHelper.jsonUser(u));
+			array.add(JsonHelper.jsonUser(currentUser));
 			array.add(JsonHelper.jsonProductList(productList));
 			return ok(array);
 	   	 }
-		return ok(korisnik.render(currentUser, u, productList));	  
+		return ok(korisnik.render(currentUser, currentUser, productList));	  
 	}
 	
 	/**
 	 * Deletes the User;
 	 * @param id
-	 * @return
+	 * @return allUsers
 	 */
 	public static Result deleteUser(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
+		
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		  User.delete(id);
@@ -446,8 +469,9 @@ public class UserController extends Controller {
 	@Security.Authenticated(CurrentUserFilter.class)
 	public static Result editUser(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
+		
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 
@@ -467,13 +491,13 @@ public class UserController extends Controller {
 	 * @return redirect("/korisnik/" + id);
 	 */
 	public static Result saveEditedUser(int id) {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
 		}
 		
-		User currentUser = SessionHelper.getCurrentUser(ctx());
 		User user = User.find(id);
 		String oldEmail = user.email;		
 		
@@ -518,8 +542,9 @@ public class UserController extends Controller {
 	public static Result confirmEmail(String r)
 	{
 		User us = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
+		
 		if(us != null && us.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,us));
 		}
 		User u = UserController.findUser.where().eq("confirmation", r).findUnique();
@@ -546,13 +571,14 @@ public class UserController extends Controller {
 	 * a verification mail will be sent to him which will verify
 	 * given email address
 	 * @param r
-	 * @return
+	 * @return index
 	 */
 	public static Result validateEmail(String r)
 	{
 		User us = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
+		
 		if(us != null && us.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,us));
 		}
 		User u = UserController.findUser.where().eq("emailConfirmation", r).findUnique();
@@ -570,12 +596,19 @@ public class UserController extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
+	/**
+	 * Method that changes user password
+	 * @param id
+	 * @return korisnik
+	 */
+	
 	@Security.Authenticated(CurrentUserFilter.class)
 	public static Result changePassword(int id)
 	{
 		User us = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
+		
 		if(us != null && us.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,us));
 		}
 		
@@ -602,14 +635,15 @@ public class UserController extends Controller {
 		u.save();
 		Logger.of("user").info("User "+ u.username + " changed their password successfully");
 		flash("chng_pass_success", Messages.get("Uspješno ste zamijenili Vašu šifru."));
-		return redirect("/korisnik/" + id);
+		return redirect(routes.UserController.singleUser(id));
 	}
 	
 	public static Result changePasswordPage() {
 		
 		User us = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
+		
 		if(us != null && us.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,us));
 		}
 		return ok(changePassword.render(us));
@@ -620,12 +654,12 @@ public class UserController extends Controller {
 	 * Method changes the administrator status of some user
 	 * by changing it to either true or false
 	 * @param id
-	 * @return
+	 * @return korisnik
 	 */
 	public static Result changeAdmin(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		User user = User.find(id);
@@ -636,7 +670,7 @@ public class UserController extends Controller {
 		if (!request().accepts("text/html")) {
 				return ok(JsonHelper.jsonUser(user));
 	   	 }
-		return redirect("/korisnik/" + id);
+		return redirect(routes.UserController.singleUser(id));
 	}
 	
 	/**
@@ -645,12 +679,12 @@ public class UserController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
     public static Result adminPanel() {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
+		}
+		
 		//Null Catching
 		if (currentUser == null) {
 			return redirect(routes.Application.index());
@@ -673,12 +707,12 @@ public class UserController extends Controller {
 	* Upload image for User profile, and show picture on user /profile.html. 
 	* If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
 	* If file size is bigger then 2MB, redirect user on profile without uploading image.
-	* @return
+	* @return profile
 	*/
 	public static Result saveFile(){
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		
@@ -731,19 +765,6 @@ public class UserController extends Controller {
 		
 		ImageController.create(image , u);
 		
-//		//creating image name from user id, and take image extension, than move image to new location
-//		try {
-//			File profile = new File(savePath + userID + extension);
-//			Files.move(image, profile );		
-//			String assetsPath = "images" 
-//					+ File.separator + "profilePicture" + File.separator + profile.getName();
-//			u.imagePath = assetsPath;
-//			
-//			u.save();
-//		} catch (IOException e) {
-//			Logger.of("user").error( u.username + " failed to upload an image to his profile page.");
-//			e.printStackTrace();
-//		}
 		flash("upload_img_success",  Messages.get("Uspješno ste objavili sliku."));
 		if (!request().accepts("text/html")) {
 			return ok(JsonHelper.jsonUser(u));
@@ -765,6 +786,12 @@ public class UserController extends Controller {
 		return ok(purchase.render(id));
 	}
 	
+	/**
+	 * Method finds one product and sends
+	 * it to android view.
+	 * @param id
+	 */
+	
 	public static Result showPurchaseAndroid(int id) {
 		if (!request().accepts("text/html")) {
 			ObjectNode num = Json.newObject();
@@ -784,8 +811,8 @@ public class UserController extends Controller {
 	 */
 	public static Result purchaseProcessing(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		Product p = Product.find.byId(id);
@@ -857,8 +884,8 @@ public class UserController extends Controller {
 	public static Result purchaseSuccess(int id ) {
 		
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		Product p = Product.find.byId(id);
@@ -890,10 +917,7 @@ public class UserController extends Controller {
 			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
 			
 			apiContext.setConfigurationMap(sdkConfig);
-			
-			//Payment payment = Payment.get(accessToken, paymentId);			
 
-			//payment.execute(apiContext, paymentExecution);
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
 		}
@@ -911,21 +935,13 @@ public class UserController extends Controller {
 	 */
 	public static Result sendMessage(int id) {
 		
-		User u = SessionHelper.getCurrentUser(ctx());
 		User us = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(us != null && us.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,us));
 		}
-		if(u == null)
-		{
-			return redirect(routes.Application.index());
-		}
 		User receiver = User.find(id);
-		if (!request().accepts("text/html")) {
-			return JsonController.sendMessage(id);
-	   	}
-		return ok(message.render(u, receiver));
+		return ok(message.render(us, receiver));
 	}
 
 	/**
@@ -937,12 +953,12 @@ public class UserController extends Controller {
 	 */
 	public static Result saveMessage(int id)
 	{
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		User sender = SessionHelper.getCurrentUser(ctx());		
+		if(sender != null && sender.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,sender));
 		}
-		User sender = SessionHelper.getCurrentUser(ctx());
+		
    	  	User receiver = findUser.byId(id);
    	  	String content;
 		try {
@@ -965,7 +981,7 @@ public class UserController extends Controller {
 	  	String message = "Dobili ste privatnu poruku od korisnika " + sender.username + 
 	  			": \n" + content;
 	  	MailHelper.sendNewsletterMessage(receiver.email, message);
-   	  	return redirect("/allMessages");
+   	  	return redirect(routes.UserController.allMessages());
 	}
 	
 	/**
@@ -978,8 +994,8 @@ public class UserController extends Controller {
 	{
 		
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		if(u == null)
@@ -1013,8 +1029,8 @@ public class UserController extends Controller {
 	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
 		
 		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
 		if(u != null && u.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,u));
 		}
 		
@@ -1043,6 +1059,12 @@ public class UserController extends Controller {
 		return redirect(OURHOST + "/buyingAProduct/" +id +"/"+ token);
 	}	
 	
+	/**
+	 * Method creates message with list of products
+	 * with same string in name and calls MailHelper to send it
+	 * @return allUsers
+	 * @throws ParseException
+	 */
 	
 	public static Result newsletter() throws ParseException{
 		String message = "<h2>Novosti sa BitPik-a!</h2><br><h3>Novi oglasi koji bi vas mogli zanimati:</h3><br>";
@@ -1053,19 +1075,6 @@ public class UserController extends Controller {
 				Logger.error("n.string" + n.searchString);
 				Product p =  Product.find.where("(UPPER(name) LIKE UPPER('%"+n.searchString+"%')) AND ((isSold) LIKE (false))").findUnique();
 				newsletterProducts.add(p);
-				/*	SimpleDateFormat sdf = new SimpleDateFormat();
-				Date pDate;
-				Date nDate;
-				
-				
-					pDate = sdf.parse(p.publishedDate);
-					nDate = sdf.parse(n.createdDate.toString());
-					Logger.error("Datum 1: " + pDate);
-					Logger.error("Datum 2: " + nDate);
-					if(pDate.compareTo(nDate)==0){
-						newsletterProducts.add(p);
-					}
-				*/
 			}
 			
 			if(newsletterProducts.size() > 0)
@@ -1084,9 +1093,15 @@ public class UserController extends Controller {
 				MailHelper.sendNewsletter(u.email, message, newsletterProducts);
 			}
 		}
-		return redirect("/korisnici");
+		return redirect(routes.UserController.allUsers());
 	}
 
+	/**
+	 * Method returns all comments from one user
+	 * @param id
+	 * @return dojmovi
+	 */
+	
 	public static Result allUsersComment(int id){
 		User user=User.find(id);
 		List<TransactionP>transactionBuyers=new ArrayList<TransactionP>();

@@ -30,14 +30,14 @@ public class FAQController extends Controller{
 	 * @return Result renders the faqs page;
 	 */
 	public static Result addFaq() {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
 		}
 		
 		usernameSes = session("username");
-		User currentUser = SessionHelper.getCurrentUser(ctx());
+		
 		if (usernameSes == null) {
 			usernameSes = "";
 		}		
@@ -65,13 +65,13 @@ public class FAQController extends Controller{
 	 * @return Result Renders the faqs page;
 	 */
 	public static Result allFaqs(){
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
 		}
 		usernameSes = session("username");
-		User currentUser = SessionHelper.getCurrentUser(ctx());
+
 		List <FAQ> faqList = findFaq.all();
 		if (currentUser == null) {
 			usernameSes = "";
@@ -89,13 +89,13 @@ public class FAQController extends Controller{
 	 */
 	public static Result editFaq(int id)
 	{
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
 		}
 		usernameSes = session("username");
-		User currentUser = SessionHelper.getCurrentUser(ctx());
+		
 		if (currentUser == null) {
 			Logger.of("faq").warn("Not registered user tried to edit a FAQ");
 			return redirect(routes.Application.index());
@@ -116,14 +116,13 @@ public class FAQController extends Controller{
 	 * @return Result rendering the faqs page or the editFaq page;
 	 */
 	public static Result saveEditedFaq(int id) {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
 		}
 		FAQ faq = FAQController.findFaq.byId(id);
 		usernameSes = session("username");
-		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if (currentUser == null) {
 			usernameSes = "";
 		}
@@ -152,13 +151,12 @@ public class FAQController extends Controller{
 	 * @return Result redirects the user to the faqs page;
 	 */
 	public static Result deleteFaq(int id) {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
-	
 		User currentUser = SessionHelper.getCurrentUser(ctx());
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
+		}
+		
 		if (currentUser == null) {
 			Logger.of("faq").warn("Not registered user tried delete a FAQ");
 			return redirect(routes.Application.index());
@@ -183,13 +181,13 @@ public class FAQController extends Controller{
 	 *         that is logged in;
 	 */
 	public static Result searchFaq(String q){
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		if(currentUser != null && currentUser.username.equals("blogger")){
+			List<Blogger> bloggerList = Blogger.find.all();
+			return ok(blog.render(bloggerList,currentUser));
 		}
 		Logger.debug("seacrh");
-		User currentUser = SessionHelper.getCurrentUser(ctx());
+		
 		List<FAQ>faqs=FAQ.find.where("UPPER(question) LIKE UPPER('%"+q+"%')").findList();
 		Logger.debug(""+faqs.size());
 		

@@ -11,6 +11,12 @@ import play.mvc.Result;
 
 public class ImageController  extends Controller  {
 
+	/**
+	 * Method creates image for user or product
+	 * @param image
+	 * @param obj
+	 */
+	
 	public static void create(File image, Object obj){
 		
 		if (obj instanceof Product) {
@@ -25,6 +31,11 @@ public class ImageController  extends Controller  {
 		
 	}
 	
+	/**
+	 * Method deletes image
+	 * @param id
+	 * @return
+	 */
 	
 	public static Result delete(int id){
 		ImgPath.find.byId(id).delete();

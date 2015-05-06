@@ -127,17 +127,37 @@ public class TransactionP extends Model {
 		this.buyer_comment = buyer_comment;
 	}
 	
+	/**
+	 * Getter for buyer value
+	 * @return buyer_value
+	 */
+	
 	public double getBuyer_value(){
 		return buyer_value;
 	}
+	
+	/**
+	 * Setter for buyer value
+	 * @param buyer_value
+	 */
 	
 	public void setBuyer_value(double buyer_value){
 		this.buyer_value=buyer_value;
 	}
 	
+	/**
+	 * Getter for seller value
+	 * @return seller_value
+	 */
+	
 	public double getSeller_value(){
 		return seller_value;
 	}
+	
+	/**
+	 * Setter for seller value
+	 * @param seller_value
+	 */
 	
 	public void setSeller_value(double seller_value){
 		this.seller_value=seller_value;
@@ -163,6 +183,12 @@ public class TransactionP extends Model {
 		return product;
 	}	
 	
+	/**
+	 * Setter for value
+	 * @param stringValue
+	 * @return value
+	 */
+	
 	public double setValue(String stringValue){
 		double value=0;
 		if(stringValue.equals("Pozitivan")){
@@ -173,6 +199,11 @@ public class TransactionP extends Model {
 		}
 		return value;
 		}
+	
+	/**
+	 * Setter for buyer string value
+	 * @param value
+	 */
 	
 	public void setBuyer_StringValue(double value){
 		String stringValue="Neutralan";
@@ -185,6 +216,11 @@ public class TransactionP extends Model {
 		 buyer_stringValue=stringValue;
 		}
 	
+	/**
+	 * Setter for seller string value
+	 * @param value
+	 */
+	
 	public void setSellerStringValue(double value){
 		String stringValue="Neutralan";
 		if(value>0){
@@ -196,9 +232,19 @@ public class TransactionP extends Model {
 		 seller_stringValue=stringValue;
 		}
 	
+	/**
+	 * Getter for buyer string value
+	 * @return buyer string value
+	 */
+	
 	public String getBuyer_StringValue(){
 		return buyer_stringValue;
 	}
+	
+	/**
+	 * Setter gor seller string value
+	 * @return
+	 */
 	
 	public String getSeller_StringValue(){
 		return seller_stringValue;

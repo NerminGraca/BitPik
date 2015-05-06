@@ -268,19 +268,38 @@ public class User extends Model {
 		save();
 			
 	}
+	
+	/**
+	 * Setter for pikStore
+	 */
 	public void setPikStore()
 	{
 		this.isPikStore=true;
 		save();
 	}
 	
+	/**
+	 * Getter for image path
+	 * @return imagePath
+	 */
+	
 	public String getImagePath() {
 		return imagePath;
 	}
 
+	/**
+	 * Setter for image path
+	 * @param imagePath
+	 */
+	
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
+	
+	/**
+	 * Setter for store category
+	 * @param storeCategory
+	 */
 	
 	public void setStoreCategory(MainCategory storeCategory){
 		this.storeCategory=storeCategory;
