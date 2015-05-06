@@ -1,0 +1,111 @@
+@(username: String)(faqList: List[FAQ])(user: User)
+@import helper._
+
+@main("FAQs", "FAQs") {
+	
+<div class="wrap">
+	<div class="validateAndLogout">
+		@flash.get("add_faq_success")
+		@flash.get("add_faq_null_field")
+		@flash.get("edit_faq_success")
+		@flash.get("delete_faq_success")
+	</div>
+	 <div class="main">
+    	<div class="content">
+    		<div class="section group">
+				
+<!--  OVAJ DIO JE NOVI!!!! -->		
+<div class="search_box">
+	     		<form action="/searchFaq" method="GET">
+	     			<input id="q" name="q" type="text" placeholder="Traži FAQ..." required/>
+	     			<input type="submit" value="">
+	     		</form>
+	     	</div>	
+	     					
+
+	
+		<ul id="faqs" class="cd-faq-group">
+			<li class="cd-faq-title"><h2>@Messages("FaqsPitanjaOdgovori")</h2></li>
+			
+	 @if(faqList.size() > 0 ) {
+		@for(faq <- faqList) {
+			<li>
+				<a class="cd-faq-trigger" href="#0">@faq.question</a>
+				<div class="cd-faq-content">
+					<p>@faq.answer</p><!-- content here -->
+					@if(user != null) {	
+						@if(user.isAdmin) {
+							<button id="link"><a href="/editFaq/@faq.id">@Messages("Edituj")</a></button>
+							<button id="link1"><a href="/deleteFaq/@faq.id">@Messages("Izbrisi")</a></button>
+						}
+					}
+				</div> 
+			</li>
+			}
+		}
+		</ul>
+ 
+
+				
+<!--  OVAJ DIO JE NOVI!!!! DO OVDJE -->	
+				
+				<script language="JavaScript">
+				
+	<!-- ODGOVORI - OPCIJE U NIZU! -->
+				
+				var theAnswers=new Array()
+				@if(faqList.size() > 0 ) {
+							theAnswers[0]='Ovdje su odgovori!'
+						@for(faq <- faqList) {
+							theAnswers[@faq.id]='@faq.answer';							
+							
+							}
+
+					}	
+				 
+				function changecontent(which){
+					document.ddmessage.contentbox.value=theAnswers[which.value]
+				}
+							
+				document.ddmessage.contentbox.value=theAnswers[document.ddmessage.selectbox.value]
+				
+	<!-- FUNKCIJA UZIMA ID FAQ-A I REDIRECTA NA EDITFAQ/ID! -->			
+				function editFaq() {
+					var id = document.getElementById("selectbox").value;
+					window.location = "/editFaq/"+id;
+				}
+	<!-- FUNKCIJA UZIMA ID FAQ-A I REDIRECTA NA DELETEFAQ/ID! -->				
+				function deleteFaq() {
+					if(confirm('Da li si siguran-na da zelis izbrisati ovo pitanje?')==true)
+					{
+						var id = document.getElementById("selectbox").value;
+						window.location = "/deleteFaq/"+id;
+					}
+				}
+	
+				</script>
+	@if(user != null) {	
+				 
+				 
+ 		 @if(user.isAdmin) {
+			 				<br><br>
+			 				<h1 class="redHeader">@Messages("DodajPitanje")</h1><br>
+		 						<div>
+										@helper.form(routes.FAQController.addFaq(), 'id -> "faqForm") {
+											<h5 id="editProfileText">@Messages("Pitanje")</h5>
+											<input pattern=".{3,250}" type="text" value="" id="question" name="question" size="25" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" required/>
+											
+											<h5 id="editProfileText">@Messages("Odgovor")</h5>
+											<input pattern=".{3,250}" type="text" value="" id="answer" name="answer" size="25" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" required/>
+											
+										<br>	
+		 									<input class="buttonRed" type="submit" value="@Messages("DodajFaq")" />
+		 						</div>
+		 							}
+							}
+				}
+				
+			 </div>
+ 		</div>
+ </div>
+}

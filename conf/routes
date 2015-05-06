@@ -1,0 +1,148 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+
+GET     /                           		controllers.Application.index()
+GET		/registration 						controllers.Application.registration()
+GET		/login								controllers.Application.login()
+GET     /logout								controllers.Application.logout()
+POST 	/contact                        	controllers.Application.sendMail()
+GET 	/contact 							controllers.Application.contact()
+GET     /newViewForFilter                   controllers.Application.newViewForFilter()
+GET     /chooseRegistration                 controllers.Application.chooseRegistration()
+GET     /registrationPikStore               controllers.Application.registrationPikStore()
+
+# Blogger Controller
+
+GET     /addBlog  							controllers.BloggerController.addBlog()
+GET     /addBlogPicture/:id					controllers.BloggerController.bloggerPicture(id: Integer)
+POST   	/addBlogPicture/  	         		controllers.BloggerController.saveFile(id: Integer)
+GET   	/createBlog/         				controllers.BloggerController.createBlog()
+GET     /showBlog							controllers.BloggerController.showBlog()
+GET     /showOneBlog/:id					controllers.BloggerController.showOneBlog(id: Integer)
+GET     /editBlog/:id						controllers.BloggerController.editBlog(id: Integer)
+POST    /saveEditedBlog/:id/change			controllers.BloggerController.saveEditedBlog(id: Integer)
+GET     /deleteBlog/:id						controllers.BloggerController.deleteBlog(id: Integer)
+GET     /searchBlog							controllers.BloggerController.searchBlog(q: String)
+GET     /searchTag/:q							controllers.BloggerController.searchTag(q: String)
+
+# User Controller
+
+GET		/terms								controllers.UserController.terms()
+POST	/adduser							controllers.UserController.addUser()
+POST    /addPikStore                        controllers.UserController.addPikStore()
+POST	/finduser							controllers.UserController.findUser()
+GET		/profile							controllers.UserController.findProfileProducts()
+GET		/boughtproducts						controllers.UserController.find_bought_products()
+GET		/soldproducts						controllers.UserController.findSoldProducts()
+GET     /pikRadnje							controllers.UserController.allPikStores()
+GET     /storesByCategory/:id               controllers.UserController.pikStoresByCategory(id: Integer)
+GET		/korisnici							controllers.UserController.allUsers()
+GET		/korisnik/:id						controllers.UserController.singleUser(id: Integer)
+POST    /korisnik/:id/delete       			controllers.UserController.deleteUser(id: Integer)
+GET		/confirm/:r							controllers.UserController.confirmEmail(r: String)
+GET		/validateEmail/:r					controllers.UserController.validateEmail(r: String)
+POST	/editUser/:id/change				controllers.UserController.saveEditedUser(id: Integer)
+GET		/editUser/:id						controllers.UserController.editUser(id: Integer)
+GET		/changePassword						controllers.UserController.changePasswordPage()
+POST 	/changePassword/:id					controllers.UserController.changePassword(id: Integer)
+POST	/changeAdmin/:id					controllers.UserController.changeAdmin(id: Int)
+GET		/adminPanel							controllers.UserController.adminPanel()
+POST   	/fileupload          				controllers.UserController.saveFile()
+GET		/message/:id						controllers.UserController.sendMessage(id: Integer)
+POST	/message/:id/save					controllers.UserController.saveMessage(id: Integer)
+GET		/allMessages						controllers.UserController.allMessages()
+GET		/newsletter							controllers.UserController.newsletter()
+GET     /payPalValidation/:id/:payerId/:paymentId/:token/:accessToken           controllers.UserController.showSellingProduct(id: Integer, payerId: String, paymentId: String, token: String, accessToken: String)
+GET		/thepurchase/:id					controllers.UserController.showPurchase(id: Integer)
+POST	/thepurchase/:id					controllers.UserController.purchaseProcessing(id: Integer)
+GET		/thepurchaseAndroid/:id				controllers.UserController.showPurchaseAndroid(id: Integer)
+GET		/purchasesuccess/:id				controllers.UserController.purchaseSuccess(id: Integer)
+GET     /dojmovi                            controllers.UserController.allUsersComment(id: Integer)
+
+# Json Controller
+
+GET		/profileAndroid						controllers.JsonController.profileAndroid()
+POST	/api/userforAnd						controllers.JsonController.getUserForAndroid()
+POST 	/api/editUserAndroid				controllers.JsonController.editUser()
+GET		/api/allcategoriesAndroid			controllers.JsonController.getAllCategories()
+POST	/api/getproductfromCategory			controllers.JsonController.getProductsFromCategory()
+
+# FAQ Controller
+
+GET		/editFaq/:id						controllers.FAQController.editFaq(id: Integer)
+POST	/editFaq/:id/change					controllers.FAQController.saveEditedFaq(id: Integer)
+GET		/faqs								controllers.FAQController.allFaqs()
+POST	/faqs								controllers.FAQController.addFaq()
+GET		/deleteFaq/:id						controllers.FAQController.deleteFaq(id: Integer)
+GET     /searchFaq                 			controllers.FAQController.searchFaq(q: String)
+
+# Product Controller
+
+GET		/showProduct/:id					controllers.ProductController.showProduct(id: Integer)
+POST	/showProduct/:id					controllers.ProductController.showProduct(id: Integer)
+GET		/addProduct							controllers.ProductController.addProduct()
+GET		/editProduct/:id					controllers.ProductController.editProduct(id: Integer)
+POST	/editProduct/:id/change				controllers.ProductController.saveEditedProduct(id: Integer)
+POST	/createProduct						controllers.ProductController.createProduct()
+POST    /products/:id/delete       			controllers.ProductController.deleteProduct(id: Integer)
+GET   	/addPictureProduct/:id         		controllers.ProductController.productPicture(id: Integer)
+POST   	/addPictureProduct/:id         		controllers.ProductController.saveFile(id: Integer)
+GET   	/addNoPictureProduct/:id        	controllers.ProductController.saveNoFile(id: Integer)
+GET		/deleteonepicture/:id/:imgPath		controllers.ProductController.deleteOnePicture(id: Integer, imgPath: String)
+GET		/buyingAProduct/:id/:s				controllers.ProductController.buyProductSuccess(id : Integer, s: String)
+GET     /search                         	controllers.ProductController.searchUsers(q: String)
+POST	/refund								controllers.ProductController.refundProduct(id: Int)
+POST 	/leavecommentbuyer/:id				controllers.ProductController.leaveBCommentTransaction(id: Integer)
+POST 	/leavecommentseller/:id				controllers.ProductController.leaveSCommentTransaction(id: Integer)
+GET		/denyRefund/:id						controllers.ProductController.denyRefund(id: Integer)
+POST    /filteredSearch                     controllers.ProductController.filteredSearch(ids1: String, ids2: String)
+POST    /filterCondition                    controllers.ProductController.filterCondition(ids1: String, ids2: String)
+#POST    /pikStoreProducts                   controllers.ProductController.pikStoreProducts(ids1: String, ids2: String)
+
+
+# Category Controller
+
+GET		/kategorija/:id						controllers.CategoryController.categories(id: Integer)
+GET		/listaKategorija 					controllers.CategoryController.allCategory()
+POST    /listaKategorija/:id/delete     	controllers.CategoryController.deleteMainCategory(id: Integer)
+GET		/editMainCategory/:id				controllers.CategoryController.editMainCategory(id: Integer)
+POST	/editMainCategory/:id/change		controllers.CategoryController.saveEditMainCategory(id: Integer)
+POST	/addMainCategory					controllers.CategoryController.addMainCategory()
+GET		/listaPodKategorija/:id				controllers.CategoryController.subCategories(id: Integer)
+POST	/listaPodKategorija/:id/delete		controllers.CategoryController.deleteSubCategory(id: Int)
+GET		/editSubCategory/:id				controllers.CategoryController.editSubCategory(id: Int)
+POST	/editSubCategory/:id/change			controllers.CategoryController.saveEditSubCategory(id: Integer)
+POST	/addSubCategory/:id					controllers.CategoryController.addSubCategory(id: Integer)
+GET		/podKategorija/:id					controllers.CategoryController.subCategoriesView(id: Integer)
+
+# Comment Controller
+
+GET		/addComment/:idProduct				controllers.CommentController.addComment(idProduct: Integer)
+GET		/editComment/:idComment/:idProduct  controllers.CommentController.editComment(idComment: Integer, idProduct: Integer)
+POST	/editComment/:idComment/:idProduct  controllers.CommentController.editComment(idComment: Integer, idProduct: Integer)
+GET		/deleteComment/:idComment/:idProduct controllers.CommentController.deleteComment(idComment: Integer, idProduct: Integer)				
+	
+# Credits Controller	
+
+GET		/credits							controllers.CreditController.showCredits()
+GET		/addcredits							controllers.CreditController.addCredits()
+POST	/addcredits							controllers.CreditController.addCreditsProcess()
+POST	/purchasecredit						controllers.CreditController.purchaseCredit(amount: String)
+GET		/purchaseSuccessCredits/:r			controllers.CreditController.purchaseSuccessCredits(r: String)
+GET 	/buycreditsuccess/:r				controllers.CreditController.buyCreditSuccess(r: String)
+GET		/makespecialproduct/:id				controllers.CreditController.useCredits(id: Integer)
+POST	/makespecialproduct/:id				controllers.CreditController.useCreditsProcess(id: Integer)
+GET		/updatecredits/:id					controllers.CreditController.updateCredits(id: Integer)
+POST	/updatecredits/:id					controllers.CreditController.updateCreditsProcess(id: Integer)
+GET		/makeproductnotspecial/:id			controllers.CreditController.makeProductNotSpecial(id: Integer)
+
+# Statistics (Stats) Controller
+
+GET		/statsproducts						controllers.StatsController.showStats()
+GET		/downloadstats						controllers.StatsController.downloadStatistics()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               	controllers.Assets.at(path="/public", file)

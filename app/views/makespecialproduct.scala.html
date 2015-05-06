@@ -1,0 +1,37 @@
+@(p: Product)
+@import helper._
+
+@main("Use Credits", ""){
+	
+	<div class="main">
+    	<div class="content">
+       		<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="contact-form">
+				  		<h1 class="redHeader">@Messages("UnesitePikKredit") </h1>
+				  		<br>
+				  			<p> @Messages("IskoristiteKredit") @p.name @Messages("oglasu") </p>
+				  			
+								@helper.form(routes.CreditController.useCreditsProcess(p.id), 'id->"creditForm") {
+																
+									<h5 id="editProfileText">@Messages("KolicinaKredita")</h5>			
+									<input type="number" min="1" max="500" step="any" value="" id="credit" name="credit" required/>
+									
+									<input class="btn btn-primary btn-fontNovi" type="submit" value="ISKORISTI KREDITE" />					
+								}
+								
+								<br>
+								<br>
+								<div>					
+								<h4 class="napomene">@Messages("Napomena")</h4>
+								<p>@Messages("CijenaKredita")</p>
+								<p>@Messages("JedanKredit")</p>		
+								</div>
+		
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+}

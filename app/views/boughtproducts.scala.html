@@ -1,0 +1,100 @@
+@(bproducts: List[Product])(u: User)
+@import helper._
+
+@main("BoughtProducts", "") {
+		
+				
+<div class="wrap">
+	<div class="main">
+			<div class="validateAndLogout">
+					@flash.get("no_bought_products")     
+				</div>
+    	<div class="content">
+    		<div class="section group">
+				<div class="rightBox">
+					<h2 id="redText"><p>@Messages("KorisnickoIme")</p></h2>
+					<p class="blueText">@u.username</p>
+					
+					<h2 id="redText"><p>@Messages("Email")</p></h2>		
+					<p class="blueText">@u.email</p>
+		
+					<h2 id="redText"><ep>Admin: </p></h2>
+		
+						@if(u.isAdmin){
+							<p class="blueText">@Messages("Da")</p>
+						}else{
+							<p class="blueText">@Messages("Ne")</p>			
+						}
+					
+					<h2 id="redText"><p>@("DatumRegistracije")</p></h2>
+					<p class="blueText">@u.createdDate</p><br>	
+		
+		
+						<form action="/editUser/@u.id">
+    						<a class="btn btn-primary btn-fontNovi"  href="/editUser/@u.id" class="btn">@Messages("IzmijeniProfil")</a>
+						</form>
+		
+				
+				</div>
+				
+				<div class="leftBox">
+					<div>
+						<img class="profilePicture" src="@routes.Assets.at(u.imagePath)" alt="" />
+					</div>				
+					
+					<div class="addImage" >
+						  		<form id="imgs"  action="@routes.UserController.saveFile()" method="post" enctype="multipart/form-data" >
+									<input class="sendFile" type="file" name="image" id="image" />
+									<input class="sendFileBtn" type="submit" value="Send file" />
+								</form>
+					</div>
+					
+					
+					<div class="categories">
+					  	<ul>
+					  		
+					      <li><a href="/allMessages">@Messages("Poruke")</a></li>
+					      <li><a href="@routes.CreditController.showCredits()">@Messages("Krediti")</a></li>
+					      <li><a href="/profile">@Messages("ObjavljeniProizvodi")</a></li>
+				     	  <li><a href="@routes.UserController.find_bought_products()">@Messages("KupljeniProizvodi")</a></li>
+				     	  <li><a href="@routes.UserController.findSoldProducts()">@Messages("ProdatiProizvodi")</a></li>
+				     	  <li><a href="@routes.StatsController.showStats()">@Messages("Izvjestaj")</a></li>
+					      
+						</ul>
+					</div>					
+	  	    
+				</div>
+						
+			<div id="productsOnProfile">
+			<br><br>
+			
+				@if(!bproducts.isEmpty) {
+					<h1 class="redHeader">@Messages("KupljeniProizvodi")</h1><br> 
+					
+			
+					@for(product <- bproducts) {				
+						<div class="grid_1_of_4 images_1_of_4">
+							<a class="productImg" href="/showProduct/@product.id"><img src="@product.imgPathList.get(0).getSize(200, 200)" alt="" /></a><h2>@product.name </h2>
+						
+							<div class="price-details">
+				       			<div class="price-number">
+				       			<p style="padding-top:33px;"><span class="rupees">@product.getPriceString() KM</span></p>
+					   					 </div>
+					   					  <div>
+					   					 <p style="float:initial; display:inline-block; padding-right:87px;">@Messages("Objavljen")@product.publishedDate<p></div>
+					       		<div class="add-cart">								
+									<h4><a href="/showProduct/@product.id">@Messages("Pogledaj")</a></h4>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					}
+				}
+				</div>
+			</div>	
+ 		</div>
+ 		
+	</div>
+
+</div>	
+}

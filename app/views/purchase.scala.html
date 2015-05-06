@@ -1,0 +1,24 @@
+@(id: Integer)
+
+@main("purchase", ""){
+	
+	<div class="main">
+    	<div class="content">
+       		<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="contact-form">
+				  		<h1 class="redHeader">@Messages("KlikniteTransakcija")</h1>
+				  		<br>
+       					<!-- Button number 2. which, when pressed by the User - gets redirected to Paypal -->
+							<form method="post" action="@routes.UserController.purchaseProcessing(id)">
+								<button type="submit">	
+				  					<img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" />
+								</button>
+							</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+}

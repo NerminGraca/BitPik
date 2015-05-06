@@ -1,0 +1,47 @@
+@(u: User)(userCurrent: User)
+@import helper._
+
+
+@main("editUser", "") {
+		
+<div class="wrap">
+
+	<div class="validateAndLogout">
+	@flash.get("validate")
+	@flash.get("edit_user_null_field")    
+	</div>
+	
+	<div class="main">
+    	<div class="content">
+    		<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="contact-form">
+				  		<h1 class="redHeader">@Messages("PromjeniPodatke")</h1>
+						<div>
+							@helper.form(routes.UserController.saveEditedUser(u.id),'id->"nameForm") {
+								<h5 id="editProfileText">@Messages("Ime")*</h5>
+								<input pattern=".{3,20}" required title="Od 3 do 20 karaktera" type="text" value="@u.username" id="username" name="username" required/>								
+								
+								<h5 id="editProfileText">@Messages("Email")*</h5>			
+								<input type="email" value="@u.email" id="email" name="email" required/>
+								<h5 class="redHeaderReq">@Messages("PopunitePolja") *</h5>
+								<br>
+								<input class="btn btn-primary btn-fontNovi" type="submit" value="@Messages("SpasiPromjene")" />
+							}	
+						</div>
+						<br><br>
+						<h1 class="redHeader">@Messages("PromjeniLozinku")</h1>								
+						<br>
+						<div>	
+							@if(userCurrent.equals(u)){
+								<a class="btn btn-primary btn-fontNovi" href="/changePassword">@Messages("PromjeniLozinkum")</a>
+							}
+						</div>								
+					</div>
+				</div>	
+			</div>
+		</div>		
+	</div> 
+</div>   
+							
+}

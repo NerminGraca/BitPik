@@ -1,0 +1,44 @@
+@(p: Product)
+@import helper._
+
+@main("addProductPicture", "") {
+		
+
+		
+<div class="wrap">
+		<div class="validateAndLogout">
+			@flash.get("error")     
+		</div>
+	<div class="main">
+		<div class="content">
+    		<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="contact-form">
+				  		<h1 class="redHeader">@Messages("DodajSlikuProdukta")</h1><br>
+							
+							<div >
+									<form id="imgs" action="@routes.ProductController.saveFile(p.id)" method="post" 
+									enctype="multipart/form-data" >
+									<input type="file" name="image" id="image" />
+									<input type="submit" value="@Messages("SendFile")" />
+							
+							</div>
+							<br><br>
+						<h1 class="redHeader">@Messages("ProduziDalje")</h1><br>
+						
+							<div >
+							
+							<a class="btn btn-primary btn-fontNovi" href="/addNoPictureProduct/+@p.id"><i class="icon-trash icon-white"></i> @Messages("Dalje")</a>
+														
+							</div>
+									
+						</div>
+					</div>
+  				</div>			
+        	</div> 
+    	</div>
+	</div>
+</div>
+ 
+	
+}

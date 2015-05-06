@@ -1,0 +1,43 @@
+**BitCamp Project "BitPik"**
+=================================
+
+This project is done by students of BitCamp first generation, and it's
+goal is to replicate famous bosnian ecommerce web site www.pik.ba.
+Thus we have named it BitPik.
+
+Contributors to this project are:
+	* Graca Nermin
+	* Grcic Sanela (up to the 20.03.2015)
+	* Hamzic Nedzad
+	* Sajevic Gordan
+	* Spahic Adnan
+	* Vucinic Nermin (up to the 20.03.2015)
+	* Becic Mirza (from the 20.03.2015)
+	* Tabakovic Selma (from the 20.03.2015)
+	
+=================================
+
+Project phase: Under construction
+
+=================================
+
+Scala IDE build of Eclipse SDK
+Build id: 4.0.0-vfinal-20150119-1023-Typesafe
+(To run the application you must have "Play framework 2.3.8" installed)
+
+Instructions on how to run the application :
+1.  Clone the repository:
+git@github.com:NerminGraca/BitPik.git
+2. Using the terminal enter  the folder  with the  project.
+3. When in pik.ba folder run the command:
+"activator clean compile eclipse run" -without the quotation marks
+(You must have play framework installed properly)
+
+4. Using your browser of choice please go to
+http://localhost:9000
+
+5.  Apply Script
+
+6. You are ready to test the application.
+
+=================================

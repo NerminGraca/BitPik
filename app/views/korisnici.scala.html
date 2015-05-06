@@ -1,0 +1,44 @@
+@(userList: List[User])
+@import helper._
+
+@main("Korisnici", "korisnici") {
+		
+<div class="wrap">
+		<div class="validateAndLogout">
+		@flash.get("delete_user_success")
+		</div>
+	<div class="main">
+		<div class="content">
+			<div class="section group">
+				<div class="listOfUsers">										
+					<div class="categories">
+				  		<ul>
+				  		@if(userList.size() > 0 ) {
+							@for(user <- userList) {
+				     			<li><a href="/korisnik/@user.id">@user.username</a></li>			     
+							}
+		
+						}
+						
+				  		</ul>
+				  		
+					</div>	
+										  	    
+				</div>	
+				<br>
+				<br>
+					<div class="section group">
+					<br>
+					 <div class="clear"></div>
+					<br>
+						<form action="/newsletter">
+								<a class="btn btn-primary btn-fontNovi" href="/newsletter" class="btn2">@Messages("PosaljNewsletter")</a>
+						</form>	 
+					</div>
+    		</div>
+		</div>
+	</div>
+</div>
+	
+}
+

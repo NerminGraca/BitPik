@@ -1,0 +1,83 @@
+@(p: Product)(u: User)(payerId: String)(paymentId: String)(token: String)(accessToken: String)
+@import helper._
+
+@main("Profile", "") {
+		
+		
+<div class="wrap">
+
+		<div class="validateAndLogout">
+			@flash.get("validate")
+			@flash.get("error")
+			@flash.get("upload_img_success")
+			@flash.get("edit_user_success")
+			@flash.get("delete_product_success")
+			@flash.get("buy_product_success")
+		</div>
+		
+	<div class="main">
+    	<div class="content">
+    		<div class="section group">
+				<div class="rightBox">
+					<h2 id="redText"><p>@Messages("KorisnickoIme")</p></h2>
+					<p class="blueText">@u.username</p>
+					
+					<h2 id="redText"><p>@Messages("Email") </p></h2>		
+					<p class="blueText">@u.email</p>
+		
+					<h2 id="redText"><ep>@Messages("Produkt"): </p></h2>
+		
+						@if(u.isAdmin){
+							<p class="blueText">@Messages("Da")</p>
+						}else{
+							<p class="blueText">@Messages("Ne")</p>			
+						}
+					
+					<h2 id="redText"><p>@Messages("DatumRegistracije")</p></h2>
+					<p class="blueText">@u.createdDate</p><br>	
+					
+					<h2 id="redText"><p>@Messages("IDProizvoda"):</h2>
+					<p class="blueText">@p.id</p>
+					
+					<h2 id="redText"><p>@Messages("ImeProizvoda"):</h2>
+					<p class="blueText">@p.name</p>
+					
+					<h2 id="redText"><p>@Messages("CijenaProizvoda"):</h2>
+					<p class="blueText">@p.price</p>
+					
+					
+					
+					<a class="btn btn-primary btn-fontNovi"  type="submit"  href="@routes.UserController.showSellingProduct(p.id, payerId, paymentId, token, accessToken)">@Messages("PotvrdiTransakciju")</a>
+					<a class="btn btn-primary btn-fontNovi"  type="cancel"  href="@routes.ProductController.showProduct(p.id)">@Messages("PonistiTransakciju")</a>
+				
+							
+				
+				</div>
+				
+				<div class="leftBox">
+					<div>
+						<img class="profilePicture" src="@routes.Assets.at(u.imagePath)" alt="" />
+					</div>				
+									
+					<div class="categories">
+					  	<ul>
+					  		
+					      <li><a href="#">@Messages("Poruke")</a></li>
+					      <li><a href="#">@Messages("BlokiraniKorisnici")</a></li>
+					      <li><a href="#">@Messages("JavnaPitanja")</a></li>
+					      <li><a href="@routes.UserController.find_bought_products()">@Messages("KupljeniProizvodi")</a></li>
+					      
+						</ul>
+					</div>					
+	  	    
+				</div>
+						
+			<div id="productsOnProfile">
+				<br><br>
+				
+				</div>
+			</div>	
+ 		</div>
+	</div>
+</div>	
+}

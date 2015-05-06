@@ -1,0 +1,188 @@
+@(mainCategoryList: List[MainCategory])
+@import helper._
+
+@main("addProduct", "Objavi") {
+		
+<div class="wrap">
+	<div class="validateAndLogout">
+		@flash.get("add_product_null_field")
+	</div>
+
+	<div class="main">
+		<div class="content">
+    		<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="contact-form">
+				  		<h1 class="redHeader">@Messages("DodajProizvod")</h1><br>
+							
+							<!--	NAŠ HELPER 
+									MINIMUM of three characters is here!! 
+							-->
+							
+								@helper.form(routes.ProductController.createProduct(),'id->"productForm") {
+									
+									<h5 id="editProfileText">@Messages("NazivProizvoda")</h5>
+									<input pattern=".{3,30}" required title="@Messages("tridotridesetKaraktera")" type="text" value="" id="name" name="name" required/>
+									
+									<h5 id="editProfileText">Kratki opis:*</h5>
+									<input pattern=".{3,140}" required title="@Messages("tridostocetrdesetKaraktera")" type="text" value="" id="description" name="description" required/>
+									
+									
+									
+									<h5 id="editProfileText">Cijena:*</h5>			
+									<input type="number" min="1" max="9999999" step="any" value="" id="price" name="price" required/>
+									
+									<h5 class="redHeaderReq">@Messages("PopuniteSvaPolja")</h5>	
+														
+						  			<!-- This is css for Kategorija and availability dropdown meni -->
+					
+						  			<style>
+						    			fieldset {
+							    			border: 0;
+						    	  			font-style: bold;
+						    	  			}
+						    			
+							    		label {
+							      			display: block;
+							      			margin: 0 0 0 0;
+							      			}
+							    		
+							    		select {
+							  		    	width: 53%;
+							  		    	height: 40px;
+							  		    	font-weight: bold;
+							  		    	color: #464646;
+											font-size: 1em;
+											font-family: Arial, Helvetica, sans-serif;
+											padding: 8px;
+											margin: 5px;
+											}
+							   			
+							    		.overflow {
+							      			height: 400px;
+							      			}
+						 			</style>
+						 			
+						 			
+						 			
+			
+									<div class="demo">
+										<form action="#">
+  											<fieldset>
+	    										<label id="editProfileText" for="category">@Messages("Kategorija:")</label>
+	    										<select name="categoryString" id="categoryString">
+		    										@if(mainCategoryList.size() > 0 ) {
+						  								@for(mainCategory <- mainCategoryList) {
+						  									<option value="@mainCategory.name">@mainCategory.name</option>
+						  								}		
+						  							}
+						  						</select>
+ 											</fieldset>
+ 											
+ 											@if(mainCategoryList.size() > 0) {
+ 												@for(mainCategory <- mainCategoryList) {
+ 													@if(mainCategory.subCategories.size > 0) {
+ 														<div id="@mainCategory.name" class="fieldsetToHide">
+ 															<fieldset>
+						  										<label id="editProfileText" for="subcategory">@Messages("Podkategorija")</label>
+						  										<select name="inactive" id="inactive">
+						  											@for(subCategory <- mainCategory.subCategories) {
+ 																		<option value="@subCategory.name">@subCategory.name</option>
+						  											}
+						  										</select>
+						  							
+						  									</fieldset>
+						  								</div>
+ 														
+ 														
+ 													}
+						  							
+						  						}
+ 											}
+ 											
+ 											<script language="JavaScript">
+
+												var e = document.getElementById("categoryString");
+												function showHideCategoryFields() {
+													var selected = e.value;
+
+													var hiddenDivs = document.querySelectorAll('.fieldsetToHide');
+
+													for (var i = 0; i < hiddenDivs.length; i++) {
+														hiddenDivs[i].style.display = 'none';
+													}
+
+													var actives = document.querySelectorAll("#subCategoryString");
+
+													for (var i = 0; i < actives.length; i++) {
+														actives[i].id = "inactive";
+														actives[i].name = "inactive";
+													}
+
+
+													var shown = document.getElementById(selected);
+													shown.style.display = 'block';
+											
+													var children = shown.childNodes;
+													var node = children[1];
+													var children2 = node.childNodes;
+													var selectNode = children2[3];
+													
+													selectNode.id = "subCategoryString";
+													selectNode.name = "subCategoryString";
+													
+													
+														
+												};
+												
+												e.onchange = showHideCategoryFields;
+												
+												showHideCategoryFields();
+		
+						 					</script>
+	
+											<fieldset>
+			   									<label id="editProfileText" for="location">@Messages("Lokacija")</label>
+			    								<select name="location" id="location">
+			     									<option selected="selected">Sarajevo</option>
+									      			<option>Mostar</option>
+									    			<option>Zenica</option>
+									    			<option>Tuzla</option>
+									     			<option>Stolac</option>
+									     			<option>Bihać</option>
+											    	<option>Banja Luka</option>
+									   				<option>Bijeljina</option>
+									    			<option>Trebinje</option>
+									    			<option>Livno</option>
+									   		 	</select>
+									   		 </fieldset> 
+									   		 
+									   		 <fieldset>
+			   									<label id="editProfileText" for="exchange">@Messages("PrihvatateLiZamjenu")</label>
+			    								<select name="exchange" id="exchange"  style="width:270px;">
+			     									<option selected="selected">@Messages("Da")</option>
+									      			<option>@Messages("Ne")</option>
+									      			</select>
+									      			</fieldset>
+										</form>
+
+										<h5 id="editProfileText">@Messages("DetaljniOpis")</h5>
+									<textarea maxlength="250" value="" id="longDescription" name="longDescription" ></textarea>
+
+									<script>
+									
+									CKEDITOR.replace('longDescription');
+									</script>
+
+									<input class="btn btn-primary btn-odmak btn-fontNovi" type="submit" value="@Messages("Objavi")" />
+						</div>
+					</div>
+  				</div>			
+        	</div> 
+    	</div>
+	</div>
+</div>
+ 
+	}
+}
+
