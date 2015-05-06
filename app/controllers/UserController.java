@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import nl.bitwalker.useragentutils.UserAgent;
+
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,6 +42,7 @@ import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
+
 
 public class UserController extends Controller {
 	
@@ -822,13 +825,18 @@ public class UserController extends Controller {
 			payment.setPayer(payer);
 			payment.setState("Bosnia and Herzegovina");
 			payment.setTransactions(transactions);
-			
+		
 			RedirectUrls redirectUrls = new RedirectUrls();
+			UserAgent userAgent = UserAgent.parseUserAgentString(Http.Context.current().request().getHeader("User-Agent"));
+			String deviceType = userAgent.getOperatingSystem().getDeviceType().toString();
 			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela!"));
-
-			redirectUrls.setCancelUrl(OURHOST + "/showProduct/"+ id);
-			redirectUrls.setReturnUrl(OURHOST + "/purchasesuccess/"+id);
-
+			if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
+				 redirectUrls.setCancelUrl("http://10.0.2.2:9000/showProduct/"+ id);
+		   		 redirectUrls.setReturnUrl("http://10.0.2.2:9000/purchasesuccessandroid/"+id);
+		   	}else{
+		   		 redirectUrls.setCancelUrl(OURHOST + "/showProduct/"+ id);
+		   		 redirectUrls.setReturnUrl(OURHOST + "/purchasesuccess/"+id);
+		   	}
 			payment.setRedirectUrls(redirectUrls);
 			Payment createdPayment = payment.create(apiContext);
 			Logger.debug(createdPayment.toJSON());
@@ -902,6 +910,53 @@ public class UserController extends Controller {
 		}
 		
 		return ok(payPalValidation.render(p, u, payerId, paymentId, token, accessToken));
+	}
+	
+public static Result purchaseSuccessAndroid(int id ) {
+		
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
+		Product p = Product.find.byId(id);
+		String paymentId = null;
+		String payerId = null;
+		String token = null;
+		String accessToken = null;
+
+		
+		String payPalSecretKey1 = Play.application().configuration().getString("payPalSecretKey1");
+		String payPalSecretKey2 = Play.application().configuration().getString("payPalSecretKey2");
+
+		
+		Map<String, String> sdkConfig = new HashMap<String, String>();
+		sdkConfig.put("mode", "sandbox");
+		try {
+			DynamicForm paypalReturn = Form.form().bindFromRequest();
+		    paymentId = paypalReturn.get("paymentId");
+			payerId = paypalReturn.get("PayerID");
+			token = paypalReturn.get("token");
+
+			accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
+			APIContext apiContext = new APIContext(accessToken);
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			Payment payment = Payment.get(accessToken, paymentId);
+				
+			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
+			
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			//Payment payment = Payment.get(accessToken, paymentId);			
+
+			//payment.execute(apiContext, paymentExecution);
+		} catch (PayPalRESTException e) {
+			e.printStackTrace();
+		}
+		
+		return ok(payPalValidationAndroid.render(p, u, payerId, paymentId, token, accessToken));
 	}
 	
 	/**
@@ -1043,7 +1098,14 @@ public class UserController extends Controller {
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
 		}
-		return redirect(OURHOST + "/buyingAProduct/" +id +"/"+ token);
+			UserAgent userAgent = UserAgent.parseUserAgentString(Http.Context.current().request().getHeader("User-Agent"));
+			String deviceType = userAgent.getOperatingSystem().getDeviceType().toString();
+			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela!"));
+			if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
+				return redirect("http://10.0.2.2:9000/buyingAProduct/" +id +"/"+ token);
+			}else{
+				return redirect(OURHOST + "/buyingAProduct/" +id +"/"+ token);
+			}
 	}	
 	
 	
@@ -1109,6 +1171,9 @@ public class UserController extends Controller {
 			transactionSellers.add(product.purchaseTransaction);
 		}
 		return ok(dojmovi.render(user,transactionBuyers,transactionSellers));
+	}
+	public static Result backToMobile() {
+		return ok(backToMobile.render());
 	}
 	
 }

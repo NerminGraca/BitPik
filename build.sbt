@@ -17,6 +17,7 @@ libraryDependencies ++= Seq(
   "com.paypal.sdk" % "rest-api-sdk" % "1.2.0",
   "org.jsoup" % "jsoup" % "1.8.1",
   "org.apache.poi" % "poi" % "3.11",
-  "com.cloudinary" % "cloudinary" % "1.0.2"
+  "com.cloudinary" % "cloudinary" % "1.0.2",
+  "nl.bitwalker" % "UserAgentUtils" % "1.2.4"
 )
 

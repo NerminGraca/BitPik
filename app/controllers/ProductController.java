@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import nl.bitwalker.useragentutils.UserAgent;
 import models.Blogger;
 import models.Comment;
 import models.ImgPath;
@@ -28,6 +29,7 @@ import play.Play;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
@@ -107,7 +109,15 @@ public class ProductController extends Controller {
 			array.add(JsonHelper.jsonCommentList(commentList));
 			return ok(array);
 		}
-		return ok(showProduct.render(p, u, mainCategoryList, commentList));
+		UserAgent userAgent = UserAgent.parseUserAgentString(Http.Context.current().request().getHeader("User-Agent"));
+		
+			String deviceType = userAgent.getOperatingSystem().getDeviceType().toString();
+			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela!"));
+			if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
+				return redirect("http://10.0.2.2:9000/backToMobile/");
+			}else{
+			return ok(showProduct.render(p, u, mainCategoryList, commentList));
+		}
 	}
 	
 	/**
@@ -517,15 +527,24 @@ public class ProductController extends Controller {
 	 * @return
 	 */
 	public static Result buyProductSuccess(int product_id, String token) {
-		User u = SessionHelper.getCurrentUser(ctx());
-		List<Blogger> bloggerList = Blogger.find.all();
-		if(u != null && u.username.equals("blogger")){
-			return ok(blog.render(bloggerList,u));
-		}
 		User buyerUser = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		UserAgent userAgent = UserAgent.parseUserAgentString(Http.Context.current().request().getHeader("User-Agent"));
+		String deviceType = userAgent.getOperatingSystem().getDeviceType().toString();
+		if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
+			buyerUser = JsonController.androidUser;
+		}
+		if(buyerUser != null && buyerUser.username.equals("blogger")){
+			return ok(blog.render(bloggerList,buyerUser));
+		}
+		
 		//1. No permission for unregistered user;
 		if (buyerUser == null) {
-			return redirect(routes.Application.index());
+			if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
+				return redirect("http://10.0.2.2:9000/backToMobile/");
+			}else{
+				return redirect(routes.Application.index());
+			}
 		}
 		//2. No permission for an admin user;
 		if (buyerUser.isAdmin) {
@@ -534,7 +553,11 @@ public class ProductController extends Controller {
 		Product p = findProduct.byId(product_id);
 		//3. URL Security - No Product under the given id number;
 		if (p == null) {
-			return redirect(routes.Application.index());
+			if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
+				return redirect("http://10.0.2.2:9000/backToMobile/");
+			}else{
+				return redirect(routes.Application.index());
+			}
 		}
 		// URL Security;
 		//4. No permission for the user to buy his own product (BE Security);
@@ -542,7 +565,11 @@ public class ProductController extends Controller {
 		// his own products on certain .html pages; with listing of products;
 				
 		if (buyerUser == p.owner) {
-			return redirect(routes.Application.index());
+			if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
+				return redirect("http://10.0.2.2:9000/backToMobile/");
+			}else{
+				return redirect(routes.Application.index());
+			}
 		}
 		TransactionP temp = new TransactionP(token, p);
 		p.setPurchaseTransaction(temp);
@@ -555,7 +582,13 @@ public class ProductController extends Controller {
 		flash("buy_product_success", Messages.get("Čestitamo, uspješno ste kupili proizvod. Proizvod pogledajte pod KUPLJENI PROIZVODI!"));
 		MailHelper.sendNewsletterMessage(p.owner.email, "Čestitamo, uspješno ste prodali proizvod " + p.name + ", za " + p.price + " KM");
 		MailHelper.sendNewsletterMessage(buyerUser.email, "Čestitamo, uspješno ste kupili proizvod " + p.name + ", za " + p.price + " KM");
-		return ok(profile.render(l, buyerUser));
+		
+		flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela!"));
+		if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
+			return redirect("http://10.0.2.2:9000/backToMobile/");
+		}else{
+			return ok(profile.render(l, buyerUser));
+		}
 	}
 
 	

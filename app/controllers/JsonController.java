@@ -29,6 +29,8 @@ import play.mvc.Result;
  */
 public class JsonController extends Controller{
 
+	public static User androidUser;
+
 	/**
 	 * Index page for Android;
 	 * @param productlist
@@ -166,6 +168,7 @@ public class JsonController extends Controller{
 		}
 		//new*****
 		User u = User.finder(username);
+		androidUser = u;
 		session().clear();
 		session(UserController.SESSION_USERNAME, username);
 		return ok(JsonHelper.jsonUser(u));
