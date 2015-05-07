@@ -1,517 +1,976 @@
 @(p: Product)(user: User)(mainCategoryList: List[MainCategory])(commentList: List[Comment])
 
+
+
 @import helper._
 
+
+
 @main("showProduct", "") {
-		
-		<div id="fb-root"></div>
+
+
+<div id="fb-root"></div>
+
+
 
 <script>(function(d, s, id) {
-  	var js, fjs = d.getElementsByTagName(s)[0];
-  	if (d.getElementById(id)) return;
-  	js = d.createElement(s); js.id = id;
-  	js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=876028449099824";
-  	fjs.parentNode.insertBefore(js, fjs);
+
+
+
+  var js, fjs = d.getElementsByTagName(s)[0];
+
+
+
+  if (d.getElementById(id)) return;
+
+
+
+  js = d.createElement(s); js.id = id;
+
+
+
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=876028449099824";
+
+
+
+  fjs.parentNode.insertBefore(js, fjs);
+
+
+
 }(document, 'script', 'facebook-jssdk'));</script>
-		
-<div class="wrap">	
-	<div class="validateAndLogout">
-		@flash.get("add_product_success")
-		@flash.get("edit_product_success")
-		@flash.get("buy_fail")
-	</div>
-	<script>
-	$(function(){
-		$('#products').slides({
-			preload: true,
-			preloadImage: 'img/loading.gif',
-			effect: 'slide, fade',
-			crossfade: true,
-			slideSpeed: 350,
-			fadeSpeed: 500,
-			generateNextPrev: true,
-			generatePagination: false
-		});
-	});
-	</script>
-	
-	<div class="main">
-	<div class="content">
-
-	<div class="cont-desc span_1_of_2">
-	<p style="font-size:30px; color:#243B5D">@p.name</p>
-	</div>
-
-	    	<div class="section group">
-	    	<div class="cont-desc span_1_of_2">
-	    			<div class="product-details">
-	    				<div class="grid images_3_of_2">
-	    					<div id="container">
-	    						<div id="products_example">
-	    							<div id="products">
-	    								<div class="slides_container" style="margin-bottom: 5px;">
-	    									
-	    									@if(p.imgPathList.size() > 0  ) {
-									  			@for(imgPath <- p.imgPathList) {
-									  			<div class="imageWrap">	
-									  				<a class="fancybox" rel="gallery1" href="@imgPath.getSize(200, 200)">
-									  					<img style="max-width:250px; max-height:250px;" src="@imgPath.getSize(200, 200)" alt="" />	
-									  				</a>
-									  				@if(user != null) {
-									  					@if(user.username.equals(p.owner.username)) {
-									  						@form(routes.ProductController.deleteOnePicture(p.id, imgPath.image_url)) {
-									  						<input class="btnDelete" type="submit" value="Izbriši sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati sliku?');"> 
-									  						}
-									  					}
-									  				}
-									  				
-									  			</div>				  			
-									  			}
-									  		} else {
-									  			@if(p.imgPathList.get(0)!=null){
-						 							<img src="@p.imgPathList.get(0).getSize(200, 200)" alt="" />
-						 						}else{
-						 							<img src="@routes.Assets.at("images/no-img_mqapfa")" alt="" />
-						 						}
-									  		}
-	    									
-										</div>
-										
-										<!-- 
-										<ul class="pagination">
-										
-											@if(p.imgPathList.size() > 0  ) {
-									  			@for(imgPath <- p.imgPathList) {
-									  				<li><a href=""@routes.Assets.at(imgPath.image_url)""><img src="@routes.Assets.at(imgPath.image_url)" alt=" " /></a></li>
-									  			}
-									  		}
-											
-											
-										</ul>
-										 -->
-	    							
-	    							</div>
-	    						</div>
-		    				</div>
-				    			@if(user != null) {
-				    						@if(user.username.equals(p.owner.username)) {
-				    							
-				    							
-					
-											<!-- <div class="addImage col-xs-2" style="padding: 15px; width: 10%; margin: 0px 20px;">-->
-												<form action="@routes.ProductController.saveFile(p.id)" method="POST" enctype="multipart/form-data">
-										  			<!-- ><form id="imgs"  action="@routes.ProductController.saveFile(p.id)" method="post" enctype="multipart/form-data" > -->
-													<input class="button" type="file" name="image" id="image" style="float:left; font-size: 10px;"/>
-													<input class="button" type="submit" value="Send file" style="float:right"/>
-												</form>
-								    							
-				    							
-				    							
-				  
-				    						}
-				    					}
-	    					
-							</div>
-	    				</div>
-						
 
 
-	    				<!-- <div class="desc span_3_of_2">
-	    				<p style="margin-top:10px; clear:left;">Kategorija</p>
-			    		<div class="AAback-links">
-			    		<p><a href="/kategorija/@p.mainCategory.id">@p.mainCategory.name</a> >>>> <a href="/podKategorija/@p.subCategory.id">@p.subCategory.name</a></p>
-			    	    </div><br></div>-->
+<div class="wrap">
 
-            			
-							
-						<div class="col-md-6" style="padding: 10px; margin: 0px 0px 0px 35px; border:3px;">
-						
-	    					<p style="font-size:20px;">Kategorija</p>
-	    					<br>
-			    			<div class="AAback-links">
-			    			<p style="font-size:20px;background-color:#FFFFFF; color:black; margin-bottom: 10px;"><a href="/kategorija/@p.mainCategory.id" style=" color:#243B5D">@p.mainCategory.name</a> >>>> <a href="/podKategorija/@p.subCategory.id" style=" color:#243B5D">@p.subCategory.name</a></p
+<div class="validateAndLogout">
 
-			    	    	<br><br><br></div>
-							<div style="font-size:20px;background-color:white;color:black; margin-bottom: 20px;float: left;border: 2px solid #c0c0c0;  border-radius: 5px; height: 50px; margin-right:20px;">
-							<p>Lokacija</p>
-							<p style="font-size:25px;font-weight:500;;background-color: #85B80C;color:#fff;"> @p.location </p>
-							</div>
-							<div style="font-size:20px;background-color:white;color:black; margin-bottom: 20px;float: left;border: 2px solid #c0c0c0;  border-radius: 5px; height: 50px; margin-right:20px;">
-							<p>Cijena</p>
-							<p style="font-size:25px;font-weight:500;;background-color: #85B80C;color:#fff;"> @p.getPriceString() KM </p>
-							</div>
-							
-							<div style="font-size:20px;background-color:white;color:black; margin-bottom: 20px;float: left;border: 2px solid #c0c0c0;  border-radius: 5px; height: 50px; margin-right:20px;">
-							<p>Stanje</p>
-							<p style="font-size:25px;font-weight:500;;background-color: #85B80C;color:#fff;"> @p.condition </p>
-							</div>
-							<br></br>
-							</div>
-							<div class="col-md-6" style="padding: 10px; margin: 0px 0px 0px 35px;">
-							<p style="font-size:20px;">Zamjena</p>
-	    					<br>
-			    			<div class="AAback-links">
-			    			<p style="font-size:20px;background-color:#FFFFFF;color:black; margin-bottom: 10px; border-radius: 5px;">@p.exchange</p
+@flash.get("add_product_success")
 
-			    	    	<br></br></div>
-			    	    	</div>
-			    	    	</div>
-			    	    	<div>
-			    	    	<br></br>
-							<p style="font-size:20px;">Objavio korisnik</p>
-	    					<br>
-			    			<div class="AAback-links">
-			    			<p><font style="font-size:20px;background-color:#FAF8F2;color:black; margin-bottom: 10px;"><a href="/korisnik/@p.owner.id">@p.owner.username</a></font></p>
-			    	    	<br>
-			    	    	</div>
-			    	    
-			    	   @if(user != null) {
-			    	    	<div class="leftBox" style="background:#FFFFFF;">					
-					<!--	<div class="categories">      -->	
-							
-					  		<ul>
-							  		@if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p) && !user.isAdmin && !user.isPikStore) {
-							      		<li><a class="btn btn-primary btn-fontNovi" href="@routes.UserController.showPurchase(p.id)">Kupi artikal</a></li>
-							      		<br>
-							      	}
-						      		
-						      		@if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {
-						      		 <li><a class="btn btn-primary btn-fontNovi"  href="/editProduct/@p.id">Izmijeni artikal</a></li>
-						      		 <br>
-							      		 @if(!p.isSpecial) {
-							     		 <li><a class="btn btn-primary btn-fontNovi"  href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></li>
-							     			 <br>
-							     		 }
-							     		
-							     		 @if(p.isSpecial) {
-							     		 <li><a class="btn btn-primary btn-fontNovi"  href="@routes.CreditController.updateCredits(p.id)">Dopuni kredite</a></li>	
-							     	   	<br>
-							     	   	}
-							     	   	
-					     		 	}
-					     		 		
-					     			 @if(user.username.equals(p.owner.username) || user.isAdmin) {	
-					     				 @form(routes.ProductController.deleteProduct(p.id)) {
-		                   				 <li><a class="btn btn-primary btn-fontNovi"  href="routes.ProductController.deleteProduct(p.id)" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">Izbriši proizvod</a></li>
-			                			 
-			                			 }
-			                			 <br>	
-	                				}
-	                					
-	                				 @if(user.isAdmin && !p.isSold && p.isSpecial) {
-		                			 <li><a class="btn btn-primary btn-fontNovi"  href="@routes.CreditController.makeProductNotSpecial(p.id)" onclick="return confirm('Da li ste sigurni da zelite skinuti proizvod sa izdvojenih proizvoda?');">Skini izdvojen oglas</a></li>
-		                			 }
-							</ul>
-					<!--	</div>		    -->					  	    
-							</div>
-							<br><br>
-							
-						
-							
-										
-									<!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio 
-									@if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p) && !user.isAdmin && !user.isPikStore) {
-										<div class="button"><span><a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true">Kupi artikal</a></span></div>
-									} -->
-									<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda 
-									@if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {
-									
-										
-										<div class="button" style="margin-left: 10px;"><span><a href="/editProduct/@p.id">Izmijeni artikal</a></span></div>
-										@if(!p.isSpecial) {
-										<div class="button"><span><a href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></span></div>
-										}
-										@if(p.isSpecial) {
-										<div class="button"><span><a href="@routes.CreditController.updateCredits(p.id)">Dopuni Kredite</a></span></div>
-										}
-										
-									}
-									
-							</div>
-							
-							-->
-						}
+@flash.get("edit_product_success")
 
-				@if(user != null) {			
-					@if(user.username.equals(p.owner.username) || user.isAdmin) {			
-						@if(p.isSpecial && !p.isSold) {
-							<div>
-									<p>Izdvojen oglas :</p>
-										<ul>
-											<h2>Oglas izdvojen do @p.getExpiryDateInFormat()</h2>
-											<h2>Iskoristeno kredita za ovaj oglas je @p.credit</h2>
-										</ul>
-								</div>
-							}
-					}
-				}
-							
-		
-							<div class="share-desc">
-								<div class="share">
-									<p>Podijeli artikal :</p>
-									<ul>
-										<div class="fb-share-button" data-href="http://localhost:9000/showProduct/" data-layout="button"></div>			    
-									</ul>
-								</div>
-								<div class="clear"></div>
-								
-								
-							</div>
-								
-								<div class="clear"></div>
-							<div class="col-md-6" style="padding: 10px; margin: 0px 0px 0px 10px; border:3px;">
-							<!--  ZA STA LI JE OVO! -->
-                			 </div>
-							
-							<!--- Zakomentarisani div za listu zelja, mozda poslije ga implementirati??!!
-							
-							<div class="wish-list">
-								<ul>
-									<li class="wish"><a href="#">Dodaj u listu zelja</a></li>
-								</ul>
-							</div>
-							-->
-							
-					
-						<div class="clear"></div>
-	    			</div>
-	    			<div class="product_desc">	
-						<div id="horizontalTab">
-							<ul class="resp-tabs-list">
-									<li>Detaljni opis</li>
-								<li>Komentari</li>
-								
-									@if(user != null && p.buyerUser != null) {	
-										@if( (user.username.equals(p.buyerUser.username)) || (user.username.equals(p.owner.username) )) {
-												<li>Refundacija</li>
-												<li>Dojmovi</li>
-										}
-									}
-								<div class="clear"></div>
-							</ul>
-			<!--  responsive containeri koje mijenjas -->
-			<div class="resp-tabs-container" >
-			<div class="product-desc" >
-									<p>@Html(p.longDescription)</p>
-								</div>
-					<div class="review">
-									<div class="your-review">
-										
-										<p>Ostavite vas komentar?</p>
-										
-										
-					 @if(user!=null){
-									@if(!user.isPikStore){
-								    			@helper.form(routes.CommentController.addComment(p.id), 'id->"postComment"){
-								    				<h3>Napisite vas komentar ovdje?</h3>
-								    				
-								    				<div class="contact-form" style="width: 850px;">
-								    				
-													<textarea maxlength="250" postComment name="content" id="content" placeholder="Write something nice" required> </textarea>
-													<div style="margin-left: 42%;">
-													<input type="submit" value="Objavi" class="btn btn-primary btn-fontNovi" style="background:#85B80C;" />						
-													</div></div>
-												}
-									}
-								
-							}
-							         
-												@for(comment <- commentList){
-													@if(comment.product.equals(p)){
-													
-														<h5><a href="/korisnik/@comment.author.id">@comment.author.username</a></h5>
-														<p>@comment.createdAt </p>
-															@if(user!=null) {
-																@if(user==comment.author){
-																	<button class="btn-fontNovi"><a href="/deleteComment/@comment.id/@p.id">Obriši</a></button>
-																}
-															}
-														<p>@comment.content</p>
-														<hr style="margin-top: 5px; margin-bottom: 5px;">
-													}
-												}
-							    		
-						               
-						               
-										
-									</div>				
-								</div>
-								
-				@if(user != null) {
-						@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {		
-							<!--  Transakcija i sve o je ovdje! -->
-								<div>
-								<p style="padding-bottom:7px;">Navedite razlog za refundaciju</p>
-										@form(routes.ProductController.refundProduct(p.id),'id->"productForm") {
-											<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="refundReason" name="refundReason" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
-											
-												<span>
-													<input type="submit" value="Zatrazi refundaciju" class="btn btn-primary btn-fontNovi" style="background:#85B80C;" onclick="return confirm('Da li ste sigurni da zelite refundirati proizvod?');"/>
-												</span>
-											</div>
-										}			
-									} 
-									
-									@if(p.isRefunding) {
-										
-											@if(user.isAdmin){
-												<div class="available">
-													<p>Transakcijski ID :</p>
+@flash.get("buy_fail")
 
-													<ul>
-														@p.purchaseTransaction.id
-													</ul>
-													
-													<p>Poslao zahtjev za refund :</p>
-													<ul>
-														<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
-													</ul>
-													
+</div>
 
-													<p>Razlozi za refund :</p>
-													<ul>
-														@p.refundReason
-													</ul>
-												</div>
-												<div class="btn btn-primary btn-fontNovi" style="background:#85B80C;"><span><a href="@routes.ProductController.denyRefund(p.id)" onclick="return confirm('Da li ste sigurni da zelite uskratiti refundaciju?');">Odbij Refundaciju</a></span></div>
-												<div class="btn btn-primary btn-fontNovi" style="background:#85B80C;"><span><a href="#">Refundiraj Artikal</a></span></div>
-											} else {
-												
-												<span color="red">Artikal poslan na refundiranje!</span>
-											}
-											
-										}
-								
-							}
-							
-							
-			@if(user != null && p.buyerUser != null) {	
-						@if( (user.username.equals(p.buyerUser.username)) || (user.username.equals(p.owner.username) )) {
-						<div>
-							<div class="availablefortrans2">
-								<p>Sifra Transakcije :</p>
-									<ul>
-										@p.purchaseTransaction.id
-									</ul>
-							</div>
-							
-					 		<div class="availablefortrans"> 
-								<p>Datum Transakcije :</p>
-									<ul>
-										@p.purchaseTransaction.dateTransaction
-									</ul>
-							</div>
-							
-							<div class="availablefortrans">
-								<p>Komentar/utisak prodavaca :</p>
-									<ul>
-										@p.purchaseTransaction.seller_comment
-									</ul>
-									<!--  Ovaj formular za ostavljanje komentara vidi samo prodavac, i ako nije vec ostavio komentar -->					
-									 @if(user == p.owner) {				
-										@if(p.purchaseTransaction.seller_comment.equals("Ne postoji")) {
-											<p style="padding-bottom: 7px;">Upisite Vas komentar na transakciju i ocijenite kupca</p>
-											@form(routes.ProductController.leaveSCommentTransaction(p.id),'id->"transactionForm") {					
-													<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="seller_comment" name="seller_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
-													<fieldset>
-			   									<p style="padding-top:7px;" for="buyer_stringValue">Dojam:</p>
-			    								<select name="seller_stringValue" id="seller_stringValue" style="font-size:15px; margin-top:7px;">
-			     									<option selected="selected" style="background-color:yellow">Neutralan</option>
-									      			<option style="background-color:green">Pozitivan</option>
-									    			<option style="background-color:red">Negativan</option>
-									    			</select>
-									    			</fieldset>
-												<div class="btn btn-primary btn-fontNovi" style="background:#85B80C;">
-													<input type="submit" value="Ostavi Komentar" class="btn btn-primary btn-fontNovi" style="background:#85B80C;"/>				
-												</div>
-											}	
-										}
-									} 
-									
-							</div>
-							</div>
-							
-							<div class="availablefortrans">
-								<p>Komentar/utisak kupca :</p>
-									<ul>
-										@p.purchaseTransaction.buyer_comment
-									</ul>
-									<!--  Ovaj formular za ostavljanje komentara vidi samo kupac, i ako nije vec ostavio komentar -->
-										@if(user == p.buyerUser) {				
-											@if(p.purchaseTransaction.buyer_comment.equals("Ne postoji")) {
-												<br>
-											 	<p style="padding-bottom: 7px;">Upisite Vas komentar na transakciju i ocijenite prodavača</p>
-													@form(routes.ProductController.leaveBCommentTransaction(p.id),'id->"transactionForm") {
-															<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="buyer_comment" name="buyer_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
-															<fieldset>
-			   									<p style="padding-top:7px;" for="buyer_stringValue">Dojam:</p>
-			   								
-			    								<select name="buyer_stringValue" id="buyer_stringValue" style="font-size:15px; margin-top:7px;">
-			     									<option selected="selected">Neutralan</option>
-									      			<option>Pozitivan</option>
-									    			<option>Negativan</option>
-									    			</select>
-									    			</fieldset>
-														<br>
-															<span>
-																<input type="submit" value="Ostavi Komentar" class="btn btn-primary btn-fontNovi" style="background:#85B80C;"/>
-															</span>
-														
-													}
-											}	
-										}
-							</div>
-							</div>	
-						}
-					}	
-				
-				
-			</div>
-		</div>
-	</div>
-					<script type="text/javascript">
-						$(document).ready(function () {
-							$('#horizontalTab').easyResponsiveTabs({
-            					type: 'default', //Types: default, vertical, accordion           
-            					width: 'auto', //auto or any width like 600px
-            					fit: true   // 100% fit in a container
-        					});
-						});
-					</script>
-					<script type="text/javascript">
-					$(document).ready(function() {
-						$(".fancybox").fancybox();
-					});
-					</script>
-					
-					@if(!p.owner.isPikStore){
-					<div class="content_bottom">
-						<div class="heading"
-							<h3>Slični artikli</h3>
-						</div>
-						<div class="see">
-							<p><a href="#">Pogledaj ostale</a></p>
-						</div>
-						<div class="clear"></div>
-					</div>
-					}else{
-					<div class="content_bottom">
-						<div class="heading"
-							<h3>Pik radnja</h3>
-						</div>
-						<div class="see">
-							<p><a href="/korisnik/@p.owner.id">Pogledaj ostale artikle iz Pik radnje</a></p>
-						</div>
-						<div class="clear"></div>
-					</div>
-					}
-				
-			
-	    		</div>
-	    	
-	    		
-	    	</div>
-			</div>
-	</div>
+<script>
+
+$(function(){
+
+$('#products').slides({
+
+preload: true,
+
+preloadImage: 'img/loading.gif',
+
+effect: 'slide, fade',
+
+crossfade: true,
+
+slideSpeed: 350,
+
+fadeSpeed: 500,
+
+generateNextPrev: true,
+
+generatePagination: false
+
+});
+
+});
+
+</script>
+
+
+<div class="main">
+
+<div class="content">
+
+
+
+<div class="cont-desc span_1_of_2">
+
+<p style="font-size:30px; color:#243B5D">@p.name</p>
+
+</div>
+
+
+
+    <div class="section group">
+
+    <div class="cont-desc span_1_of_2">
+
+    <div class="product-details">
+
+    <div class="grid images_3_of_2">
+
+    <div id="container">
+
+    <div id="products_example">
+
+    <div id="products">
+
+    <div class="slides_container" style="margin-bottom: 5px;">
+
+   
+
+    @if(p.imgPathList.size() > 0  ) {
+
+  @for(imgPath <- p.imgPathList) {
+
+  <div class="imageWrap">
+
+  <a class="fancybox" rel="gallery1" href="@imgPath.getSize(200, 200)">
+
+  <img style="max-width:250px; max-height:250px;" src="@imgPath.getSize(200, 200)" alt="" />
+
+  </a>
+
+  @if(user != null) {
+
+  @if(user.username.equals(p.owner.username)) {
+
+  @form(routes.ProductController.deleteOnePicture(p.id, imgPath.image_url)) {
+
+  <input class="btnDelete" type="submit" value="Izbriši sliku" onclick="return confirm('Da li ste sigurni da zelite izbrisati sliku?');"> 
+
+  }
+
+  }
+
+  }
+
+ 
+
+  </div>	 
+
+  }
+
+  } else {
+
+  <img src="@p.imgPathList.get(0).getSize(200, 200)" alt="" />
+
+  }
+
+   
+
+</div>
+
+
+<!-- 
+
+<ul class="pagination">
+
+
+@if(p.imgPathList.size() > 0  ) {
+
+  @for(imgPath <- p.imgPathList) {
+
+  <li><a href=""@routes.Assets.at(imgPath.image_url)""><img src="@routes.Assets.at(imgPath.image_url)" alt=" " /></a></li>
+
+  }
+
+  }
+
+
+
+</ul>
+
+-->
+
+   
+
+    </div>
+
+    </div>
+
+    </div>
+
+    @if(user != null) {
+
+    @if(user.username.equals(p.owner.username)) {
+
+   
+
+   
+
+
+<!-- <div class="addImage col-xs-2" style="padding: 15px; width: 10%; margin: 0px 20px;">-->
+
+<form action="@routes.ProductController.saveFile(p.id)" method="POST" enctype="multipart/form-data">
+
+  <!-- ><form id="imgs"  action="@routes.ProductController.saveFile(p.id)" method="post" enctype="multipart/form-data" > -->
+
+<input class="button" type="file" name="image" id="image" style="float:left; font-size: 10px;"/>
+
+<input class="button" type="submit" value="Send file" style="float:right"/>
+
+</form>
+
+   
+
+   
+
+   
+
+ 
+
+    }
+
+    }
+
+   
+
+</div>
+
+    </div>
+
+
+
+
+
+
+    <!-- <div class="desc span_3_of_2">
+
+    <p style="margin-top:10px; clear:left;">Kategorija</p>
+
+    <div class="AAback-links">
+
+    <p><a href="/kategorija/@p.mainCategory.id">@p.mainCategory.name</a> >>>> <a href="/podKategorija/@p.subCategory.id">@p.subCategory.name</a></p>
+
+        </div><br></div>-->
+
+
+
+            
+
+
+<div class="col-md-6" style="padding: 10px; margin: 0px 0px 0px 35px; border:3px;">
+
+
+    <p style="font-size:20px;">Kategorija</p>
+
+    <br>
+
+    <div class="AAback-links">
+
+    <p style="font-size:20px;background-color:#FFFFFF; color:black; margin-bottom: 10px;"><a href="/kategorija/@p.mainCategory.id" style=" color:#243B5D">@p.mainCategory.name</a> >>>> <a href="/podKategorija/@p.subCategory.id" style=" color:#243B5D">@p.subCategory.name</a></p
+
+
+
+        <br><br><br></div>
+
+<div style="font-size:20px;background-color:white;color:black; margin-bottom: 20px;float: left;border: 2px solid #c0c0c0;  border-radius: 5px; height: 50px; margin-right:20px;">
+
+<p>Lokacija</p>
+
+<p style="font-size:25px;font-weight:500;;background-color: #85B80C;color:#fff;"> @p.location </p>
+
+</div>
+
+<div style="font-size:20px;background-color:white;color:black; margin-bottom: 20px;float: left;border: 2px solid #c0c0c0;  border-radius: 5px; height: 50px; margin-right:20px;">
+
+<p>Cijena</p>
+
+<p style="font-size:25px;font-weight:500;;background-color: #85B80C;color:#fff;"> @p.getPriceString() KM </p>
+
+</div>
+
+
+<div style="font-size:20px;background-color:white;color:black; margin-bottom: 20px;float: left;border: 2px solid #c0c0c0;  border-radius: 5px; height: 50px; margin-right:20px;">
+
+<p>Stanje</p>
+
+<p style="font-size:25px;font-weight:500;;background-color: #85B80C;color:#fff;"> @p.condition </p>
+
+</div>
+
+<br></br>
+
+</div>
+
+<div class="col-md-6" style="padding: 10px; margin: 0px 0px 0px 35px;">
+
+<p style="font-size:20px;">Zamjena</p>
+
+    <br>
+
+    <div class="AAback-links">
+
+    <p style="font-size:20px;background-color:#FFFFFF;color:black; margin-bottom: 10px; border-radius: 5px;">@p.exchange</p
+
+
+
+        <br></br></div>
+
+        </div>
+
+        </div>
+
+        <div>
+
+        <br></br>
+
+<p style="font-size:20px;">Objavio korisnik</p>
+
+    <br>
+
+    <div class="AAback-links">
+
+    <p><font style="font-size:20px;background-color:#FAF8F2;color:black; margin-bottom: 10px;"><a href="/korisnik/@p.owner.id">@p.owner.username</a></font></p>
+
+        <br>
+
+        </div>
+
+   	   
+
+   	  @if(user != null) {
+
+        <div class="leftBox" style="background:#FFFFFF;">
+
+<!--	<div class="categories">      -->
+
+
+  <ul>
+
+  @if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p) && !user.isAdmin && !user.isPikStore) {
+
+      <li><a class="btn btn-primary btn-fontNovi" href="@routes.UserController.showPurchase(p.id)">Kupi artikal</a></li>
+
+      <br>
+
+      }
+
+     
+
+      @if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {
+
+     	<li><a class="btn btn-primary btn-fontNovi"  href="/editProduct/@p.id">Izmijeni artikal</a></li>
+
+     	<br>
+
+     	@if(!p.isSpecial) {
+
+     	<li><a class="btn btn-primary btn-fontNovi"  href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></li>
+
+     	<br>
+
+     	}
+
+     
+
+     	@if(p.isSpecial) {
+
+     	<li><a class="btn btn-primary btn-fontNovi"  href="@routes.CreditController.updateCredits(p.id)">Dopuni kredite</a></li>
+
+     	  <br>
+
+     	  }
+
+       
+
+     	}
+
+     
+
+     	@if(user.username.equals(p.owner.username) || user.isAdmin) {
+
+     	@form(routes.ProductController.deleteProduct(p.id)) {
+
+                   	<li><a class="btn btn-primary btn-fontNovi"  href="routes.ProductController.deleteProduct(p.id)" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">Izbriši proizvod</a></li>
+
+                 
+
+               	}
+
+               	<br>
+
+                }
+
+               
+
+               	@if(user.isAdmin && !p.isSold && p.isSpecial) {
+
+               	<li><a class="btn btn-primary btn-fontNovi"  href="@routes.CreditController.makeProductNotSpecial(p.id)" onclick="return confirm('Da li ste sigurni da zelite skinuti proizvod sa izdvojenih proizvoda?');">Skini izdvojen oglas</a></li>
+
+               	}
+
+</ul>
+
+<!--	</div>	    -->	 	   
+
+</div>
+
+<br><br>
+
+
+
+
+
+<!-- Uslovi Za kupi dugme // Ne moze sAm svoj proizvod kupiti, i ne moze ga kupiti ako ga je vec kupio 
+
+@if(!user.username.equals(p.owner.username) && !user.bought_products.contains(p) && !user.isAdmin && !user.isPikStore) {
+
+<div class="button"><span><a href="@routes.UserController.showPurchase(p.id)" data-paypal-button="true">Kupi artikal</a></span></div>
+
+} -->
+
+<!--Uslovi  Vidljivost "EDIT "samo za vlasnika proizvoda 
+
+@if(user.username.equals(p.owner.username) && !user.isAdmin && !p.isSold) {
+
+
+
+<div class="button" style="margin-left: 10px;"><span><a href="/editProduct/@p.id">Izmijeni artikal</a></span></div>
+
+@if(!p.isSpecial) {
+
+<div class="button"><span><a href="@routes.CreditController.useCredits(p.id)">Izdvoji oglas</a></span></div>
+
+}
+
+@if(p.isSpecial) {
+
+<div class="button"><span><a href="@routes.CreditController.updateCredits(p.id)">Dopuni Kredite</a></span></div>
+
+}
+
+
+}
+
+
+</div>
+
+
+-->
+
+}
+
+
+
+@if(user != null) {
+
+@if(user.username.equals(p.owner.username) || user.isAdmin) {
+
+@if(p.isSpecial && !p.isSold) {
+
+<div>
+
+<p>Izdvojen oglas :</p>
+
+<ul>
+
+<h2>Oglas izdvojen do @p.getExpiryDateInFormat()</h2>
+
+<h2>Iskoristeno kredita za ovaj oglas je @p.credit</h2>
+
+</ul>
+
+</div>
+
+}
+
+}
+
+}
+
+
+
+<div class="share-desc">
+
+<div class="share">
+
+<p>Podijeli artikal :</p>
+
+<ul>
+
+<div class="fb-share-button" data-href="http://localhost:9000/showProduct/" data-layout="button"></div>	   
+
+</ul>
+
+</div>
+
+<div class="clear"></div>
+
+
+
+</div>
+
+
+<div class="clear"></div>
+
+<div class="col-md-6" style="padding: 10px; margin: 0px 0px 0px 10px; border:3px;">
+
+<!--  ZA STA LI JE OVO! -->
+
+                	</div>
+
+
+<!--- Zakomentarisani div za listu zelja, mozda poslije ga implementirati??!!
+
+
+<div class="wish-list">
+
+<ul>
+
+<li class="wish"><a href="#">Dodaj u listu zelja</a></li>
+
+</ul>
+
+</div>
+
+-->
+
+
+
+<div class="clear"></div>
+
+    </div>
+
+    <div class="product_desc">
+
+<div id="horizontalTab">
+
+<ul class="resp-tabs-list">
+
+<li>Detaljni opis</li>
+
+<li>Komentari</li>
+
+
+@if(user != null && p.buyerUser != null) {
+
+@if( (user.username.equals(p.buyerUser.username)) || (user.username.equals(p.owner.username) )) {
+
+<li>Refundacija</li>
+
+<li>Dojmovi</li>
+
+}
+
+}
+
+<div class="clear"></div>
+
+</ul>
+
+<!--  responsive containeri koje mijenjas -->
+
+<div class="resp-tabs-container" >
+
+<div class="product-desc" >
+
+<p>@Html(p.longDescription)</p>
+
+</div>
+
+<div class="review">
+
+<div class="your-review">
+
+
+<p>Ostavite vas komentar?</p>
+
+
+
+@if(user!=null){
+
+@if(!user.isPikStore){
+
+    @helper.form(routes.CommentController.addComment(p.id), 'id->"postComment"){
+
+    <h3>Napisite vas komentar ovdje?</h3>
+
+   
+
+    <div class="contact-form" style="width: 850px;">
+
+   
+
+<textarea maxlength="250" postComment name="content" id="content" placeholder="Write something nice" required> </textarea>
+
+<div style="margin-left: 42%;">
+
+<input type="submit" value="Objavi" class="btn btn-primary btn-fontNovi" style="background:#85B80C;" />
+
+</div></div>
+
+}
+
+}
+
+
+}
+
+         
+
+@for(comment <- commentList){
+
+@if(comment.product.equals(p)){
+
+
+<h5><a href="/korisnik/@comment.author.id">@comment.author.username</a></h5>
+
+<p>@comment.createdAt </p>
+
+@if(user!=null) {
+
+@if(user==comment.author){
+
+<button class="btn-fontNovi"><a href="/deleteComment/@comment.id/@p.id">Obriši</a></button>
+
+}
+
+}
+
+<p>@comment.content</p>
+
+<hr style="margin-top: 5px; margin-bottom: 5px;">
+
+}
+
+}
+
+   
+
+               
+
+               
+
+
+</div>
+
+</div>
+
+@if(user != null) {
+
+@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {
+
+<!--  Transakcija i sve o je ovdje! -->
+
+<div>
+
+
+<p style="padding-bottom:7px;">Navedite razlog za refundaciju</p>
+
+@form(routes.ProductController.refundProduct(p.id),'id->"productForm") {
+
+<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="refundReason" name="refundReason" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
+
+<div class="button">
+
+<span>
+
+<input type="submit" value="Zatrazi refundaciju" class="btn btn-primary btn-fontNovi" style="background:#85B80C;" onclick="return confirm('Da li ste sigurni da zelite refundirati proizvod?');"/>
+
+</span>
+
+</div>
+
+}
+
+} 
+
+@if(p.isRefunding) {
+
+
+@if(user.isAdmin){
+
+<div class="available">
+
+<p>Transakcijski ID :</p>
+
+
+
+<ul>
+
+@p.purchaseTransaction.id
+
+</ul>
+
+
+<p>Poslao zahtjev za refund :</p>
+
+<ul>
+
+<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
+
+</ul>
+
+
+
+
+<p>Razlozi za refund :</p>
+
+<ul>
+
+@p.refundReason
+
+</ul>
+
+</div>
+
+<div class="btn btn-primary btn-fontNovi" style="background:#85B80C;"><span><a href="@routes.ProductController.denyRefund(p.id)" onclick="return confirm('Da li ste sigurni da zelite uskratiti refundaciju?');">Odbij Refundaciju</a></span></div>
+
+<div class="btn btn-primary btn-fontNovi" style="background:#85B80C;"><span><a href="#">Refundiraj Artikal</a></span></div>
+
+} else {
+
+
+<span color="red">Artikal poslan na refundiranje!</span>
+
+}
+
+}
+
+}
+
+</div>
+
+
+@if(user != null && p.buyerUser != null) {
+
+@if( (user.username.equals(p.buyerUser.username)) || (user.username.equals(p.owner.username) )) {
+
+<div>
+
+<div class="availablefortrans2">
+
+<p>Sifra Transakcije :</p>
+
+<ul>
+
+@p.purchaseTransaction.id
+
+</ul>
+
+</div>
+
+
+<div class="availablefortrans"> 
+
+<p>Datum Transakcije :</p>
+
+<ul>
+
+@p.purchaseTransaction.dateTransaction
+
+</ul>
+
+</div>
+
+
+<div class="availablefortrans">
+
+<p>Komentar/utisak prodavaca :</p>
+
+<ul>
+
+@p.purchaseTransaction.seller_comment
+
+</ul>
+
+<!--  Ovaj formular za ostavljanje komentara vidi samo prodavac, i ako nije vec ostavio komentar -->
+
+@if(user == p.owner) {
+
+@if(p.purchaseTransaction.seller_comment.equals("Ne postoji")) {
+
+<p style="padding-bottom: 7px;">Upisite Vas komentar na transakciju i ocijenite kupca</p>
+
+@form(routes.ProductController.leaveSCommentTransaction(p.id),'id->"transactionForm") {
+
+<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="seller_comment" name="seller_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
+
+<fieldset>
+
+  <p style="padding-top:7px;" for="buyer_stringValue">Dojam:</p>
+
+    <select name="seller_stringValue" id="seller_stringValue">
+
+    <option selected="selected" style="background-color:yellow">Neutralan</option>
+
+      <option style="background-color:green">Pozitivan</option>
+
+    <option style="background-color:red">Negativan</option>
+
+    </select>
+
+    </fieldset>
+
+<div class="btn btn-primary btn-fontNovi" style="background:#85B80C;">
+
+<input type="submit" value="Ostavi Komentar" class="btn btn-primary btn-fontNovi" style="background:#85B80C;"/>
+
+</div>
+
+}
+
+}
+
+} 
+
+
+</div>
+
+
+<div class="availablefortrans">
+
+<p>Komentar/utisak kupca :</p>
+
+<ul>
+
+@p.purchaseTransaction.buyer_comment
+
+</ul>
+
+<!--  Ovaj formular za ostavljanje komentara vidi samo kupac, i ako nije vec ostavio komentar -->
+
+@if(user == p.buyerUser) {
+
+@if(p.purchaseTransaction.buyer_comment.equals("Ne postoji")) {
+
+<br>
+
+<p style="padding-bottom: 7px;">Upisite Vas komentar na transakciju i ocijenite prodavača</p>
+
+@form(routes.ProductController.leaveBCommentTransaction(p.id),'id->"transactionForm") {
+
+<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="buyer_comment" name="buyer_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
+
+<fieldset>
+
+  <p style="padding-top:7px;" for="buyer_stringValue">Dojam:</p>
+
+   
+
+    <select name="buyer_stringValue" id="buyer_stringValue" style="font-size:30px; margin-top:7px;"">
+
+    <option selected="selected">Neutralan</option>
+
+      <option>Pozitivan</option>
+
+    <option>Negativan</option>
+
+    </select>
+
+    </fieldset>
+
+<br>
+
+<span>
+
+<input type="submit" value="Ostavi Komentar" class="btn btn-primary btn-fontNovi" style="background:#85B80C;"/>
+
+</span>
+
+
+}
+
+}
+
+}
+
+</div>
+
+}
+
+}
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+
+$('#horizontalTab').easyResponsiveTabs({
+
+            type: 'default', //Types: default, vertical, accordion           
+
+            width: 'auto', //auto or any width like 600px
+
+            fit: true   // 100% fit in a container
+
+        });
+
+});
+
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+$(".fancybox").fancybox();
+
+});
+
+</script>
+
+
+@if(!p.owner.isPikStore){
+
+<div class="content_bottom">
+
+<div class="heading"
+
+<h3>Slični artikli</h3>
+
+</div>
+
+<div class="see">
+
+<p><a href="#">Pogledaj ostale</a></p>
+
+</div>
+
+<div class="clear"></div>
+
+</div>
+
+}else{
+
+<div class="content_bottom">
+
+<div class="heading"
+
+<h3>Pik radnja</h3>
+
+</div>
+
+<div class="see">
+
+<p><a href="/korisnik/@p.owner.id">Pogledaj ostale artikle iz Pik radnje</a></p>
+
+</div>
+
+<div class="clear"></div>
+
+</div>
+
+}
+
+
+
+    </div>
+
+   
+
+   
+
+    </div>
+
+</div>
+
+</div>
+
+
+
 }
