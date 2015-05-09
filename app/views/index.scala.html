@@ -98,10 +98,10 @@
 			</span></h2>
 			   	      @if(shops.size() > 0) {
 	      				       @for(shop <- shops) {						
-							   
+							   	@if(shop.imagePathOne!=null){
 					 			<a href="/korisnik/@shop.id"><img src="@shop.imagePathOne.getSize(200,200)" alt="" class="productImg"/ style="height: 190px; width: 190px; background-position: center center; border:1px solid #EEE;"></a>
-					 			
-								}				 
+					 			}
+							}				 
 							
 						}
 							</div>			
