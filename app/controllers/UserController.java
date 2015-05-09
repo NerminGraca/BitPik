@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+<<<<<<< HEAD
+=======
+import nl.bitwalker.useragentutils.UserAgent;
+
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -41,6 +46,10 @@ import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 public class UserController extends Controller {
 	
 
@@ -59,12 +68,21 @@ public class UserController extends Controller {
 	 * database, we redirect to the "/registration.html" 3. Creates the User
 	 * using the User.create() method; 4. And redirects to the index.html page;
 	 * 
+<<<<<<< HEAD
 	 * @return index
 	 */
 	public static Result addUser() {
 		User u = SessionHelper.getCurrentUser(ctx());
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+	 * @return
+	 */
+	public static Result addUser() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 				
@@ -117,15 +135,19 @@ public class UserController extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Terms of service
 	 * @return terms
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public static Result terms() {
 		return ok(terms.render());
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Method that creates new PikStore
 	 * using method createPikStore in model
@@ -137,6 +159,12 @@ public class UserController extends Controller {
 
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+	public static Result addPikStore() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 		
@@ -211,7 +239,11 @@ public class UserController extends Controller {
 	 * 6. If the password is correct - redirecting to Index.html page; Note*
 	 * Store the username in session variable if the Login is successful;
 	 * 
+<<<<<<< HEAD
 	 * @return index
+=======
+	 * @return
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	 */
 	public static Result findUser() {
 		
@@ -277,6 +309,7 @@ public class UserController extends Controller {
 	* And renders the profile.html page;
 	* @return renders the profile.html page with the list of products mentioned;
 	*/
+<<<<<<< HEAD
 
 	public static Result findProfileProducts(){
 		User currentUser = SessionHelper.getCurrentUser(ctx());
@@ -285,6 +318,16 @@ public class UserController extends Controller {
 			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,currentUser));
 		}
+=======
+	//@Security.Authenticated(SessionHelper.class)
+	public static Result findProfileProducts(){
+		User us = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(us != null && us.username.equals("blogger")){
+			return ok(blog.render(bloggerList,us));
+		}
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		
 		// Null Catching
 		if (currentUser == null) {
@@ -294,6 +337,10 @@ public class UserController extends Controller {
 		List <Product> productList = ProductController.findProduct.where().eq("owner.username", currentUser.username).eq("isSold", false).findList();
 		User u = User.finder(currentUser.username);
 
+<<<<<<< HEAD
+=======
+		
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		return ok(profile.render(productList, u));
 
 	}	
@@ -302,6 +349,7 @@ public class UserController extends Controller {
 	* This method lists all the bought items of the User logged in;
 	* If no products where bought by the user we inform him about it; 
 	* 
+<<<<<<< HEAD
 	* @return boughtproducts;
 	*/
 	public static Result find_bought_products() {
@@ -312,6 +360,17 @@ public class UserController extends Controller {
 			return ok(blog.render(bloggerList,currentUser));
 		}
 		
+=======
+	* @return Result;
+	*/
+	public static Result find_bought_products() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
+		User currentUser = SessionHelper.getCurrentUser(ctx());		
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		//Null Catching
 		if (currentUser == null) {
 			return redirect(routes.Application.index());
@@ -339,9 +398,14 @@ public class UserController extends Controller {
 	 */
 	public static Result findSoldProducts() {
 		User u = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 		User currentUser = SessionHelper.getCurrentUser(ctx());
@@ -367,14 +431,23 @@ public class UserController extends Controller {
 	
 	/**
 	* Method list all users registered in database
+<<<<<<< HEAD
 	* @return korisnici
+=======
+	* @return
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	*/
 	@Security.Authenticated(AdminFilter.class)
 	public static Result allUsers() {
 		User u = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 	   	 List<User> userList = findUser.all();
@@ -384,6 +457,7 @@ public class UserController extends Controller {
 	   	 return ok(korisnici.render(userList));
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Method returns list of PikStores
 	 * @return pikRadnje
@@ -394,6 +468,13 @@ public class UserController extends Controller {
 		
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+
+	public static Result allPikStores() {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 	   	 List<User> stores = findUser.where().eq("isPikStore",true).findList();
@@ -403,12 +484,15 @@ public class UserController extends Controller {
 	   	 return ok(pikRadnje.render(u,stores));
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Returns list of PikStores with same category
 	 * @param categoryId
 	 * @return pikRadnje
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public static Result pikStoresByCategory(int categoryId){
 		User u = SessionHelper.getCurrentUser(ctx());
 		MainCategory mainCategory=MainCategory.findMainCategory(categoryId);
@@ -419,6 +503,7 @@ public class UserController extends Controller {
 	/**
 	* Method shows profile view of single user
 	* @param id
+<<<<<<< HEAD
 	* @return korisnik
 	*/
 	public static Result singleUser(int id) {
@@ -438,11 +523,36 @@ public class UserController extends Controller {
 			return ok(array);
 	   	 }
 		return ok(korisnik.render(currentUser, currentUser, productList));	  
+=======
+	* @return
+	*/
+	public static Result singleUser(int id) {
+		User us = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(us != null && us.username.equals("blogger")){
+			return ok(blog.render(bloggerList,us));
+		}
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+		User u = findUser.byId(id);
+		List <Product> productList = ProductController.findProduct.where().eq("owner.username", u.username).findList();
+//		if(currentUser==null){
+//			return redirect(routes.Application.index());
+//		}
+		if (!request().accepts("text/html")) {
+			ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
+			array.add(JsonHelper.jsonUser(currentUser));
+			array.add(JsonHelper.jsonUser(u));
+			array.add(JsonHelper.jsonProductList(productList));
+			return ok(array);
+	   	 }
+		return ok(korisnik.render(currentUser, u, productList));	  
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	}
 	
 	/**
 	 * Deletes the User;
 	 * @param id
+<<<<<<< HEAD
 	 * @return allUsers
 	 */
 	public static Result deleteUser(int id) {
@@ -450,6 +560,14 @@ public class UserController extends Controller {
 		
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+	 * @return
+	 */
+	public static Result deleteUser(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 		  User.delete(id);
@@ -469,9 +587,14 @@ public class UserController extends Controller {
 	@Security.Authenticated(CurrentUserFilter.class)
 	public static Result editUser(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 
@@ -491,6 +614,7 @@ public class UserController extends Controller {
 	 * @return redirect("/korisnik/" + id);
 	 */
 	public static Result saveEditedUser(int id) {
+<<<<<<< HEAD
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		
 		if(currentUser != null && currentUser.username.equals("blogger")){
@@ -498,6 +622,15 @@ public class UserController extends Controller {
 			return ok(blog.render(bloggerList,currentUser));
 		}
 		
+=======
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
+		
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		User user = User.find(id);
 		String oldEmail = user.email;		
 		
@@ -542,9 +675,14 @@ public class UserController extends Controller {
 	public static Result confirmEmail(String r)
 	{
 		User us = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		
 		if(us != null && us.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(us != null && us.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,us));
 		}
 		User u = UserController.findUser.where().eq("confirmation", r).findUnique();
@@ -571,14 +709,23 @@ public class UserController extends Controller {
 	 * a verification mail will be sent to him which will verify
 	 * given email address
 	 * @param r
+<<<<<<< HEAD
 	 * @return index
+=======
+	 * @return
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	 */
 	public static Result validateEmail(String r)
 	{
 		User us = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		
 		if(us != null && us.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(us != null && us.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,us));
 		}
 		User u = UserController.findUser.where().eq("emailConfirmation", r).findUnique();
@@ -596,19 +743,27 @@ public class UserController extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Method that changes user password
 	 * @param id
 	 * @return korisnik
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	@Security.Authenticated(CurrentUserFilter.class)
 	public static Result changePassword(int id)
 	{
 		User us = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		
 		if(us != null && us.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(us != null && us.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,us));
 		}
 		
@@ -635,15 +790,24 @@ public class UserController extends Controller {
 		u.save();
 		Logger.of("user").info("User "+ u.username + " changed their password successfully");
 		flash("chng_pass_success", Messages.get("Uspješno ste zamijenili Vašu šifru."));
+<<<<<<< HEAD
 		return redirect(routes.UserController.singleUser(id));
+=======
+		return redirect("/korisnik/" + id);
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	}
 	
 	public static Result changePasswordPage() {
 		
 		User us = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		
 		if(us != null && us.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(us != null && us.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,us));
 		}
 		return ok(changePassword.render(us));
@@ -654,12 +818,21 @@ public class UserController extends Controller {
 	 * Method changes the administrator status of some user
 	 * by changing it to either true or false
 	 * @param id
+<<<<<<< HEAD
 	 * @return korisnik
 	 */
 	public static Result changeAdmin(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+	 * @return
+	 */
+	public static Result changeAdmin(int id) {
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 		User user = User.find(id);
@@ -670,7 +843,11 @@ public class UserController extends Controller {
 		if (!request().accepts("text/html")) {
 				return ok(JsonHelper.jsonUser(user));
 	   	 }
+<<<<<<< HEAD
 		return redirect(routes.UserController.singleUser(id));
+=======
+		return redirect("/korisnik/" + id);
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	}
 	
 	/**
@@ -679,12 +856,21 @@ public class UserController extends Controller {
 	 */
 	@Security.Authenticated(AdminFilter.class)
     public static Result adminPanel() {
+<<<<<<< HEAD
 		User currentUser = SessionHelper.getCurrentUser(ctx());
 		if(currentUser != null && currentUser.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,currentUser));
 		}
 		
+=======
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
+		User currentUser = SessionHelper.getCurrentUser(ctx());
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		//Null Catching
 		if (currentUser == null) {
 			return redirect(routes.Application.index());
@@ -707,12 +893,21 @@ public class UserController extends Controller {
 	* Upload image for User profile, and show picture on user /profile.html. 
 	* If file is not image format jpg, jpeg or png redirect user on profile without uploading image.
 	* If file size is bigger then 2MB, redirect user on profile without uploading image.
+<<<<<<< HEAD
 	* @return profile
 	*/
 	public static Result saveFile(){
 		User u = SessionHelper.getCurrentUser(ctx());
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+	* @return
+	*/
+	public static Result saveFile(){
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 		
@@ -741,6 +936,12 @@ public class UserController extends Controller {
 			 return redirect("/profile");
 		}
 		File image = filePart.getFile();
+<<<<<<< HEAD
+=======
+		if(image==null){
+			image = new File(defaultPic);
+		}
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		//it takes extension from image that is uploaded
 		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
 		extension.trim();
@@ -765,6 +966,22 @@ public class UserController extends Controller {
 		
 		ImageController.create(image , u);
 		
+<<<<<<< HEAD
+=======
+//		//creating image name from user id, and take image extension, than move image to new location
+//		try {
+//			File profile = new File(savePath + userID + extension);
+//			Files.move(image, profile );		
+//			String assetsPath = "images" 
+//					+ File.separator + "profilePicture" + File.separator + profile.getName();
+//			u.imagePath = assetsPath;
+//			
+//			u.save();
+//		} catch (IOException e) {
+//			Logger.of("user").error( u.username + " failed to upload an image to his profile page.");
+//			e.printStackTrace();
+//		}
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		flash("upload_img_success",  Messages.get("Uspješno ste objavili sliku."));
 		if (!request().accepts("text/html")) {
 			return ok(JsonHelper.jsonUser(u));
@@ -786,12 +1003,15 @@ public class UserController extends Controller {
 		return ok(purchase.render(id));
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Method finds one product and sends
 	 * it to android view.
 	 * @param id
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public static Result showPurchaseAndroid(int id) {
 		if (!request().accepts("text/html")) {
 			ObjectNode num = Json.newObject();
@@ -811,8 +1031,13 @@ public class UserController extends Controller {
 	 */
 	public static Result purchaseProcessing(int id) {
 		User u = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 		Product p = Product.find.byId(id);
@@ -846,6 +1071,7 @@ public class UserController extends Controller {
 			payment.setPayer(payer);
 			payment.setState("Bosnia and Herzegovina");
 			payment.setTransactions(transactions);
+<<<<<<< HEAD
 			
 			RedirectUrls redirectUrls = new RedirectUrls();
 			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela!"));
@@ -853,6 +1079,20 @@ public class UserController extends Controller {
 			redirectUrls.setCancelUrl(OURHOST + "/showProduct/"+ id);
 			redirectUrls.setReturnUrl(OURHOST + "/purchasesuccess/"+id);
 
+=======
+		
+			RedirectUrls redirectUrls = new RedirectUrls();
+			UserAgent userAgent = UserAgent.parseUserAgentString(Http.Context.current().request().getHeader("User-Agent"));
+			String deviceType = userAgent.getOperatingSystem().getDeviceType().toString();
+			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela!"));
+			if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
+				 redirectUrls.setCancelUrl("http://10.0.2.2:9000/showProduct/"+ id);
+		   		 redirectUrls.setReturnUrl("http://10.0.2.2:9000/purchasesuccessandroid/"+id);
+		   	}else{
+		   		 redirectUrls.setCancelUrl(OURHOST + "/showProduct/"+ id);
+		   		 redirectUrls.setReturnUrl(OURHOST + "/purchasesuccess/"+id);
+		   	}
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			payment.setRedirectUrls(redirectUrls);
 			Payment createdPayment = payment.create(apiContext);
 			Logger.debug(createdPayment.toJSON());
@@ -884,8 +1124,13 @@ public class UserController extends Controller {
 	public static Result purchaseSuccess(int id ) {
 		
 		User u = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 		Product p = Product.find.byId(id);
@@ -917,7 +1162,14 @@ public class UserController extends Controller {
 			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
 			
 			apiContext.setConfigurationMap(sdkConfig);
+<<<<<<< HEAD
 
+=======
+			
+			//Payment payment = Payment.get(accessToken, paymentId);			
+
+			//payment.execute(apiContext, paymentExecution);
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
 		}
@@ -925,6 +1177,56 @@ public class UserController extends Controller {
 		return ok(payPalValidation.render(p, u, payerId, paymentId, token, accessToken));
 	}
 	
+<<<<<<< HEAD
+=======
+public static Result purchaseSuccessAndroid(int id ) {
+		
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
+		Product p = Product.find.byId(id);
+		String paymentId = null;
+		String payerId = null;
+		String token = null;
+		String accessToken = null;
+
+		
+		String payPalSecretKey1 = Play.application().configuration().getString("payPalSecretKey1");
+		String payPalSecretKey2 = Play.application().configuration().getString("payPalSecretKey2");
+
+		
+		Map<String, String> sdkConfig = new HashMap<String, String>();
+		sdkConfig.put("mode", "sandbox");
+		try {
+			DynamicForm paypalReturn = Form.form().bindFromRequest();
+		    paymentId = paypalReturn.get("paymentId");
+			payerId = paypalReturn.get("PayerID");
+			token = paypalReturn.get("token");
+
+			accessToken = new OAuthTokenCredential("ARl5dVTUzOXK0p7O1KgG5ZpLg-E9OD5CgoqNXMuosC3efZWeZlBPODxDV6WeIFfJnS5atklHgrt8lMVO", 
+					"EDrDunRMuM_aAbbILclme0f4dfL2kZ1OGrS8NVDIjWwN6N8G9s-vF0udi97t2rcP8_HiiGgkUL9XBhoS").getAccessToken();
+			APIContext apiContext = new APIContext(accessToken);
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			Payment payment = Payment.get(accessToken, paymentId);
+				
+			accessToken = new OAuthTokenCredential(payPalSecretKey1, payPalSecretKey2).getAccessToken();
+			
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			//Payment payment = Payment.get(accessToken, paymentId);			
+
+			//payment.execute(apiContext, paymentExecution);
+		} catch (PayPalRESTException e) {
+			e.printStackTrace();
+		}
+		
+		return ok(payPalValidationAndroid.render(p, u, payerId, paymentId, token, accessToken));
+	}
+	
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	/**
 	 * Method checks if user exists, and if does it calls saveMessage method
 	 * with same id for message
@@ -935,6 +1237,7 @@ public class UserController extends Controller {
 	 */
 	public static Result sendMessage(int id) {
 		
+<<<<<<< HEAD
 		User us = SessionHelper.getCurrentUser(ctx());
 		if(us != null && us.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
@@ -942,6 +1245,23 @@ public class UserController extends Controller {
 		}
 		User receiver = User.find(id);
 		return ok(message.render(us, receiver));
+=======
+		User u = SessionHelper.getCurrentUser(ctx());
+		User us = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(us != null && us.username.equals("blogger")){
+			return ok(blog.render(bloggerList,us));
+		}
+		if(u == null)
+		{
+			return redirect(routes.Application.index());
+		}
+		User receiver = User.find(id);
+		if (!request().accepts("text/html")) {
+			return JsonController.sendMessage(id);
+	   	}
+		return ok(message.render(u, receiver));
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	}
 
 	/**
@@ -953,12 +1273,21 @@ public class UserController extends Controller {
 	 */
 	public static Result saveMessage(int id)
 	{
+<<<<<<< HEAD
 		User sender = SessionHelper.getCurrentUser(ctx());		
 		if(sender != null && sender.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
 			return ok(blog.render(bloggerList,sender));
 		}
 		
+=======
+		User u = SessionHelper.getCurrentUser(ctx());
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+			return ok(blog.render(bloggerList,u));
+		}
+		User sender = SessionHelper.getCurrentUser(ctx());
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
    	  	User receiver = findUser.byId(id);
    	  	String content;
 		try {
@@ -981,7 +1310,11 @@ public class UserController extends Controller {
 	  	String message = "Dobili ste privatnu poruku od korisnika " + sender.username + 
 	  			": \n" + content;
 	  	MailHelper.sendNewsletterMessage(receiver.email, message);
+<<<<<<< HEAD
    	  	return redirect(routes.UserController.allMessages());
+=======
+   	  	return redirect("/allMessages");
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	}
 	
 	/**
@@ -994,8 +1327,13 @@ public class UserController extends Controller {
 	{
 		
 		User u = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 		if(u == null)
@@ -1029,8 +1367,13 @@ public class UserController extends Controller {
 	public static Result showSellingProduct(int id, String payerId, String paymentId, String token, String accessToken) {
 		
 		User u = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		if(u != null && u.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(u != null && u.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,u));
 		}
 		
@@ -1056,6 +1399,7 @@ public class UserController extends Controller {
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
 		}
+<<<<<<< HEAD
 		return redirect(OURHOST + "/buyingAProduct/" +id +"/"+ token);
 	}	
 	
@@ -1065,6 +1409,18 @@ public class UserController extends Controller {
 	 * @return allUsers
 	 * @throws ParseException
 	 */
+=======
+			UserAgent userAgent = UserAgent.parseUserAgentString(Http.Context.current().request().getHeader("User-Agent"));
+			String deviceType = userAgent.getOperatingSystem().getDeviceType().toString();
+			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela!"));
+			if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
+				return redirect("http://10.0.2.2:9000/buyingAProduct/" +id +"/"+ token);
+			}else{
+				return redirect(OURHOST + "/buyingAProduct/" +id +"/"+ token);
+			}
+	}	
+	
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	
 	public static Result newsletter() throws ParseException{
 		String message = "<h2>Novosti sa BitPik-a!</h2><br><h3>Novi oglasi koji bi vas mogli zanimati:</h3><br>";
@@ -1075,6 +1431,22 @@ public class UserController extends Controller {
 				Logger.error("n.string" + n.searchString);
 				Product p =  Product.find.where("(UPPER(name) LIKE UPPER('%"+n.searchString+"%')) AND ((isSold) LIKE (false))").findUnique();
 				newsletterProducts.add(p);
+<<<<<<< HEAD
+=======
+				/*	SimpleDateFormat sdf = new SimpleDateFormat();
+				Date pDate;
+				Date nDate;
+				
+				
+					pDate = sdf.parse(p.publishedDate);
+					nDate = sdf.parse(n.createdDate.toString());
+					Logger.error("Datum 1: " + pDate);
+					Logger.error("Datum 2: " + nDate);
+					if(pDate.compareTo(nDate)==0){
+						newsletterProducts.add(p);
+					}
+				*/
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			}
 			
 			if(newsletterProducts.size() > 0)
@@ -1093,6 +1465,7 @@ public class UserController extends Controller {
 				MailHelper.sendNewsletter(u.email, message, newsletterProducts);
 			}
 		}
+<<<<<<< HEAD
 		return redirect(routes.UserController.allUsers());
 	}
 
@@ -1102,6 +1475,11 @@ public class UserController extends Controller {
 	 * @return dojmovi
 	 */
 	
+=======
+		return redirect("/korisnici");
+	}
+
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public static Result allUsersComment(int id){
 		User user=User.find(id);
 		List<TransactionP>transactionBuyers=new ArrayList<TransactionP>();
@@ -1114,7 +1492,13 @@ public class UserController extends Controller {
 		}
 		for(Product product: soldProducts)
 		{
+<<<<<<< HEAD
 			transactionBuyers.add(product.purchaseTransaction);
+=======
+
+			transactionBuyers.add(product.purchaseTransaction);
+
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		}
 		for(Product product: user.bought_products)
 		{
@@ -1122,5 +1506,11 @@ public class UserController extends Controller {
 		}
 		return ok(dojmovi.render(user,transactionBuyers,transactionSellers));
 	}
+<<<<<<< HEAD
+=======
+	public static Result backToMobile() {
+		return ok(backToMobile.render());
+	}
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	
 }

@@ -119,7 +119,12 @@ public class MailHelper {
 		Email mail = new Email();
 		mail.setSubject("Contact request BitPik");
 		mail.setFrom("BitPik Contact <bitpikgroup@gmail.com>");
+<<<<<<< HEAD
 
+=======
+		mail.addTo("bitpikgroup@gmail.com");
+		mail.addTo(email);
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		mail.setBodyText(message);
 		mail.setBodyHtml(String
 				.format("<html><body><strong> %s </strong>: <p> %s </p> </body></html>",

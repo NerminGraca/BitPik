@@ -127,38 +127,50 @@ public class TransactionP extends Model {
 		this.buyer_comment = buyer_comment;
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Getter for buyer value
 	 * @return buyer_value
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public double getBuyer_value(){
 		return buyer_value;
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Setter for buyer value
 	 * @param buyer_value
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public void setBuyer_value(double buyer_value){
 		this.buyer_value=buyer_value;
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Getter for seller value
 	 * @return seller_value
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public double getSeller_value(){
 		return seller_value;
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Setter for seller value
 	 * @param seller_value
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public void setSeller_value(double seller_value){
 		this.seller_value=seller_value;
 	}
@@ -183,12 +195,15 @@ public class TransactionP extends Model {
 		return product;
 	}	
 	
+<<<<<<< HEAD
 	/**
 	 * Setter for value
 	 * @param stringValue
 	 * @return value
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public double setValue(String stringValue){
 		double value=0;
 		if(stringValue.equals("Pozitivan")){
@@ -200,11 +215,14 @@ public class TransactionP extends Model {
 		return value;
 		}
 	
+<<<<<<< HEAD
 	/**
 	 * Setter for buyer string value
 	 * @param value
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public void setBuyer_StringValue(double value){
 		String stringValue="Neutralan";
 		if(value>0){
@@ -216,11 +234,14 @@ public class TransactionP extends Model {
 		 buyer_stringValue=stringValue;
 		}
 	
+<<<<<<< HEAD
 	/**
 	 * Setter for seller string value
 	 * @param value
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public void setSellerStringValue(double value){
 		String stringValue="Neutralan";
 		if(value>0){
@@ -232,20 +253,26 @@ public class TransactionP extends Model {
 		 seller_stringValue=stringValue;
 		}
 	
+<<<<<<< HEAD
 	/**
 	 * Getter for buyer string value
 	 * @return buyer string value
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public String getBuyer_StringValue(){
 		return buyer_stringValue;
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Setter gor seller string value
 	 * @return
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public String getSeller_StringValue(){
 		return seller_stringValue;
 	}

@@ -57,8 +57,13 @@ public class StatsController extends Controller {
 	 */
 	public static Result showStats() {
 		User currentUser = SessionHelper.getCurrentUser(ctx());
+<<<<<<< HEAD
 		if(currentUser != null && currentUser.username.equals("blogger")){
 			List<Blogger> bloggerList = Blogger.find.all();
+=======
+		List<Blogger> bloggerList = Blogger.find.all();
+		if(currentUser != null && currentUser.username.equals("blogger")){
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			return ok(blog.render(bloggerList,currentUser));
 		}
 

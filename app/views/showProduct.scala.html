@@ -74,7 +74,15 @@
 									  			</div>				  			
 									  			}
 									  		} else {
+<<<<<<< HEAD
 									  			<img src="@p.imgPathList.get(0).getSize(200, 200)" alt="" />
+=======
+									  			@if(p.imgPathList.get(0)!=null){
+						 							<img src="@p.imgPathList.get(0).getSize(200, 200)" alt="" />
+						 						}else{
+						 							<img src="@routes.Assets.at("images/no-img_mqapfa")" alt="" />
+						 						}
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 									  		}
 	    									
 										</div>
@@ -281,24 +289,40 @@
 	    			<div class="product_desc">	
 						<div id="horizontalTab">
 							<ul class="resp-tabs-list">
+<<<<<<< HEAD
 								<li>Detaljni opis</li>
+=======
+									<li>Detaljni opis</li>
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 								<li>Komentari</li>
 								
 									@if(user != null && p.buyerUser != null) {	
 										@if( (user.username.equals(p.buyerUser.username)) || (user.username.equals(p.owner.username) )) {
+<<<<<<< HEAD
 												<li>Dojmovi i refundacija</li>
+=======
+												<li>Refundacija</li>
+												<li>Dojmovi</li>
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 										}
 									}
 								<div class="clear"></div>
 							</ul>
 			<!--  responsive containeri koje mijenjas -->
 			<div class="resp-tabs-container" >
+<<<<<<< HEAD
 								<div class="product-desc" >
 									<p>@Html(p.longDescription)</p>
 								</div>
 								
 							<!--  OVDJE SU SVI KOMENTARI -->	
 								<div class="review">
+=======
+			<div class="product-desc" >
+									<p>@Html(p.longDescription)</p>
+								</div>
+					<div class="review">
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 									<div class="your-review">
 										
 										<p>Ostavite vas komentar?</p>
@@ -311,9 +335,15 @@
 								    				
 								    				<div class="contact-form" style="width: 850px;">
 								    				
+<<<<<<< HEAD
 													<textarea maxlength="250" postComment' name="content" id="content" placeholder="Write something nice" required> </textarea>
 													<div style="margin-left: 42%;">
 													<input type="submit" value="Objavi" class="btn btn-primary btn-fontNovi" />						
+=======
+													<textarea maxlength="250" postComment name="content" id="content" placeholder="Write something nice" required> </textarea>
+													<div style="margin-left: 42%;">
+													<input type="submit" value="Objavi" class="btn btn-primary btn-fontNovi" style="background:#85B80C;" />						
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 													</div></div>
 												}
 									}
@@ -340,6 +370,7 @@
 										
 									</div>				
 								</div>
+<<<<<<< HEAD
 						
 					@if(user != null) {
 						@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {		
@@ -348,11 +379,23 @@
 						
 										<br>
 										<p>Navedite razlog za refundaciju</p>
+=======
+				@if(user != null) {
+						@if(user.bought_products.contains(p) && !p.isRefunding && p.refundable) {		
+							<!--  Transakcija i sve o je ovdje! -->
+								<div>
+						
+										<p style="padding-bottom:7px;">Navedite razlog za refundaciju</p>
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 										@form(routes.ProductController.refundProduct(p.id),'id->"productForm") {
 											<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="refundReason" name="refundReason" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
 											<div class="button">
 												<span>
+<<<<<<< HEAD
 													<input type="submit" value="Zatrazi refundaciju" onclick="return confirm('Da li ste sigurni da zelite refundirati proizvod?');">
+=======
+													<input type="submit" value="Zatrazi refundaciju" class="btn btn-primary btn-fontNovi" style="background:#85B80C;" onclick="return confirm('Da li ste sigurni da zelite refundirati proizvod?');"/>
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 												</span>
 											</div>
 										}			
@@ -366,18 +409,27 @@
 													<ul>
 														@p.purchaseTransaction.id
 													</ul>
+<<<<<<< HEAD
 													<br>
+=======
+													
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 													<p>Poslao zahtjev za refund :</p>
 													<ul>
 														<a href="/korisnik/@p.buyerUser.id">@p.buyerUser.username</a>
 													</ul>
+<<<<<<< HEAD
 													<br>
+=======
+													
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 
 													<p>Razlozi za refund :</p>
 													<ul>
 														@p.refundReason
 													</ul>
 												</div>
+<<<<<<< HEAD
 												<div class="button"><span><a href="@routes.ProductController.denyRefund(p.id)" onclick="return confirm('Da li ste sigurni da zelite uskratiti refundaciju?');">Odbij Refundaciju</a></span></div>
 												<div class="button"><span><a href="#">Refundiraj Artikal</a></span></div>
 											} else {
@@ -394,6 +446,22 @@
 						@if( (user.username.equals(p.buyerUser.username)) || (user.username.equals(p.owner.username) )) {
 						
 							<div class="availablefortrans">
+=======
+												<div class="btn btn-primary btn-fontNovi" style="background:#85B80C;"><span><a href="@routes.ProductController.denyRefund(p.id)" onclick="return confirm('Da li ste sigurni da zelite uskratiti refundaciju?');">Odbij Refundaciju</a></span></div>
+												<div class="btn btn-primary btn-fontNovi" style="background:#85B80C;"><span><a href="#">Refundiraj Artikal</a></span></div>
+											} else {
+												
+												<span color="red">Artikal poslan na refundiranje!</span>
+											}
+										}
+							}
+							</div>
+							
+			@if(user != null && p.buyerUser != null) {	
+						@if( (user.username.equals(p.buyerUser.username)) || (user.username.equals(p.owner.username) )) {
+						<div>
+							<div class="availablefortrans2">
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 								<p>Sifra Transakcije :</p>
 									<ul>
 										@p.purchaseTransaction.id
@@ -415,19 +483,32 @@
 									<!--  Ovaj formular za ostavljanje komentara vidi samo prodavac, i ako nije vec ostavio komentar -->					
 									 @if(user == p.owner) {				
 										@if(p.purchaseTransaction.seller_comment.equals("Ne postoji")) {
+<<<<<<< HEAD
 											<p>Upisite Vas komentar na transakciju i ocijenite kupca</p>
 											@form(routes.ProductController.leaveSCommentTransaction(p.id),'id->"transactionForm") {					
 													<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="seller_comment" name="seller_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
 													<fieldset>
 			   									<label id="editProfileText" for="seller_stringValue">Dojam:</label>
+=======
+											<p style="padding-bottom: 7px;">Upisite Vas komentar na transakciju i ocijenite kupca</p>
+											@form(routes.ProductController.leaveSCommentTransaction(p.id),'id->"transactionForm") {					
+													<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="seller_comment" name="seller_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
+													<fieldset>
+			   									<p style="padding-top:7px;" for="buyer_stringValue">Dojam:</p>
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			    								<select name="seller_stringValue" id="seller_stringValue">
 			     									<option selected="selected" style="background-color:yellow">Neutralan</option>
 									      			<option style="background-color:green">Pozitivan</option>
 									    			<option style="background-color:red">Negativan</option>
 									    			</select>
 									    			</fieldset>
+<<<<<<< HEAD
 												<div class="button">
 													<input type="submit" value="Ostavi Komentar"/>				
+=======
+												<div class="btn btn-primary btn-fontNovi" style="background:#85B80C;">
+													<input type="submit" value="Ostavi Komentar" class="btn btn-primary btn-fontNovi" style="background:#85B80C;"/>				
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 												</div>
 											}	
 										}
@@ -444,34 +525,60 @@
 										@if(user == p.buyerUser) {				
 											@if(p.purchaseTransaction.buyer_comment.equals("Ne postoji")) {
 												<br>
+<<<<<<< HEAD
 											 	<p>Upisite Vas komentar na transakciju i ocijenite prodavača</p>
 													@form(routes.ProductController.leaveBCommentTransaction(p.id),'id->"transactionForm") {
 															<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="buyer_comment" name="buyer_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
 															<fieldset>
 			   									<label id="editProfileText" for="buyer_stringValue">Dojam:</label>
 			    								<select name="buyer_stringValue" id="buyer_stringValue">
+=======
+											 	<p style="padding-bottom: 7px;">Upisite Vas komentar na transakciju i ocijenite prodavača</p>
+													@form(routes.ProductController.leaveBCommentTransaction(p.id),'id->"transactionForm") {
+															<textarea class="ourInputTextField" maxlength="250" pattern=".{3,250}" required="" title="Od 3 do 250 karaktera" id="buyer_comment" name="buyer_comment" style="width: 345px; height: 80px; resize: none; margin: 0px;"></textarea>
+															<fieldset>
+			   									<p style="padding-top:7px;" for="buyer_stringValue">Dojam:</p>
+			   								
+			    								<select name="buyer_stringValue" id="buyer_stringValue" style="font-size:30px; margin-top:7px;"">
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 			     									<option selected="selected">Neutralan</option>
 									      			<option>Pozitivan</option>
 									    			<option>Negativan</option>
 									    			</select>
 									    			</fieldset>
+<<<<<<< HEAD
 														<div class="button">
 															<span>
 																<input type="submit" value="Ostavi Komentar"/>
 															</span>
 														</div>
+=======
+														<br>
+															<span>
+																<input type="submit" value="Ostavi Komentar" class="btn btn-primary btn-fontNovi" style="background:#85B80C;"/>
+															</span>
+														
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 													}
 											}	
 										}
 							</div>
 						}
 					}	
+<<<<<<< HEAD
 					</div>		
 								
 								
 							</div>
 						</div>
 					</div>
+=======
+					</div>	
+				
+			</div>
+		</div>
+	</div>
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 					<script type="text/javascript">
 						$(document).ready(function () {
 							$('#horizontalTab').easyResponsiveTabs({

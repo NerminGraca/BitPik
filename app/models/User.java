@@ -50,6 +50,15 @@ public class User extends Model {
 	public MainCategory storeCategory;
 	
 	public boolean isProtectedAdmin;
+<<<<<<< HEAD
+=======
+	
+	public int positiveReview;
+	
+	public int neutralReview;
+	
+	public int negativeReview;
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 
 	public String createdDate;
 	
@@ -159,6 +168,12 @@ public class User extends Model {
 	public static User create(String username, String password, String email) {
 		User user = new User(username, password, email);
 		user.setCredits(new BPCredit(user));
+<<<<<<< HEAD
+=======
+		user.positiveReview=0;
+		user.negativeReview=0;
+		user.neutralReview=0;
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		user.save();
 		return user;
 	}
@@ -173,6 +188,12 @@ public class User extends Model {
 	public static User createSaveUser(String username, String password,String email) {
 		User newUser = new User(username, password,email);
 		newUser.setCredits(new BPCredit(newUser));
+<<<<<<< HEAD
+=======
+		newUser.positiveReview=0;
+		newUser.negativeReview=0;
+		newUser.neutralReview=0;
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		newUser.save();
 		
 		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
@@ -187,6 +208,12 @@ public class User extends Model {
 		newUser.city=city;
 		newUser.setCredits(new BPCredit(300, newUser));
 		newUser.setStoreCategory(storeCategory);
+<<<<<<< HEAD
+=======
+		newUser.positiveReview=0;
+		newUser.neutralReview=0;
+		newUser.negativeReview=0;
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 		newUser.save();
 		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
 		return newUser;
@@ -268,39 +295,51 @@ public class User extends Model {
 		save();
 			
 	}
+<<<<<<< HEAD
 	
 	/**
 	 * Setter for pikStore
 	 */
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public void setPikStore()
 	{
 		this.isPikStore=true;
 		save();
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Getter for image path
 	 * @return imagePath
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public String getImagePath() {
 		return imagePath;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Setter for image path
 	 * @param imagePath
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Setter for store category
 	 * @param storeCategory
 	 */
 	
+=======
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 	public void setStoreCategory(MainCategory storeCategory){
 		this.storeCategory=storeCategory;
 	}
@@ -370,7 +409,16 @@ public class User extends Model {
 		try {
 			for(Product product: products){
 				if(product.isSold){
+<<<<<<< HEAD
 				sum+=product.purchaseTransaction.getBuyer_value();
+=======
+					
+					if(!product.purchaseTransaction.buyer_comment.equals("Ne postoji")){
+				    sum+=product.purchaseTransaction.getBuyer_value();
+				    
+					}
+
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 				}
 			}
 		} catch (NullPointerException e) {

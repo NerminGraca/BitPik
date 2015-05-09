@@ -141,6 +141,12 @@ create table user (
   category_string           varchar(255),
   store_category_id         integer,
   is_protected_admin        boolean,
+<<<<<<< HEAD
+=======
+  positive_review           integer,
+  neutral_review            integer,
+  negative_review           integer,
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
   created_date              varchar(255),
   verified                  boolean,
   confirmation              varchar(255),

@@ -60,10 +60,20 @@ GET		/thepurchase/:id					controllers.UserController.showPurchase(id: Integer)
 POST	/thepurchase/:id					controllers.UserController.purchaseProcessing(id: Integer)
 GET		/thepurchaseAndroid/:id				controllers.UserController.showPurchaseAndroid(id: Integer)
 GET		/purchasesuccess/:id				controllers.UserController.purchaseSuccess(id: Integer)
+<<<<<<< HEAD
 GET     /dojmovi                            controllers.UserController.allUsersComment(id: Integer)
 
 # Json Controller
 
+=======
+GET		/purchasesuccessandroid/:id				controllers.UserController.purchaseSuccessAndroid(id: Integer)
+GET     /dojmovi                            controllers.UserController.allUsersComment(id: Integer)
+GET 	/backToMobile						controllers.UserController.backToMobile()
+
+# Json Controller
+
+
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 GET		/profileAndroid						controllers.JsonController.profileAndroid()
 POST	/api/userforAnd						controllers.JsonController.getUserForAndroid()
 POST 	/api/editUserAndroid				controllers.JsonController.editUser()

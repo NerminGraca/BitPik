@@ -1,0 +1,22 @@
+@(p: Product)(u: User)(payerId: String)(paymentId: String)(token: String)(accessToken: String)
+@import helper._
+
+	
+		
+	<center>
+		<br>
+		<div class="logo">
+				<a href="/"><img src="@routes.Assets.at("images/pik.ba.jpg")" width="130" heigth="175" alt=""></a>
+		</div>
+			<br>
+			<br>
+			<h2>
+				<a class="btn btn-primary btn-fontNovi"  type="submit"  href="@routes.UserController.showSellingProduct(p.id, payerId, paymentId, token, accessToken)">@Messages("PotvrdiTransakciju")</a>
+			</h2>
+			<br>
+			<br>
+			<h2>
+					<a class="btn btn-primary btn-fontNovi"  type="cancel"  href="@routes.ProductController.showProduct(p.id)">@Messages("PonistiTransakciju")</a>
+			</h2>	
+							
+				</center>

@@ -68,7 +68,11 @@ h2.resp-tab-active {
 	padding: 10px 15px !important;
 }
 /*Here your can change the breakpoint to set the accordion, when screen resolution changed*/
+<<<<<<< HEAD
 @media only screen and (max-width: 768px) {
+=======
+@media only screen and (max-width: 1068px) {
+>>>>>>> b0efd60b4c1619211b9d864d5ce8532c97856e60
 ul.resp-tabs-list {
   	display: none;
 }
