@@ -112,7 +112,6 @@ public class ProductController extends Controller {
 		UserAgent userAgent = UserAgent.parseUserAgentString(Http.Context.current().request().getHeader("User-Agent"));
 		
 			String deviceType = userAgent.getOperatingSystem().getDeviceType().toString();
-			flash("buy_fail",  Messages.get("Paypal transakcija nije uspjela!"));
 			if (deviceType.equals("MOBILE") || deviceType.equals("TABLET")) {
 				return redirect("http://10.0.2.2:9000/backToMobile/");
 			}else{
