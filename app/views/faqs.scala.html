@@ -14,38 +14,40 @@
     	<div class="content">
     		<div class="section group">
 				
-				<h1 class="redHeader">FAQs Pitanja & Odgovori:</h1><br>  	
+<!--  OVAJ DIO JE NOVI!!!! -->		
+<div class="search_box">
+	     		<form action="/searchFaq" method="GET">
+	     			<input id="q" name="q" type="text" placeholder="Traži FAQ..." required/>
+	     			<input type="submit" value="">
+	     		</form>
+	     	</div>	
+	     					
 
-					<table border="0" cellspacing="0" cellpadding="0">
-				  <tr>
-				    <td width="100%"><form name="ddmessage"><table border="0" width="100%" cellspacing="0" cellpadding="0">
-				        <tr>
-				          <td width="100%">
-				          <select id="selectbox" name="selectbox" size="1" onChange="changecontent(this)">
-							<!-- PITANJA - OPCIJE U NIZU! -->			          
-				          	  @if(faqList.size() > 0 ) {
-							         <option selected value="0">Pitanja</option>
-									@for(faq <- faqList) {
-							            <option selected value="@faq.id">@faq.question</option>
-							            }
-							         }
-				          </select><br>
-				          </td>
-				        </tr>
-				        <tr>
-				        <style type="text/css">
-    						textarea { border: none; resize: none; }
-    					</style>
-				          <td width="100%"><textarea rows="5" name="contentbox" cols="100" wrap="virtual" readonly></textarea><br></td>
-				        </tr>
-				       
-				      </table>
-				    </form>
-				    </td>
-				  </tr>
-				</table>
+	
+		<ul id="faqs" class="cd-faq-group">
+			<li class="cd-faq-title"><h2>@Messages("FaqsPitanjaOdgovori")</h2></li>
+			
+	 @if(faqList.size() > 0 ) {
+		@for(faq <- faqList) {
+			<li>
+				<a class="cd-faq-trigger" href="#0">@faq.question</a>
+				<div class="cd-faq-content">
+					<p>@faq.answer</p><!-- content here -->
+					@if(user != null) {	
+						@if(user.isAdmin) {
+							<button id="link"><a href="/editFaq/@faq.id">@Messages("Edituj")</a></button>
+							<button id="link1"><a href="/deleteFaq/@faq.id">@Messages("Izbrisi")</a></button>
+						}
+					}
+				</div> 
+			</li>
+			}
+		}
+		</ul>
+ 
+
 				
-				<p>
+<!--  OVAJ DIO JE NOVI!!!! DO OVDJE -->	
 				
 				<script language="JavaScript">
 				
@@ -83,24 +85,21 @@
 	
 				</script>
 	@if(user != null) {	
-				 @if(user.isAdmin) {
-					<button id="link" onclick="editFaq()">Edituj</button>
-					<button id="link1" onclick="deleteFaq()" >Izbriši</button>
-				}
+				 
 				 
  		 @if(user.isAdmin) {
 			 				<br><br>
-			 				<h1 class="redHeader">Dodaj Pitanje & Odgovor:</h1><br>
+			 				<h1 class="redHeader">@Messages("DodajPitanje")</h1><br>
 		 						<div>
 										@helper.form(routes.FAQController.addFaq(), 'id -> "faqForm") {
-											<h5 id="editProfileText">Pitanje :</h5>
+											<h5 id="editProfileText">@Messages("Pitanje")</h5>
 											<input pattern=".{3,250}" type="text" value="" id="question" name="question" size="25" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" required/>
 											
-											<h5 id="editProfileText">Odgovor :</h5>
+											<h5 id="editProfileText">@Messages("Odgovor")</h5>
 											<input pattern=".{3,250}" type="text" value="" id="answer" name="answer" size="25" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" required/>
 											
 										<br>	
-		 									<input class="buttonRed" type="submit" value="Add a FAQ" />
+		 									<input class="buttonRed" type="submit" value="@Messages("DodajFaq")" />
 		 						</div>
 		 							}
 							}
@@ -109,7 +108,4 @@
 			 </div>
  		</div>
  </div>
-		}
- 
- 
-	
+}

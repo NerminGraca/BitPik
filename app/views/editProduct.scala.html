@@ -1,4 +1,4 @@
-@(usernameSes: String)(p : Product)(mainCategoryList: List[MainCategory])
+@(p : Product)(mainCategoryList: List[MainCategory])
 @import helper._
 
 
@@ -13,19 +13,23 @@
     		<div class="section group">
 				<div class="col span_2_of_3">
 				 	<div class="contact-form">
-					  	<h1 class="redHeader">Izmijeni podatke o proizvodu</h1><br>
+					  	<h1 class="redHeader">@Messages("IzmijeniProdukt")</h1><br>
 						<!--  NAŠ HELPER 
 						MINIMUM of three characters is here!! 
 						-->
 							@helper.form(routes.ProductController.saveEditedProduct(p.id),'id->"productForm") {
-								<h5 id="editProfileText">Naziv proizvoda:</h5>
+								<h5 id="editProfileText">@Messages("NazivProizvoda")*</h5>
 								<input pattern=".{3,30}" required title="Od 3 do 30 karaktera" type="text" value="@p.name" id="name" name="name" required/>
 								
-								<h5 id="editProfileText">Opis:</h5>
+								<h5 id="editProfileText">@Messages("KratkiOpis")*</h5>
 								<input pattern=".{3,140}" required title="Od 3 do 140 karaktera" type="text" value="@p.description" id="description" name="description" required/>
 								
-								<h5 id="editProfileText">Cijena:</h5>			
-								<input type="number" min="1" max="999999999" step="any" value="@p.price" id="price" name="price" required/>
+								
+								
+								<h5 id="editProfileText">@Messages("Cijena")*</h5>			
+								<input type="number" min="1" max="999999999" step="any" value="@p.getPriceString()" id="price" name="price" required/>
+								
+								<h5 class="redHeaderReq">@Messages("PopunitePolja") *</h5>
 								
 								<!-- This is css for Kategorija and availability dropdown meni -->
 						  			<style>
@@ -62,7 +66,7 @@
 									<div class="demo">
 										<form action="#">
   											<fieldset>
-	    										<label id="editProfileText" for="category">Kategorija:</label>
+	    										<label id="editProfileText" for="category">@Messages("Kategorija")</label>
 	    										<select name="categoryString" id="categoryString">
 		    										@if(mainCategoryList.size() > 0 ) {
 						  								@for(mainCategory <- mainCategoryList) {
@@ -77,7 +81,7 @@
  													@if(mainCategory.subCategories.size > 0) {
  														<div id="@mainCategory.name" class="fieldsetToHide">
  															<fieldset>
-						  										<label id="editProfileText" for="subcategory">Podkategorija:</label>
+						  										<label id="editProfileText" for="subcategory">@Messages("Podkategorija")</label>
 						  										<select name="inactive" id="inactive">
 						  											@for(subCategory <- mainCategory.subCategories) {
  																		<option value="@subCategory.name">@subCategory.name</option>
@@ -136,29 +140,38 @@
 						 					</script>
  									
  									<fieldset>
-   									<label id="editProfileText" for="availability">Dostupnost:</label>
-    								<select name="availability" id="availability">
-     									<option selected="selected">Svugdje</option>
-						     			<option>Unutar BiH</option>
-						      			<option>Sarajevo</option>
-						    			<option>Unsko sanski</option>
-						    			<option>Posavski</option>
-						     			<option>Tuzlanski</option>
-						     			<option>Zenicko-dobojski</option>
-								    	<option>Bosansko-Podrinjski</option>
-						   				<option>Srednjo-bosanski</option>
-						    			<option>Zapadno-hercegovacki</option>
-						    			<option>Livanjski</option>
-						     			<option>Hercegovacko-neretvanski</option>
-						   		   		<option>Distrikt Brcko</option>
-						  		    	<option>Banjalucka</option>
-						  		    	<option>Dobojsko-bijeljinska</option>
-						   		   		<option>Sarajevsko-zvornicka</option>
-						   		 		<option>Focansko-trebinjska</option>
+   									<label id="editProfileText" for="location">@Messages("Lokacija")</label>
+    								<select name="location" id="location">
+     									<option selected="selected">Sarajevo</option>
+									      			<option>Mostar</option>
+									    			<option>Zenica</option>
+									    			<option>Tuzla</option>
+									     			<option>Stolac</option>
+									     			<option>Bihać</option>
+											    	<option>Banja Luka</option>
+									   				<option>Bijeljina</option>
+									    			<option>Trebinje</option>
+									    			<option>Livno</option>
 						   		 	</select>
 						   		 	</fieldset> 
+						   		 	
+						   		 	 <fieldset>
+			   									<label id="editProfileText" for="exchange">@Messages("PrihvatiZamjenu")</label>
+			    								<select name="exchange" id="exchange" style="width:270px;">
+			     									<option selected="selected">@Messages("Da")</option>
+									      			<option>@Messages("ne")</option>
+									      			</select>
+									      			</fieldset>
 									</form>
-									<input class="buttonRed" type="submit" value="Spasi izmjene" />
+									<h5 id="editProfileText">@Messages("DetaljniOpis")</h5>
+								<textarea maxlength="250" id="longDescription" name="longDescription" >@p.longDescription</textarea>
+								
+								<br>
+									<script>
+									CKEDITOR.replace('longDescription');
+									</script>
+									
+									<input class="btn btn-primary btn-fontNovi" type="submit" value="@Messages("SpasiPromjene")" />
 				  				</div>
   					</div>
 				</div> 

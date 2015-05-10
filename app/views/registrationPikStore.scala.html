@@ -1,0 +1,65 @@
+@(usernameMessage: String)(emailMessage: String)(mainCategoryList: List[MainCategory])
+@import helper._
+
+@main("Registration Pik Store", "") {
+		
+<div class="wrap">
+	<div class="validateAndLogout">
+	@flash.get("add_user_null_field	")
+	</div>
+	
+	 <div class="main">
+    	<div class="content">
+    		<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="contact-form">
+				  		<h1 class="redHeader">@Messages("RegistracijaRadnje")</h1><br>
+	
+	<!-- NAŠ HELPER : MINIMUM of three characters is here!! -->
+						@helper.form(routes.UserController.addPikStore(),'id->"nameForm") {
+
+							<h5 id="editProfileText">@Messages("ImeFirme"):*</h5>
+
+							<input pattern=".{3,20}" required title="Od 3 do 20 karaktera" type="text" value="" id="username" name="username" required/>
+							<h6>@usernameMessage</h6>
+							@if(!usernameMessage.equals("")) {
+								<br>
+							}
+							<h5 id="editProfileText">@Messages("Lozinka"):*</h5>
+ 							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="password" name="password" required/>
+							<h5 id="editProfileText">@Messages("PotvrditeLozinku"):*</h5>
+							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="confirmPassword" name="confirmPassword" required/>
+							<h5 id="editProfileText">@Messages("Email")*</h5>			
+							<input type="email"  value="" id="email" name="email" required/>
+							<h6>@emailMessage</h6>
+							<h7 id="editProfileText">@Messages("PuniNazivFirme"):*</h7>
+							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="text" value="" id="storeName" name="storeName" required/>
+							<h8 id="editProfileText">@Messages("Adresa"):*</h8>
+							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="text" value="" id="address" name="address" required/>
+							<h9 id="editProfileText">@Messages("Grad"):*</h9>
+							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="text" value="" id="city" name="city" required/>
+
+							<fieldset>
+	    						<label id="editProfileText" for="category">@Messages("KategorijaDjelatnosti"):</label>
+	    							<select name="categoryString" id="categoryString" style="width:335px;">
+		    							@if(mainCategoryList.size() > 0 ) {
+						  					@for(mainCategory <- mainCategoryList) {
+						  						<option value="@mainCategory.name">@mainCategory.name</option>
+						  							}		
+						  						}
+						  						</select>
+ 											</fieldset>
+
+							<h5 class="redHeaderReq">@Messages("PopunitePolja") *</h5>
+
+							<br><br>
+							<input class="btn btn-primary btn-fontNovi" type="submit" value="Registruj" />
+
+					</div>
+				</div>		
+         	</div> 
+    	</div>
+ 	</div>
+</div>
+	}
+}

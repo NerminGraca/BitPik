@@ -1,5 +1,6 @@
 package helpers;
 
+import controllers.routes;
 import models.User;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -23,7 +24,7 @@ public class CurrentUserFilter extends Security.Authenticator {
 	 */
 	@Override
 	public Result onUnauthorized(Context ctx) {
-		return redirect("/");
+		return redirect(routes.Application.index());
 	}
 
 }

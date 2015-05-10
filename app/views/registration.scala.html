@@ -13,25 +13,28 @@
     		<div class="section group">
 				<div class="col span_2_of_3">
 					<div class="contact-form">
-				  		<h1 class="redHeader">Registracija</h1><br>
+				  		<h1 class="redHeader">@Messages("Registracija")</h1><br>
 	
 	<!-- NAŠ HELPER : MINIMUM of three characters is here!! -->
 						@helper.form(routes.UserController.addUser(),'id->"nameForm") {
-							<h5>Ime:</h5>
+							<h5 id="editProfileText">@Messages("Ime")*</h5>
 							<input pattern=".{3,20}" required title="Od 3 do 20 karaktera" type="text" value="" id="username" name="username" required/>
 							<h6>@usernameMessage</h6>
 							@if(!usernameMessage.equals("")) {
 								<br>
 							}
-							<h5>Lozinka:</h5>
+							<h5 id="editProfileText">@Messages("Lozinka"):*</h5>
  							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="password" name="password" required/>
-							<h5>Potvrdite lozinku:</h5>
+							<h5 id="editProfileText">@Messages("PotvrditeLozinku"):*</h5>
 							<input pattern=".{3,25}" required title="Od 3 do 25 karaktera" type="password" value="" id="confirmPassword" name="confirmPassword" required/>
-							<h5>Email:</h5>			
+							<h5 id="editProfileText">@Messages("Email")*</h5>			
 							<input type="email"  value="" id="email" name="email" required/>
+
+							<h5 class="redHeaderReq">@Messages("PopunitePolja") *</h5>
+
 							<h6>@emailMessage</h6>
 							<br><br>
-							<input type="submit" value="Registruj" />
+							<input class="btn btn-primary btn-fontNovi" type="submit" value="Registruj" />
 					</div>
 				</div>		
          	</div> 

@@ -1,0 +1,35 @@
+@(u: User)
+@import helper._
+
+@main("Add Credits", ""){
+	
+	<div class="main">
+    	<div class="content">
+       		<div class="section group">
+				<div class="col span_2_of_3">
+					<div class="contact-form">
+				  		<h1 class="redHeader">@u.username@Messages("UnesiteIznosKredita")</h1>
+				  		<br>
+				  		
+								@helper.form(routes.CreditController.addCreditsProcess(), 'id->"creditForm") {
+																
+									<h5 id="editProfileText">@Messages("KolicinaKredita")</h5>			
+									<input type="number" min="1" max="500" step="any" value="" id="credit" name="credit" required/>
+									
+									<input class="buttonRed" type="submit" value="@Messages("KupiKredit")" />					
+								}
+								
+						<br>
+						<br>
+							<div>					
+								<h4 class="napomene">@Messages("Napomena")</h4>
+								<p>@Messages("CijenaJednogKredita")</p>
+								<p>@Messages("JedanKreditObezbjedjuje")</p>		
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+}

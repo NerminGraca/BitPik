@@ -1,6 +1,7 @@
 package controllers;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
 import static play.test.Helpers.HTMLUNIT;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.inMemoryDatabase;
@@ -18,7 +19,7 @@ import play.test.TestBrowser;
 import play.test.WithApplication;
 
 public class SubCategoryTest extends WithApplication {
-	
+	/*
 	@Test
 	public void testSubcategoriesAdmin() {		
 		running(testServer(3333, fakeApplication(inMemoryDatabase())),
@@ -150,4 +151,29 @@ public class SubCategoryTest extends WithApplication {
 					}
 		});
 	}
+	
+	@Test
+	public void testSubCategoryView() {
+		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+				HTMLUNIT, new Callback<TestBrowser>() {
+					public void invoke(TestBrowser browser) {
+						User.createSaveUser("neko2", "12345", "neko2@gmail.com");
+						User u = User.find(4);
+						assertNotNull(u);
+						// String name, String desc, double price, User owner, MainCategory
+						// category, String availability
+						MainCategory mc = MainCategory.findMainCategoryByName("Vozila");
+						SubCategory sc = SubCategory.findSubCategoryByName("Automobili");
+						Product.create("golf", "mk2","longDescription",
+								1000.00, u, mc, sc, "sarajevo");
+						
+						browser.goTo("http://localhost:3333/kategorija/1");
+						assertThat(browser.pageSource()).contains("golf");
+						browser.goTo("http://localhost:3333/podKategorija/2");
+						assertThat(browser.pageSource()).contains("golf");
+						browser.goTo("http://localhost:3333/podKategorija/1");
+						assertThat(browser.pageSource()).doesNotContain("golf");
+					}
+		});
+	}*/
 }

@@ -1,0 +1,55 @@
+@(u: User)(products: List[Product])
+
+@main("Stats", "Stats") {
+		
+		
+<div class="wrap">
+	<div class="main">
+    	<div class="content">
+    		<div class="section group">	
+    			<div style="padding-left: 9%">
+    			
+					  <h2>@Messages("IzvjestajKorisnika") : @u.username </h2>
+					  
+		
+		@if(!products.isEmpty) {
+					  		<h2>@Messages("ObjavljeniProizvodi") :</h2>
+					  
+						 				   <div class="row">
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("BitpikId")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("ImeProizvoda")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("Cijena")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("DatumObjave")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("ProdatArtikal")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("Izdvojen")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("BrPregleda")</strong></div>
+											    <div class="col-sm-1" style="background-color:#E8B03F;"><strong>@Messages("BrKomentara")</strong></div>
+										  </div>
+				
+							
+								@for(product <- products) {		  
+						
+										   <div class="row">
+											    <div class="col-sm-1" style="background-color:#E6E5F2;">@product.id</div>
+											    <div class="col-sm-1" style="background-color:#E8E7E2;">@product.name</div>
+											    <div class="col-sm-1" style="background-color:#E6E5F2;">@product.price</div>
+											    <div class="col-sm-1" style="background-color:#E8E7E2;">@product.publishedDate</div>
+											    <div class="col-sm-1" style="background-color:#E6E5F2;">@product.statsProducts.isItSold</div>
+											    <div class="col-sm-1" style="background-color:#E8E7E2;">@product.statsProducts.isItSpecial</div>
+											    <div class="col-sm-1" style="background-color:#E6E5F2;">@product.statsProducts.noOfClicksS</div>
+											    <div class="col-sm-1" style="background-color:#E8E7E2;">@product.statsProducts.noOfComments</div>
+										  </div>
+							  	  }
+							  	  
+							  	  <a href="@routes.StatsController.downloadStatistics()" class="btn btn-primary btn-fontNovi"> Download (Excel format) </a> 
+							  	  
+							} else {
+							<h2> @Messages("NemateArtikala")</h2>							
+							}
+								  
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>
+}

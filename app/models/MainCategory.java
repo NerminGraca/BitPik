@@ -22,6 +22,8 @@ public class MainCategory extends Model {
 	@OneToMany(mappedBy="mainCategory", cascade=CascadeType.ALL)
 	public List<SubCategory> subCategories;
 	
+	@OneToMany(mappedBy="storeCategory", cascade=CascadeType.ALL)
+	public User pikStore;
 	/**
 	 * Default constructor
 	 */
@@ -30,7 +32,6 @@ public class MainCategory extends Model {
 	}
 	
 	/**
-	 * @author Graca Nermin
 	 * Constructor of object MainCategory with one parameter (String name)
 	 * @param name = String name which will new object hold
 	 */
@@ -39,7 +40,6 @@ public class MainCategory extends Model {
 	}
 	
 	/**
-	 * @author Graca Nermin
 	 * Method createMainCategory creates new object of class MainCategory and saves it
 	 * in the database
 	 * @param name = String name which will new object hold
@@ -93,6 +93,5 @@ public class MainCategory extends Model {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-	
+	}	
 }

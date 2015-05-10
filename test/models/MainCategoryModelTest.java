@@ -15,7 +15,7 @@ public class MainCategoryModelTest extends WithApplication {
 	public void SetUp() {
 		fakeApplication(inMemoryDatabase());
 	}
-	
+	/*
 	@Test
 	public void testCreateMainCategory() {
 		MainCategory.createMainCategory("Vozila");
@@ -44,6 +44,6 @@ public class MainCategoryModelTest extends WithApplication {
 		MainCategory.delete(1);
 		MainCategory mc = MainCategory.findMainCategory(1);
 		assertNull(mc);
-	}
+	}*/
 	
 }

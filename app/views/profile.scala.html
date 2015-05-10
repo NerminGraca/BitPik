@@ -13,79 +13,169 @@
 			@flash.get("edit_user_success")
 			@flash.get("delete_product_success")
 			@flash.get("buy_product_success")
+			@flash.get("update_credit_success")
+			@flash.get("use_credit_success")
 		</div>
 		
 	<div class="main">
     	<div class="content">
     		<div class="section group">
-				<div class="rightBox">
-					<h2 id="redText"><p>Korisnicko ime:</p></h2>
-					<p class="blueText">@u.username</p>
-					
-					<h2 id="redText"><p>Email: </p></h2>		
-					<p class="blueText">@u.email</p>
-		
-					<h2 id="redText"><ep>Admin: </p></h2>
-		
-						@if(u.isAdmin){
-							<p class="blueText">Da</p>
-						}else{
-							<p class="blueText">Ne</p>			
-						}
-					
-					<h2 id="redText"><p>Datum registracije:</p></h2>
-					<p class="blueText">@u.createdDate</p><br>	
+
 		
 		
-						<form action="/editUser/@u.id">
-    						<a class="btn" href="/editUser/@u.id" class="btn">Izmijeni profil</a>
-						</form>
 		
-				
-				</div>
 				
 				<div class="leftBox">
 					<div>
-						<img class="profilePicture" src="@routes.Assets.at(u.imagePath)" alt="" />
+					@if(u.imagePathOne != null) {
+						<img class="profilePicture" src="@u.imagePathOne.getSize(200, 200)" alt="" />
+					}
 					</div>				
 					
 					<div class="addImage" >
-						  		<form id="imgs"  action="@routes.UserController.saveFile()" method="post" enctype="multipart/form-data" >
-									<input class="sendFile" type="file" name="image" id="image" />
-									<input class="sendFileBtn" type="submit" value="Send file" />
-								</form>
+				  		<form id="imgs"  action="@routes.UserController.saveFile()" method="post" enctype="multipart/form-data" >
+							<input class="sendFile" type="file" name="image" id="image" />
+							<input class="sendFileBtn" type="submit" value="Send file" />
+						</form>
 					</div>
-					
 					
 					<div class="categories">
 					  	<ul>
-					  		
-					      <li><a href="#">Poruke</a></li>
-					      <li><a href="#">Blokirani korisnici</a></li>
-					      <li><a href="#">Javna pitanja</a></li>
-					      <li><a href="@routes.UserController.find_bought_products()">Kupljeni proizvodi</a></li>
-					      
+
+
+					  	  <li><a href="#">@Messages("IzbrisiSliku")</a></li>
+					      <li><a href="/allMessages">@Messages("Poruke")</a></li>
+					      <li><a href="@routes.CreditController.showCredits()">@Messages("Krediti")</a></li>
+					      <li><a href="/profile">@Messages("ObjavljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.find_bought_products()">@Messages("KupljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.findSoldProducts()">@Messages("ProdatiProizvodi")</a></li>
+					      <li><a href="@routes.StatsController.showStats()">@Messages("Izvjestaj")</a></li>
+					      <li><a href="@routes.UserController.allUsersComment(u.id)">Dojmovi</a></li>
+
+
+						</ul>
+					</div>						  	    
+				</div>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<div class="rightBox">
+					<h2 id="redText"><p>@Messages("KorisnickoIme")</p></h2>
+					<p class="blueText">@u.username</p>
+					
+					<h2 id="redText"><p>@Messages("Email")</p></h2>		
+					<p class="blueText">@u.email</p>
+					
+					@if(!u.isPikStore){
+						
+					<h2 id="redText"><ep>Admin: </p></h2>
+		
+						@if(u.isAdmin){
+							<p class="blueText">@Messages("Da")</p>
+						}else{
+							<p class="blueText">@Messages("Ne")</p>			
+						}
+					}
+					<h2 id="redText"><p>@Messages("DatumRegistracije")</p></h2>
+					<p class="blueText">@u.createdDate</p><br>	
+					
+					@if(u.isPikStore){
+						
+						<h2 id="redText">@Messages("NazivFirme")</h2>
+						<p class="blueText">@u.storeName</p>
+					
+						<h2 id="redText">@Messages("Adresa")</h2>
+						<p class="blueText">@u.address</p>
+						
+						<h2 id="redText">@Messages("Grad")</h2>
+						<p class="blueText">@u.city</p>
+					
+					}
+				
+						<form action="/editUser/@u.id">
+    						<a class="btn btn-primary btn-fontNovi" href="/editUser/@u.id" class="btn">@Messages("IzmijeniProfil")</a>
+						</form>				
+				</div>				
+				
+				
+	
+	
+	
+				<div class="rightBox" style="width: 46%;">
+				
+					<br><br><br><br><br>
+				
+					<h2 id="redText"><p style="text-align: center;">
+					
+					AKO BUDE VREMENA,<br><br>
+					OVDJE IMA PROSTORA ZA<br><br>
+					NEKI REKLAMNI<br><br>
+					(novo, najpovoljnije, akcija itd.)<br><br>
+					SLAJDER<br><br><br><br><br><br><br></p></h2>
+
+					
+					<div class="categories">
+					  	<ul>
+					  	  <li><a href="#">@Messages("IzbrisiSliku")</a></li>
+					      <li><a href="/allMessages">@Messages("Poruke")</a></li>
+					      <li><a href="@routes.CreditController.showCredits()">@Messages("Krediti")</a></li>
+					      <li><a href="/profile">@Messages("ObjavljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.find_bought_products()">@Messages("KupljeniProizvodi")</a></li>
+					      <li><a href="@routes.UserController.findSoldProducts()">@Messages("ProdatiProizvodi")</a></li>
+					      <li><a href="@routes.StatsController.showStats()">@Messages("Izvjestaj")</a></li>
+
 						</ul>
 					</div>					
 	  	    
 				</div>
-						
-			<div id="productsOnProfile">
-				<br><br>
-				<h1 class="redHeader">Objavljeni proizvodi:</h1><br> 
+				
 				@if(!products.isEmpty) {
+
+				</div>						
+				
+				
+				<div class="rightBox" style="width: 93%; margin-top: 10px;">
+				
+					<br><br><br>
+				
+					<h2 id="redText"><p style="text-align: center;">
+					
+					AKO BUDE VREMENA,<br>
+					OVDJE IMA PROSTORA ZA<br>
+					NEKI SLAJDER<br>
+					(pik radnja ili nesto drugo)
+					<br><br><br><br></p></h2>
+
+					
+				</div>					
+				
+
+			<div class="section group">
+				<br>
+				<h1 class="redHeader"><span>@Messages("ObjavljeniProizvodi")</h1><br> 
+			</div>			
+			<div class="section group">
+				
+				
 					@for(product <- products) {				
 						<div class="grid_1_of_4 images_1_of_4">
-							<a class="productImg" href="/showProduct/@product.id"><img src="@routes.Assets.at(product.productImagePath)" alt="" /></a>					 		 <h2>@product.name </h2>
+							<a class="productImg" href="/showProduct/@product.id"><img src="@product.imgPathList.get(0).getSize(200, 200)" alt="" /></a>					 		 <h2>@product.name </h2>
 							@form(routes.ProductController.deleteProduct(product.id)) {
-                    			<input class="btnDelete" type="submit" value="Izbrisi proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
+                    			<input class="btnDelete" type="submit" value="Izbriši proizvod" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">
                 			}
 							<div class="price-details">
 				       			<div class="price-number">
-									<p><span class="rupees">@product.price KM</span></p>
+									<p><span class="rupees">@product.getPriceString() KM</span></p>
 					    		</div>
 					       		<div class="add-cart">								
-									<h4><a href="/showProduct/@product.id">Pogledaj</a></h4>
+									<h4><a href="/showProduct/@product.id">@Messages("Pogledaj")</a></h4>
 								</div>
 								<div class="clear"></div>
 							</div>

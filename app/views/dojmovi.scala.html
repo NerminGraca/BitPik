@@ -1,0 +1,63 @@
+@(u: User)(transactionBuyers: List[TransactionP])(transactionSellers: List[TransactionP])
+
+@main("Review", "Review") {
+	
+<div class="wrap">
+	<div class="main">
+    	<div class="content">
+    		<div class="section group">	
+    			<div style="padding-left: 9%">
+    			
+					  <h2 id="redText">Dojmovi korisnika :<a href="/korisnik/@u.id"> @u.username </a></h2>
+					  <br></br>
+
+
+					  @if(!transactionBuyers.isEmpty()){
+					  	<h2 id="redText">Kao prodavač - Ukupni dojam: @u.userSellerValue</h2>
+					  
+					   <div class="row" style="width:1200px; hight:250px; padding:5px;">
+											    <div class="col-sm-1" style="width:200px;"><strong>Korisnik</strong></div>
+											    <div class="col-sm-1" style="width:800px;"><strong>Komentar</strong></div>
+											    <div class="col-sm-1" style="width:100px;"><strong>Dojam</strong></div>
+						</div>
+						
+						@for(transaction <- transactionBuyers){
+							@if(!transaction.getBuyer_comment.equals("Ne postoji")){
+						<div class="row" style="border: 2px solid rgb(207, 204, 201); width:1200px; hight:50px; padding:5px;">
+												<div class="col-sm-1" style="width:200px; height:40px;"><strong><a href="/korisnik/@transaction.product.buyerUser.id">@transaction.product.buyerUser.username</a></strong></div>
+											    <div class="col-sm-1" style="width:800px;"><strong>@transaction.getBuyer_comment</strong></div>
+											    <div class="col-sm-1" style="width:100px;"><strong>@transaction.getBuyer_StringValue()</strong></div>
+						</div>
+						}
+}
+}else{
+<h2 id="redText">Još uvijek nema dojmova od kupaca</h2>
+<br></br>
+}				  @if(!transactionSellers.isEmpty()){
+					  	<h2 id="redText">Kao kupac - Ukupni dojam: @u.userBuyerValue</h2>
+					  
+					   <div class="row" style="width:1200px; hight:150px; padding:5px;">
+					   							<div class="col-sm-1" style="width:200px;"><strong>Korisnik</strong></div>
+											    <div class="col-sm-1" style="width:800px;"><strong>Komentar</strong></div>
+											    <div class="col-sm-1" style="width:100px;"><strong>Dojam</strong></div>
+						</div>
+						
+						@for(transaction <- transactionSellers){
+							@if(!transaction.getSeller_comment.equals("Ne postoji")){
+						<div class="row" style="border: 2px solid rgb(207, 204, 201); width:1200px; hight:150px; padding:5px;"">
+												<div class="col-sm-1" style="width:200px; height:40px;"><strong><a href="/korisnik/@transaction.product.owner.id">@transaction.product.owner.username</a></strong></div>
+											    <div class="col-sm-1" style="width:800px;"><strong>@transaction.getSeller_comment</strong></div>
+											    <div class="col-sm-1" style="width:100px;"><strong>@transaction.getSeller_StringValue()</strong></div>
+							</div>
+						}
+						
+						}
+}else{ <h2 id="redText">Još uvijek nema dojmova od prodavača</h2>
+<br></br>
+}
+</div>
+</div>
+</div>
+</div>
+</div>
+}

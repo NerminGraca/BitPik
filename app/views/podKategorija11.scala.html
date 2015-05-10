@@ -1,0 +1,197 @@
+@(sproducts: List[Product])(products: List[Product])(mainCategoryList: List[MainCategory])(mainCategory: MainCategory)(subCatName: String)
+@import helper._
+@main("Kategorija", "") {
+<div class="wrap">
+<div class="main">
+<div class="content">
+<div class="section group">
+  <form action="@routes.ProductController.filteredSearch(Product.getIds(products),Product.getIds(sproducts))" method="POST">
+         <div class="filter" style="margin-top:20px; margin:25px 130px;">
+            <h1 class="redHeader">@Messages("CijenaOdDo")</h1>
+               <input type="number" min="1" max="9999999" step="any" value="" id="od" name="priceMin"/> 
+               <input type="number" min="1" max="9999999" step="any" value="" id="do" name="priceMax"/>
+               					
+               <!-- This is css for Kategorija and availability dropdown meni -->
+               <style>
+                  fieldset {
+                  border: 0;
+                  font-style: bold;
+                  }
+                  label {
+                  display: block;
+                  margin: 0 0 0 0;
+                  }
+                  select {
+                  width: 16%;
+                  height: 40px;
+                  font-weight: bold;
+                  color: #464646;
+                  font-size: 1em;
+                  font-family: Arial, Helvetica, sans-serif;
+                  padding: 6px;
+                  margin: 3px;
+                  }
+                  .overflow {
+                  height: 400px;
+                  }
+               </style>
+               <script language="JavaScript">
+                  var e = document.getElementById("categoryString");
+                  function showHideCategoryFields() {
+                  	var selected = e.value;
+                  
+                  	var hiddenDivs = document.querySelectorAll('.fieldsetToHide');
+                  
+                  	for (var i = 0; i < hiddenDivs.length; i++) {
+                  		hiddenDivs[i].style.display = 'none';
+                  	}
+                  
+                  	var actives = document.querySelectorAll("#subCategoryString");
+                  
+                  	for (var i = 0; i < actives.length; i++) {
+                  		actives[i].id = "inactive";
+                  		actives[i].name = "inactive";
+                  	}
+                  
+                  
+                  	var shown = document.getElementById(selected);
+                  	shown.style.display = 'block';
+                  	
+                  	var children = shown.childNodes;
+                  	var node = children[1];
+                  	var children2 = node.childNodes;
+                  	var selectNode = children2[3];
+                  	
+                  	selectNode.id = "subCategoryString";
+                  	selectNode.name = "subCategoryString";
+                  	
+                  	
+                  	
+                  };
+                  
+                  e.onchange = showHideCategoryFields;
+                  
+                  showHideCategoryFields();
+                  
+               </script>
+               <div class="dostupnost" style="margin:-45px 400px;">
+               <fieldset style="width:600px;">
+                  <label class="redHeader" for="availability" width=3px>@Messages("Dostupnost")</label>
+                  <select name="availabilityS" id="availabilityS">
+                     <option selected="selected">Sarajevo</option>
+									      			<option>Mostar</option>
+									    			<option>Zenica</option>
+									    			<option>Tuzla</option>
+									     			<option>Stolac</option>
+									     			<option>Bihać</option>
+											    	<option>Banja Luka</option>
+									   				<option>Bijeljina</option>
+									    			<option>Trebinjei</option>
+									    			<option>Livno</option>
+                  </select>
+               </fieldset>
+                </div>
+                <div class="opis" style="margin:-53px 710px;">
+               <h1 class="redHeader">@Messages("Opis")</h1>
+               <input type="text" value="" id="desc" name="desc"/>	
+               </div>
+               <input class="button" type="submit" value="Traži" style="margin:65px 730px;" />	
+            </div>
+         </form>
+<div class="header_slide">
+   <div class="leftBoxCat">
+      <div class="categories">
+         <ul>
+            <h3>@Messages("Kategorije")</h3>
+            @if(mainCategoryList.size() > 0 ) {
+            @for(mCategory <- mainCategoryList) {
+            <li><a href="/kategorija/@mCategory.id">@mCategory.name</a></li>
+            }
+            }
+         </ul>
+      </div>
+   </div>
+   <div class="subCatBox">
+      <div class="categories">
+         <ul id="listOfCategory">
+         	<!-- Podkategorije kategorije -->
+            <h3>@mainCategory.name</h3>
+            @if(mainCategory.subCategories.size() > 0 ) {
+            @for(subCategory <- mainCategory.subCategories) {
+            <li>
+               <a href="/podKategorija/@subCategory.id">@subCategory.name</a>
+            </li>
+            }
+            }
+         </ul>
+      </div>
+   </div>
+   <div class="clear"></div>
+   <div class="content_top">
+      <div class="heading">
+         <h3>@Messages("ArtikliPodkategorije") @subCatName</h3>
+      </div>
+      <div class="see">
+         <p><a href="#">@Messages("Pogledaj")</a></p>
+      </div>
+      <div class="clear"></div>
+   </div>
+   <div class="clear"></div>
+   <div class="main">
+      <div class="content">
+         <div class="clear"></div>
+         <div class="section group">
+            @if(sproducts.size() > 0 ) {
+            <div class="content_top">
+               <div class="heading">
+                  <h3>@Messages("IzdvojeniArtikli")</h3>
+               </div>
+               <div class="see">
+                  <p><a href="#">@Messages("Pogledaj")</a></p>
+               </div>
+               <div class="clear"></div>
+            </div>
+            <div class="section group">
+               @for(sproduct <- sproducts) {						
+               <div class="grid_1_of_4 images_1_of_4" >
+                  <a href="/showProduct/@sproduct.id"><img src="@sproduct.imgPathList.get(0).getSize(200, 200)" alt="" class="productImg"/></a>
+                  <div class="price-details">
+                     <div class="price-number">
+                        <p><span class="rupees">@sproduct.price KM</span></p>
+                     </div>
+                     <div class="add-cart">
+                        <h4><a href="/showProduct/@sproduct.id">@Messages("Pogledaj")</a></h4>
+                     </div>
+                     <div class="clear"></div>
+                  </div>
+               </div>
+               }
+            </div>
+            }
+ 		
+            <div class="section group">
+               @if(products.size() > 0 ) {
+               @for(product <- products) {						
+               <div class="grid_1_of_4 images_1_of_4">
+                  <a class="productImg" href="/showProduct/@product.id"><img src="@product.imgPathList.get(0).getSize(200, 200)" alt="" /></a>
+                  <h2>@product.name </h2>
+                  <div class="price-details">
+                     <div class="price-number">
+                        <p><span class="rupees">@product.price KM</span></p>
+                     </div>
+                     <div class="add-cart">
+                        <h4><a href="/showProduct/@product.id">@Messages("Pogledaj")</a></h4>
+                     </div>
+                     <div class="clear"></div>
+                  </div>
+               </div>
+               }
+               }
+            </div>
+            <!-- Ovo je jedan red od cetiri boxa proizvoda - kraj -->
+         </div>
+      </div>
+   </div>
+</div>
+}
+ 

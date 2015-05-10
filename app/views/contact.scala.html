@@ -2,7 +2,7 @@
 
 @import helper._
 
-@main("Kontakt", "kontakt"){
+@main("Kontakt", "Kontakt"){
 	
 <div class="wrap">
 	<div class="validateAndLogout">
@@ -16,33 +16,29 @@
 			<div class="section group">
 				<div class="col span_2_of_3">
 				  <div class="contact-form">
-				  	<h1><strong>CONTACT US</strong></h1><br><br>
+				  	<h1><strong>@Messages("ObrazacZaKontakt")</strong></h1><br><br>
 				  	
 	<!--
 		NAŠ HELPER
 		-->
 	@helper.form(routes.Application.sendMail(), 'class->"form-horizontal", 'id->"contactForm"){
-					<h5>Email:</h5>
+	
+					<h5>@Messages("Email")</h5>
 					 <input pattern=".{3,250}" type="email" class='@("error-input".when(contactForm("email").hasErrors)) form-control' 
       				name="email" id="email" placeholder="john@@mail.com" value='@contactForm("email").value' required/>
 					
-					<h5>Message:</h5>
+					<h5>@Messages("Poruka")</h5>
 					<textarea maxlength="250" class='@("error-input".when(contactForm("message").hasErrors)) form-control' 
       				name="message" id="message" placeholder="Write something nice" value='@contactForm("message").value' required> @contactForm("message").value </textarea>
 					<br><br>
 					
-						<div class="form-group">
-					 <div class="col-md-offset-2 col-sm-10 col-md-5">
-			<div class="g-recaptcha" data-sitekey="6LfrmQMTAAAAALfMimGrrcLFOhlv6vRLcr1ZrTxM"></div>
-			</div>
-			</div>
-					 <input type="submit" value="Send message" class="btn btn-success" />
-				<a href="/" class="btn btn-danger"> Cancel </a>
-				<input type="reset" value="Clean" class="btn btn-warning" />
-					
-					
-				  </div>
-  				</div>
+					<div style="margin-left: 7px; margin-top: -35px;">		
+						<div class="g-recaptcha" data-sitekey="6LfrmQMTAAAAALfMimGrrcLFOhlv6vRLcr1ZrTxM"></div>
+							<input type="submit" value="Pošalji" class="btn btn-primary btn-fontNovi" />
+							<a href="/" class="btn btn-primary btn-fontNovi"> @Messages("Odustani") </a>			
+						</div>
+					</div>
+				</div>
 
 				<div class="col span_1_of_3">
 					<div class="contact_info">
