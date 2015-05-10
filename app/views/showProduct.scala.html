@@ -176,13 +176,7 @@
 							     	   	
 					     		 	}
 					     		 		
-					     			 @if(user.username.equals(p.owner.username) || user.isAdmin) {	
-					     				 @form(routes.ProductController.deleteProduct(p.id)) {
-		                   				 <li><a class="btn btn-primary btn-fontNovi"  href="routes.ProductController.deleteProduct(p.id)" onclick="return confirm('Da li ste sigurni da zelite izbrisati proizvod?');">Izbriši proizvod</a></li>
-			                			 
-			                			 }
-			                			 <br>	
-	                				}
+					     			
 	                					
 	                				 @if(user.isAdmin && !p.isSold && p.isSpecial) {
 		                			 <li><a class="btn btn-primary btn-fontNovi"  href="@routes.CreditController.makeProductNotSpecial(p.id)" onclick="return confirm('Da li ste sigurni da zelite skinuti proizvod sa izdvojenih proizvoda?');">Skini izdvojen oglas</a></li>

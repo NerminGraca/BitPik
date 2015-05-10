@@ -36,7 +36,7 @@ public class Blogger extends Model{
 		this.name="Unknown";
 		this.description = "Unknown";
 		this.longDescription = "Unknown";
-		this.blogImagePath = "images/blogPicture/no-img.jpg";
+	//	this.blogImagePath = "images/blogPicture/no-img.jpg";
 		this.publishedDate=getDate();
 		this.tag = "Unknown";
 	}
@@ -45,7 +45,7 @@ public class Blogger extends Model{
 		this.name = name;
 		this.description = description;
 		this.longDescription = longDescription;
-		this.blogImagePath = "images/blogPicture/no-img.jpg";
+	//	this.blogImagePath = "images/blogPicture/no-img.jpg";
 		this.publishedDate=getDate();
 		this.tag = tag;
 	}

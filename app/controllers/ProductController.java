@@ -355,7 +355,7 @@ public class ProductController extends Controller {
 	 * @param id
 	 */
 	public static void deletePicture(int id){
-		
+	/*	
 		final String deletePath = "." + File.separator 
 				+ "public" + File.separator;
 		String defaultPic = "images" + File.separator + "productPicture" + File.separator + "no-img.jpg";
@@ -369,7 +369,7 @@ public class ProductController extends Controller {
 				File file = new File(deletePath + s);
 				file.delete();
 			}				
-		}			
+		}	*/		
 	}
 	
 	public static Result deleteOnePicture(int id, String imgPath){
@@ -429,13 +429,6 @@ public class ProductController extends Controller {
 		if(u != null && u.username.equals("blogger")){
 			return ok(blog.render(bloggerList,u));
 		}
-	   	 			
-   	  	//creating path where we are going to save image
-		final String savePath = "." + File.separator 
-				+ "public" + File.separator + "images" 
-				+ File.separator + "productPicture" + File.separator;
-		
-		//it takes uploaded information  
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("image");
 		if (filePart == null){
@@ -443,8 +436,18 @@ public class ProductController extends Controller {
 			 return redirect("/addPictureProduct/" + id);
 		}
 		File image = filePart.getFile();
+		/*
+   	  	//creating path where we are going to save image
+		final String savePath = "." + File.separator 
+				+ "public" + File.separator + "images" 
+				+ File.separator + "productPicture" + File.separator;
+		
+		//it takes uploaded information  
+		
+		
+		
 		// NOVO!!!
-	
+	/*
 		
 		//it takes extension from image that is uploaded
 		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
@@ -472,7 +475,7 @@ public class ProductController extends Controller {
 
 			return redirect("/addPictureProduct/" + id);
 		}
-		
+		*/
 		ImageController.create(image, p);
 		
 		//creating image name from user id, and take image extension, than move image to new location
