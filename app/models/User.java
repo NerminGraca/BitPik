@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
+import play.Play;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -51,10 +52,13 @@ public class User extends Model {
 	
 	public boolean isProtectedAdmin;
 	
+	@OneToOne
 	public int positiveReview;
 	
+	@OneToOne
 	public int neutralReview;
 	
+	@OneToOne
 	public int negativeReview;
 
 	public String createdDate;
@@ -102,7 +106,8 @@ public class User extends Model {
 		createdDate = getDate();
 		this.verified = false;
 		this.emailVerified = false;
-		this.imagePath = "images/profilePicture/profileimg.png";
+		//this.imagePathOne = ImgPath.create("no-img_mqapfa", "http://res.cloudinary.com/bitpik/image/upload/v1430753378/no-img_mqapfa.jpg", "http://res.cloudinary.com/bitpik/image/upload/v1430753378/no-img_mqapfa.jpg", User.finder(username));
+
 	}
 
 	/**
@@ -123,7 +128,7 @@ public class User extends Model {
 		this.confirmation = UUID.randomUUID().toString();
 		this.emailVerified = false;
 		this.emailConfirmation = UUID.randomUUID().toString();
-		this.imagePath = "images/profilePicture/profileimg.png";
+	//	this.imagePathOne = ImgPath.create("no-img_mqapfa", "http://res.cloudinary.com/bitpik/image/upload/v1430753378/no-img_mqapfa.jpg", "https://res.cloudinary.com/bitpik/image/upload/v1430753378/no-img_mqapfa.jpg", User.finder(username));
 	}
 	
 	/**
@@ -143,7 +148,7 @@ public class User extends Model {
 		this.verified = true;
 		this.confirmation = null;
 		this.emailVerified = true;
-		this.imagePath = "images/profilePicture/profileimg.png";
+		//this.imagePathOne  = ImgPath.create("no-img_mqapfa", "http://res.cloudinary.com/bitpik/image/upload/v1430753378/no-img_mqapfa.jpg", "http://res.cloudinary.com/bitpik/image/upload/v1430753378/no-img_mqapfa.jpg", User.finder(username));
 	}
 
 	/**
@@ -187,7 +192,7 @@ public class User extends Model {
 		newUser.neutralReview=0;
 		newUser.save();
 		
-		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
+		MailHelper.send(email,Play.application().configuration().getString("OURHOST")+"/confirm/" + newUser.confirmation);
 		return newUser;
 	}
 	
@@ -203,7 +208,7 @@ public class User extends Model {
 		newUser.neutralReview=0;
 		newUser.negativeReview=0;
 		newUser.save();
-		MailHelper.send(email,"http://localhost:9000/confirm/" + newUser.confirmation);
+		MailHelper.send(email,Play.application().configuration().getString("OURHOST")+"/confirm/" + newUser.confirmation);
 		return newUser;
 		
 	}

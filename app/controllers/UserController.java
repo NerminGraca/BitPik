@@ -684,7 +684,15 @@ public class UserController extends Controller {
 		if(u != null && u.username.equals("blogger")){
 			return ok(blog.render(bloggerList,u));
 		}
+		MultipartFormData body = request().body().asMultipartFormData();
+		FilePart filePart = body.getFile("image");
 		
+		if (filePart == null){
+			 flash("error",  Messages.get("Niste uploadovali sliku"));
+			 return redirect("/profile");
+		}
+		File image = filePart.getFile();
+		/*
 		//checks if picture exists in base, if it does deletes it then uploads new picture
 		final String deletePath = "." + File.separator 
 				+ "public" + File.separator;
@@ -703,16 +711,9 @@ public class UserController extends Controller {
 				+ File.separator + "profilePicture" + File.separator;
 		
 		//it takes uploaded information  
-		MultipartFormData body = request().body().asMultipartFormData();
-		FilePart filePart = body.getFile("image");
-		if (filePart == null){
-			 flash("error",  Messages.get("Niste uploadovali sliku"));
-			 return redirect("/profile");
-		}
-		File image = filePart.getFile();
-		if(image==null){
-			image = new File(defaultPic);
-		}
+		
+		
+		
 		//it takes extension from image that is uploaded
 		String extension = filePart.getFilename().substring(filePart.getFilename().lastIndexOf('.'));
 		extension.trim();
@@ -734,7 +735,7 @@ public class UserController extends Controller {
 			Logger.of("user").warn( u.username + " tried to upload an image that is bigger than 2MB.");
 			return redirect("/profile");
 		}
-		
+		*/
 		ImageController.create(image , u);
 		
 //		//creating image name from user id, and take image extension, than move image to new location

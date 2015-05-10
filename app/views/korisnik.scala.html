@@ -124,13 +124,7 @@
 						<div class="grid_1_of_4 images_1_of_4">
 							 <a href="/showProduct/@product.id"><img src="@product.imgPathList.get(0).getSize(200, 200)" alt="" /></a>
 					 		 <h2>@product.name </h2>
-						 	@if(userSes != null) {	 
-										@if(userSes.equals(user)){
-												@form(routes.ProductController.deleteProduct(product.id)) {
-				                   					 <input class="btnDelete" type="submit" value="Izbriši proizvod" onclick="return confirm('Da li ste sigurni da želite izbrisati proizvod?');">
-				                				}
-			                			}
-		                		}
+						 	
 							<div class="price-details">
 				       		
 				       			<div class="price-number"><p><span class="rupees">@product.price KM</span></p></div>
